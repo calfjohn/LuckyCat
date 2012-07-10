@@ -1,0 +1,18 @@
+1 build requirement:
+    * install jre or jdk
+        ** download jre from http://www.java.com, 
+            or jdk from http://www.oracle.com/technetwork/java/javase/downloads/index.html
+            , then setup.
+        ** add JAVA_HOME parameter in system environment, which locate to jre or jdk install dir.
+        ** add %JAVA_HOME%\bin path to system path environment.
+        ** run cmd 'java -version' in console correctly.
+    * install ant
+        ** download from http://ant.apache.org/bindownload.cgi, 
+            then extract to one dir, such as program dir.
+        ** add ANT_HOME parameter in system environment, which locate to jre or jdk install dir.
+        ** add %ANT_HOME%\bin path to system path environment.
+        ** run cmd 'ant -version' in console correctly.
+
+2. run command %PROJECT_ROOT%/cmd/builddoc.
+
+3. see common used tags at here http://code.google.com/p/jsdoc-toolkit/w/list.

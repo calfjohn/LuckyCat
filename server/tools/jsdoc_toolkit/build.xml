@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Test-JsDoc" default="jsdoc" basedir=".">
+
+    <property name="src.dir" location="${basedir}/../../src"/>
+
+    <property name="jsdoc.dir" location="${basedir}"/>
+    <property name="rhino.dir" location="${basedir}/java/classes"/>
+    <property name="out.dir" location="${basedir}/../../doc/api"/>
+
+    <!-- Define the classpath for the Apache Ant task - needs Rhino as well. -->
+    <path id="jsdoc.classpath">
+        <pathelement path="${rhino.dir}/js.jar"/>
+        <pathelement path="${rhino.dir}/jsdoc-toolkit-ant-task-1.1.2.jar"/>
+    </path>
+
+    <!-- Define the Ant Task -->
+    <taskdef name="jsdoctoolkit" classname="uk.co.darrenhurley.ant.tasks.JsDocToolkit" classpathref="jsdoc.classpath"/>
+
+    <!-- This is the default target - it generates the JsDoc documents -->
+    <target name="jsdoc" depends="" description="Generate JsDoc.">
+        <jsdoctoolkit jsdochome="${jsdoc.dir}/" template="jsdoc" outputdir="${out.dir}" includeprivate="false">
+            <source file="${src.dir}/system/Class.js"/>
+            <source file="${src.dir}/system/DBAgent.js"/>
+
+        </jsdoctoolkit>
+    </target>
+
+    <!-- Neat and Tidy, Tidy and Neat - best to clean up afterwards... -->
+    <target name="clean" description="Cleanup everything this build script creates.">
+        <delete dir="${out.dir}"/>
+    </target>
+</project>
