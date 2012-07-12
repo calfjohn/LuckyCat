@@ -1,2 +1,4 @@
 .idea/
 server/doc/api/
+vpworkspace/
+*.vpp~*
