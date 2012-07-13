@@ -46,7 +46,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.;..\Classes;..\libs\cocos2d-x\Network;..\libs\cocos2d-x\cocos2dx;..\libs\cocos2d-x\cocos2dx\include;..\libs\cocos2d-x\cocos2dx\kazmath\include;..\libs\cocos2d-x\cocos2dx\platform\win32;..\libs\cocos2d-x\cocos2dx\platform\third_party\win32;..\libs\cocos2d-x\cocos2dx\platform\third_party\win32\OGLES;..\libs\cocos2d-x\CocosDenshion\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\Classes;..\libs\cocos2d-x\Network;..\libs\cocos2d-x\cocos2dx;..\libs\cocos2d-x\cocos2dx\include;..\libs\cocos2d-x\cocos2dx\kazmath\include;..\libs\cocos2d-x\cocos2dx\platform\win32;..\libs\cocos2d-x\cocos2dx\platform\third_party\win32;..\libs\cocos2d-x\cocos2dx\platform\third_party\win32\OGLES;..\libs\cocos2d-x\CocosDenshion\Include;..\libs\jsoncpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
@@ -140,14 +140,6 @@
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
-    <ClInclude Include="..\libs\jsoncpp\include\json\autolink.h" />
-    <ClInclude Include="..\libs\jsoncpp\include\json\config.h" />
-    <ClInclude Include="..\libs\jsoncpp\include\json\features.h" />
-    <ClInclude Include="..\libs\jsoncpp\include\json\forwards.h" />
-    <ClInclude Include="..\libs\jsoncpp\include\json\json.h" />
-    <ClInclude Include="..\libs\jsoncpp\include\json\reader.h" />
-    <ClInclude Include="..\libs\jsoncpp\include\json\value.h" />
-    <ClInclude Include="..\libs\jsoncpp\include\json\writer.h" />
     <ClInclude Include="..\libs\jsoncpp\src\lib_json\json_batchallocator.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="resource.h" />

@@ -14,7 +14,7 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;jpg;jpeg;jpe;png;manifest</Extensions>
     </Filter>
     <Filter Include="jsoncpp">
-      <UniqueIdentifier>{eaa9fb33-d5c7-4e46-b96b-8d44cec46062}</UniqueIdentifier>
+      <UniqueIdentifier>{af6b7c48-e1cc-44d4-a218-d9b6dab5ee70}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -69,30 +69,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\HelloWorldScene.h">
       <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libs\jsoncpp\include\json\autolink.h">
-      <Filter>jsoncpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libs\jsoncpp\include\json\config.h">
-      <Filter>jsoncpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libs\jsoncpp\include\json\features.h">
-      <Filter>jsoncpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libs\jsoncpp\include\json\forwards.h">
-      <Filter>jsoncpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libs\jsoncpp\include\json\json.h">
-      <Filter>jsoncpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libs\jsoncpp\include\json\reader.h">
-      <Filter>jsoncpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libs\jsoncpp\include\json\value.h">
-      <Filter>jsoncpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libs\jsoncpp\include\json\writer.h">
-      <Filter>jsoncpp</Filter>
     </ClInclude>
     <ClInclude Include="..\libs\jsoncpp\src\lib_json\json_batchallocator.h">
       <Filter>jsoncpp</Filter>
