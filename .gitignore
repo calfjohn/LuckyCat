@@ -5,4 +5,5 @@ server/doc/api/
 *.suo
 Debug.win32/
 *.opensdf
+ipch/
 
