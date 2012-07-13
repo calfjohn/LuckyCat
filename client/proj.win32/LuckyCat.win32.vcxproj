@@ -122,6 +122,10 @@
     </Midl>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="..\libs\jsoncpp\src\lib_json\json_internalarray.inl" />
+    <None Include="..\libs\jsoncpp\src\lib_json\json_internalmap.inl" />
+    <None Include="..\libs\jsoncpp\src\lib_json\json_valueiterator.inl" />
+    <None Include="..\libs\jsoncpp\src\lib_json\sconscript" />
     <None Include="..\Resources\CloseNormal.png" />
     <None Include="..\Resources\CloseSelected.png" />
     <None Include="..\Resources\fps_images-hd.png" />
@@ -136,12 +140,24 @@
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
+    <ClInclude Include="..\libs\jsoncpp\include\json\autolink.h" />
+    <ClInclude Include="..\libs\jsoncpp\include\json\config.h" />
+    <ClInclude Include="..\libs\jsoncpp\include\json\features.h" />
+    <ClInclude Include="..\libs\jsoncpp\include\json\forwards.h" />
+    <ClInclude Include="..\libs\jsoncpp\include\json\json.h" />
+    <ClInclude Include="..\libs\jsoncpp\include\json\reader.h" />
+    <ClInclude Include="..\libs\jsoncpp\include\json\value.h" />
+    <ClInclude Include="..\libs\jsoncpp\include\json\writer.h" />
+    <ClInclude Include="..\libs\jsoncpp\src\lib_json\json_batchallocator.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
+    <ClCompile Include="..\libs\jsoncpp\src\lib_json\json_reader.cpp" />
+    <ClCompile Include="..\libs\jsoncpp\src\lib_json\json_value.cpp" />
+    <ClCompile Include="..\libs\jsoncpp\src\lib_json\json_writer.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
