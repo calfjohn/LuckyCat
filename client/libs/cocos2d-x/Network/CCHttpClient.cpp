@@ -34,7 +34,11 @@ CCHttpClient::CCSingletonRelease CCHttpClient::Garbo;
 CCHttpClient::CCHttpClient(void) : 
 m_bDebug(false)
 {
-    curl_global_init(CURL_GLOBAL_NOTHING);
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+    curl_global_init(CURL_GLOBAL_WIN32);
+#else
+	curl_global_init(CURL_GLOBAL_NOTHING);
+#endif
     
     /* init easy handle */
     m_curl =curl_easy_init();
