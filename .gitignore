@@ -6,4 +6,5 @@ server/doc/api/
 Debug.win32/
 *.opensdf
 ipch/
-
+vpworkspace/
+*.vpp~*
