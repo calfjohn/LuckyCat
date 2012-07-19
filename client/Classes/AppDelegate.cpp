@@ -3,6 +3,8 @@
 #include "AppDelegate.h"
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
+#include "LevelDataManager.h"
+#include "CoverScene.h"
 
 using namespace CocosDenshion;
 
@@ -32,8 +34,10 @@ bool AppDelegate::applicationDidFinishLaunching()
     // set FPS. the default value is 1.0/60 if you don't call this
     pDirector->setAnimationInterval(1.0 / 60);
 
+    LevelDataManager::shareLevelDataManager();
+    
     // create a scene. it's an autorelease object
-    CCScene *pScene = HelloWorld::scene();
+    CCScene *pScene = Cover::scene();
 
     // run
     pDirector->runWithScene(pScene);

@@ -54,6 +54,11 @@ public:
     virtual ~CCScrollViewDelegate() {}
     virtual void scrollViewDidScroll(CCScrollView* view) = 0;
     virtual void scrollViewDidZoom(CCScrollView* view) = 0;
+    
+    /** Called at the end of moveToPage:
+     * Doesn't get called in selectPage:
+     */
+    virtual void scrollLayerScrolledToPageNumber(CCScrollView* view, unsigned int page) {};
 };
 
 
@@ -262,6 +267,43 @@ private:
      * Zoom handling
      */
     void handleZoom();
+    
+public:
+    /* Moves scrollLayer to page with given number & invokes delegate
+     * method scrollLayer:scrolledToPageNumber: at the end of CCMoveTo action. 
+     * Does nothing if number >= totalScreens or < 0.
+     */
+    void moveToPage(unsigned int pageNumber);
+    
+    /* Immedeatly moves scrollLayer to page with given number without running CCMoveTo. 
+     * Does nothing if number >= totalScreens or < 0.
+     */
+    void selectPage(unsigned int pageNumber);
+    
+    void initNumberOfPage();
+    
+    void scrollsToTop();
+    
+    /**
+     *A bool value that determines whether paging is enabled for the scroll view.
+     *If the value of this property is true, the scroll view stops on multiples of the scroll view’s bounds when the user scrolls. The default value is false.
+     */
+    CC_SYNTHESIZE(bool , m_bPagingEnabled, PagingEnabled);
+    
+    CC_SYNTHESIZE(unsigned int, m_nNumberOfPage, NumberOfPages);
+    
+    CC_SYNTHESIZE(unsigned int, m_nCurPageNumber, CurPageNumber);
+    
+private:
+    //positionForPageWithNumber
+    /**
+     * Get Page Position From Number Of Page
+     */
+    CCPoint positionForPageWithNumber(unsigned int pageNumber);
+    
+    unsigned int pageNumberForPosition(const CCPoint& position);
+    
+    void moveToPageEnded();
 
 protected:
     /**

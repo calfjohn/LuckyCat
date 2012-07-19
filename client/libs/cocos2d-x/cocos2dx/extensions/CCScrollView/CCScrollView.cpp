@@ -37,6 +37,7 @@
 #include "CCDirector.h"
 #include "kazmath/GL/matrix.h"
 #include "touch_dispatcher/CCTouch.h"
+#include "actions/CCActionEase.h"
 
 NS_CC_EXT_BEGIN
 
@@ -61,6 +62,9 @@ CCScrollView::CCScrollView()
 , m_pTouches(NULL)
 , m_fMinScale(0.0f)
 , m_fMaxScale(0.0f)
+, m_bPagingEnabled(false)
+, m_nNumberOfPage(0)
+, m_nCurPageNumber(0)
 {
 
 }
@@ -134,6 +138,7 @@ bool CCScrollView::initWithViewSize(CCSize size, CCNode *container/* = NULL*/)
         
         this->addChild(m_pContainer);
         m_fMinScale = m_fMaxScale = 1.0f;
+        
         return true;
     }
     return false;
@@ -387,7 +392,7 @@ CCPoint CCScrollView::minContainerOffset()
 
 void CCScrollView::deaccelerateScrolling(float dt)
 {
-    if (m_bDragging)
+    if (m_bDragging || m_bPagingEnabled)
     {
         this->unschedule(schedule_selector(CCScrollView::deaccelerateScrolling));
         return;
@@ -691,6 +696,25 @@ void CCScrollView::ccTouchEnded(CCTouch* touch, CCEvent* event)
     }
     if (m_pTouches->containsObject(touch))
     {
+        if ( m_bPagingEnabled )
+        {
+            CCPoint tPoint = m_pContainer->getPosition();
+            
+            if ( m_eDirection == CCScrollViewDirectionHorizontal )
+            {
+//                float offPos = - tPoint.x + this->getViewSize().width*0.5f;
+//                unsigned int tCurPage = static_cast<unsigned int>(offPos * ( 1.0 / this->getViewSize().width ));
+                unsigned int tCurPage = this->pageNumberForPosition(tPoint);
+                this->moveToPage(tCurPage);
+            }
+            else {
+                float offPos = - tPoint.y;
+                unsigned int tCurPage = static_cast<unsigned int>(offPos * ( 1.0 / this->getViewSize().height ));
+                this->moveToPage(tCurPage);
+            }
+            
+        }
+        
         if (m_pTouches->count() == 1 && m_bTouchMoved)
         {
             this->schedule(schedule_selector(CCScrollView::deaccelerateScrolling));
@@ -716,6 +740,122 @@ void CCScrollView::ccTouchCancelled(CCTouch* touch, CCEvent* event)
     {
         m_bDragging = false;    
         m_bTouchMoved = false;
+    }
+}
+
+void CCScrollView::moveToPage(unsigned int pageNumber)
+{
+    if ( pageNumber < m_nNumberOfPage )
+    {
+//        this->unschedule(schedule_selector(CCScrollView::deaccelerateScrolling));
+//        this->unschedule(schedule_selector(CCScrollView::performedAnimatedScroll));
+//        
+//        CCMoveTo *moveTo = CCMoveTo::create(0.2f, positionForPageWithNumber(pageNumber));
+//        CCActionInterval* move_ease_out = CCEaseOut::create(moveTo, 2.5f);
+//        CCAction* changePage = 
+//        CCSequence::create( move_ease_out,
+//                           CCCallFunc::create(this, callfunc_selector(CCScrollView::moveToPageEnded)) );
+//		m_pContainer->runAction(changePage);
+//		m_nCurPageNumber = pageNumber;
+        
+        this->setContentOffset(this->positionForPageWithNumber(pageNumber),true);
+    }
+}
+
+void CCScrollView::selectPage(unsigned int pageNumber)
+{
+    if ( pageNumber < m_nNumberOfPage )
+    {
+        m_pContainer->setPosition(this->positionForPageWithNumber(pageNumber));
+        m_nCurPageNumber = pageNumber;
+    }
+}
+
+CCPoint CCScrollView::positionForPageWithNumber(unsigned int pageNumber)
+{
+    if ( CCScrollViewDirectionHorizontal == m_eDirection )
+    {
+        float _position_ = this->getViewSize().width * pageNumber;
+        
+        return CCPointMake(  - _position_, 0);
+    }else {
+        float _position_ = this->getViewSize().height * pageNumber;
+        
+        return CCPointMake( 0,  - _position_ );
+    }
+}
+
+unsigned int CCScrollView::pageNumberForPosition(const CCPoint& position)
+{
+    CCFloat pageFloat = 0;
+    CCFloat m_fPagesWidthOffset = 0;
+    if ( CCScrollViewDirectionHorizontal == m_eDirection )
+    {
+        pageFloat = - m_pContainer->getPosition().x / (this->getViewSize().width - m_fPagesWidthOffset);
+    }
+    else
+    {
+        pageFloat = m_pContainer->getPosition().y / (this->getViewSize().height - m_fPagesWidthOffset);
+    }
+    int pageNumber = (int)ceilf(pageFloat);
+    if ((CCFloat)pageNumber - pageFloat  >= 0.5f)
+        pageNumber--;
+    
+    pageNumber = MAX(0, pageNumber);
+    pageNumber = MIN(m_nNumberOfPage - 1, pageNumber);
+    
+    return (unsigned int)pageNumber;
+}
+
+void CCScrollView::moveToPageEnded()
+{
+//    m_bDragging = true;    
+//    m_bTouchMoved = true;
+    
+    m_bDragging = false;
+    m_bBounceable = true;
+    m_bClippingToBounds = true;
+    m_bTouchMoved = false;
+    
+    if (m_pDelegate != NULL)
+    {
+        m_pDelegate->scrollLayerScrolledToPageNumber(this,m_nCurPageNumber);   
+    }
+}
+
+void CCScrollView::initNumberOfPage()
+{
+    CCSize tContainerSzie = m_pContainer->getContentSize();
+    CCSize tScrollSize = this->getViewSize();
+    
+    if ( CCScrollViewDirectionHorizontal == m_eDirection )
+    {
+        int tPage = (int)(tContainerSzie.width / tScrollSize.width);
+        m_nNumberOfPage = tPage;
+    }
+    else {
+        int tPage = (int)(tContainerSzie.width / tScrollSize.width);
+        m_nNumberOfPage = tPage;
+    }
+}
+
+void CCScrollView::scrollsToTop()
+{
+    CCSize tContainerSzie = m_pContainer->getContentSize();
+    CCSize tScrollSize = this->getViewSize();
+    
+    if ( CCScrollViewDirectionHorizontal == m_eDirection )
+    {
+        float _x = tScrollSize.width - tContainerSzie.width;
+        float _y = 0;
+        
+        m_pContainer->setPosition(_x,_y);
+    }
+    else {
+        float _x = 0;
+        float _y = tScrollSize.height - tContainerSzie.height ;
+        
+        m_pContainer->setPosition(_x,_y);
     }
 }
 

@@ -8,3 +8,5 @@ Debug.win32/
 ipch/
 vpworkspace/
 *.vpp~*
+.DS_Store
+xcuserdata/
