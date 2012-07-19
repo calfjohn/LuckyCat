@@ -27,6 +27,10 @@ public:
 
     // implement the "static node()" method manually
     LAYER_CREATE_FUNC(Chapter);
+    
+    virtual void onEnter();
+    
+    virtual void onExit();
 };
 
 #endif  // __Cover_SCENE_H__
