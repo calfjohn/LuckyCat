@@ -44,7 +44,7 @@ bool Page::init()
 
     CCSize size = CCDirector::sharedDirector()->getWinSize();
     
-    CCSprite* pSprite = CCSprite::create("Default.png");
+    CCSprite* pSprite = CCSprite::create("image/common/1.png");
     pSprite->setPosition(ccp(size.width/2, size.height/2));
     this->addChild(pSprite, 0);
     
@@ -119,6 +119,11 @@ void Page::menuNextCallback(CCObject* pSender)
 
 void Page::menuAttackCallback(CCObject* pSender)
 {
+    if (m_bAttack) 
+    {
+        return;
+    }
+    
     this->runAction(CCSequence::actions(CCMoveBy::actionWithDuration(0.1, ccp(50, 0)), 
                                         CCMoveBy::actionWithDuration(0.1, ccp(-100, 0)), 
                                         CCMoveBy::actionWithDuration(0.1, ccp(100, 0)), 
@@ -128,6 +133,8 @@ void Page::menuAttackCallback(CCObject* pSender)
     m_state->setString(m_pPage->state ? "success": "");
 
     adjustPageItem();
+    
+    m_bAttack = false;
 }
 
 void Page::adjustPageItem()

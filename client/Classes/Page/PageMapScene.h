@@ -24,13 +24,23 @@ public:
     // implement the "static node()" method manually
     LAYER_CREATE_FUNC(PageMap);
     
-    void turnToPage(int chapterId, stPage *pPage);
+    void turnToChapter(int chapterId);
+    
+    virtual void onEnter();
+    
+    virtual void onExit();
     
 protected:
     // a selector callback
     void menuBackCallback(CCObject* pSender);
     
+    void menuPageCallback(CCObject* pSender);
+
+    void callback2(CCNode* sender, void* data);
+
     int m_nChapterId;
+    
+    cocos2d::CCSprite *m_pKnight;
 };
 
 #endif

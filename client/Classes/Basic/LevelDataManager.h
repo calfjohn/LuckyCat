@@ -10,7 +10,6 @@
 #define _LevelDataManager_H__
 
 #include "Basic.h"
-#include "json/json.h"
 
 class LevelDataManager
 {
@@ -28,6 +27,8 @@ public:
 
     stPage *getNewPage(int chapterId);
     
+    stChapter *getChapter(int chapterId);
+
     bool isChapterEnd(int chapterId);
     
     stBible m_stBible;

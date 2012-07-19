@@ -7,7 +7,8 @@
 //
 
 #include "LevelDataManager.h"
-#include <fstream>
+#include "json/json.h"
+#include "CppSQLite3.h"
 #include "cocos2d.h"
 
 USING_NS_CC;
@@ -118,4 +119,17 @@ bool LevelDataManager::isChapterEnd(int chapterId)
     return false;
 }
 
+stChapter *LevelDataManager::getChapter(int chapterId)
+{
+    vector<stChapter>::iterator iterTemp;
+    for (iterTemp = m_stBible.listChapter.begin();
+         iterTemp != m_stBible.listChapter.end();
+         iterTemp++) 
+    {
+        if ((*iterTemp).id == chapterId) 
+        {
+            return &(*iterTemp);
+        }
+    }
+}
 

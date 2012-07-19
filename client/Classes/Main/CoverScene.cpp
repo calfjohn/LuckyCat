@@ -39,14 +39,14 @@ bool Cover::init()
 
     CCSize size = CCDirector::sharedDirector()->getWinSize();
 
-    CCMenuItemFont *pDaggerItem = CCMenuItemFont::create("Dagger", this, menu_selector(Cover::menuDaggerCallback));
-    pDaggerItem->setPosition(ccp(size.width - 50, size.height - 20));
+    CCMenuItemImage *pDaggerItem  = CCMenuItemImage::create("image/Main/1.png", "image/Main/11.png", "image/Main/111.png", this, menu_selector(Cover::menuDaggerCallback));
+    pDaggerItem->setPosition(ccp(size.width - 50, size.height - 80));
     
-    CCMenuItemFont *pMagicItem = CCMenuItemFont::create("Crystal ball", this, menu_selector(Cover::menuMagicCallback));
-    pMagicItem->setPosition(ccp(size.width - 80, size.height - 120));
+    CCMenuItemImage *pMagicItem = CCMenuItemImage::create("image/Main/2.png", "image/Main/22.png", "image/Main/222.png", this, menu_selector(Cover::menuMagicCallback));
+    pMagicItem->setPosition(ccp(size.width - 80, size.height - 200));
     
-    CCMenuItemFont *pBookItem = CCMenuItemFont::create("Bible", this, menu_selector(Cover::menuBookCallback));
-    pBookItem->setPosition(ccp(size.width - 50, size.height/2 - 20));
+    CCMenuItemImage *pBookItem = CCMenuItemImage::create("image/Main/3.png", "image/Main/33.png", "image/Main/333.png", this, menu_selector(Cover::menuBookCallback));
+    pBookItem->setPosition(ccp(size.width/2 - 50, size.height/2 - 20));
     
     CCMenuItemFont *pCardItem = CCMenuItemFont::create("card", this, menu_selector(Cover::menuCardCallback));
     pCardItem->setPosition(ccp(size.width - 50, size.height/2 - 120));
@@ -58,7 +58,7 @@ bool Cover::init()
     pMenu->setPosition(CCPointZero);
     this->addChild(pMenu, 1);
 
-    CCSprite* pSprite = CCSprite::create("Default.png");
+    CCSprite* pSprite = CCSprite::create("image/common/1.png");
     pSprite->setPosition(ccp(size.width/2, size.height/2));
     this->addChild(pSprite, 0);
 

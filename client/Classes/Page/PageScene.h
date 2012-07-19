@@ -43,6 +43,8 @@ protected:
     
     int m_nChapterId;
     stPage *m_pPage;
+    
+    bool m_bAttack;
 };
 
 #endif  // __PAGE_SCENE_H__
