@@ -72,6 +72,8 @@ void TestController::InitLayer()
     
     m_TitleVector[3] = std::string("Tab View");
     
+    m_TitleVector[4] = std::string("The Fight");
+    
     
     CCSize size = CCDirector::sharedDirector()->getWinSize();
     this->setContentSize(size);
