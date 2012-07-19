@@ -12,6 +12,9 @@
 
 #define TAG_MONSTER_SPRITE      9
 #define TAG_LABEL_DES      10
+#define TAG_PLAYER_SPRITE   11
+#define TAG_MONSTER_PLINE       12
+#define TAG_PLAYER_PLINE       13
 
 
 void BossFightView::onEnter()
@@ -34,12 +37,12 @@ void BossFightView::initLayer()
     CCLabelTTF *titleLabel = CCLabelTTF::create("Lord Voldemort", CCSizeMake(screanSize.width, 50), kCCTextAlignmentCenter,"Arial", 30);
     //cellLabel->setPosition(ccp(cellSize.width , cellSize.height )); 
     titleLabel->setAnchorPoint(ccp(0.5,0.5));
-    titleLabel->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height- 60));
+    titleLabel->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height- 30));
     titleLabel->setColor(ccc3(255,55,0));
     this->addChild(titleLabel);
     
     CCSprite *_pMonsterSprite = CCSprite::create("bottom_1_7_1.png");
-    _pMonsterSprite->setPosition(CCPointMake(screanSize.width*0.5f, 200));
+    _pMonsterSprite->setPosition(CCPointMake(screanSize.width*0.5f, 240));
     _pMonsterSprite->setScaleY(5);
     _pMonsterSprite->setScaleX(2.6);
     this->addChild(_pMonsterSprite);
@@ -48,7 +51,7 @@ void BossFightView::initLayer()
     CCLabelTTF *dscLabel = CCLabelTTF::create("", CCSizeMake(screanSize.width, 50), kCCTextAlignmentCenter,"Arial", 30);
     //cellLabel->setPosition(ccp(cellSize.width , cellSize.height )); 
     dscLabel->setAnchorPoint(ccp(0.5,0.5));
-    dscLabel->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height*0.75f));
+    dscLabel->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height*0.82f));
     dscLabel->setColor(ccc3(255,55,0));
     this->addChild(dscLabel);
     dscLabel->setTag(TAG_LABEL_DES);
@@ -56,14 +59,34 @@ void BossFightView::initLayer()
     dscLabel->setVisible(false);
     
     
-    CCProgressTimer *middle = CCProgressTimer::create(CCSprite::create("extensions/sliderProgress.png"));
-    middle->setType(kCCProgressTimerTypeBar);
+    CCProgressTimer *pProgressBoss = CCProgressTimer::create(CCSprite::create("extensions/sliderProgress.png"));
+    pProgressBoss->setType(kCCProgressTimerTypeBar);
     //    Setup for a bar starting from the bottom since the midpoint is 0 for the y
-    middle->setMidpoint(ccp(0.5f, 0.5f));
+    //pProgressBoss->setMidpoint(ccp(0.5f, 0.5f));
     //    Setup for a vertical bar since the bar change rate is 0 for x meaning no horizontal change
-    middle->setBarChangeRate(ccp(1, 1));
-    addChild(middle);
-    middle->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height- 80));
+    //pProgressBoss->setBarChangeRate(ccp(1, 1));
+    pProgressBoss->setPercentage(100);
+    pProgressBoss->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height- 50));
+    this->addChild(pProgressBoss,3);
+    pProgressBoss->setTag(TAG_MONSTER_PLINE);
+    
+    CCSprite *_pPlayerSprite = CCSprite::create("bottom_1_7_1.png");
+    _pPlayerSprite->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height*0.20f));
+    _pPlayerSprite->setScaleY(2);
+    _pPlayerSprite->setScaleX(1.4);
+    this->addChild(_pPlayerSprite);
+    _pPlayerSprite->setTag(TAG_PLAYER_SPRITE);
+    
+    CCProgressTimer *pProgressPlayer = CCProgressTimer::create(CCSprite::create("extensions/sliderProgress.png"));
+    pProgressPlayer->setType(kCCProgressTimerTypeBar);
+    //    Setup for a bar starting from the bottom since the midpoint is 0 for the y
+    //pProgressBoss->setMidpoint(ccp(0.5f, 0.5f));
+    //    Setup for a vertical bar since the bar change rate is 0 for x meaning no horizontal change
+    //pProgressBoss->setBarChangeRate(ccp(1, 1));
+    pProgressPlayer->setPercentage(100);
+    pProgressPlayer->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height*0.05f));
+    this->addChild(pProgressPlayer,3);
+    pProgressPlayer->setTag(TAG_PLAYER_PLINE);
     
     
     fightAction();

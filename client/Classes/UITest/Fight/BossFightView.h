@@ -15,6 +15,18 @@ USING_NS_CC;
 USING_NS_CC_EXT;
 using namespace std;
 
+class RolePro
+{
+public:
+    unsigned int curHP;
+    unsigned int MaxHp;
+    float curPercentHP;
+    float getCurPercentHP()
+    {
+        curPercentHP = curHP * ( 1.0 / MaxHp );
+    }
+}
+
 class BossFightView : public CCLayerColor 
 {
 public:
@@ -34,6 +46,8 @@ private:
     CCSprite *pMonsterSprite;
     
     std::vector<unsigned int> mActionList;
+    
+    int mIntBossHPMax,mIntPlayerHPMax
     
 };
 
