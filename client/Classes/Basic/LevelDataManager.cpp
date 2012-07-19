@@ -64,11 +64,9 @@ void LevelDataManager::init( void )
             tempPage.monsterId = jsonTempPage["monsterId"].asInt();
             tempPage.state = jsonTempPage["state"].asInt();
             
-//            tempChapter.listPage.insert(tempChapter.listPage.begin(), tempPage);
             tempChapter.listPage.push_back(tempPage);
         }
         
-//        m_stBible.listChapter.insert(m_stBible.listChapter.begin(), tempChapter);
         m_stBible.listChapter.push_back(tempChapter);
     }
     
@@ -76,7 +74,6 @@ void LevelDataManager::init( void )
 
 stPage *LevelDataManager::getNewPage(int chapterId)
 {
-    stPage pageee;
     stPage *pPage = NULL;
     vector<stChapter>::iterator iterTemp;
     for (iterTemp = m_stBible.listChapter.begin();
@@ -103,6 +100,22 @@ stPage *LevelDataManager::getNewPage(int chapterId)
     }
     
     return pPage;
+}
+
+bool LevelDataManager::isChapterEnd(int chapterId)
+{
+    vector<stChapter>::iterator iterTemp;
+    for (iterTemp = m_stBible.listChapter.begin();
+         iterTemp != m_stBible.listChapter.end();
+         iterTemp++) 
+    {
+        if ((*iterTemp).id == chapterId && (*iterTemp).listPage.size() > 0) 
+        {
+            return (*iterTemp).listPage.back().state == 1;
+        }
+    }
+    
+    return false;
 }
 
 

@@ -28,6 +28,8 @@ public:
 
     stPage *getNewPage(int chapterId);
     
+    bool isChapterEnd(int chapterId);
+    
     stBible m_stBible;
     
     template <class T> 

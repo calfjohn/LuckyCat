@@ -12,6 +12,8 @@
 
 USING_NS_CC;
 
+#define TAG_MENU 1000
+
 CCScene* Chapter::scene()
 {
     CCScene * scene = NULL;
@@ -50,8 +52,9 @@ bool Chapter::init()
     
     CCMenu* pMenu = CCMenu::create();
     pMenu->setPosition(ccp(size.width/2, size.height/2));
-    this->addChild(pMenu, 1);
+    this->addChild(pMenu, 1, TAG_MENU);
     
+    bool bEnable = true;
     CCMenuItemFont *pChapterItem;
     vector<stChapter>::iterator iterTemp;
     for (iterTemp = LevelDataManager::shareLevelDataManager()->m_stBible.listChapter.begin();
@@ -59,7 +62,9 @@ bool Chapter::init()
          iterTemp++) 
     {
         pChapterItem = CCMenuItemFont::create((*iterTemp).name.c_str(), this, menu_selector(Chapter::menuChapterCallback));
+        pChapterItem->setEnabled(bEnable);
         pMenu->addChild(pChapterItem, 0, (*iterTemp).id);
+        bEnable = LevelDataManager::shareLevelDataManager()->isChapterEnd((*iterTemp).id);
     }
     
     pMenu->alignItemsVerticallyWithPadding(20);
@@ -88,4 +93,25 @@ void Chapter::menuChapterCallback(CCObject* pSender)
     
     CCScene *pScene = Page::scene(pNode->getTag(), pPage);
     CCDirector::sharedDirector()->pushScene(pScene);
+}
+
+void Chapter::onEnter()
+{
+    CCLayer::onEnter();
+
+    bool bEnable = true;
+    vector<stChapter>::iterator iterTemp;
+    for (iterTemp = LevelDataManager::shareLevelDataManager()->m_stBible.listChapter.begin();
+         iterTemp != LevelDataManager::shareLevelDataManager()->m_stBible.listChapter.end();
+         iterTemp++) 
+    {
+        CCMenuItemFont *pAttackItem = (CCMenuItemFont *)getChildByTag(TAG_MENU)->getChildByTag((*iterTemp).id);
+        pAttackItem->setEnabled(bEnable);
+        bEnable = LevelDataManager::shareLevelDataManager()->isChapterEnd((*iterTemp).id);
+    }
+}
+
+void Chapter::onExit()
+{
+    CCLayer::onExit();
 }

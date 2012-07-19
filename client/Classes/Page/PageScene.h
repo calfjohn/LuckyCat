@@ -21,19 +21,21 @@ public:
     // there's no 'id' in cpp, so we recommand to return the exactly class pointer
     static cocos2d::CCScene* scene(int chapterId, stPage *pPage);
     
-    // a selector callback
-    void menuBackCallback(CCObject* pSender);
-
-    void menuNextCallback(CCObject* pSender);
-
-    void menuAttackCallback(CCObject* pSender);
-
     // implement the "static node()" method manually
     LAYER_CREATE_FUNC(Page);
     
     void turnToPage(int chapterId, stPage *pPage);
     
 protected:
+    // a selector callback
+    void menuBackCallback(CCObject* pSender);
+    
+    void menuNextCallback(CCObject* pSender);
+    
+    void menuAttackCallback(CCObject* pSender);
+    
+    void adjustPageItem();
+    
     cocos2d::CCLabelTTF *m_title;
     cocos2d::CCLabelTTF *m_content;
     cocos2d::CCLabelTTF *m_monster;
