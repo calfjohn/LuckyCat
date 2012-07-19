@@ -55,6 +55,8 @@
 		18AD1D9E15AECCFC004D4C4F /* CCTextFieldDelegateLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18AD1D9D15AECCFC004D4C4F /* CCTextFieldDelegateLayer.cpp */; };
 		18B9ECDD15AD71F400A8C0B2 /* GameSettingLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18B9ECDC15AD71F400A8C0B2 /* GameSettingLayer.cpp */; };
 		18B9ECE015AD7A4900A8C0B2 /* extensions in Resources */ = {isa = PBXBuildFile; fileRef = 18B9ECDF15AD7A4900A8C0B2 /* extensions */; };
+		18D0536715B7A66400A09DC6 /* MonsterFightView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18D0536615B7A66400A09DC6 /* MonsterFightView.cpp */; };
+		18D0536A15B7A67F00A09DC6 /* BossFightView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18D0536915B7A67F00A09DC6 /* BossFightView.cpp */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
@@ -161,6 +163,10 @@
 		18B9ECDC15AD71F400A8C0B2 /* GameSettingLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameSettingLayer.cpp; sourceTree = "<group>"; };
 		18B9ECDE15AD720500A8C0B2 /* GameSettingLayerLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameSettingLayerLoader.h; sourceTree = "<group>"; };
 		18B9ECDF15AD7A4900A8C0B2 /* extensions */ = {isa = PBXFileReference; lastKnownFileType = folder; path = extensions; sourceTree = "<group>"; };
+		18D0536515B7A64D00A09DC6 /* MonsterFightView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MonsterFightView.h; sourceTree = "<group>"; };
+		18D0536615B7A66400A09DC6 /* MonsterFightView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MonsterFightView.cpp; sourceTree = "<group>"; };
+		18D0536815B7A67600A09DC6 /* BossFightView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BossFightView.h; sourceTree = "<group>"; };
+		18D0536915B7A67F00A09DC6 /* BossFightView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BossFightView.cpp; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* HelloWorld.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HelloWorld.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -275,6 +281,7 @@
 		18A909A815AC2AA30082E31A /* UITest */ = {
 			isa = PBXGroup;
 			children = (
+				18D0536415B7A62E00A09DC6 /* Fight */,
 				1816942015AFEC840025875B /* GoodsShopLayer */,
 				18AD1D9215AEA31B004D4C4F /* TabLayer */,
 				18AD1D8815AE60FB004D4C4F /* CCTextFieldTTF */,
@@ -350,6 +357,17 @@
 				18B9ECDE15AD720500A8C0B2 /* GameSettingLayerLoader.h */,
 			);
 			path = GameSettingLayer;
+			sourceTree = "<group>";
+		};
+		18D0536415B7A62E00A09DC6 /* Fight */ = {
+			isa = PBXGroup;
+			children = (
+				18D0536515B7A64D00A09DC6 /* MonsterFightView.h */,
+				18D0536615B7A66400A09DC6 /* MonsterFightView.cpp */,
+				18D0536815B7A67600A09DC6 /* BossFightView.h */,
+				18D0536915B7A67F00A09DC6 /* BossFightView.cpp */,
+			);
+			path = Fight;
 			sourceTree = "<group>";
 		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
@@ -609,6 +627,8 @@
 				18AD1D9E15AECCFC004D4C4F /* CCTextFieldDelegateLayer.cpp in Sources */,
 				181693E215AFBDCC0025875B /* CCTextView.cpp in Sources */,
 				189F45A215B2B365001B186C /* CCScrollPageView.cpp in Sources */,
+				18D0536715B7A66400A09DC6 /* MonsterFightView.cpp in Sources */,
+				18D0536A15B7A67F00A09DC6 /* BossFightView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

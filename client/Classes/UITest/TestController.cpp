@@ -24,7 +24,8 @@
 #include "MTabLayer.h"
 #include "MTabLayerLoader.h"
 
-
+#include "MonsterFightView.h"
+#include "BossFightView.h"
 
 
 USING_NS_CC;
@@ -72,8 +73,9 @@ void TestController::InitLayer()
     
     m_TitleVector[3] = std::string("Tab View");
     
-    m_TitleVector[4] = std::string("The Fight");
+    m_TitleVector[4] = std::string("Monster Fight");
     
+    m_TitleVector[5] = std::string("Boss Fight");
     
     CCSize size = CCDirector::sharedDirector()->getWinSize();
     this->setContentSize(size);
@@ -192,11 +194,29 @@ CCLayer * TestController::CreateLayer( int index )
             
             break;
         }
+        case 4:
+        {
+            MonsterFightView *pMonster = MonsterFightView::create();
+            pMonster->initLayer();
+            
+            p_Layer = (CCLayer *)pMonster;
+            break;
+        }
+        case 5:
+        {
+            BossFightView *pBoss = BossFightView::create();
+            pBoss->initLayer();
+            
+            p_Layer = (CCLayer *)pBoss;
+            break;
+        }
         default:
         {
+            MonsterFightView *pBoss = MonsterFightView::create();
+            pBoss->initLayer();
             
+            p_Layer = (CCLayer *)pBoss;
             break;
-            
         }
     }
     
