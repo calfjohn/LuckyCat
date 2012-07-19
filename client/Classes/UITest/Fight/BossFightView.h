@@ -25,7 +25,7 @@ public:
     {
         curPercentHP = curHP * ( 1.0 / MaxHp );
     }
-}
+};
 
 class BossFightView : public CCLayerColor 
 {
@@ -47,7 +47,7 @@ private:
     
     std::vector<unsigned int> mActionList;
     
-    int mIntBossHPMax,mIntPlayerHPMax
+    int mIntBossHPMax,mIntPlayerHPMax;
     
 };
 
