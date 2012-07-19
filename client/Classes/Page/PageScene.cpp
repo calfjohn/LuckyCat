@@ -72,13 +72,10 @@ bool Page::init()
     m_state->setPosition(ccp(size.width/2, size.height/2 - 80));
     this->addChild(m_state, 1);
     
-    
     CCMenuItemFont *pAttackItem = CCMenuItemFont::create("Attack", this, menu_selector(Page::menuAttackCallback));
-    pAttackItem->setPosition(ccp(50, 50));
     pMenu->addChild(pAttackItem, 0, TAG_ATTACK);
     
     CCMenuItemFont *pNextItem = CCMenuItemFont::create("Next", this, menu_selector(Page::menuNextCallback));
-    pNextItem->setPosition(ccp(size.width - 50, 50));
     pMenu->addChild(pNextItem, 0, TAG_NEXT);
     
     m_pPage = NULL;
@@ -106,8 +103,7 @@ void Page::turnToPage(int chapterId, stPage *pPage)
     m_monster->setString(LevelDataManager::shareLevelDataManager()->ConvertToString(pPage->monsterId).c_str());
     m_state->setString(m_pPage->state ? "success": "");
     
-    CCMenuItemFont *pItem = (CCMenuItemFont *)getChildByTag(TAG_MENU)->getChildByTag(TAG_NEXT);
-    pItem->setEnabled(m_pPage->state == 1);
+    adjustPageItem();
 }
 
 void Page::menuNextCallback(CCObject* pSender)
@@ -129,7 +125,35 @@ void Page::menuAttackCallback(CCObject* pSender)
                                         CCMoveBy::actionWithDuration(0.1, ccp(-50, 0)), 
                                         NULL));                                        
     m_pPage->state = 1;
-    CCMenuItemFont *pItem = (CCMenuItemFont *)getChildByTag(TAG_MENU)->getChildByTag(TAG_NEXT);
-    pItem->setEnabled(m_pPage->state == 1);
     m_state->setString(m_pPage->state ? "success": "");
+
+    adjustPageItem();
+}
+
+void Page::adjustPageItem()
+{
+    CCSize size = CCDirector::sharedDirector()->getWinSize();
+
+    CCMenuItemFont *pAttackItem = (CCMenuItemFont *)getChildByTag(TAG_MENU)->getChildByTag(TAG_ATTACK);
+    CCMenuItemFont *pNextItem = (CCMenuItemFont *)getChildByTag(TAG_MENU)->getChildByTag(TAG_NEXT);
+    
+    if (m_pPage->state != 1) 
+    {
+        pNextItem->setPosition(ccp(size.width - 50, 50));
+        pAttackItem->setPosition(ccp(size.width - 50, 50));
+        
+        pNextItem->setEnabled(true);
+        pNextItem->setVisible(false);
+        pAttackItem->setVisible(true);
+    }
+    else 
+    {
+        pNextItem->setEnabled(!LevelDataManager::shareLevelDataManager()->isChapterEnd(m_nChapterId));
+
+        pNextItem->setPosition(ccp(size.width - 50, 50));
+        pAttackItem->setPosition(ccp(size.width - 150, 50));
+        
+        pNextItem->setVisible(true);
+        pAttackItem->setVisible(true);
+    }
 }
