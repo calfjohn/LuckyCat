@@ -7,6 +7,9 @@
 //
 
 #include "PageScene.h"
+#include "MonsterBattleView.h"
+#include "BossBattleView.h"
+#include "BattleDefine.h"
 
 USING_NS_CC;
 
@@ -84,6 +87,8 @@ bool Page::init()
 
 void Page::menuBackCallback(CCObject* pSender)
 {
+    CCScene *pScene = CCDirector::sharedDirector()->getRunningScene();
+    //CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
     CCDirector::sharedDirector()->popScene();
 }
 
@@ -119,15 +124,50 @@ void Page::menuNextCallback(CCObject* pSender)
 
 void Page::menuAttackCallback(CCObject* pSender)
 {
-    this->runAction(CCSequence::actions(CCMoveBy::actionWithDuration(0.1, ccp(50, 0)), 
-                                        CCMoveBy::actionWithDuration(0.1, ccp(-100, 0)), 
-                                        CCMoveBy::actionWithDuration(0.1, ccp(100, 0)), 
-                                        CCMoveBy::actionWithDuration(0.1, ccp(-50, 0)), 
+    this->runAction(CCSequence::create(CCMoveBy::create(0.1, ccp(50, 0)), 
+                                        CCMoveBy::create(0.1, ccp(-100, 0)), 
+                                        CCMoveBy::create(0.1, ccp(100, 0)), 
+                                        CCMoveBy::create(0.1, ccp(-50, 0)), 
+                                        CCCallFunc::create(this, callfunc_selector(Page::showBattleView)),
                                         NULL));                                        
     m_pPage->state = 1;
     m_state->setString(m_pPage->state ? "success": "");
 
     adjustPageItem();
+}
+
+void Page::showBattleView(CCObject *pSender)
+{
+//    CCScene *pScene = CCScene::create();
+//    CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
+//    
+//    CCDirector::sharedDirector()->pushScene(pTp);
+//    
+//    CCSize s = CCDirector::sharedDirector()->getWinSize();
+//    int x,y;
+//    if( s.width > s.height)
+//    {
+//        x=16;
+//        y=12;
+//    }
+//    else
+//    {
+//        x=12;
+//        y=16;
+//    }
+//    
+//    CCActionInterval *action  = pTp->actionWithSize(ccg(x,y));
+    
+    MonsterBattleView *pMonter = MonsterBattleView::create();
+    pMonter->initLayer();
+    
+    CCDirector::sharedDirector()->getRunningScene()->addChild(pMonter);
+    
+    pMonter->setTag(TAG_BATTLE_LAYER);
+    
+    //pMonter->runAction(action);
+    //this->addChild(pMonter);
+    
 }
 
 void Page::adjustPageItem()

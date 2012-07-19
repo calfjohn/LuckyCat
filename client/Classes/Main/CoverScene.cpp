@@ -76,8 +76,11 @@ void Cover::menuMagicCallback(CCObject* pSender)
 void Cover::menuBookCallback(CCObject* pSender)
 {
     CCScene *pScene = Chapter::scene();
-
-    CCDirector::sharedDirector()->pushScene(pScene);
+    
+    CCDirector::sharedDirector()->setDepthTest(true);
+    CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(1.2f, pScene, false);
+    
+    CCDirector::sharedDirector()->pushScene(pTp);
 }
 
 void Cover::menuCardCallback(CCObject* pSender)

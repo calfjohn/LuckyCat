@@ -10,6 +10,8 @@
 #include "PageScene.h"
 #include "LevelDataManager.h"
 
+#include "BattleDefine.h"
+
 USING_NS_CC;
 
 #define TAG_MENU 1000
@@ -92,7 +94,10 @@ void Chapter::menuChapterCallback(CCObject* pSender)
     }
     
     CCScene *pScene = Page::scene(pNode->getTag(), pPage);
-    CCDirector::sharedDirector()->pushScene(pScene);
+    
+    CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
+    
+    CCDirector::sharedDirector()->pushScene(pTp);
 }
 
 void Chapter::onEnter()

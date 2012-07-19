@@ -41,6 +41,8 @@
 		187B98EC15B3FAB800BAE5B3 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 781C33B11547F06B00633F88 /* OpenAL.framework */; };
 		187DC36F15B7F6170051A392 /* BossFightView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 187DC36B15B7F6170051A392 /* BossFightView.cpp */; };
 		187DC37015B7F6170051A392 /* MonsterFightView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 187DC36D15B7F6170051A392 /* MonsterFightView.cpp */; };
+		187DC37D15B803970051A392 /* MonsterBattleView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 187DC37C15B803970051A392 /* MonsterBattleView.cpp */; };
+		187DC38015B803B80051A392 /* BossBattleView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 187DC37F15B803B80051A392 /* BossBattleView.cpp */; };
 		1898C2E715AC68AF00689C8D /* shop in Resources */ = {isa = PBXBuildFile; fileRef = 1898C2E615AC68AF00689C8D /* shop */; };
 		1898C2E915AC68BF00689C8D /* res in Resources */ = {isa = PBXBuildFile; fileRef = 1898C2E815AC68BF00689C8D /* res */; };
 		1898C2EB15AC693C00689C8D /* ccb in Resources */ = {isa = PBXBuildFile; fileRef = 1898C2EA15AC693C00689C8D /* ccb */; };
@@ -160,6 +162,11 @@
 		187DC36C15B7F6170051A392 /* BossFightView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BossFightView.h; sourceTree = "<group>"; };
 		187DC36D15B7F6170051A392 /* MonsterFightView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MonsterFightView.cpp; sourceTree = "<group>"; };
 		187DC36E15B7F6170051A392 /* MonsterFightView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonsterFightView.h; sourceTree = "<group>"; };
+		187DC37B15B803800051A392 /* MonsterBattleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MonsterBattleView.h; sourceTree = "<group>"; };
+		187DC37C15B803970051A392 /* MonsterBattleView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MonsterBattleView.cpp; sourceTree = "<group>"; };
+		187DC37E15B803AE0051A392 /* BossBattleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BossBattleView.h; sourceTree = "<group>"; };
+		187DC37F15B803B80051A392 /* BossBattleView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BossBattleView.cpp; sourceTree = "<group>"; };
+		187DC38115B806D50051A392 /* BattleDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BattleDefine.h; sourceTree = "<group>"; };
 		1898C2E615AC68AF00689C8D /* shop */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shop; sourceTree = "<group>"; };
 		1898C2E815AC68BF00689C8D /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
 		1898C2EA15AC693C00689C8D /* ccb */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ccb; sourceTree = "<group>"; };
@@ -420,6 +427,18 @@
 			path = Fight;
 			sourceTree = "<group>";
 		};
+		187DC37A15B802FD0051A392 /* Battle */ = {
+			isa = PBXGroup;
+			children = (
+				187DC37B15B803800051A392 /* MonsterBattleView.h */,
+				187DC37C15B803970051A392 /* MonsterBattleView.cpp */,
+				187DC37E15B803AE0051A392 /* BossBattleView.h */,
+				187DC37F15B803B80051A392 /* BossBattleView.cpp */,
+				187DC38115B806D50051A392 /* BattleDefine.h */,
+			);
+			path = Battle;
+			sourceTree = "<group>";
+		};
 		1898E1CE15B3F7D500A274B3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -582,6 +601,7 @@
 		BF23D4E2143315EB00657E08 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				187DC37A15B802FD0051A392 /* Battle */,
 				15AAE35615B6C1D100F0CF5E /* Page */,
 				15AAE34E15B6B2B800F0CF5E /* Chapter */,
 				15AAE34A15B6A38300F0CF5E /* Main */,
@@ -786,6 +806,8 @@
 				15AAE35915B6C1D200F0CF5E /* PageScene.cpp in Sources */,
 				187DC36F15B7F6170051A392 /* BossFightView.cpp in Sources */,
 				187DC37015B7F6170051A392 /* MonsterFightView.cpp in Sources */,
+				187DC37D15B803970051A392 /* MonsterBattleView.cpp in Sources */,
+				187DC38015B803B80051A392 /* BossBattleView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
