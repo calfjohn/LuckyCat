@@ -31,7 +31,7 @@ void BossFightView::initLayer()
     //    cocos2d::CCLabelTTF *titleLabel = cocos2d::CCLabelTTF::create( "Monster Fight!", CCSizeMake(screanSize.width, 50),kCCVerticalTextAlignmentCenter,kCCVerticalTextAlignmentCenter,"Arial", 24); 
     //    titleLabel = CCLabelTTF::initWithString("Monster Fight!", "Arial", 50);
     
-    CCLabelTTF *titleLabel = CCLabelTTF::create("Monster Fight!", CCSizeMake(screanSize.width, 50), kCCTextAlignmentCenter,"Arial", 30);
+    CCLabelTTF *titleLabel = CCLabelTTF::create("Lord Voldemort", CCSizeMake(screanSize.width, 50), kCCTextAlignmentCenter,"Arial", 30);
     //cellLabel->setPosition(ccp(cellSize.width , cellSize.height )); 
     titleLabel->setAnchorPoint(ccp(0.5,0.5));
     titleLabel->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height- 60));
@@ -55,6 +55,15 @@ void BossFightView::initLayer()
     
     dscLabel->setVisible(false);
     
+    
+    CCProgressTimer *middle = CCProgressTimer::create(CCSprite::create("extensions/sliderProgress.png"));
+    middle->setType(kCCProgressTimerTypeBar);
+    //    Setup for a bar starting from the bottom since the midpoint is 0 for the y
+    middle->setMidpoint(ccp(0.5f, 0.5f));
+    //    Setup for a vertical bar since the bar change rate is 0 for x meaning no horizontal change
+    middle->setBarChangeRate(ccp(1, 1));
+    addChild(middle);
+    middle->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height- 80));
     
     
     fightAction();
