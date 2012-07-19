@@ -13,8 +13,14 @@
       <UniqueIdentifier>{c9bbab6c-9087-483c-bcb4-bcc80ae2662c}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;jpg;jpeg;jpe;png;manifest</Extensions>
     </Filter>
-    <Filter Include="jsoncpp">
+    <Filter Include="third-party">
+      <UniqueIdentifier>{f9e52e16-ba5e-48d0-b908-267969c9dcc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third-party\jsoncpp">
       <UniqueIdentifier>{af6b7c48-e1cc-44d4-a218-d9b6dab5ee70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third-party\cppsqlite">
+      <UniqueIdentifier>{6c1d6c42-6b4a-4ecd-9593-701791b1dcf5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -39,17 +45,17 @@
     <None Include="..\Resources\fps_images-ipadhd.png">
       <Filter>resource</Filter>
     </None>
+    <None Include="..\libs\jsoncpp\src\lib_json\sconscript">
+      <Filter>third-party\jsoncpp</Filter>
+    </None>
     <None Include="..\libs\jsoncpp\src\lib_json\json_internalarray.inl">
-      <Filter>jsoncpp</Filter>
+      <Filter>third-party\jsoncpp</Filter>
     </None>
     <None Include="..\libs\jsoncpp\src\lib_json\json_internalmap.inl">
-      <Filter>jsoncpp</Filter>
+      <Filter>third-party\jsoncpp</Filter>
     </None>
     <None Include="..\libs\jsoncpp\src\lib_json\json_valueiterator.inl">
-      <Filter>jsoncpp</Filter>
-    </None>
-    <None Include="..\libs\jsoncpp\src\lib_json\sconscript">
-      <Filter>jsoncpp</Filter>
+      <Filter>third-party\jsoncpp</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -71,7 +77,7 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\libs\jsoncpp\src\lib_json\json_batchallocator.h">
-      <Filter>jsoncpp</Filter>
+      <Filter>third-party\jsoncpp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -84,14 +90,17 @@
     <ClCompile Include="..\Classes\HelloWorldScene.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="..\libs\cppsqlite\CppSQLite3.cpp">
+      <Filter>third-party\cppsqlite</Filter>
+    </ClCompile>
     <ClCompile Include="..\libs\jsoncpp\src\lib_json\json_reader.cpp">
-      <Filter>jsoncpp</Filter>
+      <Filter>third-party\jsoncpp</Filter>
     </ClCompile>
     <ClCompile Include="..\libs\jsoncpp\src\lib_json\json_value.cpp">
-      <Filter>jsoncpp</Filter>
+      <Filter>third-party\jsoncpp</Filter>
     </ClCompile>
     <ClCompile Include="..\libs\jsoncpp\src\lib_json\json_writer.cpp">
-      <Filter>jsoncpp</Filter>
+      <Filter>third-party\jsoncpp</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

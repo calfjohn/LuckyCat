@@ -38,6 +38,7 @@
     <OutDir>$(SolutionDir)$(Configuration).win32\</OutDir>
     <IntDir>$(Configuration).win32\</IntDir>
     <LinkIncremental>true</LinkIncremental>
+    <LibraryPath>$(ProjectDir)..\libs\cppsqlite;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)$(Configuration).win32\</OutDir>
@@ -46,7 +47,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.;..\Classes;..\libs\cocos2d-x\Network;..\libs\cocos2d-x\cocos2dx;..\libs\cocos2d-x\cocos2dx\include;..\libs\cocos2d-x\cocos2dx\kazmath\include;..\libs\cocos2d-x\cocos2dx\platform\win32;..\libs\cocos2d-x\cocos2dx\platform\third_party\win32;..\libs\cocos2d-x\cocos2dx\platform\third_party\win32\OGLES;..\libs\cocos2d-x\CocosDenshion\Include;..\libs\jsoncpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\Classes;..\libs\cocos2d-x\Network;..\libs\cocos2d-x\cocos2dx;..\libs\cocos2d-x\cocos2dx\include;..\libs\cocos2d-x\cocos2dx\kazmath\include;..\libs\cocos2d-x\cocos2dx\platform\win32;..\libs\cocos2d-x\cocos2dx\platform\third_party\win32;..\libs\cocos2d-x\cocos2dx\platform\third_party\win32\OGLES;..\libs\cocos2d-x\CocosDenshion\Include;..\libs\jsoncpp\include;..\libs\cppsqlite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
@@ -63,7 +64,7 @@
       <TargetMachine>MachineX86</TargetMachine>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libcocos2d.lib;opengl32.lib;glew32.lib;libCocosDenshion.lib;libcurl_imp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcocos2d.lib;opengl32.lib;glew32.lib;libCocosDenshion.lib;libcurl_imp.lib;sqlite3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ResourceCompile>
       <Culture>0x0409</Culture>
@@ -147,6 +148,7 @@
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
+    <ClCompile Include="..\libs\cppsqlite\CppSQLite3.cpp" />
     <ClCompile Include="..\libs\jsoncpp\src\lib_json\json_reader.cpp" />
     <ClCompile Include="..\libs\jsoncpp\src\lib_json\json_value.cpp" />
     <ClCompile Include="..\libs\jsoncpp\src\lib_json\json_writer.cpp" />

@@ -40,6 +40,8 @@
 		187B98EA15B3FA7B00BAE5B3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 781C33B31547F06B00633F88 /* AudioToolbox.framework */; };
 		187B98EB15B3FA8800BAE5B3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 781C33B51547F06B00633F88 /* AVFoundation.framework */; };
 		187B98EC15B3FAB800BAE5B3 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 781C33B11547F06B00633F88 /* OpenAL.framework */; };
+		187DC36F15B7F6170051A392 /* BossFightView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 187DC36B15B7F6170051A392 /* BossFightView.cpp */; };
+		187DC37015B7F6170051A392 /* MonsterFightView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 187DC36D15B7F6170051A392 /* MonsterFightView.cpp */; };
 		1898C2E715AC68AF00689C8D /* shop in Resources */ = {isa = PBXBuildFile; fileRef = 1898C2E615AC68AF00689C8D /* shop */; };
 		1898C2E915AC68BF00689C8D /* res in Resources */ = {isa = PBXBuildFile; fileRef = 1898C2E815AC68BF00689C8D /* res */; };
 		1898C2EB15AC693C00689C8D /* ccb in Resources */ = {isa = PBXBuildFile; fileRef = 1898C2EA15AC693C00689C8D /* ccb */; };
@@ -157,6 +159,10 @@
 		187B98D715B3FA1000BAE5B3 /* SimpleAudioEngine_objc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAudioEngine_objc.m; sourceTree = "<group>"; };
 		187B98E315B3FA2600BAE5B3 /* Export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Export.h; sourceTree = "<group>"; };
 		187B98E415B3FA2600BAE5B3 /* SimpleAudioEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAudioEngine.h; sourceTree = "<group>"; };
+		187DC36B15B7F6170051A392 /* BossFightView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BossFightView.cpp; sourceTree = "<group>"; };
+		187DC36C15B7F6170051A392 /* BossFightView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BossFightView.h; sourceTree = "<group>"; };
+		187DC36D15B7F6170051A392 /* MonsterFightView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MonsterFightView.cpp; sourceTree = "<group>"; };
+		187DC36E15B7F6170051A392 /* MonsterFightView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonsterFightView.h; sourceTree = "<group>"; };
 		1898C2E615AC68AF00689C8D /* shop */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shop; sourceTree = "<group>"; };
 		1898C2E815AC68BF00689C8D /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
 		1898C2EA15AC693C00689C8D /* ccb */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ccb; sourceTree = "<group>"; };
@@ -408,6 +414,17 @@
 			path = "../libs/cocos2d-x/CocosDenshion/include";
 			sourceTree = "<group>";
 		};
+		187DC36A15B7F6170051A392 /* Fight */ = {
+			isa = PBXGroup;
+			children = (
+				187DC36B15B7F6170051A392 /* BossFightView.cpp */,
+				187DC36C15B7F6170051A392 /* BossFightView.h */,
+				187DC36D15B7F6170051A392 /* MonsterFightView.cpp */,
+				187DC36E15B7F6170051A392 /* MonsterFightView.h */,
+			);
+			path = Fight;
+			sourceTree = "<group>";
+		};
 		1898E1CE15B3F7D500A274B3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -419,6 +436,7 @@
 		18A909A815AC2AA30082E31A /* UITest */ = {
 			isa = PBXGroup;
 			children = (
+				187DC36A15B7F6170051A392 /* Fight */,
 				1816942015AFEC840025875B /* GoodsShopLayer */,
 				18AD1D9215AEA31B004D4C4F /* TabLayer */,
 				18AD1D8815AE60FB004D4C4F /* CCTextFieldTTF */,
@@ -772,6 +790,8 @@
 				15AAE35515B6B6DB00F0CF5E /* ChapterScene.cpp in Sources */,
 				15AAE35915B6C1D200F0CF5E /* PageScene.cpp in Sources */,
 				15EC314F15B7F46000EA9631 /* PageMapScene.cpp in Sources */,
+				187DC36F15B7F6170051A392 /* BossFightView.cpp in Sources */,
+				187DC37015B7F6170051A392 /* MonsterFightView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
