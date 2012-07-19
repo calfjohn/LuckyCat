@@ -20,6 +20,7 @@
 		15AAE35915B6C1D200F0CF5E /* PageScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15AAE35715B6C1D200F0CF5E /* PageScene.cpp */; };
 		15BEAF9115B65AB600D5940D /* LevelDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15BEAF8F15B65AB600D5940D /* LevelDataManager.cpp */; };
 		15DD6D7A156DD120003E7567 /* fps_images.png in Resources */ = {isa = PBXBuildFile; fileRef = 15DD6D78156DD120003E7567 /* fps_images.png */; };
+		15EC314F15B7F46000EA9631 /* PageMapScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15EC314E15B7F46000EA9631 /* PageMapScene.cpp */; };
 		15F990B5159C0DAF00848A44 /* fps_images-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 15F990B3159C0DAF00848A44 /* fps_images-hd.png */; };
 		15F990B6159C0DAF00848A44 /* fps_images-ipadhd.png in Resources */ = {isa = PBXBuildFile; fileRef = 15F990B4159C0DAF00848A44 /* fps_images-ipadhd.png */; };
 		181693E215AFBDCC0025875B /* CCTextView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 181693E115AFBDCC0025875B /* CCTextView.cpp */; };
@@ -138,6 +139,8 @@
 		15BEAF8F15B65AB600D5940D /* LevelDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelDataManager.cpp; sourceTree = "<group>"; };
 		15BEAF9015B65AB600D5940D /* LevelDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelDataManager.h; sourceTree = "<group>"; };
 		15DD6D78156DD120003E7567 /* fps_images.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fps_images.png; sourceTree = "<group>"; };
+		15EC314D15B7F45100EA9631 /* PageMapScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageMapScene.h; sourceTree = "<group>"; };
+		15EC314E15B7F46000EA9631 /* PageMapScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PageMapScene.cpp; sourceTree = "<group>"; };
 		15F990B3159C0DAF00848A44 /* fps_images-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fps_images-hd.png"; sourceTree = "<group>"; };
 		15F990B4159C0DAF00848A44 /* fps_images-ipadhd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fps_images-ipadhd.png"; sourceTree = "<group>"; };
 		181693E015AFBCEC0025875B /* CCTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCTextView.h; sourceTree = "<group>"; };
@@ -345,6 +348,8 @@
 			children = (
 				15AAE35715B6C1D200F0CF5E /* PageScene.cpp */,
 				15AAE35815B6C1D200F0CF5E /* PageScene.h */,
+				15EC314D15B7F45100EA9631 /* PageMapScene.h */,
+				15EC314E15B7F46000EA9631 /* PageMapScene.cpp */,
 			);
 			path = Page;
 			sourceTree = "<group>";
@@ -766,6 +771,7 @@
 				15AAE34D15B6A38300F0CF5E /* CoverScene.cpp in Sources */,
 				15AAE35515B6B6DB00F0CF5E /* ChapterScene.cpp in Sources */,
 				15AAE35915B6C1D200F0CF5E /* PageScene.cpp in Sources */,
+				15EC314F15B7F46000EA9631 /* PageMapScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
