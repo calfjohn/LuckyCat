@@ -29,7 +29,7 @@ void LevelDataManager::init( void )
 {
     string strFullPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath("config/level");
     unsigned long nSize = 0;
-    strFullPath = "/Users/cocos2d/Library/Application Support/iPhone Simulator/5.1/Applications/1A03B516-08FF-43DE-9AD4-586435D16DBD/HelloWorld.app/config/level";
+//    strFullPath = "/Users/cocos2d/Library/Application Support/iPhone Simulator/5.1/Applications/1A03B516-08FF-43DE-9AD4-586435D16DBD/HelloWorld.app/config/level";
     const char* pBuffer = (const char *)CCFileUtils::sharedFileUtils()->getFileData(strFullPath.c_str(), "rb", &nSize);
     
 	Json::Reader reader;
@@ -39,7 +39,8 @@ void LevelDataManager::init( void )
     
     json_root = json_root["bible"];
     m_stBible.name = json_root["name"].asString();
-    
+    CCLOG("%s", m_stBible.name.c_str());
+
     if(!json_root["listChpater"].isArray())
     {
         return;
@@ -54,6 +55,10 @@ void LevelDataManager::init( void )
         
         tempChapter.id = jsonTempChapter["id"].asInt();
         tempChapter.name = jsonTempChapter["name"].asString();
+        tempChapter.position.x = jsonTempChapter["position"]["x"].asInt();
+        tempChapter.position.y = jsonTempChapter["position"]["y"].asInt();
+        CCLOG("id:%d name:%s", tempChapter.id, tempChapter.name.c_str());
+
         for (int j = 0; j < jsonTempChapter["listPage"].size(); j++) 
         {
             stPage  tempPage;
@@ -66,6 +71,8 @@ void LevelDataManager::init( void )
             tempPage.state = jsonTempPage["state"].asInt();
             
             tempChapter.listPage.push_back(tempPage);
+            
+            CCLOG("id:%d name:%s content:%s monsterId:%d state:%d", tempPage.id, tempPage.name.c_str(), tempPage.content.c_str(), tempPage.monsterId, tempPage.state);            
         }
         
         m_stBible.listChapter.push_back(tempChapter);
@@ -78,10 +85,9 @@ stPage *LevelDataManager::getNewPage(int chapterId)
     stPage *pPage = NULL;
     vector<stChapter>::iterator iterTemp;
     for (iterTemp = m_stBible.listChapter.begin();
-         iterTemp != m_stBible.listChapter.end();
+        iterTemp != m_stBible.listChapter.end();
          iterTemp++) 
     {
-//        CCLOG("%s", (*iterTemp).name.c_str());
         if ((*iterTemp).id == chapterId) 
         {
             vector<stPage>::iterator iterPage;
@@ -89,7 +95,6 @@ stPage *LevelDataManager::getNewPage(int chapterId)
                  iterPage != (*iterTemp).listPage.end();
                  iterPage++) 
             {
-//                CCLOG("id:%d name:%s content:%s monsterId:%d state:%d", (*iterPage).id, (*iterPage).name.c_str(), (*iterPage).content.c_str(), (*iterPage).monsterId, (*iterPage).state);
                 pPage = &(*iterPage);
                 if (pPage->state != 1) 
                 {
@@ -119,6 +124,22 @@ bool LevelDataManager::isChapterEnd(int chapterId)
     return false;
 }
 
+bool LevelDataManager::isLastPageOfChapter(int chapterId, int pageId)
+{
+    vector<stChapter>::iterator iterTemp;
+    for (iterTemp = m_stBible.listChapter.begin();
+         iterTemp != m_stBible.listChapter.end();
+         iterTemp++) 
+    {
+        if ((*iterTemp).id == chapterId) 
+        {
+            return (*iterTemp).listPage.back().id == pageId;
+        }
+    }
+    
+    return false;
+}
+
 stChapter *LevelDataManager::getChapter(int chapterId)
 {
     vector<stChapter>::iterator iterTemp;
@@ -131,5 +152,40 @@ stChapter *LevelDataManager::getChapter(int chapterId)
             return &(*iterTemp);
         }
     }
+}
+
+stPage *LevelDataManager::getPage(int chapterId, int pageId)
+{
+    stPage *pPage = NULL;
+    vector<stChapter>::iterator iterTemp;
+    for (iterTemp = m_stBible.listChapter.begin();
+         iterTemp != m_stBible.listChapter.end();
+         iterTemp++) 
+    {
+        if ((*iterTemp).id == chapterId) 
+        {
+            vector<stPage>::iterator iterPage;
+            for (iterPage = (*iterTemp).listPage.begin();
+                 iterPage != (*iterTemp).listPage.end();
+                 iterPage++) 
+            {
+                pPage = &(*iterPage);
+                if (pPage->id == pageId) 
+                {
+                    break;
+                }
+            }
+            break;
+        }
+    }
+    
+    return pPage;
+}
+
+void LevelDataManager::reload()
+{
+    m_stBible.name = "";
+    m_stBible.listChapter.clear();
+    init();
 }
 

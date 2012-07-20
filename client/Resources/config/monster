@@ -1,0 +1,9 @@
+{"monster_dict":[{"id":1,
+"name":"泰坦",
+"image_id":1},
+{"id":2,
+"name":"矮人",
+"image_id":2},
+{"id":3,
+"name":"树怪",
+"image_id":3}]}

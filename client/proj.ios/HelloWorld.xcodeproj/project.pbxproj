@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		155CC53215B92C2E00CE449D /* DictDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155CC53115B92C2E00CE449D /* DictDataManager.cpp */; };
 		15AAE32A15B6894100F0CF5E /* json_internalarray.inl in Resources */ = {isa = PBXBuildFile; fileRef = 15AAE32315B6894100F0CF5E /* json_internalarray.inl */; };
 		15AAE32B15B6894100F0CF5E /* json_internalmap.inl in Resources */ = {isa = PBXBuildFile; fileRef = 15AAE32415B6894100F0CF5E /* json_internalmap.inl */; };
 		15AAE32C15B6894100F0CF5E /* json_reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15AAE32515B6894100F0CF5E /* json_reader.cpp */; };
@@ -42,6 +43,8 @@
 		187B98EA15B3FA7B00BAE5B3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 781C33B31547F06B00633F88 /* AudioToolbox.framework */; };
 		187B98EB15B3FA8800BAE5B3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 781C33B51547F06B00633F88 /* AVFoundation.framework */; };
 		187B98EC15B3FAB800BAE5B3 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 781C33B11547F06B00633F88 /* OpenAL.framework */; };
+		187DC37D15B803970051A392 /* MonsterBattleView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 187DC37C15B803970051A392 /* MonsterBattleView.cpp */; };
+		187DC38015B803B80051A392 /* BossBattleView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 187DC37F15B803B80051A392 /* BossBattleView.cpp */; };
 		1898E1D815B3F7E500A274B3 /* libcocos2dx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1898E1D515B3F7D500A274B3 /* libcocos2dx.a */; };
 		1898E1DC15B3F83900A274B3 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1898E1DB15B3F83900A274B3 /* libcurl.a */; };
 		1898E1FA15B3F94700A274B3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -89,6 +92,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		155CC53015B92C2E00CE449D /* DictDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DictDataManager.h; sourceTree = "<group>"; };
+		155CC53115B92C2E00CE449D /* DictDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DictDataManager.cpp; sourceTree = "<group>"; };
 		15AAE31815B6894100F0CF5E /* autolink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = autolink.h; sourceTree = "<group>"; };
 		15AAE31915B6894100F0CF5E /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		15AAE31A15B6894100F0CF5E /* features.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = features.h; sourceTree = "<group>"; };
@@ -137,6 +142,11 @@
 		187B98D715B3FA1000BAE5B3 /* SimpleAudioEngine_objc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAudioEngine_objc.m; sourceTree = "<group>"; };
 		187B98E315B3FA2600BAE5B3 /* Export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Export.h; sourceTree = "<group>"; };
 		187B98E415B3FA2600BAE5B3 /* SimpleAudioEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAudioEngine.h; sourceTree = "<group>"; };
+		187DC37B15B803800051A392 /* MonsterBattleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MonsterBattleView.h; sourceTree = "<group>"; };
+		187DC37C15B803970051A392 /* MonsterBattleView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MonsterBattleView.cpp; sourceTree = "<group>"; };
+		187DC37E15B803AE0051A392 /* BossBattleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BossBattleView.h; sourceTree = "<group>"; };
+		187DC37F15B803B80051A392 /* BossBattleView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BossBattleView.cpp; sourceTree = "<group>"; };
+		187DC38115B806D50051A392 /* BattleDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BattleDefine.h; sourceTree = "<group>"; };
 		1898E1CD15B3F7D500A274B3 /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = "../libs/cocos2d-x/cocos2dx/proj.ios/cocos2dx.xcodeproj"; sourceTree = "<group>"; };
 		1898E1DB15B3F83900A274B3 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = "../libs/cocos2d-x/cocos2dx/platform/third_party/ios/libraries/libcurl.a"; sourceTree = "<group>"; };
 		1898E1F915B3F94700A274B3 /* libCocosDension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCocosDension.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -297,6 +307,8 @@
 		15DE3DB815B56D1C001B8372 /* Basic */ = {
 			isa = PBXGroup;
 			children = (
+				155CC53015B92C2E00CE449D /* DictDataManager.h */,
+				155CC53115B92C2E00CE449D /* DictDataManager.cpp */,
 				15BEAF8E15B65AB600D5940D /* Basic.h */,
 				15BEAF8F15B65AB600D5940D /* LevelDataManager.cpp */,
 				15BEAF9015B65AB600D5940D /* LevelDataManager.h */,
@@ -350,6 +362,18 @@
 			);
 			name = include;
 			path = "../libs/cocos2d-x/CocosDenshion/include";
+			sourceTree = "<group>";
+		};
+		187DC37A15B802FD0051A392 /* Battle */ = {
+			isa = PBXGroup;
+			children = (
+				187DC37B15B803800051A392 /* MonsterBattleView.h */,
+				187DC37C15B803970051A392 /* MonsterBattleView.cpp */,
+				187DC37E15B803AE0051A392 /* BossBattleView.h */,
+				187DC37F15B803B80051A392 /* BossBattleView.cpp */,
+				187DC38115B806D50051A392 /* BattleDefine.h */,
+			);
+			path = Battle;
 			sourceTree = "<group>";
 		};
 		1898E1CE15B3F7D500A274B3 /* Products */ = {
@@ -423,6 +447,7 @@
 		BF23D4E2143315EB00657E08 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				187DC37A15B802FD0051A392 /* Battle */,
 				15AAE35615B6C1D100F0CF5E /* Page */,
 				15AAE34E15B6B2B800F0CF5E /* Chapter */,
 				15AAE34A15B6A38300F0CF5E /* Main */,
@@ -601,6 +626,9 @@
 				15AAE35915B6C1D200F0CF5E /* PageScene.cpp in Sources */,
 				15EC314F15B7F46000EA9631 /* PageMapScene.cpp in Sources */,
 				15EC315F15B7FE4000EA9631 /* CppSQLite3.cpp in Sources */,
+				187DC37D15B803970051A392 /* MonsterBattleView.cpp in Sources */,
+				187DC38015B803B80051A392 /* BossBattleView.cpp in Sources */,
+				155CC53215B92C2E00CE449D /* DictDataManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

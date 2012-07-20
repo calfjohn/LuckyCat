@@ -36,7 +36,7 @@ protected:
     
     void menuPageCallback(CCObject* pSender);
 
-    void callback2(CCNode* sender, void* data);
+    void callback(CCNode* sender, void* data);
 
     int m_nChapterId;
     

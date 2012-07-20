@@ -10,6 +10,8 @@
 #include "PageMapScene.h"
 #include "LevelDataManager.h"
 
+#include "BattleDefine.h"
+
 USING_NS_CC;
 
 #define TAG_MENU 1000
@@ -71,16 +73,19 @@ bool Chapter::init()
         strName = "image/Chapter/" + LevelDataManager::shareLevelDataManager()->ConvertToString((*iterTemp).id) + ".png";
         strNameSelect = "image/Chapter/" + LevelDataManager::shareLevelDataManager()->ConvertToString((*iterTemp).id) + LevelDataManager::shareLevelDataManager()->ConvertToString((*iterTemp).id) + ".png";
         strNameDisable = "image/Chapter/" + LevelDataManager::shareLevelDataManager()->ConvertToString((*iterTemp).id) + LevelDataManager::shareLevelDataManager()->ConvertToString((*iterTemp).id) + LevelDataManager::shareLevelDataManager()->ConvertToString((*iterTemp).id) +".png";
+        
         pChapterItem = CCMenuItemImage::create(strName.c_str(), strNameSelect.c_str(), strNameDisable.c_str(), this, menu_selector(Chapter::menuChapterCallback));
+        pChapterItem->setPosition((*iterTemp).position);
         pChapterItem->setEnabled(bEnable);
         pMenu->addChild(pChapterItem, 0, (*iterTemp).id);
         bEnable = LevelDataManager::shareLevelDataManager()->isChapterEnd((*iterTemp).id);
     }
     
-    pMenu->alignItemsVerticallyWithPadding(20);
+    //pMenu->alignItemsVerticallyWithPadding(20);
     
-    CCMenuItemFont *pBackItem = CCMenuItemFont::create("返回", this, menu_selector(Chapter::menuBackCallback));
-    pBackItem->setPosition(ccp(size.width/2 - 30,-size.height/2 + 20));
+    CCMenuItemImage *pBackItem = CCMenuItemImage::create("image/common/2.png", "image/common/22.png", "image/common/22.png", this, menu_selector(Chapter::menuBackCallback));    
+    pBackItem->setScale(0.5);
+    pBackItem->setPosition(ccp(size.width/2 - 30, size.height/2 - 20));
     pMenu->addChild(pBackItem);
     
     return true;
@@ -102,7 +107,8 @@ void Chapter::menuChapterCallback(CCObject* pSender)
     }
     
     CCScene *pScene = PageMap::scene(pNode->getTag());
-    CCDirector::sharedDirector()->pushScene(pScene);
+    CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
+    CCDirector::sharedDirector()->pushScene(pTp);
 }
 
 void Chapter::onEnter()

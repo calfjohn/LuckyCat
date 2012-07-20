@@ -4,6 +4,7 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "LevelDataManager.h"
+#include "DictDataManager.h"
 #include "CoverScene.h"
 
 using namespace CocosDenshion;
@@ -35,6 +36,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     pDirector->setAnimationInterval(1.0 / 60);
 
     LevelDataManager::shareLevelDataManager();
+    DictDataManager::shareDictDataManager();
     
     // create a scene. it's an autorelease object
     CCScene *pScene = Cover::scene();

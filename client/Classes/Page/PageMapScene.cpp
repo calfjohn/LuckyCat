@@ -139,15 +139,16 @@ void PageMap::turnToChapter(int chapterId)
     }
     pMenu->alignItemsVerticallyWithPadding(20);
     
-    CCMenuItemFont *pBackItem = CCMenuItemFont::create("返回", this, menu_selector(PageMap::menuBackCallback));
-    pBackItem->setPosition(ccp(size.width/2 - 30,-size.height/2 + 20));
+    CCMenuItemImage *pBackItem = CCMenuItemImage::create("image/common/2.png", "image/common/22.png", "image/common/22.png", this, menu_selector(PageMap::menuBackCallback));
+    pBackItem->setScale(0.5);
+    pBackItem->setPosition(ccp(size.width/2 - 30, size.height/2 - 20));
     pMenu->addChild(pBackItem);
 }
 
 void PageMap::menuPageCallback(CCObject* pSender)
 {
     CCNode *pNode = (CCNode *)pSender;
-    stPage *pPage = LevelDataManager::shareLevelDataManager()->getNewPage(pNode->getTag());
+    stPage *pPage = LevelDataManager::shareLevelDataManager()->getPage(m_nChapterId, pNode->getTag());
     if (!pPage) 
     {
         return;
@@ -158,16 +159,17 @@ void PageMap::menuPageCallback(CCObject* pSender)
     CCPoint postion = pNode->getPosition();
     m_pKnight->runAction(CCSequence::actions(
                                 CCMoveTo::actionWithDuration(0.5, ccp(postion.x + size.width/2 + 20, postion.y + size.height/2 + 20)), 
-                                CCCallFuncND::create(this, callfuncND_selector(PageMap::callback2), pPage),
+                                CCCallFuncND::create(this, callfuncND_selector(PageMap::callback), pPage),
                                 NULL));
 }
                                              
-void PageMap::callback2(CCNode* sender, void* data)
+void PageMap::callback(CCNode* sender, void* data)
 {
     stPage *pPage = (stPage *)data;
     
     CCScene *pScene = Page::scene(m_nChapterId, pPage);
-    CCDirector::sharedDirector()->pushScene(pScene);
+    CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
+    CCDirector::sharedDirector()->pushScene(pTp);
 }
 
                                              

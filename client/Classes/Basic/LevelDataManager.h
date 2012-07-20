@@ -24,6 +24,10 @@ public:
 		return m_pInstance;
 
 	}
+    
+    void reload();
+
+    stPage *getPage(int chapterId, int pageId);
 
     stPage *getNewPage(int chapterId);
     
@@ -31,6 +35,8 @@ public:
 
     bool isChapterEnd(int chapterId);
     
+    bool isLastPageOfChapter(int chapterId, int pageId);
+
     stBible m_stBible;
     
     template <class T> 

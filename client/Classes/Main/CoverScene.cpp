@@ -8,7 +8,7 @@
 
 #include "CoverScene.h"
 #include "ChapterScene.h"
-
+#include "LevelDataManager.h"
 USING_NS_CC;
 
 CCScene* Cover::scene()
@@ -76,8 +76,11 @@ void Cover::menuMagicCallback(CCObject* pSender)
 void Cover::menuBookCallback(CCObject* pSender)
 {
     CCScene *pScene = Chapter::scene();
-
-    CCDirector::sharedDirector()->pushScene(pScene);
+    
+    CCDirector::sharedDirector()->setDepthTest(true);
+    CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(1.2f, pScene, false);
+    
+    CCDirector::sharedDirector()->pushScene(pTp);
 }
 
 void Cover::menuCardCallback(CCObject* pSender)
@@ -86,5 +89,6 @@ void Cover::menuCardCallback(CCObject* pSender)
 
 void Cover::menuOptionCallback(CCObject* pSender)
 {
+    LevelDataManager::shareLevelDataManager()->reload();
 }
 

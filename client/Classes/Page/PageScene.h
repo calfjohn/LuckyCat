@@ -15,6 +15,7 @@
 class Page : public cocos2d::CCLayer
 {
 public:
+    void showBattleView(CCObject *pSender);
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
     virtual bool init();  
 
@@ -30,21 +31,20 @@ protected:
     // a selector callback
     void menuBackCallback(CCObject* pSender);
     
-    void menuNextCallback(CCObject* pSender);
-    
     void menuAttackCallback(CCObject* pSender);
     
-    void adjustPageItem();
+    void fightCallback(CCNode* pNode, void* data);
+
+//    void adjustPageItem();
     
     cocos2d::CCLabelTTF *m_title;
     cocos2d::CCLabelTTF *m_content;
     cocos2d::CCLabelTTF *m_monster;
     cocos2d::CCLabelTTF *m_state;
-    
+    cocos2d::CCLabelTTF *m_tips;
     int m_nChapterId;
     stPage *m_pPage;
     
-    bool m_bAttack;
 };
 
 #endif  // __PAGE_SCENE_H__

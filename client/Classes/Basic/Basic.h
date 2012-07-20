@@ -17,25 +17,30 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <math.h>
+#include "cocos2d.h"
 
 using namespace std;
+
+#define TRANSITION_PAGE_INTERVAL_TIME   1.0f
 
 //a page is a game level
 typedef struct
 {
-    int id;
-    string name;
-    string content;
-    int monsterId;
-    int state;  //0:new 1:success 2: failed
+    int id;             //index of page
+    string name;        //page's title
+    string content;     //page's content
+    cocos2d::CCPoint postion;   //position on page map
+    int monsterId;      //monster id assosiate with monster_dict table in database
+    int state;          //fight result 0:new 1:success 2: failed
 }stPage;
 
 //a chapter consist lot of page
 typedef struct
 {
-    int id;
-    string name;
-    vector<stPage> listPage;
+    int id;             //index of chapter
+    string name;        //chapter's title
+    cocos2d::CCPoint position;   //position on chapter scene
+    vector<stPage> listPage;    //a set of pages in chapter
 }stChapter;
 
 //a bible consist lot of stChapter
@@ -53,5 +58,12 @@ typedef struct
     vector<stChapter> listChapter;
 }stBible;
 
+
+typedef struct
+{
+    int id;         //monster id
+    string name;    //monster name
+    int image_id;   //monster image id
+}stMonster;
 #endif
 
