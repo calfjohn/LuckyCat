@@ -696,7 +696,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zhe Wang (P3QKHC24KY)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -734,7 +734,7 @@
 					"\"$(SRCROOT)/../libs/cppsqlite\"",
 				);
 				PRODUCT_NAME = HelloWorld;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E72B53EF-9902-484D-A105-D6309BEC4FB3";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "\"$(SDKROOT)/usr/include/libxml2/\" \"$(SRCROOT)/../libs/cocos2d-x/cocos2dx/include\" \"$(SRCROOT)/../libs/cocos2d-x/cocos2dx\" \"$(SRCROOT)/../libs/cocos2d-x/cocos2dx/platform/ios\" \"$(SRCROOT)/../libs/cocos2d-x/cocos2dx/kazmath/include\" \"$(SRCROOT)/../libs/cocos2d-x/CocosDenshion/include\" \"$(SRCROOT)/../libs/cocos2d-x/Network\" \"$(SRCROOT)/../libs/cocos2d-x/cocos2dx/platform/third_party/ios\"";
@@ -748,7 +748,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zhe Wang (P3QKHC24KY)";
 				COPY_PHASE_STRIP = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -783,7 +783,7 @@
 					"\"$(SRCROOT)/../libs/cppsqlite\"",
 				);
 				PRODUCT_NAME = HelloWorld;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E72B53EF-9902-484D-A105-D6309BEC4FB3";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "\"$(SDKROOT)/usr/include/libxml2/\" \"$(SRCROOT)/../libs/cocos2d-x/cocos2dx/include\" \"$(SRCROOT)/../libs/cocos2d-x/cocos2dx\" \"$(SRCROOT)/../libs/cocos2d-x/cocos2dx/platform/ios\" \"$(SRCROOT)/../libs/cocos2d-x/cocos2dx/kazmath/include\" \"$(SRCROOT)/../libs/cocos2d-x/CocosDenshion/include\" \"$(SRCROOT)/../libs/cocos2d-x/Network\" \"$(SRCROOT)/../libs/cocos2d-x/cocos2dx/platform/third_party/ios\"";

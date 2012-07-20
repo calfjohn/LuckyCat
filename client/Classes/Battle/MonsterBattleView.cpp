@@ -9,6 +9,7 @@
 #include "MonsterBattleView.h"
 #include "BattleDefine.h"
 #include "LevelDataManager.h"
+#include "DictDataManager.h"
 
 void MonsterBattleView::onEnter()
 {
@@ -36,7 +37,8 @@ void MonsterBattleView::initLayer(int monsterId, CCObject *target, SEL_CallFuncN
     this->addChild(titleLabel);
     
     string tempName;
-    tempName = "image/monster/" + LevelDataManager::shareLevelDataManager()->ConvertToString(monsterId) + ".png";
+    const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(monsterId);
+    tempName = "image/monster/" + LevelDataManager::shareLevelDataManager()->ConvertToString(pMonster->image_id) + ".png";
     CCSprite *_pMonsterSprite = CCSprite::create(tempName.c_str());
     _pMonsterSprite->setPosition(CCPointMake(screanSize.width*0.5f, 200));
     _pMonsterSprite->setScaleY(5);
