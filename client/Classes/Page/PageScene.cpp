@@ -85,18 +85,19 @@ void Page::turnToPage(int chapterId, stPage *pPage)
     this->addChild(m_tips, 1);
     
     m_title = CCLabelTTF::create(pPage->name.c_str(), "Arial", 28);
-    m_title->setPosition(ccp(size.width/2, size.height/2 + 50));
+    m_title->setPosition(ccp(size.width/2, size.height - 100));
+    m_title->setColor(ccBLACK);
     this->addChild(m_title, 1);
     
     m_content = CCLabelTTF::create(pPage->content.c_str(), "Arial", 28);
     m_content->setPosition(ccp(size.width/2, size.height/2));
+    m_content->setColor(ccBLACK);
     this->addChild(m_content, 1);
     
-
-    
-    m_state = CCLabelTTF::create(m_pPage->state ? "success": "", "Arial", 28);
-    m_state->setPosition(ccp(size.width/2, size.height/2 - 80));
-    this->addChild(m_state, 1);
+//    m_state = CCLabelTTF::create(m_pPage->state ? "success": "", "Arial", 28);
+//    m_state->setPosition(ccp(size.width/2, 50));
+//    m_state->setColor(ccBLACK);
+//    this->addChild(m_state, 1);
     
     CCMenuItemImage *pAttackItem  = CCMenuItemImage::create("image/Page/4.png", "image/Page/44.png", "image/Page/444.png", this, menu_selector(Page::menuAttackCallback));
     pAttackItem->setPosition(ccp(size.width - 50, 50));
@@ -108,13 +109,14 @@ void Page::turnToPage(int chapterId, stPage *pPage)
     const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(pPage->monsterId);
     if (pMonster) 
     {
-        string tempName = "image/monster/" + LevelDataManager::shareLevelDataManager()->ConvertToString(pPage->monsterId) + ".png";
+        string tempName = "image/monster/" + LevelDataManager::shareLevelDataManager()->ConvertToString(pMonster->image_id) + ".png";
         CCSprite *tempSprite = CCSprite::create(tempName.c_str());
-        tempSprite->setPosition(ccp(size.width/2, size.height/2 - 100));
+        tempSprite->setPosition(ccp(size.width/2, size.height/2 - 150));
         this->addChild(tempSprite, 1);
         
         m_monster = CCLabelTTF::create(pMonster->name.c_str(), "Arial", 28);
-        m_monster->setPosition(ccp(size.width/2, size.height/2 - 100));
+        m_monster->setColor(ccBLACK);
+        m_monster->setPosition(ccp(size.width/2, 50));
         this->addChild(m_monster, 1);
     }
 
@@ -126,7 +128,7 @@ void Page::menuAttackCallback(CCObject* pSender)
     showBattleView(pSender);
 
     m_pPage->state = 1;
-    m_state->setString(m_pPage->state ? "success": "");
+//    m_state->setString(m_pPage->state ? "success": "");
     m_tips->setString(m_pPage->state && LevelDataManager::shareLevelDataManager()->isLastPageOfChapter(m_nChapterId, m_pPage->id) ? "End of Chapter" : "");
     //    adjustPageItem();
 }
