@@ -24,4 +24,28 @@
 #define TAG_BATTLE_LAYER        99
 
 
+class GRole
+{
+public:
+    GRole():
+    roleID(0),
+    curHP(0),
+    maxHp(0),
+    curPercentHP(0.0f)
+    {}
+    virtual ~GRole(){}
+    unsigned int roleID;
+    unsigned int curHP;
+    unsigned int maxHp;
+    float curPercentHP;
+    float getCurPercentHP()
+    {
+        
+        if ( maxHp ) curPercentHP = curHP * ( 1.0 / maxHp );
+        
+        return curPercentHP;
+    }
+};
+
+
 #endif

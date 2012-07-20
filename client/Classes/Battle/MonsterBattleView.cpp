@@ -10,6 +10,8 @@
 #include "BattleDefine.h"
 #include "LevelDataManager.h"
 
+static bool m_bIsInBattle = false;
+
 void MonsterBattleView::onEnter()
 {
     CCLayer::onEnter();
@@ -22,6 +24,8 @@ void MonsterBattleView::initLayer(int monsterId, CCObject *target, SEL_CallFuncN
 {
     m_target = target;
     m_pfnSelector = pfnSelector;
+    
+    setIsInBattle(true);
     
     CCSize screanSize = CCDirector::sharedDirector()->getWinSize();
     
@@ -39,8 +43,8 @@ void MonsterBattleView::initLayer(int monsterId, CCObject *target, SEL_CallFuncN
     tempName = "image/monster/" + LevelDataManager::shareLevelDataManager()->ConvertToString(monsterId) + ".png";
     CCSprite *_pMonsterSprite = CCSprite::create(tempName.c_str());
     _pMonsterSprite->setPosition(CCPointMake(screanSize.width*0.5f, 200));
-    _pMonsterSprite->setScaleY(5);
-    _pMonsterSprite->setScaleX(2.6);
+//    _pMonsterSprite->setScaleY(5);
+//    _pMonsterSprite->setScaleX(2.6);
     this->addChild(_pMonsterSprite);
     _pMonsterSprite->setTag(TAG_MONSTER_SPRITE);
     
@@ -143,10 +147,19 @@ void MonsterBattleView::playAction()
             pLayer->removeFromParentAndCleanup(true);
         }
         
+        setIsInBattle(false);
         
         ((m_target)->*(m_pfnSelector))(this, NULL);
     }
 }
 
+bool MonsterBattleView::getIsInBattle()
+{
+    return m_bIsInBattle;
+}
 
+void MonsterBattleView::setIsInBattle(bool _b_state)
+{
+    m_bIsInBattle = _b_state;
+}
 

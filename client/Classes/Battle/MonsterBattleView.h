@@ -31,6 +31,11 @@ public:
     
     void playAction();
     
+    //是否在战斗中
+    static bool getIsInBattle();
+    
+    static void setIsInBattle(bool _b_state);
+    
 private:
     CCSprite *pMonsterSprite;
     
@@ -39,6 +44,7 @@ private:
     CCObject*       m_target;         //callback listener
     
     SEL_CallFuncND  m_pfnSelector;    //callback selector
+    
 };
 
 #endif

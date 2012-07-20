@@ -9,6 +9,8 @@
 #include "BossBattleView.h"
 #include "BattleDefine.h"
 
+static bool m_bIsInBattle = false;
+
 void BossBattleView::onEnter()
 {
     CCLayer::onEnter();
@@ -17,8 +19,21 @@ void BossBattleView::onEnter()
     
 }
 
-void BossBattleView::initLayer()
+void BossBattleView::initLayer(int monsterId, CCObject *target, SEL_CallFuncND pfnSelector)
 {
+    mBossList.clear();
+    
+    GRole *p_Monster = new GRole();
+    p_Monster->roleID = monsterId;
+    p_Monster->curHP = 100;
+    p_Monster->maxHp = 100;
+    mBossList.push_back(p_Monster);
+    
+    
+    m_target = target;
+    m_pfnSelector = pfnSelector;
+    
+    setIsInBattle(true);
     
     CCSize screanSize = CCDirector::sharedDirector()->getWinSize();
     
@@ -34,8 +49,8 @@ void BossBattleView::initLayer()
     
     CCSprite *_pMonsterSprite = CCSprite::create("bottom_1_7_1.png");
     _pMonsterSprite->setPosition(CCPointMake(screanSize.width*0.5f, 240));
-    _pMonsterSprite->setScaleY(5);
-    _pMonsterSprite->setScaleX(2.6);
+//    _pMonsterSprite->setScaleY(5);
+//    _pMonsterSprite->setScaleX(2.6);
     this->addChild(_pMonsterSprite);
     _pMonsterSprite->setTag(TAG_MONSTER_SPRITE);
     
@@ -53,18 +68,18 @@ void BossBattleView::initLayer()
     CCProgressTimer *pProgressBoss = CCProgressTimer::create(CCSprite::create("extensions/sliderProgress.png"));
     pProgressBoss->setType(kCCProgressTimerTypeBar);
     //    Setup for a bar starting from the bottom since the midpoint is 0 for the y
-    //pProgressBoss->setMidpoint(ccp(0.5f, 0.5f));
+    pProgressBoss->setMidpoint(ccp(0.0f, 0.5f));
     //    Setup for a vertical bar since the bar change rate is 0 for x meaning no horizontal change
     //pProgressBoss->setBarChangeRate(ccp(1, 1));
-    pProgressBoss->setPercentage(100);
+    pProgressBoss->setPercentage(66);
     pProgressBoss->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height- 50));
     this->addChild(pProgressBoss,3);
     pProgressBoss->setTag(TAG_MONSTER_PLINE);
     
     CCSprite *_pPlayerSprite = CCSprite::create("bottom_1_7_1.png");
     _pPlayerSprite->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height*0.20f));
-    _pPlayerSprite->setScaleY(2);
-    _pPlayerSprite->setScaleX(1.4);
+//    _pPlayerSprite->setScaleY(2);
+//    _pPlayerSprite->setScaleX(1.4);
     this->addChild(_pPlayerSprite);
     _pPlayerSprite->setTag(TAG_PLAYER_SPRITE);
     
@@ -157,4 +172,27 @@ void BossBattleView::playAction()
             }
         }
     }
+    else {
+        //        CCDirector::sharedDirector()->popScene();
+        
+        CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_BATTLE_LAYER));
+        if ( pLayer )
+        {
+            pLayer->removeFromParentAndCleanup(true);
+        }
+        
+        setIsInBattle(false);
+        
+        ((m_target)->*(m_pfnSelector))(this, NULL);
+    }
+}
+
+bool BossBattleView::getIsInBattle()
+{
+    return m_bIsInBattle;
+}
+
+void BossBattleView::setIsInBattle(bool _b_state)
+{
+    m_bIsInBattle = _b_state;
 }

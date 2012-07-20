@@ -133,9 +133,19 @@ void Page::menuAttackCallback(CCObject* pSender)
 
 void Page::showBattleView(CCObject *pSender)
 {
-    MonsterBattleView *pMonter = MonsterBattleView::create();
-    pMonter->initLayer(m_pPage->monsterId, this, callfuncND_selector(Page::fightCallback));
-    CCDirector::sharedDirector()->getRunningScene()->addChild(pMonter, 0, TAG_BATTLE_LAYER);
+    if ( MonsterBattleView::getIsInBattle() == false )
+    {
+        MonsterBattleView *pMonter = MonsterBattleView::create();
+        pMonter->initLayer(m_pPage->monsterId, this, callfuncND_selector(Page::fightCallback));
+        CCDirector::sharedDirector()->getRunningScene()->addChild(pMonter, 0, TAG_BATTLE_LAYER);
+    }
+    
+//    if ( BossBattleView::getIsInBattle() == false )
+//    {
+//        BossBattleView *pBoss = BossBattleView::create();
+//        pBoss->initLayer(m_pPage->monsterId, this, callfuncND_selector(Page::fightCallback));
+//        CCDirector::sharedDirector()->getRunningScene()->addChild(pBoss, 0, TAG_BATTLE_LAYER);
+//    }
 }
 
 void Page::fightCallback(CCNode* pNode, void* data)

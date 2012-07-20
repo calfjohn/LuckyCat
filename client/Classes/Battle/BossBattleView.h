@@ -10,24 +10,11 @@
 #define HelloWorld_BossBattleView_h
 
 #include "cocos2d.h"
+#include "BattleDefine.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
 using namespace std;
-
-class RolePro
-{
-public:
-    unsigned int curHP;
-    unsigned int MaxHp;
-    float curPercentHP;
-    float getCurPercentHP()
-    {
-        curPercentHP = curHP * ( 1.0 / MaxHp );
-        
-        return curPercentHP;
-    }
-};
 
 class BossBattleView : public CCLayer
 {
@@ -36,7 +23,7 @@ public:
     
     virtual void onEnter();
     
-    void initLayer();
+    void initLayer(int monsterId, CCObject *target, SEL_CallFuncND pfnSelector);
     
     void fightAction();
     
@@ -44,12 +31,24 @@ public:
     
     void playAction();
     
+    //是否在战斗中
+    static bool getIsInBattle();
+    
+    static void setIsInBattle(bool _b_state);
+    
 private:
     CCSprite *pMonsterSprite;
     
     std::vector<unsigned int> mActionList;
     
     int mIntBossHPMax,mIntPlayerHPMax;
+    
+    CCObject*       m_target;         //callback listener
+    
+    SEL_CallFuncND  m_pfnSelector;    //callback selector
+    
+    std::vector<GRole *> mBossList;
+    std::vector<GRole *> mPlayerList;
     
 };
 
