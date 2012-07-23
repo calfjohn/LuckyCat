@@ -21,10 +21,12 @@ void MonsterBattleView::onEnter()
     
 }
 
-void MonsterBattleView::initLayer(int monsterId, CCObject *target, SEL_CallFuncND pfnSelector)
+void MonsterBattleView::initLayer(stPage *p_page, CCObject *target, SEL_CallFuncND pfnSelector)
 {
     m_target = target;
     m_pfnSelector = pfnSelector;
+    
+    p_pPage = p_page;
     
     setIsInBattle(true);
     
@@ -33,20 +35,18 @@ void MonsterBattleView::initLayer(int monsterId, CCObject *target, SEL_CallFuncN
     //    cocos2d::CCLabelTTF *titleLabel = cocos2d::CCLabelTTF::create( "Monster Fight!", CCSizeMake(screanSize.width, 50),kCCVerticalTextAlignmentCenter,kCCVerticalTextAlignmentCenter,"Arial", 24); 
     //    titleLabel = CCLabelTTF::initWithString("Monster Fight!", "Arial", 50);
     
-    CCLabelTTF *titleLabel = CCLabelTTF::create("Monster Fight!", CCSizeMake(screanSize.width, 50), kCCTextAlignmentCenter,"Arial", 30);
+    CCLabelTTF *titleLabel = CCLabelTTF::create(p_pPage->name.c_str(), CCSizeMake(screanSize.width, 50), kCCTextAlignmentCenter,"Arial", 30);
     //cellLabel->setPosition(ccp(cellSize.width , cellSize.height )); 
     titleLabel->setAnchorPoint(ccp(0.5,0.5));
-    titleLabel->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height- 60));
+    titleLabel->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height- 40));
     titleLabel->setColor(ccc3(255,55,0));
     this->addChild(titleLabel);
     
     string tempName;
-    const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(monsterId);
+    const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(p_pPage->monsterId);
     tempName = "image/monster/" + LevelDataManager::shareLevelDataManager()->ConvertToString(pMonster->image_id) + ".png";
     CCSprite *_pMonsterSprite = CCSprite::create(tempName.c_str());
-    _pMonsterSprite->setPosition(CCPointMake(screanSize.width*0.5f, 200));
-//    _pMonsterSprite->setScaleY(5);
-//    _pMonsterSprite->setScaleX(2.6);
+    _pMonsterSprite->setPosition(CCPointMake(screanSize.width*0.5f, 260));
     this->addChild(_pMonsterSprite);
     _pMonsterSprite->setTag(TAG_MONSTER_SPRITE);
     
@@ -60,7 +60,10 @@ void MonsterBattleView::initLayer(int monsterId, CCObject *target, SEL_CallFuncN
     
     dscLabel->setVisible(false);
     
-    fightAction();
+    _pMonsterSprite->setScale(0.5f);
+    CCFiniteTimeAction *pAction = CCSequence::create(CCScaleTo::create(ACTION_INTERVAL_TIME,1.0f),CCCallFunc::create(this, callfunc_selector(MonsterBattleView::fightAction)),NULL);
+    
+    _pMonsterSprite->runAction(pAction);
 }
 
 void MonsterBattleView::fightAction()
@@ -100,11 +103,15 @@ CCFiniteTimeAction * MonsterBattleView::createSequece(unsigned int action_id)
             
             pAction = CCSequence::create(scale1,scale2,CCCallFunc::create(this, callfunc_selector(MonsterBattleView::playAction)),NULL);
             
+            break;
+            
         }
         case 3:
         {
-            CCFadeIn *fade1 = CCFadeIn::create(ACTION_INTERVAL_TIME*3);
-            pAction = CCSequence::create(fade1,CCCallFunc::create(this, callfunc_selector(MonsterBattleView::playAction)),NULL);
+            CCFadeIn *fade1 = CCFadeIn::create(ACTION_INTERVAL_TIME*2);
+            pAction = CCSequence::create(fade1,CCDelayTime::create(ACTION_INTERVAL_TIME*3),CCCallFunc::create(this, callfunc_selector(MonsterBattleView::playAction)),NULL);
+            
+            break;
             
         }
         default:

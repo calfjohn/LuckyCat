@@ -8,6 +8,8 @@
 
 #include "BossBattleView.h"
 #include "BattleDefine.h"
+#include "LevelDataManager.h"
+#include "DictDataManager.h"
 
 static bool m_bIsInBattle = false;
 
@@ -17,17 +19,26 @@ void BossBattleView::onEnter()
     
     pMonsterSprite = NULL;
     
+    m_bIsWaitingForAction = false;
+    
 }
 
-void BossBattleView::initLayer(int monsterId, CCObject *target, SEL_CallFuncND pfnSelector)
+void BossBattleView::initLayer(stPage *page, CCObject *target, SEL_CallFuncND pfnSelector)
 {
-    mBossList.clear();
+    p_pPage = page;
     
-    GRole *p_Monster = new GRole();
-    p_Monster->roleID = monsterId;
-    p_Monster->curHP = 100;
-    p_Monster->maxHp = 100;
-    mBossList.push_back(p_Monster);
+    this->setTouchEnabled(true);
+    
+    p_Boss = new GRole();
+    p_Boss->roleID = p_pPage->monsterId;
+    p_Boss->setMaxHp(300);
+    
+    mPlayerList.clear();
+    
+    GRole * p_PlayerBoss = new GRole();
+    p_PlayerBoss->setMaxHp(200);
+    
+    mPlayerList.push_back(p_PlayerBoss);
     
     
     m_target = target;
@@ -37,25 +48,21 @@ void BossBattleView::initLayer(int monsterId, CCObject *target, SEL_CallFuncND p
     
     CCSize screanSize = CCDirector::sharedDirector()->getWinSize();
     
-    //    cocos2d::CCLabelTTF *titleLabel = cocos2d::CCLabelTTF::create( "Monster Fight!", CCSizeMake(screanSize.width, 50),kCCVerticalTextAlignmentCenter,kCCVerticalTextAlignmentCenter,"Arial", 24); 
-    //    titleLabel = CCLabelTTF::initWithString("Monster Fight!", "Arial", 50);
-    
-    CCLabelTTF *titleLabel = CCLabelTTF::create("Lord Voldemort", CCSizeMake(screanSize.width, 50), kCCTextAlignmentCenter,"Arial", 30);
-    //cellLabel->setPosition(ccp(cellSize.width , cellSize.height )); 
+    CCLabelTTF *titleLabel = CCLabelTTF::create(p_pPage->name.c_str(), CCSizeMake(screanSize.width, 50), kCCTextAlignmentCenter,"Arial", 30);
     titleLabel->setAnchorPoint(ccp(0.5,0.5));
     titleLabel->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height- 30));
     titleLabel->setColor(ccc3(255,55,0));
     this->addChild(titleLabel);
     
-    CCSprite *_pMonsterSprite = CCSprite::create("bottom_1_7_1.png");
-    _pMonsterSprite->setPosition(CCPointMake(screanSize.width*0.5f, 240));
-//    _pMonsterSprite->setScaleY(5);
-//    _pMonsterSprite->setScaleX(2.6);
+    string tempName;
+    const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(p_pPage->monsterId);
+    tempName = "image/monster/" + LevelDataManager::shareLevelDataManager()->ConvertToString(pMonster->image_id) + ".png";
+    CCSprite *_pMonsterSprite = CCSprite::create(tempName.c_str());
+    _pMonsterSprite->setPosition(CCPointMake(screanSize.width*0.5f, 260));
     this->addChild(_pMonsterSprite);
     _pMonsterSprite->setTag(TAG_MONSTER_SPRITE);
     
     CCLabelTTF *dscLabel = CCLabelTTF::create("", CCSizeMake(screanSize.width, 50), kCCTextAlignmentCenter,"Arial", 30);
-    //cellLabel->setPosition(ccp(cellSize.width , cellSize.height )); 
     dscLabel->setAnchorPoint(ccp(0.5,0.5));
     dscLabel->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height*0.82f));
     dscLabel->setColor(ccc3(255,55,0));
@@ -67,46 +74,66 @@ void BossBattleView::initLayer(int monsterId, CCObject *target, SEL_CallFuncND p
     
     CCProgressTimer *pProgressBoss = CCProgressTimer::create(CCSprite::create("extensions/sliderProgress.png"));
     pProgressBoss->setType(kCCProgressTimerTypeBar);
-    //    Setup for a bar starting from the bottom since the midpoint is 0 for the y
     pProgressBoss->setMidpoint(ccp(0.0f, 0.5f));
-    //    Setup for a vertical bar since the bar change rate is 0 for x meaning no horizontal change
-    //pProgressBoss->setBarChangeRate(ccp(1, 1));
-    pProgressBoss->setPercentage(66);
+    pProgressBoss->setPercentage(100);
     pProgressBoss->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height- 50));
+    pProgressBoss->setColor(ccGRAY);
     this->addChild(pProgressBoss,3);
     pProgressBoss->setTag(TAG_MONSTER_PLINE);
     
-    CCSprite *_pPlayerSprite = CCSprite::create("bottom_1_7_1.png");
+    char strChar[512];
+    memset(strChar, 0, 512);
+    sprintf(strChar, "image/icon/hero_%d.png",1);
+    
+    CCSprite *_pPlayerSprite = CCSprite::create(strChar);
     _pPlayerSprite->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height*0.20f));
-//    _pPlayerSprite->setScaleY(2);
-//    _pPlayerSprite->setScaleX(1.4);
     this->addChild(_pPlayerSprite);
     _pPlayerSprite->setTag(TAG_PLAYER_SPRITE);
     
     CCProgressTimer *pProgressPlayer = CCProgressTimer::create(CCSprite::create("extensions/sliderProgress.png"));
     pProgressPlayer->setType(kCCProgressTimerTypeBar);
-    //    Setup for a bar starting from the bottom since the midpoint is 0 for the y
-    //pProgressBoss->setMidpoint(ccp(0.5f, 0.5f));
-    //    Setup for a vertical bar since the bar change rate is 0 for x meaning no horizontal change
-    //pProgressBoss->setBarChangeRate(ccp(1, 1));
+    pProgressPlayer->setMidpoint(ccp(0.0f, 0.5f));
     pProgressPlayer->setPercentage(100);
     pProgressPlayer->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height*0.05f));
     this->addChild(pProgressPlayer,3);
     pProgressPlayer->setTag(TAG_PLAYER_PLINE);
     
+    CCLabelTTF *effectLabel = CCLabelTTF::create("", CCSizeMake(100, 25), kCCTextAlignmentCenter,"Arial", 23);
+    effectLabel->setAnchorPoint(ccp(0.5,0.5));
+    effectLabel->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height*0.75f));
+    effectLabel->setColor(ccc3(255,55,0));
+    this->addChild(effectLabel);
+    effectLabel->setTag(TAG_LABEL_EFFECT);
+    effectLabel->setVisible(false);
     
-    fightAction();
+    CCLabelTTF *subHP = CCLabelTTF::create("", CCSizeMake(100, 25), kCCTextAlignmentCenter,"Arial", 22);
+    subHP->setAnchorPoint(ccp(0.5,0.5));
+    subHP->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height*0.75f));
+    subHP->setColor(ccc3(255,55,0));
+    this->addChild(subHP,3);
+    subHP->setTag(TAG_LABEL_SUB_HP);
+    subHP->setVisible(false);
+    
+    
+    _pMonsterSprite->setScale(0.5f);
+    CCFiniteTimeAction *pAction = CCSequence::create(CCScaleTo::create(ACTION_INTERVAL_TIME,1.0f),CCCallFunc::create(this, callfunc_selector(BossBattleView::fightAction)),NULL);
+    
+    _pMonsterSprite->runAction(pAction);
 }
 
 void BossBattleView::fightAction()
 {
     mActionList.push_back(3);
     mActionList.push_back(1);
+    mActionList.push_back(4);
     mActionList.push_back(2);
+    mActionList.push_back(4);
+    mActionList.push_back(1);
+    mActionList.push_back(4);
     mActionList.push_back(1);
     
     
-    this->playAction();
+    this->playOneActionEnd();
 }
 
 CCFiniteTimeAction * BossBattleView::createSequece(unsigned int action_id)
@@ -123,6 +150,27 @@ CCFiniteTimeAction * BossBattleView::createSequece(unsigned int action_id)
             
             pAction = CCSequence::create(move1,move2,move3,CCCallFunc::create(this, callfunc_selector(BossBattleView::playAction)),NULL);
             
+            int _subHp = 45;
+            p_Boss->setSubHp(_subHp);
+            CCProgressTimer *progress = (CCProgressTimer *)this->getChildByTag(TAG_MONSTER_PLINE);
+            if ( progress )
+                progress->setPercentage( p_Boss->getCurPercentHP() );
+            
+            
+            CCLabelTTF *label = (CCLabelTTF *)this->getChildByTag(TAG_LABEL_SUB_HP);
+            if ( label )
+            {
+                label->setPosition(ccp(220,210));
+                char strChar[100];
+                memset(strChar, 0, 100);
+                sprintf(strChar, "%d",-_subHp);
+                label->setString(strChar);
+                label->setVisible(true);
+                
+                CCMoveBy *move = CCMoveBy::create(ACTION_INTERVAL_TIME, ccp(0,30));
+                label->runAction(move);
+            }
+            
             break;
         }
         case 2:
@@ -132,12 +180,63 @@ CCFiniteTimeAction * BossBattleView::createSequece(unsigned int action_id)
             
             pAction = CCSequence::create(scale1,scale2,CCCallFunc::create(this, callfunc_selector(BossBattleView::playAction)),NULL);
             
+            int _subHp = 120;
+            p_Boss->setSubHp(_subHp);
+            CCProgressTimer *progress = (CCProgressTimer *)this->getChildByTag(TAG_MONSTER_PLINE);
+            if ( progress )
+                progress->setPercentage( p_Boss->getCurPercentHP() );
+            
+            CCLabelTTF *label = (CCLabelTTF *)this->getChildByTag(TAG_LABEL_SUB_HP);
+            if ( label )
+            {
+                label->setPosition(ccp(220,210));
+                char strChar[100];
+                memset(strChar, 0, 100);
+                sprintf(strChar, "暴击 %d",-_subHp);
+                label->setString(strChar);
+                label->setVisible(true);
+                
+                CCMoveBy *move = CCMoveBy::create(ACTION_INTERVAL_TIME, ccp(0,30));
+                label->runAction(move);
+            }
+            
+            break;
         }
         case 3:
         {
-            CCFadeIn *fade1 = CCFadeIn::create(ACTION_INTERVAL_TIME);
-            pAction = CCSequence::create(fade1,CCCallFunc::create(this, callfunc_selector(BossBattleView::playAction)),NULL);
+            CCFadeIn *fade1 = CCFadeIn::create(ACTION_INTERVAL_TIME*2);
+            pAction = CCSequence::create(fade1,CCDelayTime::create(ACTION_INTERVAL_TIME*3),CCCallFunc::create(this, callfunc_selector(BossBattleView::playAction)),NULL);
             
+            break;
+        }
+        case 4:
+        {
+            CCScaleBy *scale1 = CCScaleBy::create(ACTION_INTERVAL_TIME, 1.2f);
+            CCScaleBy *scale2 = CCScaleBy::create(ACTION_INTERVAL_TIME, 1 / 1.2f);
+            
+            pAction = CCSequence::create(scale1,scale2,CCCallFunc::create(this, callfunc_selector(BossBattleView::playOneActionEnd)),NULL);
+            
+            GRole *p_player = mPlayerList[0];
+            
+            int _subHp = 22;
+            p_player->setSubHp(_subHp);
+            CCProgressTimer *progress = (CCProgressTimer *)this->getChildByTag(TAG_PLAYER_PLINE);
+            if ( progress )
+                progress->setPercentage( p_player->getCurPercentHP() );
+            
+            CCLabelTTF *label = (CCLabelTTF *)this->getChildByTag(TAG_LABEL_SUB_HP);
+            if ( label )
+            {
+                label->setPosition(ccp(220,80));
+                char strChar[100];
+                memset(strChar, 0, 100);
+                sprintf(strChar, "%d",-_subHp);
+                label->setString(strChar);
+                label->setVisible(true);
+                
+                CCMoveBy *move = CCMoveBy::create(ACTION_INTERVAL_TIME, ccp(0,30));
+                label->runAction(move);
+            }
         }
         default:
             break;
@@ -148,8 +247,6 @@ CCFiniteTimeAction * BossBattleView::createSequece(unsigned int action_id)
 
 void BossBattleView::playAction()
 {
-    
-    
     if ( mActionList.empty() == false )
     {
         unsigned int tAcitonID = mActionList[mActionList.size()-1];
@@ -166,9 +263,17 @@ void BossBattleView::playAction()
                 pLabel->setVisible(true);
                 pLabel->runAction(pAction);
             }
-            else {
-                CCSprite *pSprite = (CCSprite *)this->getChildByTag(TAG_MONSTER_SPRITE);
-                pSprite->runAction(pAction);
+            else {  
+                if ( tAcitonID == 4 )
+                {
+                    CCSprite *pSprite = (CCSprite *)this->getChildByTag(TAG_PLAYER_SPRITE);
+                    pSprite->runAction(pAction);
+                }
+                else
+                {
+                    CCSprite *pSprite = (CCSprite *)this->getChildByTag(TAG_MONSTER_SPRITE);
+                    pSprite->runAction(pAction);
+                }
             }
         }
     }
@@ -183,6 +288,58 @@ void BossBattleView::playAction()
         
         setIsInBattle(false);
         
+        m_bIsWaitingForAction = false;
+        
+        this->removeFromParentAndCleanup(true);
+        
+        ((m_target)->*(m_pfnSelector))(this, NULL);
+    }
+}
+
+void BossBattleView::playOneActionEnd()
+{
+    CCLabelTTF *label = (CCLabelTTF *)this->getChildByTag(TAG_LABEL_SUB_HP);
+    if ( label )
+    {
+        label->setVisible(false);
+    }
+    
+    if ( mActionList.empty() == false )
+    {
+        unsigned int tAcitonID = mActionList[mActionList.size()-1];
+        
+
+        if ( tAcitonID == 3 )
+        {
+            CCFiniteTimeAction *pAction = this->createSequece(tAcitonID);
+            mActionList.pop_back();
+            
+            if(pAction)
+            {
+                CCLabelTTF *pLabel = (CCLabelTTF *)this->getChildByTag(TAG_LABEL_DES);
+                pLabel->setColor(ccGREEN);
+                pLabel->setString("你获得胜利!");
+                pLabel->setVisible(true);
+                pLabel->runAction(pAction);
+            }
+        }
+        else {
+            m_bIsWaitingForAction = true;
+        }
+    }
+    else {
+        //        CCDirector::sharedDirector()->popScene();
+        
+        CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_BATTLE_LAYER));
+        if ( pLayer )
+        {
+            pLayer->removeFromParentAndCleanup(true);
+        }
+        
+        setIsInBattle(false);
+        
+        m_bIsWaitingForAction = false;
+        
         ((m_target)->*(m_pfnSelector))(this, NULL);
     }
 }
@@ -195,4 +352,37 @@ bool BossBattleView::getIsInBattle()
 void BossBattleView::setIsInBattle(bool _b_state)
 {
     m_bIsInBattle = _b_state;
+}
+
+bool BossBattleView::ccTouchBegan(CCTouch* touch, CCEvent *pEvent)
+{
+    if ( m_bIsWaitingForAction == false && !touch) return false;
+    
+    pBeginPoint = this->convertTouchToNodeSpace(touch);
+        
+    return true;
+}
+
+void BossBattleView::ccTouchMoved(CCTouch* touch, CCEvent *pEvent)
+{
+    
+}
+
+void BossBattleView::ccTouchEnded(CCTouch* touch, CCEvent *pEvent)
+{
+    if ( !touch ) return;
+    CCPoint endPoint = this->convertTouchToNodeSpace(touch);
+    
+    CCFloat distance_ = ccpDistanceSQ(endPoint, pBeginPoint);
+    
+    if (distance_ > 2.0f)
+    {
+        //触发随机事件
+        this->playAction();
+    }
+}
+
+void BossBattleView::registerWithTouchDispatcher(void)
+{
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority, true);
 }

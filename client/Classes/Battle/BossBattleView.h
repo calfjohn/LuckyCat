@@ -11,6 +11,8 @@
 
 #include "cocos2d.h"
 #include "BattleDefine.h"
+#include "touch_dispatcher/CCTouch.h"
+#include "Basic.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -23,7 +25,7 @@ public:
     
     virtual void onEnter();
     
-    void initLayer(int monsterId, CCObject *target, SEL_CallFuncND pfnSelector);
+    void initLayer(stPage *p_Page, CCObject *target, SEL_CallFuncND pfnSelector);
     
     void fightAction();
     
@@ -31,10 +33,18 @@ public:
     
     void playAction();
     
+    void playOneActionEnd();
+    
     //是否在战斗中
     static bool getIsInBattle();
     
     static void setIsInBattle(bool _b_state);
+    
+    virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
+    virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
+    virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
+    
+    virtual void registerWithTouchDispatcher(void);
     
 private:
     CCSprite *pMonsterSprite;
@@ -47,9 +57,14 @@ private:
     
     SEL_CallFuncND  m_pfnSelector;    //callback selector
     
-    std::vector<GRole *> mBossList;
+    GRole * p_Boss;
     std::vector<GRole *> mPlayerList;
     
+    CCPoint pBeginPoint;
+    
+    bool m_bIsWaitingForAction;
+    
+    stPage *p_pPage;
 };
 
 

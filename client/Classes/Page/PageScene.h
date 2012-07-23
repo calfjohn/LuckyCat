@@ -27,6 +27,12 @@ public:
     
     void turnToPage(int chapterId, stPage *pPage);
     
+    virtual bool ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
+    virtual void ccTouchMoved(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
+    virtual void ccTouchEnded(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
+    
+    virtual void registerWithTouchDispatcher(void);
+    
 protected:
     // a selector callback
     void menuBackCallback(CCObject* pSender);
@@ -44,6 +50,8 @@ protected:
     cocos2d::CCLabelTTF *m_tips;
     int m_nChapterId;
     stPage *m_pPage;
+    
+    cocos2d::CCPoint::CCPoint pBeginPoint;
     
 };
 
