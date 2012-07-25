@@ -7,6 +7,10 @@
 //
 
 #include "PageScene.h"
+#include "MonsterBattleView.h"
+#include "BossBattleView.h"
+#include "BattleDefine.h"
+#include "DictDataManager.h"
 
 USING_NS_CC;
 
@@ -42,41 +46,7 @@ bool Page::init()
 {
     CCLayer::init();
 
-    CCSize size = CCDirector::sharedDirector()->getWinSize();
-    
-    CCSprite* pSprite = CCSprite::create("Default.png");
-    pSprite->setPosition(ccp(size.width/2, size.height/2));
-    this->addChild(pSprite, 0);
-    
-    CCMenu* pMenu = CCMenu::create();
-    pMenu->setPosition(CCPointZero);
-    this->addChild(pMenu, 1, TAG_MENU);
-    
-    CCMenuItemFont *pBackItem = CCMenuItemFont::create("返回", this, menu_selector(Page::menuBackCallback));
-    pBackItem->setPosition(ccp(size.width - 30, 20));
-    pMenu->addChild(pBackItem);
-    
-    m_title = CCLabelTTF::create("小节", "Arial", 28);
-    m_title->setPosition(ccp(size.width/2, size.height/2 + 50));
-    this->addChild(m_title, 1);
-
-    m_content = CCLabelTTF::create("内容", "Arial", 28);
-    m_content->setPosition(ccp(size.width/2, size.height/2));
-    this->addChild(m_content, 1);
-
-    m_monster = CCLabelTTF::create("怪物", "Arial", 28);
-    m_monster->setPosition(ccp(size.width/2, size.height/2 - 50));
-    this->addChild(m_monster, 1);
-    
-    m_state = CCLabelTTF::create("状态", "Arial", 28);
-    m_state->setPosition(ccp(size.width/2, size.height/2 - 80));
-    this->addChild(m_state, 1);
-    
-    CCMenuItemFont *pAttackItem = CCMenuItemFont::create("Attack", this, menu_selector(Page::menuAttackCallback));
-    pMenu->addChild(pAttackItem, 0, TAG_ATTACK);
-    
-    CCMenuItemFont *pNextItem = CCMenuItemFont::create("Next", this, menu_selector(Page::menuNextCallback));
-    pMenu->addChild(pNextItem, 0, TAG_NEXT);
+    this->setTouchEnabled(true);
     
     m_pPage = NULL;
     return true;
@@ -93,20 +63,105 @@ void Page::turnToPage(int chapterId, stPage *pPage)
     {
         return;
     }
-    
     m_nChapterId = chapterId;
     m_pPage = pPage;
     
-    m_title->setString(pPage->name.c_str());
-    m_content->setString(pPage->content.c_str());
-    m_monster->setString(LevelDataManager::shareLevelDataManager()->ConvertToString(pPage->monsterId).c_str());
-    m_monster->setString(LevelDataManager::shareLevelDataManager()->ConvertToString(pPage->monsterId).c_str());
-    m_state->setString(m_pPage->state ? "success": "");
+    CCSize size = CCDirector::sharedDirector()->getWinSize();
     
-    adjustPageItem();
+    CCSprite* pSprite = CCSprite::create("image/common/1.png");
+    pSprite->setPosition(ccp(size.width/2, size.height/2));
+    this->addChild(pSprite, 0);
+    
+    CCMenu* pMenu = CCMenu::create();
+    pMenu->setPosition(CCPointZero);
+    this->addChild(pMenu, 1, TAG_MENU);
+    
+    CCMenuItemImage *pBackItem = CCMenuItemImage::create("image/common/2.png", "image/common/22.png", "image/common/22.png", this, menu_selector(Page::menuBackCallback)); 
+    pBackItem->setScale(0.5);
+    pBackItem->setPosition(ccp(size.width - 30, size.height - 20));
+    pMenu->addChild(pBackItem);
+    
+    m_tips = CCLabelTTF::create(m_pPage->state && LevelDataManager::shareLevelDataManager()->isLastPageOfChapter(m_nChapterId, m_pPage->id) ? "End of Chapter" : "", "Arial", 28);
+    m_tips->setPosition(ccp(size.width/2, size.height/2 + 150));
+    m_tips->setColor(ccRED);
+    this->addChild(m_tips, 1);
+    
+    m_title = CCLabelTTF::create(pPage->name.c_str(), "Arial", 28);
+    m_title->setPosition(ccp(size.width/2, size.height - 100));
+    m_title->setColor(ccBLACK);
+    this->addChild(m_title, 1);
+    
+    m_content = CCLabelTTF::create(pPage->content.c_str(), "Arial", 28);
+    m_content->setPosition(ccp(size.width/2, size.height/2));
+    m_content->setColor(ccBLACK);
+    this->addChild(m_content, 1);
+    
+//    m_state = CCLabelTTF::create(m_pPage->state ? "success": "", "Arial", 28);
+//    m_state->setPosition(ccp(size.width/2, 50));
+//    m_state->setColor(ccBLACK);
+//    this->addChild(m_state, 1);
+    
+    CCMenuItemImage *pAttackItem  = CCMenuItemImage::create("image/Page/4.png", "image/Page/44.png", "image/Page/444.png", this, menu_selector(Page::menuAttackCallback));
+    pAttackItem->setPosition(ccp(size.width - 50, 50));
+    pMenu->addChild(pAttackItem, 0, TAG_ATTACK);
+    
+    //    CCMenuItemFont *pNextItem = CCMenuItemFont::create("Next", this, menu_selector(Page::menuNextCallback));
+    //    pMenu->addChild(pNextItem, 0, TAG_NEXT);
+    
+    const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(pPage->monsterId);
+    if (pMonster) 
+    {
+        string tempName = "image/monster/" + LevelDataManager::shareLevelDataManager()->ConvertToString(pMonster->image_id) + ".png";
+        CCSprite *tempSprite = CCSprite::create(tempName.c_str());
+        tempSprite->setPosition(ccp(size.width/2, size.height/2 - 150));
+        tempSprite->setScale(0.35f);
+        this->addChild(tempSprite, 1);
+        
+        m_monster = CCLabelTTF::create(pMonster->name.c_str(), "Arial", 28);
+        m_monster->setColor(ccBLACK);
+        m_monster->setPosition(ccp(size.width/2, 50));
+        this->addChild(m_monster, 1);
+    }
+
+//    adjustPageItem();
 }
 
-void Page::menuNextCallback(CCObject* pSender)
+void Page::menuAttackCallback(CCObject* pSender)
+{    
+    showBattleView(pSender);
+
+    m_pPage->state = 1;
+//    m_state->setString(m_pPage->state ? "success": "");
+    m_tips->setString(m_pPage->state && LevelDataManager::shareLevelDataManager()->isLastPageOfChapter(m_nChapterId, m_pPage->id) ? "End of Chapter" : "");
+    //    adjustPageItem();
+}
+
+void Page::showBattleView(CCObject *pSender)
+{
+    if ( LevelDataManager::shareLevelDataManager()->isLastPageOfChapter(m_nChapterId, m_pPage->id) )
+    {
+        if ( m_pPage->state == 0 )
+        {
+            if ( BossBattleView::getIsInBattle() == false )
+            {
+                BossBattleView *pBoss = BossBattleView::create();
+                pBoss->initLayer(m_pPage, this, callfuncND_selector(Page::fightCallback));
+                CCDirector::sharedDirector()->getRunningScene()->addChild(pBoss, 0, TAG_BATTLE_LAYER);
+            }
+        }
+    }
+    else
+    {
+        if ( MonsterBattleView::getIsInBattle() == false )
+        {
+            MonsterBattleView *pMonter = MonsterBattleView::create();
+            pMonter->initLayer(m_pPage, this, callfuncND_selector(Page::fightCallback));
+            CCDirector::sharedDirector()->getRunningScene()->addChild(pMonter, 0, TAG_BATTLE_LAYER);
+        }
+    }
+}
+
+void Page::fightCallback(CCNode* pNode, void* data)
 {   
     stPage *pPage = LevelDataManager::shareLevelDataManager()->getNewPage(m_nChapterId);
     if (m_pPage == pPage) 
@@ -114,46 +169,66 @@ void Page::menuNextCallback(CCObject* pSender)
         return;
     }
     
-    turnToPage(m_nChapterId, pPage);
+   // turnToPage(m_nChapterId, pPage);
+    CCScene *pScene = Page::scene(m_nChapterId, pPage);
+    CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
+    CCDirector::sharedDirector()->replaceScene(pTp);
 }
 
-void Page::menuAttackCallback(CCObject* pSender)
+//void Page::adjustPageItem()
+//{
+//    CCSize size = CCDirector::sharedDirector()->getWinSize();
+//
+//    CCMenuItemImage *pAttackItem = (CCMenuItemImage *)getChildByTag(TAG_MENU)->getChildByTag(TAG_ATTACK);
+//    CCMenuItemFont *pNextItem = (CCMenuItemFont *)getChildByTag(TAG_MENU)->getChildByTag(TAG_NEXT);
+//    
+//    if (m_pPage->state != 1) 
+//    {
+//        pNextItem->setPosition(ccp(size.width - 50, 50));
+//        pAttackItem->setPosition(ccp(size.width - 50, 50));
+//        
+//        pNextItem->setEnabled(true);
+//        pNextItem->setVisible(false);
+//    }
+//    else 
+//    {
+//        pNextItem->setPosition(ccp(size.width - 50, 50));
+//        pAttackItem->setPosition(ccp(size.width - 150, 50));
+//        
+//        pNextItem->setVisible(true);
+//        pNextItem->setEnabled(!LevelDataManager::shareLevelDataManager()->isLastPageOfChapter(m_nChapterId, m_pPage->id));
+//    }
+//}
+
+bool Page::ccTouchBegan(cocos2d::CCTouch* touch, cocos2d::CCEvent *pEvent)
 {
-    this->runAction(CCSequence::actions(CCMoveBy::actionWithDuration(0.1, ccp(50, 0)), 
-                                        CCMoveBy::actionWithDuration(0.1, ccp(-100, 0)), 
-                                        CCMoveBy::actionWithDuration(0.1, ccp(100, 0)), 
-                                        CCMoveBy::actionWithDuration(0.1, ccp(-50, 0)), 
-                                        NULL));                                        
-    m_pPage->state = 1;
-    m_state->setString(m_pPage->state ? "success": "");
-
-    adjustPageItem();
-}
-
-void Page::adjustPageItem()
-{
-    CCSize size = CCDirector::sharedDirector()->getWinSize();
-
-    CCMenuItemFont *pAttackItem = (CCMenuItemFont *)getChildByTag(TAG_MENU)->getChildByTag(TAG_ATTACK);
-    CCMenuItemFont *pNextItem = (CCMenuItemFont *)getChildByTag(TAG_MENU)->getChildByTag(TAG_NEXT);
+    if ( !touch) return false;
     
-    if (m_pPage->state != 1) 
-    {
-        pNextItem->setPosition(ccp(size.width - 50, 50));
-        pAttackItem->setPosition(ccp(size.width - 50, 50));
-        
-        pNextItem->setEnabled(true);
-        pNextItem->setVisible(false);
-        pAttackItem->setVisible(true);
-    }
-    else 
-    {
-        pNextItem->setEnabled(!LevelDataManager::shareLevelDataManager()->isChapterEnd(m_nChapterId));
+    pBeginPoint = this->convertTouchToNodeSpace(touch);
+    
+    return true;
+}
 
-        pNextItem->setPosition(ccp(size.width - 50, 50));
-        pAttackItem->setPosition(ccp(size.width - 150, 50));
-        
-        pNextItem->setVisible(true);
-        pAttackItem->setVisible(true);
+void Page::ccTouchMoved(cocos2d::CCTouch* touch, cocos2d::CCEvent *pEvent)
+{
+    
+}
+
+void Page::ccTouchEnded(cocos2d::CCTouch* touch, cocos2d::CCEvent *pEvent)
+{
+    if ( !touch ) return;
+    CCPoint endPoint = this->convertTouchToNodeSpace(touch);
+    
+    CCFloat distance_ = ccpDistanceSQ(endPoint, pBeginPoint);
+    
+    if (distance_ > 2.0f)
+    {
+        //触发随机事件
+        this->menuAttackCallback(NULL);
     }
+}
+
+void Page::registerWithTouchDispatcher(void)
+{
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority, true);
 }

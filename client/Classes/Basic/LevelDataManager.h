@@ -10,7 +10,6 @@
 #define _LevelDataManager_H__
 
 #include "Basic.h"
-#include "json/json.h"
 
 class LevelDataManager
 {
@@ -25,11 +24,19 @@ public:
 		return m_pInstance;
 
 	}
+    
+    void reload();
+
+    stPage *getPage(int chapterId, int pageId);
 
     stPage *getNewPage(int chapterId);
     
+    stChapter *getChapter(int chapterId);
+
     bool isChapterEnd(int chapterId);
     
+    bool isLastPageOfChapter(int chapterId, int pageId);
+
     stBible m_stBible;
     
     template <class T> 

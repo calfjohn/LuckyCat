@@ -9,7 +9,7 @@ USING_NS_CC_EXT;
 #define PROPERTY_TITLE_DISABLED "title|3"
 #define PROPERTY_TITLECOLOR_NORMAL "titleColor|1"
 #define PROPERTY_TITLECOLOR_HIGHLIGHTED "titleColor|2"
-#define PROPERTY_TITLECOLOR_DISABLED "titleColor|3"
+#define PROPERTY_TITLECOLOR_DISABLED "titleColor|4"
 #define PROPERTY_TITLETTF_NORMAL "titleTTF|1"
 #define PROPERTY_TITLETTF_HIGHLIGHTED "titleTTF|2"
 #define PROPERTY_TITLETTF_DISABLED "titleTTF|3"
@@ -20,7 +20,7 @@ USING_NS_CC_EXT;
 #define PROPERTY_PREFEREDSIZE "preferedSize" // TODO Should be "preferredSize". This is a typo in cocos2d-iphone, cocos2d-x and CocosBuilder!
 #define PROPERTY_BACKGROUNDSPRITEFRAME_NORMAL "backgroundSpriteFrame|1"
 #define PROPERTY_BACKGROUNDSPRITEFRAME_HIGHLIGHTED "backgroundSpriteFrame|2"
-#define PROPERTY_BACKGROUNDSPRITEFRAME_DISABLED "backgroundSpriteFrame|3"
+#define PROPERTY_BACKGROUNDSPRITEFRAME_DISABLED "backgroundSpriteFrame|4"
 
 void CCControlButtonLoader::onHandlePropTypeCheck(CCNode * pNode, CCNode * pParent, CCString * pPropertyName, bool pCheck, CCBReader * pCCBReader) {
     if(pPropertyName->compare(PROPERTY_ZOOMONTOUCHDOWN) == 0) {

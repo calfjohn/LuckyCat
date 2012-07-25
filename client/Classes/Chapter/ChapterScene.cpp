@@ -7,8 +7,10 @@
 //
 
 #include "ChapterScene.h"
-#include "PageScene.h"
+#include "PageMapScene.h"
 #include "LevelDataManager.h"
+
+#include "BattleDefine.h"
 
 USING_NS_CC;
 
@@ -46,31 +48,44 @@ bool Chapter::init()
     pTitleLabel->setPosition(ccp(size.width/2, size.height - 20));
     this->addChild(pTitleLabel, 1);
     
-    CCSprite* pSprite = CCSprite::create("Default.png");
+    CCSprite* pSprite = CCSprite::create("image/common/1.png");
     pSprite->setPosition(ccp(size.width/2, size.height/2));
     this->addChild(pSprite, 0);
+    
+    CCSprite* pSprite2 = CCSprite::create("image/Chapter/0.png");
+    pSprite2->setPosition(ccp(size.width/2, size.height/2));
+    this->addChild(pSprite2, 0);
     
     CCMenu* pMenu = CCMenu::create();
     pMenu->setPosition(ccp(size.width/2, size.height/2));
     this->addChild(pMenu, 1, TAG_MENU);
     
+    string strName;
+    string strNameSelect;
+    string strNameDisable;
     bool bEnable = true;
-    CCMenuItemFont *pChapterItem;
+    CCMenuItemImage *pChapterItem;
     vector<stChapter>::iterator iterTemp;
     for (iterTemp = LevelDataManager::shareLevelDataManager()->m_stBible.listChapter.begin();
          iterTemp != LevelDataManager::shareLevelDataManager()->m_stBible.listChapter.end();
          iterTemp++) 
     {
-        pChapterItem = CCMenuItemFont::create((*iterTemp).name.c_str(), this, menu_selector(Chapter::menuChapterCallback));
+        strName = "image/Chapter/" + LevelDataManager::shareLevelDataManager()->ConvertToString((*iterTemp).id) + ".png";
+        strNameSelect = "image/Chapter/" + LevelDataManager::shareLevelDataManager()->ConvertToString((*iterTemp).id) + LevelDataManager::shareLevelDataManager()->ConvertToString((*iterTemp).id) + ".png";
+        strNameDisable = "image/Chapter/" + LevelDataManager::shareLevelDataManager()->ConvertToString((*iterTemp).id) + LevelDataManager::shareLevelDataManager()->ConvertToString((*iterTemp).id) + LevelDataManager::shareLevelDataManager()->ConvertToString((*iterTemp).id) +".png";
+        
+        pChapterItem = CCMenuItemImage::create(strName.c_str(), strNameSelect.c_str(), strNameDisable.c_str(), this, menu_selector(Chapter::menuChapterCallback));
+        pChapterItem->setPosition((*iterTemp).position);
         pChapterItem->setEnabled(bEnable);
         pMenu->addChild(pChapterItem, 0, (*iterTemp).id);
         bEnable = LevelDataManager::shareLevelDataManager()->isChapterEnd((*iterTemp).id);
     }
     
-    pMenu->alignItemsVerticallyWithPadding(20);
+    //pMenu->alignItemsVerticallyWithPadding(20);
     
-    CCMenuItemFont *pBackItem = CCMenuItemFont::create("返回", this, menu_selector(Chapter::menuBackCallback));
-    pBackItem->setPosition(ccp(size.width/2 - 30,-size.height/2 + 20));
+    CCMenuItemImage *pBackItem = CCMenuItemImage::create("image/common/2.png", "image/common/22.png", "image/common/22.png", this, menu_selector(Chapter::menuBackCallback));    
+    pBackItem->setScale(0.5);
+    pBackItem->setPosition(ccp(size.width/2 - 30, size.height/2 - 20));
     pMenu->addChild(pBackItem);
     
     return true;
@@ -91,8 +106,9 @@ void Chapter::menuChapterCallback(CCObject* pSender)
         return;
     }
     
-    CCScene *pScene = Page::scene(pNode->getTag(), pPage);
-    CCDirector::sharedDirector()->pushScene(pScene);
+    CCScene *pScene = PageMap::scene(pNode->getTag());
+    CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
+    CCDirector::sharedDirector()->pushScene(pTp);
 }
 
 void Chapter::onEnter()
@@ -105,7 +121,7 @@ void Chapter::onEnter()
          iterTemp != LevelDataManager::shareLevelDataManager()->m_stBible.listChapter.end();
          iterTemp++) 
     {
-        CCMenuItemFont *pAttackItem = (CCMenuItemFont *)getChildByTag(TAG_MENU)->getChildByTag((*iterTemp).id);
+        CCMenuItemImage *pAttackItem = (CCMenuItemImage *)getChildByTag(TAG_MENU)->getChildByTag((*iterTemp).id);
         pAttackItem->setEnabled(bEnable);
         bEnable = LevelDataManager::shareLevelDataManager()->isChapterEnd((*iterTemp).id);
     }
