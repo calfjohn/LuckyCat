@@ -1,8 +1,12 @@
 require("./Class");
 require("./Log");
 
-var log = new Log("DBAgent");
+var log     = new Log("DBAgent")
+    , util  = require("util");
 
+var cbDefault = function () {
+    log.d("createDatabase return:", arguments);
+}
 /**
  * <p>
  *     The class is an agent for database query.<br/>
@@ -45,6 +49,15 @@ DBAgent = Class.extend({/** @lends DBAgent */
         return this;
     },
 
+    close: function() {
+        if (null != this._connection) {
+            this._connection.end();
+            this._connection = null;
+        } else {
+            log.w("function close call when connection is null.");
+        }
+    },
+
     query: function(sqlCmd, sqlParams, callback) {
         if (arguments.length < 2 || arguments.length > 3 || typeof sqlCmd != "string") {
             throw new Error("function query receive error arguments!!");
@@ -60,38 +73,45 @@ DBAgent = Class.extend({/** @lends DBAgent */
         this._connection.query(sqlCmd, sqlParams, callback);
     },
 
-    close: function() {
-        if (null != this._connection) {
-            this._connection.end();
-            this._connection = null;
-        } else {
-            log.w("function close call when connection is null.");
+    createDatabase: function(dbName, bReCreateIfExist, callback) {
+        if (null == this._config) {
+            throw new Error("Have not set config!");
+            return;
         }
+        var name = this._config["database"];
+        if (null != name) {
+            throw new Error("Has set database in config, can't create a new one.");
+            return;
+        }
+        var reCreate = false;
+        var cb = cbDefault;
+        for (var i = 0; i < arguments.length; ++i) {
+            var arg = arguments[i];
+            switch (typeof arg) {
+                case "string"   :
+                    if (name && name != arg)
+                    {
+                        throw new Error("database name conflict with config.")
+                    } else {
+                        name = arg;
+                        this._config["database"] = name;
+                    }
+                    break;
+                case "boolean"  : reCreate = arg; break;
+                case "function" : cb = arg; break;
+                default: throw new Error("Invalid arguments");
+            }
+        }
+        if (null == name) {
+            throw new Error("Invalid database name argument");
+            return;
+        }
+        var sqlCmds = [];
+        if (reCreate) {
+            sqlCmds[sqlCmds.length] = util.format("DROP DATABASE IF EXISTS %s", name);
+        }
+        sqlCmds[sqlCmds.length] = util.format("CREATE DATABASE IF NOT EXISTS %s", name);
+
+        this._connection.query(sqlCmds.join(";"), cb);
     }
 });
-/*
-function DBAgentQuery(response) {
-    if (typeof (_connection) === "undefined") {
-        _connection = {
-
-        });
-    }
-        _connection.query("SELECT * FROM city", function(result, rows) {
-        if (result) {
-            console.log("sql query error occoured!");
-        } else {
-            console.log("sql query success!\n");
-            response.writeHead(200, {'Content-Type': "text/plain"});
-            for(var i=0; i<rows.length; i++){
-                response.write("{")
-                for (key in rows[i]) {
-                    response.write("    " + key + " : "+ rows[i][key]);
-                }
-                response.write("    }\n");
-            }
-
-            response.end("\n");
-        }
-    });
-}
-*/
