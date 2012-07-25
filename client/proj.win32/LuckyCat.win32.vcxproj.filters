@@ -13,13 +13,25 @@
       <UniqueIdentifier>{c9bbab6c-9087-483c-bcb4-bcc80ae2662c}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;jpg;jpeg;jpe;png;manifest</Extensions>
     </Filter>
-    <Filter Include="third-party">
+    <Filter Include="source\Main">
+      <UniqueIdentifier>{c9721fbb-2a43-45fe-a40e-01c384fc8eef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Chapter">
+      <UniqueIdentifier>{081243f8-7647-4017-82d8-e4b9875696c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Page">
+      <UniqueIdentifier>{49a4d97f-1662-4679-a71d-7030cc5874fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Basic">
+      <UniqueIdentifier>{8b387379-aa99-4acd-889e-e98065d6120b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\third-party">
       <UniqueIdentifier>{f9e52e16-ba5e-48d0-b908-267969c9dcc7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="third-party\jsoncpp">
+    <Filter Include="source\third-party\jsoncpp">
       <UniqueIdentifier>{af6b7c48-e1cc-44d4-a218-d9b6dab5ee70}</UniqueIdentifier>
     </Filter>
-    <Filter Include="third-party\cppsqlite">
+    <Filter Include="source\third-party\cppsqlite">
       <UniqueIdentifier>{6c1d6c42-6b4a-4ecd-9593-701791b1dcf5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -46,16 +58,16 @@
       <Filter>resource</Filter>
     </None>
     <None Include="..\libs\jsoncpp\src\lib_json\sconscript">
-      <Filter>third-party\jsoncpp</Filter>
+      <Filter>source\third-party\jsoncpp</Filter>
     </None>
     <None Include="..\libs\jsoncpp\src\lib_json\json_internalarray.inl">
-      <Filter>third-party\jsoncpp</Filter>
+      <Filter>source\third-party\jsoncpp</Filter>
     </None>
     <None Include="..\libs\jsoncpp\src\lib_json\json_internalmap.inl">
-      <Filter>third-party\jsoncpp</Filter>
+      <Filter>source\third-party\jsoncpp</Filter>
     </None>
     <None Include="..\libs\jsoncpp\src\lib_json\json_valueiterator.inl">
-      <Filter>third-party\jsoncpp</Filter>
+      <Filter>source\third-party\jsoncpp</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -77,7 +89,22 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\libs\jsoncpp\src\lib_json\json_batchallocator.h">
-      <Filter>third-party\jsoncpp</Filter>
+      <Filter>source\third-party\jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Main\CoverScene.h">
+      <Filter>source\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Chapter\ChapterScene.h">
+      <Filter>source\Chapter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Page\PageScene.h">
+      <Filter>source\Page</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Basic\Basic.h">
+      <Filter>source\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Basic\LevelDataManager.h">
+      <Filter>source\Basic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -91,16 +118,28 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="..\libs\cppsqlite\CppSQLite3.cpp">
-      <Filter>third-party\cppsqlite</Filter>
+      <Filter>source\third-party\cppsqlite</Filter>
     </ClCompile>
     <ClCompile Include="..\libs\jsoncpp\src\lib_json\json_reader.cpp">
-      <Filter>third-party\jsoncpp</Filter>
+      <Filter>source\third-party\jsoncpp</Filter>
     </ClCompile>
     <ClCompile Include="..\libs\jsoncpp\src\lib_json\json_value.cpp">
-      <Filter>third-party\jsoncpp</Filter>
+      <Filter>source\third-party\jsoncpp</Filter>
     </ClCompile>
     <ClCompile Include="..\libs\jsoncpp\src\lib_json\json_writer.cpp">
-      <Filter>third-party\jsoncpp</Filter>
+      <Filter>source\third-party\jsoncpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Main\CoverScene.cpp">
+      <Filter>source\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Chapter\ChapterScene.cpp">
+      <Filter>source\Chapter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Page\PageScene.cpp">
+      <Filter>source\Page</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Basic\LevelDataManager.cpp">
+      <Filter>source\Basic</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

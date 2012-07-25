@@ -10,6 +10,7 @@
 #define HelloWorld_MonsterBattleView_h
 
 #include "cocos2d.h"
+#include "Basic.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -23,13 +24,18 @@ public:
     
     virtual void onEnter();
     
-    void initLayer(int monsterId, CCObject *target, SEL_CallFuncND pfnSelector);
+    void initLayer(stPage *p_page, CCObject *target, SEL_CallFuncND pfnSelector);
     
     void fightAction();
     
     CCFiniteTimeAction * createSequece(unsigned int action_id);
     
     void playAction();
+    
+    //是否在战斗中
+    static bool getIsInBattle();
+    
+    static void setIsInBattle(bool _b_state);
     
 private:
     CCSprite *pMonsterSprite;
@@ -39,6 +45,9 @@ private:
     CCObject*       m_target;         //callback listener
     
     SEL_CallFuncND  m_pfnSelector;    //callback selector
+    
+    stPage *p_pPage;
+    
 };
 
 #endif

@@ -46,6 +46,8 @@ bool Page::init()
 {
     CCLayer::init();
 
+    this->setTouchEnabled(true);
+    
     m_pPage = NULL;
     return true;
 }
@@ -112,6 +114,7 @@ void Page::turnToPage(int chapterId, stPage *pPage)
         string tempName = "image/monster/" + LevelDataManager::shareLevelDataManager()->ConvertToString(pMonster->image_id) + ".png";
         CCSprite *tempSprite = CCSprite::create(tempName.c_str());
         tempSprite->setPosition(ccp(size.width/2, size.height/2 - 150));
+        tempSprite->setScale(0.35f);
         this->addChild(tempSprite, 1);
         
         m_monster = CCLabelTTF::create(pMonster->name.c_str(), "Arial", 28);
@@ -135,9 +138,27 @@ void Page::menuAttackCallback(CCObject* pSender)
 
 void Page::showBattleView(CCObject *pSender)
 {
-    MonsterBattleView *pMonter = MonsterBattleView::create();
-    pMonter->initLayer(m_pPage->monsterId, this, callfuncND_selector(Page::fightCallback));
-    CCDirector::sharedDirector()->getRunningScene()->addChild(pMonter, 0, TAG_BATTLE_LAYER);
+    if ( LevelDataManager::shareLevelDataManager()->isLastPageOfChapter(m_nChapterId, m_pPage->id) )
+    {
+        if ( m_pPage->state == 0 )
+        {
+            if ( BossBattleView::getIsInBattle() == false )
+            {
+                BossBattleView *pBoss = BossBattleView::create();
+                pBoss->initLayer(m_pPage, this, callfuncND_selector(Page::fightCallback));
+                CCDirector::sharedDirector()->getRunningScene()->addChild(pBoss, 0, TAG_BATTLE_LAYER);
+            }
+        }
+    }
+    else
+    {
+        if ( MonsterBattleView::getIsInBattle() == false )
+        {
+            MonsterBattleView *pMonter = MonsterBattleView::create();
+            pMonter->initLayer(m_pPage, this, callfuncND_selector(Page::fightCallback));
+            CCDirector::sharedDirector()->getRunningScene()->addChild(pMonter, 0, TAG_BATTLE_LAYER);
+        }
+    }
 }
 
 void Page::fightCallback(CCNode* pNode, void* data)
@@ -178,3 +199,36 @@ void Page::fightCallback(CCNode* pNode, void* data)
 //        pNextItem->setEnabled(!LevelDataManager::shareLevelDataManager()->isLastPageOfChapter(m_nChapterId, m_pPage->id));
 //    }
 //}
+
+bool Page::ccTouchBegan(cocos2d::CCTouch* touch, cocos2d::CCEvent *pEvent)
+{
+    if ( !touch) return false;
+    
+    pBeginPoint = this->convertTouchToNodeSpace(touch);
+    
+    return true;
+}
+
+void Page::ccTouchMoved(cocos2d::CCTouch* touch, cocos2d::CCEvent *pEvent)
+{
+    
+}
+
+void Page::ccTouchEnded(cocos2d::CCTouch* touch, cocos2d::CCEvent *pEvent)
+{
+    if ( !touch ) return;
+    CCPoint endPoint = this->convertTouchToNodeSpace(touch);
+    
+    CCFloat distance_ = ccpDistanceSQ(endPoint, pBeginPoint);
+    
+    if (distance_ > 2.0f)
+    {
+        //触发随机事件
+        this->menuAttackCallback(NULL);
+    }
+}
+
+void Page::registerWithTouchDispatcher(void)
+{
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority, true);
+}
