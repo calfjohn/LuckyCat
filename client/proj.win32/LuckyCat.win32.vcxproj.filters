@@ -34,6 +34,9 @@
     <Filter Include="source\third-party\cppsqlite">
       <UniqueIdentifier>{6c1d6c42-6b4a-4ecd-9593-701791b1dcf5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="source\Battle">
+      <UniqueIdentifier>{9c87d537-9e68-4e8b-814a-ed20320217ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\LuckyCat.ico">
@@ -106,6 +109,21 @@
     <ClInclude Include="..\Classes\Basic\LevelDataManager.h">
       <Filter>source\Basic</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Basic\DictDataManager.h">
+      <Filter>source\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Battle\BattleDefine.h">
+      <Filter>source\Battle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Battle\BossBattleView.h">
+      <Filter>source\Battle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Battle\MonsterBattleView.h">
+      <Filter>source\Battle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Page\PageMapScene.h">
+      <Filter>source\Page</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -140,6 +158,18 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Basic\LevelDataManager.cpp">
       <Filter>source\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Basic\DictDataManager.cpp">
+      <Filter>source\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Battle\BossBattleView.cpp">
+      <Filter>source\Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Battle\MonsterBattleView.cpp">
+      <Filter>source\Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Page\PageMapScene.cpp">
+      <Filter>source\Page</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

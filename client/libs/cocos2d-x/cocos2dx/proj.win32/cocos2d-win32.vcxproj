@@ -201,6 +201,8 @@ xcopy /Y /Q "$(SolutionDir)cocos2dx\platform\third_party\win32\libraries\*.*" "$
     <ClCompile Include="..\extensions\CCNotificationCenter\CCNotificationCenter.cpp" />
     <ClCompile Include="..\extensions\CCScrollView\CCScrollView.cpp" />
     <ClCompile Include="..\extensions\CCTextureWatcher\CCTextureWatcher.cpp" />
+    <ClCompile Include="..\extensions\CCTouchPageTurn\CCTouchPageTurn.cpp" />
+    <ClCompile Include="..\extensions\CCTouchPageTurn\CCTouchPageTurn3D.cpp" />
     <ClCompile Include="..\kazmath\src\aabb.c" />
     <ClCompile Include="..\kazmath\src\GL\mat4stack.c" />
     <ClCompile Include="..\kazmath\src\GL\matrix.c" />
@@ -360,6 +362,8 @@ xcopy /Y /Q "$(SolutionDir)cocos2dx\platform\third_party\win32\libraries\*.*" "$
     <ClInclude Include="..\extensions\CCNotificationCenter\CCNotificationCenter.h" />
     <ClInclude Include="..\extensions\CCScrollView\CCScrollView.h" />
     <ClInclude Include="..\extensions\CCTextureWatcher\CCTextureWatcher.h" />
+    <ClInclude Include="..\extensions\CCTouchPageTurn\CCTouchPageTurn.h" />
+    <ClInclude Include="..\extensions\CCTouchPageTurn\CCTouchPageTurn3D.h" />
     <ClInclude Include="..\include\ccConfig.h" />
     <ClInclude Include="..\include\CCEventType.h" />
     <ClInclude Include="..\include\ccMacros.h" />
