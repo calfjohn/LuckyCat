@@ -17,9 +17,9 @@ var cbDefault = function () {
  * @extends Class
  */
 DBAgent = Class.extend({/** @lends DBAgent */
-    _connection:null,                   getConnection: function() { return _connection; },
-    _config:     null,                  getConfig: function() { return _config;},
-
+    _connection:null,                   getConnection: function() { return this._connection; },
+    _config:     null,                  getConfig: function() { return this._config;},
+    _database:  null,
     /**
      * Initializes a connection to database use specific config.
      * @param dbConfig
@@ -42,10 +42,21 @@ DBAgent = Class.extend({/** @lends DBAgent */
         this._config = dbConfig;
     },
 
-    connect: function() {
-        if (null == this._connection) {
+    connect: function(bCertainExisting) {
+        do {
+            if (this._connection) break;    // has establish connection yet
+            if (this._config == null) throw new Error("Hasn't set database config yet.");
+            // if database bCertainExisting, needn't call createDatabase to create it
+            if (arguments.length != 1 || bCertainExisting === false) {
+                // split database name in to other member
+                var dbName = this._config["database"];
+                if (dbName != undefined) {
+                    delete this._config["database"];
+                }
+                this._database = dbName;
+            }
             this._connection = require("mysql").createClient(this._config);
-        }
+        } while (false);
         return this;
     },
 
@@ -74,44 +85,38 @@ DBAgent = Class.extend({/** @lends DBAgent */
     },
 
     createDatabase: function(dbName, bReCreateIfExist, callback) {
-        if (null == this._config) {
-            throw new Error("Have not set config!");
-            return;
-        }
-        var name = this._config["database"];
-        if (null != name) {
-            throw new Error("Has set database in config, can't create a new one.");
-            return;
-        }
+        var name = this._database;
         var reCreate = false;
         var cb = cbDefault;
         for (var i = 0; i < arguments.length; ++i) {
             var arg = arguments[i];
             switch (typeof arg) {
-                case "string"   :
-                    if (name && name != arg)
-                    {
-                        throw new Error("database name conflict with config.")
-                    } else {
-                        name = arg;
-                        this._config["database"] = name;
-                    }
-                    break;
-                case "boolean"  : reCreate = arg; break;
-                case "function" : cb = arg; break;
+                case "string"   : name = arg;       break;
+                case "boolean"  : reCreate = arg;   break;
+                case "function" : cb = arg;         break;
                 default: throw new Error("Invalid arguments");
             }
         }
         if (null == name) {
             throw new Error("Invalid database name argument");
             return;
+        } else {
+            this._database = name;  // save the database name
         }
         var sqlCmds = [];
         if (reCreate) {
-            sqlCmds[sqlCmds.length] = util.format("DROP DATABASE IF EXISTS %s", name);
+            sqlCmds[sqlCmds.length] = util.format("DROP DATABASE IF EXISTS `%s`", name);
         }
-        sqlCmds[sqlCmds.length] = util.format("CREATE DATABASE IF NOT EXISTS %s", name);
+        sqlCmds[sqlCmds.length] = util.format("CREATE DATABASE IF NOT EXISTS `%s`", name);
 
-        this._connection.query(sqlCmds.join(";"), cb);
+        var conn = this._connection;
+        conn.query(sqlCmds.join(";"), function (err) {
+            if (err) {
+                cb.call(arguments);
+            } else {
+                // create database successful, use it.
+                conn.query(util.format("USE `%s`", name), cb);
+            }
+        });
     }
 });
