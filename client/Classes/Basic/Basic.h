@@ -32,6 +32,8 @@ typedef struct
     cocos2d::CCPoint postion;   //position on page map
     int monsterId;      //monster id assosiate with monster_dict table in database
     int state;          //fight result 0:new 1:success 2: failed
+    int taskId;         //task id about this page
+    std::string image;  //the background of page
 }stPage;
 
 //a chapter consist lot of page

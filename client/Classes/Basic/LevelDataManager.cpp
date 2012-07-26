@@ -152,6 +152,7 @@ stChapter *LevelDataManager::getChapter(int chapterId)
             return &(*iterTemp);
         }
     }
+    return NULL;
 }
 
 stPage *LevelDataManager::getPage(int chapterId, int pageId)

@@ -77,7 +77,7 @@ void BossBattleView::initLayer(stPage *page, CCObject *target, SEL_CallFuncND pf
     pProgressBoss->setMidpoint(ccp(0.0f, 0.5f));
     pProgressBoss->setPercentage(100);
     pProgressBoss->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height- 50));
-    pProgressBoss->setColor(ccGRAY);
+    //pProgressBoss->setColor(ccGRAY);
     this->addChild(pProgressBoss,3);
     pProgressBoss->setTag(TAG_MONSTER_PLINE);
     
