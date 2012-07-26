@@ -110,11 +110,13 @@ DBAgent = Class.extend({/** @lends DBAgent */
         sqlCmds[sqlCmds.length] = util.format("CREATE DATABASE IF NOT EXISTS `%s`", name);
 
         var conn = this._connection;
+        var config = this._config;
         conn.query(sqlCmds.join(";"), function (err) {
             if (err) {
                 cb.call(arguments);
             } else {
                 // create database successful, use it.
+                config["database"] = name;
                 conn.query(util.format("USE `%s`", name), cb);
             }
         });

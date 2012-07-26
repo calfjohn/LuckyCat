@@ -7,5 +7,6 @@ module.exports = {
                ,   user       : "root"
                ,   password   : "99092026"
                ,   database   : "db_luckycat"
-    }
+    },
+    reCreateDB : true
 }
