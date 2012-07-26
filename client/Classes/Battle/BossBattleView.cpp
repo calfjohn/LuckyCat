@@ -30,7 +30,7 @@ void BossBattleView::initLayer(stPage *page, CCObject *target, SEL_CallFuncND pf
     this->setTouchEnabled(true);
     
     p_Boss = new GRole();
-    p_Boss->roleID = p_pPage->monsterId;
+    p_Boss->roleID = 1;
     p_Boss->setMaxHp(300);
     
     mPlayerList.clear();
@@ -55,7 +55,7 @@ void BossBattleView::initLayer(stPage *page, CCObject *target, SEL_CallFuncND pf
     this->addChild(titleLabel);
     
     string tempName;
-    const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(p_pPage->monsterId);
+    const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(1);
     tempName = "image/monster/" + LevelDataManager::shareLevelDataManager()->ConvertToString(pMonster->image_id) + ".png";
     CCSprite *_pMonsterSprite = CCSprite::create(tempName.c_str());
     _pMonsterSprite->setPosition(CCPointMake(screanSize.width*0.5f, 260));

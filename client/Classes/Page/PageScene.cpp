@@ -81,7 +81,7 @@ void Page::turnToPage(int chapterId, stPage *pPage)
     pBackItem->setPosition(ccp(size.width - 30, size.height - 20));
     pMenu->addChild(pBackItem);
     
-    m_tips = CCLabelTTF::create(m_pPage->state && LevelDataManager::shareLevelDataManager()->isLastPageOfChapter(m_nChapterId, m_pPage->id) ? "End of Chapter" : "", "Arial", 28);
+    m_tips = CCLabelTTF::create(m_pPage->state && m_pPage->end ? "End of Chapter" : "", "Arial", 28);
     m_tips->setPosition(ccp(size.width/2, size.height/2 + 150));
     m_tips->setColor(ccRED);
     this->addChild(m_tips, 1);
@@ -108,7 +108,7 @@ void Page::turnToPage(int chapterId, stPage *pPage)
     //    CCMenuItemFont *pNextItem = CCMenuItemFont::create("Next", this, menu_selector(Page::menuNextCallback));
     //    pMenu->addChild(pNextItem, 0, TAG_NEXT);
     
-    const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(pPage->monsterId);
+    const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(1);
     if (pMonster) 
     {
         string tempName = "image/monster/" + LevelDataManager::shareLevelDataManager()->ConvertToString(pMonster->image_id) + ".png";
@@ -132,13 +132,13 @@ void Page::menuAttackCallback(CCObject* pSender)
 
     m_pPage->state = 1;
 //    m_state->setString(m_pPage->state ? "success": "");
-    m_tips->setString(m_pPage->state && LevelDataManager::shareLevelDataManager()->isLastPageOfChapter(m_nChapterId, m_pPage->id) ? "End of Chapter" : "");
+    m_tips->setString(m_pPage->state && m_pPage->end ? "End of Chapter" : "");
     //    adjustPageItem();
 }
 
 void Page::showBattleView(CCObject *pSender)
 {
-    if ( LevelDataManager::shareLevelDataManager()->isLastPageOfChapter(m_nChapterId, m_pPage->id) )
+    if ( m_pPage->end )
     {
         if ( m_pPage->state == 0 )
         {
@@ -196,7 +196,7 @@ void Page::fightCallback(CCNode* pNode, void* data)
 //        pAttackItem->setPosition(ccp(size.width - 150, 50));
 //        
 //        pNextItem->setVisible(true);
-//        pNextItem->setEnabled(!LevelDataManager::shareLevelDataManager()->isLastPageOfChapter(m_nChapterId, m_pPage->id));
+//        pNextItem->setEnabled(!m_pPage->end);
 //    }
 //}
 

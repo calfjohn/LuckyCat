@@ -35,7 +35,7 @@ CCScene* Cover::scene()
 // on "init" you need to initialize your instance
 bool Cover::init()
 {
-    CCLayer::init();
+    CCTouchPageTurn::init();
 
     CCSize size = CCDirector::sharedDirector()->getWinSize();
 
@@ -61,6 +61,8 @@ bool Cover::init()
     CCSprite* pSprite = CCSprite::create("image/common/1.png");
     pSprite->setPosition(ccp(size.width/2, size.height/2));
     this->addChild(pSprite, 0);
+    
+    this->setTouchEnabled(true);
 
     return true;
 }
@@ -78,7 +80,7 @@ void Cover::menuBookCallback(CCObject* pSender)
     CCScene *pScene = Chapter::scene();
     
     CCDirector::sharedDirector()->setDepthTest(true);
-    CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(1.2f, pScene, false);
+    CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
     
     CCDirector::sharedDirector()->pushScene(pTp);
 }
@@ -90,5 +92,10 @@ void Cover::menuCardCallback(CCObject* pSender)
 void Cover::menuOptionCallback(CCObject* pSender)
 {
     LevelDataManager::shareLevelDataManager()->reload();
+}
+
+void Cover::registerWithTouchDispatcher()
+{
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, false);
 }
 

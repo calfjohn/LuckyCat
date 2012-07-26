@@ -27,9 +27,25 @@ DictDataManager::~DictDataManager( void )
 
 void DictDataManager::init( void )
 {
+/*   string strFullPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath("config/LuckyCat.db");
+
+    CppSQLite3DB db;
+    db.open(strFullPath.c_str());
+	if (!db.isOpen())
+	{
+		return;
+	}
+
+    CppSQLite3Query q3 = db.execQuery("select * from monster;");
+    while(!q3.eof())
+    {
+        q3.nextRow();
+    }
+    
+    db.close();
+*/
     string strFullPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath("config/monster");
     unsigned long nSize = 0;
-//    strFullPath = "/Users/cocos2d/Library/Application Support/iPhone Simulator/5.1/Applications/1A03B516-08FF-43DE-9AD4-586435D16DBD/HelloWorld.app/config/monster";
     const char* pBuffer = (const char *)CCFileUtils::sharedFileUtils()->getFileData(strFullPath.c_str(), "rb", &nSize);
     
 	Json::Reader reader;
@@ -56,7 +72,6 @@ void DictDataManager::init( void )
         
         m_mapMonster[tempMonster.id] = tempMonster;
     }
-    
 }
 
 const stMonster *DictDataManager::getMonsterImageId(int monsterId)
