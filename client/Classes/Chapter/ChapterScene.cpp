@@ -44,7 +44,8 @@ bool Chapter::init()
 
     CCSize size = CCDirector::sharedDirector()->getWinSize();
 
-    CCLabelTTF *pTitleLabel = CCLabelTTF::create(LevelDataManager::shareLevelDataManager()->m_stBible.name.c_str(), "Arial", 28);
+    const stBible *pBible = LevelDataManager::shareLevelDataManager()->getBible();
+    CCLabelTTF *pTitleLabel = CCLabelTTF::create(pBible->name.c_str(), "Arial", 28);
     pTitleLabel->setPosition(ccp(size.width/2, size.height - 20));
     this->addChild(pTitleLabel, 1);
     
@@ -65,9 +66,9 @@ bool Chapter::init()
     string strNameDisable;
     bool bEnable = true;
     CCMenuItemImage *pChapterItem;
-    vector<stChapter>::iterator iterTemp;
-    for (iterTemp = LevelDataManager::shareLevelDataManager()->m_stBible.listChapter.begin();
-         iterTemp != LevelDataManager::shareLevelDataManager()->m_stBible.listChapter.end();
+    vector<stChapter>::const_iterator iterTemp;
+    for (iterTemp = pBible->listChapter.begin();
+         iterTemp != pBible->listChapter.end();
          iterTemp++) 
     {
         strName = "image/Chapter/" + LevelDataManager::shareLevelDataManager()->ConvertToString((*iterTemp).id) + ".png";
@@ -116,9 +117,10 @@ void Chapter::onEnter()
     CCLayer::onEnter();
 
     bool bEnable = true;
-    vector<stChapter>::iterator iterTemp;
-    for (iterTemp = LevelDataManager::shareLevelDataManager()->m_stBible.listChapter.begin();
-         iterTemp != LevelDataManager::shareLevelDataManager()->m_stBible.listChapter.end();
+    vector<stChapter>::const_iterator iterTemp;
+    const stBible *pBible = LevelDataManager::shareLevelDataManager()->getBible();
+    for (iterTemp = pBible->listChapter.begin();
+         iterTemp != pBible->listChapter.end();
          iterTemp++) 
     {
         CCMenuItemImage *pAttackItem = (CCMenuItemImage *)getChildByTag(TAG_MENU)->getChildByTag((*iterTemp).id);

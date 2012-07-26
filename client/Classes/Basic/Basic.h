@@ -29,11 +29,13 @@ typedef struct
     int id;             //index of page
     string name;        //page's title
     string content;     //page's content
-    cocos2d::CCPoint postion;   //position on page map
-    int monsterId;      //monster id assosiate with monster_dict table in database
+    int imageId;        //page's image
+    int taskId;         //page's task
+    cocos2d::CCPoint position;   //position on page map
     int state;          //fight result 0:new 1:success 2: failed
     int taskId;         //task id about this page
     std::string image;  //the background of page
+    bool end;           //is last page of chapter
 }stPage;
 
 //a chapter consist lot of page
@@ -43,23 +45,18 @@ typedef struct
     string name;        //chapter's title
     cocos2d::CCPoint position;   //position on chapter scene
     vector<stPage> listPage;    //a set of pages in chapter
+    bool finish;           //is all page finished
 }stChapter;
 
 //a bible consist lot of stChapter
 typedef struct
 {
-    int id;
-    string name;
-    vector<stChapter> listChapter;
-}stBibleInstance;
-
-//a bible consist lot of stChapter
-typedef struct
-{
-    string name;
+    int id;                         //index of bible
+    string name;                    //bible name
+    int bgId;                       //bible background image
+    int chapterBgId;                //chapter background image
     vector<stChapter> listChapter;
 }stBible;
-
 
 typedef struct
 {

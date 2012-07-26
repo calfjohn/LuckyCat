@@ -10,8 +10,9 @@
 #define __Cover_SCENE_H__
 
 #include "cocos2d.h"
+#include "extensions/CCTouchPageTurn/CCTouchPageTurn.h"
 
-class Cover : public cocos2d::CCLayer
+class Cover : public cocos2d::extension::CCTouchPageTurn
 {
 public:
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
@@ -20,13 +21,15 @@ public:
     // there's no 'id' in cpp, so we recommand to return the exactly class pointer
     static cocos2d::CCScene* scene();
     
+    virtual void registerWithTouchDispatcher(void);
+
     // a selector callback
     void menuDaggerCallback(CCObject* pSender);
     void menuMagicCallback(CCObject* pSender);
     void menuBookCallback(CCObject* pSender);
     void menuCardCallback(CCObject* pSender);
     void menuOptionCallback(CCObject* pSender);
-
+    
     // implement the "static node()" method manually
     LAYER_CREATE_FUNC(Cover);
 };

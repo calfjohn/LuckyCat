@@ -43,7 +43,7 @@ void MonsterBattleView::initLayer(stPage *p_page, CCObject *target, SEL_CallFunc
     this->addChild(titleLabel);
     
     string tempName;
-    const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(p_pPage->monsterId);
+    const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(1);
     tempName = "image/monster/" + LevelDataManager::shareLevelDataManager()->ConvertToString(pMonster->image_id) + ".png";
     CCSprite *_pMonsterSprite = CCSprite::create(tempName.c_str());
     _pMonsterSprite->setPosition(CCPointMake(screanSize.width*0.5f, 260));
