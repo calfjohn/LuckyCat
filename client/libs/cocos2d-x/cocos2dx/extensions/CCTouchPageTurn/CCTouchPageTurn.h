@@ -14,7 +14,7 @@
 
 NS_CC_EXT_BEGIN
 
-class CCTouchPageTurn : public cocos2d::CCLayer
+class CC_DLL CCTouchPageTurn : public cocos2d::CCLayer
 {
 public:
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone

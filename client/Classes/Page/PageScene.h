@@ -51,7 +51,7 @@ protected:
     int m_nChapterId;
     stPage *m_pPage;
     
-    cocos2d::CCPoint::CCPoint pBeginPoint;
+    cocos2d::CCPoint pBeginPoint;
     
 };
 
