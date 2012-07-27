@@ -12,7 +12,7 @@
 static const float ACTION_INTERVAL_TIME    = 0.25f;
 
 //翻页所用时间
-#define TRANSITION_PAGE_INTERVAL_TIME    3.0f
+#define TRANSITION_PAGE_INTERVAL_TIME    1.0f
 
 static const int TAG_MONSTER_SPRITE      = 9;
 static const int TAG_LABEL_DES           = 10;

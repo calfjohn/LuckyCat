@@ -33,7 +33,6 @@ typedef struct
     int taskId;         //page's task
     cocos2d::CCPoint position;   //position on page map
     int state;          //fight result 0:new 1:success 2: failed
-    int taskId;         //task id about this page
     std::string image;  //the background of page
     bool end;           //is last page of chapter
 }stPage;

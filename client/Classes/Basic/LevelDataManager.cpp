@@ -27,7 +27,7 @@ LevelDataManager::~LevelDataManager( void )
 
 void LevelDataManager::init( void )
 {
-    string strFullPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath("config/LuckyCat.db");
+    string strFullPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath("config/LuckyCat.sqlite");
     CppSQLite3DB db;
     db.open(strFullPath.c_str());
 	if (!db.isOpen())

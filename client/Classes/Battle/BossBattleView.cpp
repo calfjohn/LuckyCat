@@ -72,7 +72,7 @@ void BossBattleView::initLayer(stPage *page, CCObject *target, SEL_CallFuncND pf
     dscLabel->setVisible(false);
     
     
-    CCProgressTimer *pProgressBoss = CCProgressTimer::create(CCSprite::create("extensions/sliderProgress.png"));
+    CCProgressTimer *pProgressBoss = CCProgressTimer::create(CCSprite::create("image/extensions/sliderProgress.png"));
     pProgressBoss->setType(kCCProgressTimerTypeBar);
     pProgressBoss->setMidpoint(ccp(0.0f, 0.5f));
     pProgressBoss->setPercentage(100);
@@ -90,7 +90,7 @@ void BossBattleView::initLayer(stPage *page, CCObject *target, SEL_CallFuncND pf
     this->addChild(_pPlayerSprite);
     _pPlayerSprite->setTag(TAG_PLAYER_SPRITE);
     
-    CCProgressTimer *pProgressPlayer = CCProgressTimer::create(CCSprite::create("extensions/sliderProgress.png"));
+    CCProgressTimer *pProgressPlayer = CCProgressTimer::create(CCSprite::create("image/extensions/sliderProgress.png"));
     pProgressPlayer->setType(kCCProgressTimerTypeBar);
     pProgressPlayer->setMidpoint(ccp(0.0f, 0.5f));
     pProgressPlayer->setPercentage(100);

@@ -11,6 +11,7 @@
 #include "BossBattleView.h"
 #include "BattleDefine.h"
 #include "DictDataManager.h"
+#include "TaskDataManager.h"
 
 USING_NS_CC;
 
@@ -65,6 +66,11 @@ void Page::turnToPage(int chapterId, stPage *pPage)
     }
     m_nChapterId = chapterId;
     m_pPage = pPage;
+    
+//    stTask *tTask = TaskDataManager::getShareInstance()->getTask(pPage->taskId);
+//    
+//    stTalk *tTalk = TaskDataManager::getShareInstance()->getTalk(tTask->npcTalkId);
+    
     
     CCSize size = CCDirector::sharedDirector()->getWinSize();
     

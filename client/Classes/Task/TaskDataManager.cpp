@@ -7,6 +7,13 @@
 //
 
 #include "TaskDataManager.h"
+#include "CppSQLite3.h"
+#include "cocos2d.h"
+
+USING_NS_CC;
+
+TaskDataManager *TaskDataManager::m_pInstance = NULL;
+TaskDataManager::XLRelease TaskDataManager::Garbo;
 
 TaskDataManager::TaskDataManager()
 {
@@ -22,6 +29,11 @@ TaskDataManager::~TaskDataManager()
     this->deleteTalkMap();
     this->deleteNpcMap();
     this->deleteCurTaskMap();
+}
+
+void TaskDataManager::init()
+{
+    this->readDB();
 }
 
 void TaskDataManager::deleteTaskMap()
@@ -194,8 +206,79 @@ bool TaskDataManager::addCurTask(stTask *tmpTask)
     return false;
 }
 
+std::vector<stTalk *> TaskDataManager::getAllTalk(int task_id)
+{
+    printf("------getAllTalk-------\n");
+    std::vector<stTalk *> tVectorRetTalk;
+    std::map<int, stTalk *>::iterator _iter = mTalkMap.begin();
+    for ( ; _iter != mTalkMap.end(); _iter++)
+    {
+        stTalk *tmpTalk = _iter->second;
+        if ( tmpTalk && tmpTalk->taskId == task_id )
+        {
+            tVectorRetTalk.push_back(tmpTalk);
+        }
+    }
+    
+    sort(tVectorRetTalk.begin(), tVectorRetTalk.end());
+    
+    for (vector<stTalk *>::iterator it = tVectorRetTalk.begin(); it != tVectorRetTalk.end(); it++) {
+        stTalk *_talk = *it;
+        _talk->print();
+    }
+    return tVectorRetTalk;
+}
+
 #pragma Read SQLite
 void TaskDataManager::readDB()
 {
+    string strFullPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath("config/LuckyCat.sqlite");
+    CppSQLite3DB db;
+    db.open(strFullPath.c_str());
+	if (!db.isOpen())
+	{
+		return;
+	}
     
+    CppSQLite3Query result = db.execQuery("select * from task;");
+    
+    std::vector<stTask *> tTaskVector;
+	while(!result.eof())
+	{
+        stTask *tTask = new stTask();
+        tTask->id = result.getIntField("id");
+        tTask->type = (TaskType)result.getIntField("type");
+        tTask->targetId = result.getIntField("target_id");
+        tTask->bonusId = result.getIntField("bonus_id");
+        tTask->bonusRepeat = result.getIntField("bonus_repeat");
+        tTask->nextTaskId = result.getIntField("next_task_id");
+        
+        tTaskVector.push_back(tTask);
+        tTask->print();
+        
+        result.nextRow();
+    }
+    
+    this->setTaskMap(tTaskVector);
+    
+    CppSQLite3Query result_1 = db.execQuery("select * from npc_talk;");
+    
+    std::vector<stTalk *> tTalkVector;
+	while(!result_1.eof())
+	{
+        stTalk *tTalk = new stTalk();
+        tTalk->id = result_1.getIntField("id");
+        tTalk->taskId = result_1.getIntField("task_id");
+        tTalk->dialog = result_1.getStringField("content");
+        tTalk->npcId = result_1.getIntField("npc_id");
+        tTalk->npcName = result_1.getStringField("npc_name");
+        
+        tTalkVector.push_back(tTalk);
+        tTalk->print();
+        
+        result_1.nextRow();
+    }
+    this->setTalkMap(tTalkVector);
+    
+    db.close();
 }
