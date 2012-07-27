@@ -9,6 +9,8 @@
 #include "CoverScene.h"
 #include "ChapterScene.h"
 #include "LevelDataManager.h"
+#include "LuckySprite.h"
+
 USING_NS_CC;
 
 CCScene* Cover::scene()
@@ -39,13 +41,13 @@ bool Cover::init()
 
     CCSize size = CCDirector::sharedDirector()->getWinSize();
 
-    CCMenuItemImage *pDaggerItem  = CCMenuItemImage::create("image/Main/1.png", "image/Main/11.png", "image/Main/111.png", this, menu_selector(Cover::menuDaggerCallback));
+    CCMenuItemSprite *pDaggerItem = CCMenuItemSprite::create(LuckySprite::create(4), LuckySprite::create(5), LuckySprite::create(6), this, menu_selector(Cover::menuDaggerCallback));
     pDaggerItem->setPosition(ccp(size.width - 50, size.height - 80));
     
-    CCMenuItemImage *pMagicItem = CCMenuItemImage::create("image/Main/2.png", "image/Main/22.png", "image/Main/222.png", this, menu_selector(Cover::menuMagicCallback));
+    CCMenuItemSprite *pMagicItem = CCMenuItemSprite::create(LuckySprite::create(7), LuckySprite::create(8), LuckySprite::create(9), this, menu_selector(Cover::menuMagicCallback));
     pMagicItem->setPosition(ccp(size.width - 80, size.height - 200));
     
-    CCMenuItemImage *pBookItem = CCMenuItemImage::create("image/Main/3.png", "image/Main/33.png", "image/Main/333.png", this, menu_selector(Cover::menuBookCallback));
+    CCMenuItemSprite *pBookItem = CCMenuItemSprite::create(LuckySprite::create(10), LuckySprite::create(11), LuckySprite::create(12), this, menu_selector(Cover::menuBookCallback));
     pBookItem->setPosition(ccp(size.width/2 - 50, size.height/2 - 20));
     
     CCMenuItemFont *pCardItem = CCMenuItemFont::create("card", this, menu_selector(Cover::menuCardCallback));
@@ -58,7 +60,7 @@ bool Cover::init()
     pMenu->setPosition(CCPointZero);
     this->addChild(pMenu, 1);
 
-    CCSprite* pSprite = CCSprite::create("image/common/1.png");
+    LuckySprite* pSprite = LuckySprite::create(1);
     pSprite->setPosition(ccp(size.width/2, size.height/2));
     this->addChild(pSprite, 0);
     
@@ -79,7 +81,6 @@ void Cover::menuBookCallback(CCObject* pSender)
 {
     CCScene *pScene = Chapter::scene();
     
-    CCDirector::sharedDirector()->setDepthTest(true);
     CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
     
     CCDirector::sharedDirector()->pushScene(pTp);

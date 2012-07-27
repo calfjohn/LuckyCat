@@ -11,6 +11,7 @@
 #include "BossBattleView.h"
 #include "BattleDefine.h"
 #include "DictDataManager.h"
+#include "LuckySprite.h"
 
 USING_NS_CC;
 
@@ -68,7 +69,7 @@ void Page::turnToPage(int chapterId, stPage *pPage)
     
     CCSize size = CCDirector::sharedDirector()->getWinSize();
     
-    CCSprite* pSprite = CCSprite::create("image/common/1.png");
+    LuckySprite* pSprite = LuckySprite::create(1);
     pSprite->setPosition(ccp(size.width/2, size.height/2));
     this->addChild(pSprite, 0);
     
@@ -76,7 +77,7 @@ void Page::turnToPage(int chapterId, stPage *pPage)
     pMenu->setPosition(CCPointZero);
     this->addChild(pMenu, 1, TAG_MENU);
     
-    CCMenuItemImage *pBackItem = CCMenuItemImage::create("image/common/2.png", "image/common/22.png", "image/common/22.png", this, menu_selector(Page::menuBackCallback)); 
+    CCMenuItemSprite *pBackItem = CCMenuItemSprite::create(LuckySprite::create(2), LuckySprite::create(3), LuckySprite::create(3), this, menu_selector(Page::menuBackCallback)); 
     pBackItem->setScale(0.5);
     pBackItem->setPosition(ccp(size.width - 30, size.height - 20));
     pMenu->addChild(pBackItem);
@@ -101,18 +102,17 @@ void Page::turnToPage(int chapterId, stPage *pPage)
 //    m_state->setColor(ccBLACK);
 //    this->addChild(m_state, 1);
     
-    CCMenuItemImage *pAttackItem  = CCMenuItemImage::create("image/Page/4.png", "image/Page/44.png", "image/Page/444.png", this, menu_selector(Page::menuAttackCallback));
+    CCMenuItemSprite *pAttackItem  = CCMenuItemSprite::create(LuckySprite::create(29), LuckySprite::create(30), LuckySprite::create(31), this, menu_selector(Page::menuAttackCallback));
     pAttackItem->setPosition(ccp(size.width - 50, 50));
     pMenu->addChild(pAttackItem, 0, TAG_ATTACK);
     
     //    CCMenuItemFont *pNextItem = CCMenuItemFont::create("Next", this, menu_selector(Page::menuNextCallback));
     //    pMenu->addChild(pNextItem, 0, TAG_NEXT);
     
-    const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(1);
+    const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(m_pPage->taskId);
     if (pMonster) 
     {
-        string tempName = "image/monster/" + LevelDataManager::shareLevelDataManager()->ConvertToString(pMonster->image_id) + ".png";
-        CCSprite *tempSprite = CCSprite::create(tempName.c_str());
+        LuckySprite *tempSprite = LuckySprite::create(pMonster->imageId);
         tempSprite->setPosition(ccp(size.width/2, size.height/2 - 150));
         tempSprite->setScale(0.35f);
         this->addChild(tempSprite, 1);

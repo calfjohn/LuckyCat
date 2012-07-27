@@ -41,9 +41,9 @@ typedef struct
 {
     int id;             //index of chapter
     string name;        //chapter's title
+    int imageId;        //chapter's image
     cocos2d::CCPoint position;   //position on chapter scene
     vector<stPage> listPage;    //a set of pages in chapter
-    bool finish;           //is all page finished
 }stChapter;
 
 //a bible consist lot of stChapter
@@ -60,7 +60,17 @@ typedef struct
 {
     int id;         //monster id
     string name;    //monster name
-    int image_id;   //monster image id
+    int imageId;   //monster image id
 }stMonster;
+
+typedef struct
+{
+    int id;
+    int type;
+    string name;
+    string filePath;
+    string plistPath;
+}stImage;
+
 #endif
 

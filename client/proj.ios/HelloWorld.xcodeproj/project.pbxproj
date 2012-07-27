@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		150B347D15C244B10051DB06 /* LuckySprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 150B347B15C244B10051DB06 /* LuckySprite.cpp */; };
 		155CC53215B92C2E00CE449D /* DictDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155CC53115B92C2E00CE449D /* DictDataManager.cpp */; };
 		15AAE32A15B6894100F0CF5E /* json_internalarray.inl in Resources */ = {isa = PBXBuildFile; fileRef = 15AAE32315B6894100F0CF5E /* json_internalarray.inl */; };
 		15AAE32B15B6894100F0CF5E /* json_internalmap.inl in Resources */ = {isa = PBXBuildFile; fileRef = 15AAE32415B6894100F0CF5E /* json_internalmap.inl */; };
@@ -61,7 +62,6 @@
 		BF1373F1128A899E00D9F789 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF492B6912891AC600A09262 /* libz.dylib */; };
 		BF13742F128A8E6A00D9F789 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF137426128A8E4600D9F789 /* QuartzCore.framework */; };
 		BF23D4E7143315EB00657E08 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF23D4E3143315EB00657E08 /* AppDelegate.cpp */; };
-		BF23D4E8143315EB00657E08 /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF23D4E5143315EB00657E08 /* HelloWorldScene.cpp */; };
 		BF365AA812A103F70050DCF4 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF365AA712A103F70050DCF4 /* AppController.mm */; };
 		BF4DE6AD138BB89600CF907D /* RootViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF4DE6AC138BB89600CF907D /* RootViewController.mm */; };
 		D4ABB4B313B4395300552E6E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D4ABB4B213B4395300552E6E /* main.m */; };
@@ -92,6 +92,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		150B347B15C244B10051DB06 /* LuckySprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuckySprite.cpp; sourceTree = "<group>"; };
+		150B347C15C244B10051DB06 /* LuckySprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuckySprite.h; sourceTree = "<group>"; };
 		155CC53015B92C2E00CE449D /* DictDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DictDataManager.h; sourceTree = "<group>"; };
 		155CC53115B92C2E00CE449D /* DictDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DictDataManager.cpp; sourceTree = "<group>"; };
 		15AAE31815B6894100F0CF5E /* autolink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = autolink.h; sourceTree = "<group>"; };
@@ -165,8 +167,6 @@
 		BF137426128A8E4600D9F789 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		BF23D4E3143315EB00657E08 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = AppDelegate.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		BF23D4E4143315EB00657E08 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		BF23D4E5143315EB00657E08 /* HelloWorldScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HelloWorldScene.cpp; sourceTree = "<group>"; };
-		BF23D4E6143315EB00657E08 /* HelloWorldScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelloWorldScene.h; sourceTree = "<group>"; };
 		BF365AA612A103F70050DCF4 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
 		BF365AA712A103F70050DCF4 /* AppController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppController.mm; sourceTree = "<group>"; };
 		BF492B6912891AC600A09262 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -307,9 +307,11 @@
 		15DE3DB815B56D1C001B8372 /* Basic */ = {
 			isa = PBXGroup;
 			children = (
+				150B347B15C244B10051DB06 /* LuckySprite.cpp */,
+				150B347C15C244B10051DB06 /* LuckySprite.h */,
+				15BEAF8E15B65AB600D5940D /* Basic.h */,
 				155CC53015B92C2E00CE449D /* DictDataManager.h */,
 				155CC53115B92C2E00CE449D /* DictDataManager.cpp */,
-				15BEAF8E15B65AB600D5940D /* Basic.h */,
 				15BEAF8F15B65AB600D5940D /* LevelDataManager.cpp */,
 				15BEAF9015B65AB600D5940D /* LevelDataManager.h */,
 			);
@@ -455,8 +457,6 @@
 				15DE3DB815B56D1C001B8372 /* Basic */,
 				BF23D4E3143315EB00657E08 /* AppDelegate.cpp */,
 				BF23D4E4143315EB00657E08 /* AppDelegate.h */,
-				BF23D4E5143315EB00657E08 /* HelloWorldScene.cpp */,
-				BF23D4E6143315EB00657E08 /* HelloWorldScene.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -616,7 +616,6 @@
 				BF4DE6AD138BB89600CF907D /* RootViewController.mm in Sources */,
 				D4ABB4B313B4395300552E6E /* main.m in Sources */,
 				BF23D4E7143315EB00657E08 /* AppDelegate.cpp in Sources */,
-				BF23D4E8143315EB00657E08 /* HelloWorldScene.cpp in Sources */,
 				15BEAF9115B65AB600D5940D /* LevelDataManager.cpp in Sources */,
 				15AAE32C15B6894100F0CF5E /* json_reader.cpp in Sources */,
 				15AAE32D15B6894100F0CF5E /* json_value.cpp in Sources */,
@@ -629,6 +628,7 @@
 				187DC37D15B803970051A392 /* MonsterBattleView.cpp in Sources */,
 				187DC38015B803B80051A392 /* BossBattleView.cpp in Sources */,
 				155CC53215B92C2E00CE449D /* DictDataManager.cpp in Sources */,
+				150B347D15C244B10051DB06 /* LuckySprite.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
