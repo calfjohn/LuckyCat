@@ -12,6 +12,7 @@
 #include "cocos2d.h"
 #include "Basic.h"
 #include "TaskBasic.h"
+#include "BattleDefine.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -35,9 +36,14 @@ public:
     
     void fightAction();
     
-    CCFiniteTimeAction * createSequece(unsigned int action_id);
+    CCFiniteTimeAction * createMonsterAction(unsigned int action_id);
+    CCFiniteTimeAction * createBossAction(unsigned int action_id);
     
     void playAction();
+    
+    void playOneActionEnd();
+    
+    void showNextTask();
     
     //是否在战斗中
     static bool getIsInBattle();
@@ -76,10 +82,22 @@ private:
     CCLayerColor *m_LayerDialogBg;
     CCLabelTTF *m_LabDialog;
     
+    GRole * p_Boss;
+    
+    std::vector<GRole *> mPlayerList;
+    
+    bool m_bIsWaitingForAction;
+    
     /*
      *@brief show all UI. hidden some.
      */
     void showUI();
+    
+    void showTalkUI();
+    
+    void showMonsterBattleUI();
+    
+    void showBossBattleUI();
     
     /*
      *@brief get the Event Type.
