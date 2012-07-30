@@ -10,7 +10,7 @@ LuckySprite::~LuckySprite(void)
 {
 }
 
-LuckySprite* LuckySprite::create(int imageId)
+LuckySprite* LuckySprite::create(int imageId, float scale)
 {
     const stImage *pImage = DictDataManager::shareDictDataManager()->getImage(imageId);
     if (!pImage) 
@@ -33,6 +33,7 @@ LuckySprite* LuckySprite::create(int imageId)
 //        if (pobSprite && pobSprite->initWithSpriteFrameName(pImage->name.c_str()))
         {
             pobSprite->autorelease();
+            pobSprite->setScale(scale);
             return pobSprite;
         }
     }
