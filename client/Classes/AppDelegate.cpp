@@ -5,6 +5,7 @@
 #include "LevelDataManager.h"
 #include "DictDataManager.h"
 #include "CoverScene.h"
+#include "TaskDataManager.h"
 
 using namespace CocosDenshion;
 
@@ -38,6 +39,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     LevelDataManager::shareLevelDataManager();
     DictDataManager::shareDictDataManager();
+    TaskDataManager::getShareInstance();
     
     // create a scene. it's an autorelease object
     CCScene *pScene = Cover::scene();

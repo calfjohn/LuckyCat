@@ -65,6 +65,9 @@
 		BF365AA812A103F70050DCF4 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF365AA712A103F70050DCF4 /* AppController.mm */; };
 		BF4DE6AD138BB89600CF907D /* RootViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF4DE6AC138BB89600CF907D /* RootViewController.mm */; };
 		D4ABB4B313B4395300552E6E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D4ABB4B213B4395300552E6E /* main.m */; };
+		F2AAC58D15C0DFF700952F4B /* TaskDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F2AAC58915C0DFF700952F4B /* TaskDataManager.cpp */; };
+		F2AAC58E15C0DFF700952F4B /* TaskModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F2AAC58B15C0DFF700952F4B /* TaskModule.cpp */; };
+		F2D6B44915C1132600D78164 /* NpcTalkView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F2D6B44815C1132500D78164 /* NpcTalkView.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -175,6 +178,13 @@
 		BF4DE6AB138BB89600CF907D /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		BF4DE6AC138BB89600CF907D /* RootViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RootViewController.mm; sourceTree = "<group>"; };
 		D4ABB4B213B4395300552E6E /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F2AAC58815C0DFF700952F4B /* TaskBasic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskBasic.h; sourceTree = "<group>"; };
+		F2AAC58915C0DFF700952F4B /* TaskDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TaskDataManager.cpp; sourceTree = "<group>"; };
+		F2AAC58A15C0DFF700952F4B /* TaskDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskDataManager.h; sourceTree = "<group>"; };
+		F2AAC58B15C0DFF700952F4B /* TaskModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TaskModule.cpp; sourceTree = "<group>"; };
+		F2AAC58C15C0DFF700952F4B /* TaskModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskModule.h; sourceTree = "<group>"; };
+		F2D6B44715C1131500D78164 /* NpcTalkView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NpcTalkView.h; sourceTree = "<group>"; };
+		F2D6B44815C1132500D78164 /* NpcTalkView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NpcTalkView.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -374,6 +384,8 @@
 				187DC37E15B803AE0051A392 /* BossBattleView.h */,
 				187DC37F15B803B80051A392 /* BossBattleView.cpp */,
 				187DC38115B806D50051A392 /* BattleDefine.h */,
+				F2D6B44715C1131500D78164 /* NpcTalkView.h */,
+				F2D6B44815C1132500D78164 /* NpcTalkView.cpp */,
 			);
 			path = Battle;
 			sourceTree = "<group>";
@@ -449,6 +461,7 @@
 		BF23D4E2143315EB00657E08 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				F2AAC58715C0DFF700952F4B /* Task */,
 				187DC37A15B802FD0051A392 /* Battle */,
 				15AAE35615B6C1D100F0CF5E /* Page */,
 				15AAE34E15B6B2B800F0CF5E /* Chapter */,
@@ -472,6 +485,18 @@
 				BF4DE6AC138BB89600CF907D /* RootViewController.mm */,
 			);
 			name = ios;
+			sourceTree = "<group>";
+		};
+		F2AAC58715C0DFF700952F4B /* Task */ = {
+			isa = PBXGroup;
+			children = (
+				F2AAC58815C0DFF700952F4B /* TaskBasic.h */,
+				F2AAC58915C0DFF700952F4B /* TaskDataManager.cpp */,
+				F2AAC58A15C0DFF700952F4B /* TaskDataManager.h */,
+				F2AAC58B15C0DFF700952F4B /* TaskModule.cpp */,
+				F2AAC58C15C0DFF700952F4B /* TaskModule.h */,
+			);
+			path = Task;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -628,7 +653,13 @@
 				187DC37D15B803970051A392 /* MonsterBattleView.cpp in Sources */,
 				187DC38015B803B80051A392 /* BossBattleView.cpp in Sources */,
 				155CC53215B92C2E00CE449D /* DictDataManager.cpp in Sources */,
+<<<<<<< HEAD
 				150B347D15C244B10051DB06 /* LuckySprite.cpp in Sources */,
+=======
+				F2AAC58D15C0DFF700952F4B /* TaskDataManager.cpp in Sources */,
+				F2AAC58E15C0DFF700952F4B /* TaskModule.cpp in Sources */,
+				F2D6B44915C1132600D78164 /* NpcTalkView.cpp in Sources */,
+>>>>>>> d669eca62ff3ae3d1920451f75c0428cc8aff407
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

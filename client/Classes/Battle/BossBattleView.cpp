@@ -71,12 +71,16 @@ void BossBattleView::initLayer(stPage *page, CCObject *target, SEL_CallFuncND pf
     dscLabel->setVisible(false);
     
     
+<<<<<<< HEAD
     CCProgressTimer *pProgressBoss = CCProgressTimer::create(LuckySprite::create(1001));
+=======
+    CCProgressTimer *pProgressBoss = CCProgressTimer::create(CCSprite::create("image/extensions/sliderProgress.png"));
+>>>>>>> d669eca62ff3ae3d1920451f75c0428cc8aff407
     pProgressBoss->setType(kCCProgressTimerTypeBar);
     pProgressBoss->setMidpoint(ccp(0.0f, 0.5f));
     pProgressBoss->setPercentage(100);
     pProgressBoss->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height- 50));
-    pProgressBoss->setColor(ccGRAY);
+    //pProgressBoss->setColor(ccGRAY);
     this->addChild(pProgressBoss,3);
     pProgressBoss->setTag(TAG_MONSTER_PLINE);
     
@@ -85,7 +89,11 @@ void BossBattleView::initLayer(stPage *page, CCObject *target, SEL_CallFuncND pf
     this->addChild(_pPlayerSprite);
     _pPlayerSprite->setTag(TAG_PLAYER_SPRITE);
     
+<<<<<<< HEAD
     CCProgressTimer *pProgressPlayer = CCProgressTimer::create(LuckySprite::create(1001));
+=======
+    CCProgressTimer *pProgressPlayer = CCProgressTimer::create(CCSprite::create("image/extensions/sliderProgress.png"));
+>>>>>>> d669eca62ff3ae3d1920451f75c0428cc8aff407
     pProgressPlayer->setType(kCCProgressTimerTypeBar);
     pProgressPlayer->setMidpoint(ccp(0.0f, 0.5f));
     pProgressPlayer->setPercentage(100);

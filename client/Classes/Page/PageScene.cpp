@@ -11,7 +11,11 @@
 #include "BossBattleView.h"
 #include "BattleDefine.h"
 #include "DictDataManager.h"
+<<<<<<< HEAD
 #include "LuckySprite.h"
+=======
+#include "TaskDataManager.h"
+>>>>>>> d669eca62ff3ae3d1920451f75c0428cc8aff407
 
 USING_NS_CC;
 
@@ -66,6 +70,11 @@ void Page::turnToPage(int chapterId, stPage *pPage)
     }
     m_nChapterId = chapterId;
     m_pPage = pPage;
+    
+//    stTask *tTask = TaskDataManager::getShareInstance()->getTask(pPage->taskId);
+//    
+//    stTalk *tTalk = TaskDataManager::getShareInstance()->getTalk(tTask->npcTalkId);
+    
     
     CCSize size = CCDirector::sharedDirector()->getWinSize();
     
@@ -138,26 +147,11 @@ void Page::menuAttackCallback(CCObject* pSender)
 
 void Page::showBattleView(CCObject *pSender)
 {
-    if ( m_pPage->end )
+    if ( MonsterBattleView::getIsInBattle() == false )
     {
-        if ( m_pPage->state == 0 )
-        {
-            if ( BossBattleView::getIsInBattle() == false )
-            {
-                BossBattleView *pBoss = BossBattleView::create();
-                pBoss->initLayer(m_pPage, this, callfuncND_selector(Page::fightCallback));
-                CCDirector::sharedDirector()->getRunningScene()->addChild(pBoss, 0, TAG_BATTLE_LAYER);
-            }
-        }
-    }
-    else
-    {
-        if ( MonsterBattleView::getIsInBattle() == false )
-        {
-            MonsterBattleView *pMonter = MonsterBattleView::create();
-            pMonter->initLayer(m_pPage, this, callfuncND_selector(Page::fightCallback));
-            CCDirector::sharedDirector()->getRunningScene()->addChild(pMonter, 0, TAG_BATTLE_LAYER);
-        }
+        MonsterBattleView *pMonter = MonsterBattleView::create();
+        pMonter->initLayer(m_pPage, this, callfuncND_selector(Page::fightCallback));
+        CCDirector::sharedDirector()->getRunningScene()->addChild(pMonter, 0, TAG_BATTLE_LAYER);
     }
 }
 
