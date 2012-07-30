@@ -12,7 +12,7 @@ public:
     virtual ~LuckySprite(void);
 
 public:
-    static LuckySprite* create(int imageId);
+    static LuckySprite* create(int imageId, float scale = 1);
 };
 
 #endif
