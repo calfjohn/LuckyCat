@@ -44,8 +44,46 @@ void MonsterBattleView::ccTouchEnded(CCTouch* touch, CCEvent *pEvent)
     
     if (distance_ > 2.0f)
     {
+        if ( mEventType == oneEventWasFinished )
+        {
+            getNextTask();
+        }
         //触发随机事件
-        this->showCurentEvent();
+        if ( mEventType == talkEvent )
+        {
+            this->showCurentEvent();
+        }
+        else if ( mEventType == bossBattleEvent )
+        {
+            if (m_bIsWaitingForAction)
+            {
+                this->playOneActionEnd();
+            }
+            else {
+                this->showCurentEvent();
+            }
+
+        }
+        else if ( mEventType == monsterBattleEvent ){
+            stTask *tmp = this->getNextTask();
+            if (tmp)this->showCurentEvent();
+            else {
+                CC_ASSERT(true);
+            }
+        }
+        else  if ( mEventType == finishedEvent ||  mEventType == oneEventWasFinished ) {
+            CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_BATTLE_LAYER));
+            if ( pLayer )
+            {
+                pLayer->removeFromParentAndCleanup(true);
+            }
+            
+            setIsInBattle(false);
+            
+            m_bIsWaitingForAction = false;
+            
+            ((m_target)->*(m_pfnSelector))(this, NULL);
+        }
     }
 }
 
@@ -72,6 +110,8 @@ void MonsterBattleView::initLayer(stPage *p_page, CCObject *target, SEL_CallFunc
     
     m_bIsWaitingForAction = false;
     
+    mEventType = oneEventWasFinished;
+    
     m_target = target;
     m_pfnSelector = pfnSelector;
     
@@ -79,13 +119,14 @@ void MonsterBattleView::initLayer(stPage *p_page, CCObject *target, SEL_CallFunc
     
     if ( p_pPage == NULL )return;
     
-    getCurTask(p_pPage->taskId);
+    mTalkList.clear();
+    mTaskList = TaskDataManager::getShareInstance()->getASeriesOfTask(p_pPage->taskId);
+    
+    p_CurTask = getCurTask(p_pPage->taskId);
     
     setIsInBattle(true);
     
     CCSize screanSize = CCDirector::sharedDirector()->getWinSize();
-    
-    this->showUI();
     
     //    cocos2d::CCLabelTTF *titleLabel = cocos2d::CCLabelTTF::create( "Monster Fight!", CCSizeMake(screanSize.width, 50),kCCVerticalTextAlignmentCenter,kCCVerticalTextAlignmentCenter,"Arial", 24); 
     //    titleLabel = CCLabelTTF::initWithString("Monster Fight!", "Arial", 50);
@@ -109,36 +150,13 @@ void MonsterBattleView::initLayer(stPage *p_page, CCObject *target, SEL_CallFunc
     
     dscLabel->setVisible(false);
     
+    showCurentEvent();
+    
 }
 
 void MonsterBattleView::fightAction()
 {
-    if ( mEventType == monsterBattleEvent )
-    {
-        mActionList.push_back(3);
-        mActionList.push_back(1);
-        mActionList.push_back(2);
-        mActionList.push_back(1);
-        
-        
-        CCDelayTime *pDelay1 = CCDelayTime::create(TRANSITION_PAGE_INTERVAL_TIME);
-        CCFiniteTimeAction *pAction = CCSequence::create(pDelay1,CCCallFunc::create(this, callfunc_selector(MonsterBattleView::showCurentEvent)),NULL);
-        
-        this->runAction(pAction);
-    }
-    else {
-        mActionList.push_back(3);
-        mActionList.push_back(1);
-        mActionList.push_back(4);
-        mActionList.push_back(2);
-        mActionList.push_back(4);
-        mActionList.push_back(1);
-        mActionList.push_back(4);
-        mActionList.push_back(1);
-        
-        
-        this->playOneActionEnd();
-    }
+
 }
 
 CCFiniteTimeAction * MonsterBattleView::createMonsterAction(unsigned int action_id)
@@ -194,7 +212,7 @@ CCFiniteTimeAction * MonsterBattleView::createBossAction(unsigned int action_id)
             CCMoveTo *move2 = CCMoveTo::create(ACTION_INTERVAL_TIME, CCPointMake(p_curPos.x + 60, p_curPos.y +60));
             CCMoveTo *move3 = CCMoveTo::create(ACTION_INTERVAL_TIME, p_curPos);
             
-            pAction = CCSequence::create(move1,move2,move3,CCCallFunc::create(this, callfunc_selector(MonsterBattleView::playAction)),NULL);
+            pAction = CCSequence::create(move1,move2,move3,NULL);
             
             int _subHp = 45;
             p_Boss->setSubHp(_subHp);
@@ -224,7 +242,7 @@ CCFiniteTimeAction * MonsterBattleView::createBossAction(unsigned int action_id)
             CCScaleBy *scale1 = CCScaleBy::create(ACTION_INTERVAL_TIME, 1.2f);
             CCScaleBy *scale2 = CCScaleBy::create(ACTION_INTERVAL_TIME, 1 / 1.2f);
             
-            pAction = CCSequence::create(scale1,scale2,CCCallFunc::create(this, callfunc_selector(MonsterBattleView::playAction)),NULL);
+            pAction = CCSequence::create(scale1,scale2,NULL);
             
             int _subHp = 120;
             p_Boss->setSubHp(_subHp);
@@ -251,7 +269,7 @@ CCFiniteTimeAction * MonsterBattleView::createBossAction(unsigned int action_id)
         case 3:
         {
             CCFadeIn *fade1 = CCFadeIn::create(ACTION_INTERVAL_TIME*2);
-            pAction = CCSequence::create(fade1,CCDelayTime::create(ACTION_INTERVAL_TIME*3),CCCallFunc::create(this, callfunc_selector(MonsterBattleView::playAction)),NULL);
+            pAction = CCSequence::create(fade1,CCDelayTime::create(ACTION_INTERVAL_TIME*3),CCCallFunc::create(this, callfunc_selector(MonsterBattleView::playOneActionEnd)),NULL);
             
             break;
         }
@@ -318,7 +336,8 @@ void MonsterBattleView::playAction()
         }
     }
     else {
-        this->showNextTask();
+        mEventType = oneEventWasFinished;
+        //this->showNextTask();
     }
 }
 
@@ -329,17 +348,20 @@ void MonsterBattleView::playOneActionEnd()
     {
         label->setVisible(false);
     }
+    CCLabelTTF *pLabel = (CCLabelTTF *)this->getChildByTag(TAG_LABEL_DES);
+    {
+        pLabel->setVisible(false);
+    }
     
     if ( mActionList.empty() == false )
     {
         unsigned int tAcitonID = mActionList[mActionList.size()-1];
         
+        CCFiniteTimeAction *pAction = this->createBossAction(tAcitonID);
+        mActionList.pop_back();
         
         if ( tAcitonID == 3 )
         {
-            CCFiniteTimeAction *pAction = this->createBossAction(tAcitonID);
-            mActionList.pop_back();
-            
             if(pAction)
             {
                 CCLabelTTF *pLabel = (CCLabelTTF *)this->getChildByTag(TAG_LABEL_DES);
@@ -349,12 +371,20 @@ void MonsterBattleView::playOneActionEnd()
                 pLabel->runAction(pAction);
             }
         }
+        else if ( tAcitonID == 4 ){
+            CCSprite *pSprite = (CCSprite *)this->getChildByTag(TAG_PLAYER_SPRITE);
+            pSprite->runAction(pAction);
+            m_bIsWaitingForAction = true;
+        }
         else {
             m_bIsWaitingForAction = true;
+            CCSprite *pSprite = (CCSprite *)this->getChildByTag(TAG_MONSTER_SPRITE);
+            pSprite->runAction(pAction);
         }
     }
     else {
-        this->showNextTask();
+        mEventType = oneEventWasFinished;
+        //this->showNextTask();
     }
 }
 
@@ -392,14 +422,10 @@ void MonsterBattleView::setIsInBattle(bool _b_state)
 
 stTask * MonsterBattleView::getCurTask(int task_id)
 {
-    p_CurTask = TaskDataManager::getShareInstance()->getTask(task_id);
-    
-    if ( p_CurTalk == NULL )
+    if ( mTaskList.empty() == false )
     {
+        p_CurTask = mTaskList[0];
         
-    }
-    else
-    {
         switch (p_CurTask->type) {
             case generalBattle:
             {
@@ -410,6 +436,7 @@ stTask * MonsterBattleView::getCurTask(int task_id)
             case DialogueTask:
             {
                 mEventType = talkEvent;
+                mTalkList.clear();
                 mTalkList = TaskDataManager::getShareInstance()->getAllTalk(p_pPage->taskId);
                 break;
             }
@@ -422,16 +449,19 @@ stTask * MonsterBattleView::getCurTask(int task_id)
                 break;
         }
     }
+    else {
+        p_CurTask = NULL;
+    }
     
     return p_CurTask;
 }
 
 stTask * MonsterBattleView::getNextTask()
 {
-    if ( p_CurTask && p_CurTask->nextTaskId != -1)
-        return this->getCurTask(p_CurTask->nextTaskId);
-    else
-        return NULL;
+//    if ( p_CurTask && p_CurTask->nextTaskId != -1)
+//        return this->getCurTask(p_CurTask->nextTaskId);
+//    else
+//        return NULL;
 //    if ( p_CurTask && p_CurTask->nextTaskId != 0)
 //    {
 //        p_CurTask = TaskDataManager::getShareInstance()->getTask(p_CurTask->nextTaskId);
@@ -445,6 +475,52 @@ stTask * MonsterBattleView::getNextTask()
 //    }
 //    
 //    return p_CurTask;
+    if ( mTaskList.empty() == false )
+    {
+        std::vector<stTask *>::iterator _iter = mTaskList.begin();
+        mTaskList.erase(_iter);
+        
+        if ( mTaskList.empty() == false )
+        {
+            p_CurTask = mTaskList[0];
+            
+            switch (p_CurTask->type) {
+                case generalBattle:
+                {
+                    mEventType = monsterBattleEvent;
+                    p_CurTalk = NULL;
+                    break;
+                }
+                case DialogueTask:
+                {
+                    mEventType = talkEvent;
+                    mTalkList.clear();
+                    mTalkList = TaskDataManager::getShareInstance()->getAllTalk(p_pPage->taskId);
+                    break;
+                }
+                case specialBattle:
+                {
+                    mEventType = bossBattleEvent;
+                    m_bIsWaitingForAction = false;
+                    p_CurTalk = NULL;
+                    break;
+                }
+                default:
+                {
+                    mEventType = finishedEvent;
+                    p_CurTask = NULL;
+                    break;
+                }
+            }
+            return p_CurTask;
+        }
+        else {
+            return NULL;
+        }
+    }
+    else {
+        return NULL;
+    }
 }
 
 stTalk * MonsterBattleView::getCurTalk()
@@ -474,6 +550,8 @@ stTalk * MonsterBattleView::getNextTalk()
 
 void MonsterBattleView::showUI()
 {
+    CCLabelTTF *pLabel = (CCLabelTTF *)this->getChildByTag(TAG_LABEL_DES);
+    pLabel->setVisible(false);
     if ( mEventType == talkEvent )
     {
         showTalkUI();
@@ -543,9 +621,9 @@ void MonsterBattleView::showTalkUI()
 //    p_dailogImgBg->setPosition(CCPointZero);
 //    m_LayerDialogBg->addChild(p_dailogImgBg);
     
-    CCFiniteTimeAction *pAction = CCSequence::create(CCScaleTo::create(ACTION_INTERVAL_TIME,1.0f),CCCallFunc::create(this, callfunc_selector(MonsterBattleView::showCurentEvent)),NULL);
-    
-    pMonsterSprite->runAction(pAction);
+//    CCFiniteTimeAction *pAction = CCSequence::create(CCScaleTo::create(ACTION_INTERVAL_TIME,1.0f),CCCallFunc::create(this, callfunc_selector(MonsterBattleView::showCurentEvent)),NULL);
+//    
+//    pMonsterSprite->runAction(pAction);
 }
 
 void MonsterBattleView::showMonsterBattleUI()
@@ -579,6 +657,10 @@ void MonsterBattleView::showMonsterBattleUI()
         pPlayerSprite->setVisible(false);
         pPlayerPLine->setVisible(false);
         pMonsterPLine->setVisible(false);
+    }
+    if ( m_LayerDialogBg )
+    {
+        m_LayerDialogBg->setVisible(false);
     }
 }
 
@@ -657,15 +739,20 @@ void MonsterBattleView::showBossBattleUI()
         pMonsterPLine->setPercentage(100); 
         pPlayerPLine->setPercentage(100);
     }
+    if ( m_LayerDialogBg )
+    {
+        m_LayerDialogBg->setVisible(false);
+    }
 }
 
 EventType MonsterBattleView::getEventType()
 {
-    return talkEvent;
+    return mEventType;
 }
 
 void MonsterBattleView::showCurentEvent()
 {
+    this->showUI();
     EventType _event =  getEventType();
     if ( talkEvent == _event ) {
         showDialog();
@@ -674,6 +761,10 @@ void MonsterBattleView::showCurentEvent()
     {
         showfightAnimation();
     }
+    
+    printf("--------------------------\n");
+    if (p_CurTask)p_CurTask->print();
+    printf("--------------------------\n");
 }
 
 void MonsterBattleView::getNextEvent()
@@ -708,11 +799,50 @@ void MonsterBattleView::showDialog()
     }
     else
     {
-        this->showNextTask();
+        if (m_LabDialog)  m_LayerDialogBg->setVisible(false);
+        mEventType = oneEventWasFinished;
+        //this->showNextTask();
     }
 }
 
 void MonsterBattleView::showfightAnimation()
 {
-    fightAction();
+    if ( mEventType == monsterBattleEvent )
+    {
+        mActionList.push_back(3);
+        mActionList.push_back(1);
+        mActionList.push_back(2);
+        mActionList.push_back(1);
+        
+        
+//        CCDelayTime *pDelay1 = CCDelayTime::create(TRANSITION_PAGE_INTERVAL_TIME);
+//        CCFiniteTimeAction *pAction = CCSequence::create(pDelay1,CCCallFunc::create(this, callfunc_selector(MonsterBattleView::showCurentEvent)),NULL);
+//        
+//        this->runAction(pAction);
+        this->playAction();
+    }
+    else {
+        mActionList.push_back(3);
+        mActionList.push_back(1);
+        mActionList.push_back(4);
+        mActionList.push_back(2);
+        mActionList.push_back(4);
+        mActionList.push_back(1);
+        mActionList.push_back(4);
+        mActionList.push_back(1);
+        
+        mPlayerList.clear();
+        
+        p_Boss = new GRole();
+        p_Boss->roleID = 1;
+        p_Boss->setMaxHp(300);
+        
+        GRole * p_PlayerBoss = new GRole();
+        p_PlayerBoss->setMaxHp(200);
+        
+        mPlayerList.push_back(p_PlayerBoss);
+        
+        
+        this->playOneActionEnd();
+    }
 }

@@ -56,9 +56,14 @@ public:
     bool addCurTask(stTask *tmpTask);
     
     /*
-     *@brief get all task by task id.
+     *@brief get all talk by task id.
      */
     std::vector<stTalk *> getAllTalk(int task_id);
+    
+    /*
+     *@brief get a series of task by a first task of one page
+     */
+    std::vector<stTask *> getASeriesOfTask(int task_id);
 private:
     
     std::map<int,stTask *> mTaskMap;    //task map

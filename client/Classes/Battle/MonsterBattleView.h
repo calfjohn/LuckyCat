@@ -86,6 +86,8 @@ private:
     
     std::vector<GRole *> mPlayerList;
     
+    std::vector<stTask *> mTaskList;
+    
     bool m_bIsWaitingForAction;
     
     /*

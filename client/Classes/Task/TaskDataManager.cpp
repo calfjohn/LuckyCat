@@ -214,7 +214,8 @@ std::vector<stTalk *> TaskDataManager::getAllTalk(int task_id)
     for ( ; _iter != mTalkMap.end(); _iter++)
     {
         stTalk *tmpTalk = _iter->second;
-        if ( tmpTalk && tmpTalk->taskId == task_id )
+        //todo
+        if ( tmpTalk )//&& tmpTalk->taskId == task_id )
         {
             tVectorRetTalk.push_back(tmpTalk);
         }
@@ -227,6 +228,22 @@ std::vector<stTalk *> TaskDataManager::getAllTalk(int task_id)
         _talk->print();
     }
     return tVectorRetTalk;
+}
+
+std::vector<stTask *> TaskDataManager::getASeriesOfTask(int task_id)
+{
+    printf("----get a series task-------\n");
+    std::vector<stTask *> tVectorTask;
+    int tmpTaskId = task_id;
+    while (tmpTaskId > 0 ) {
+        stTask *tmpTask = getTask(tmpTaskId);
+        tVectorTask.push_back(tmpTask);
+        tmpTaskId = tmpTask->nextTaskId;
+        
+        tmpTask->print();
+    }
+    
+    return tVectorTask;
 }
 
 #pragma Read SQLite

@@ -35,7 +35,8 @@ enum EventType {
     talkEvent           = 1,
     monsterBattleEvent  = 0,
     bossBattleEvent     = 2,
-    finishedEvent       = 3         //event was finished
+    oneEventWasFinished = 3,
+    finishedEvent       = 4         //event was finished
     };
 
 //stNPC have info of npc's name and image

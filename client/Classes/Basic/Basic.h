@@ -23,6 +23,8 @@ using namespace std;
 
 #define TRANSITION_PAGE_INTERVAL_TIME   1.0f
 
+
+#define INVALID_VALUES                  -1      //无效值, 比如 表示没有下一个值
 //a page is a game level
 typedef struct
 {
