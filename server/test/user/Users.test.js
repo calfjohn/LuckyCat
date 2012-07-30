@@ -1,9 +1,11 @@
+
 require("../../src/system/DBAgent");
 require("../../src/system/Log");
 
 var users = require("../../src/user/Users")
     , util = require("util")
-    , log = new Log("Users");
+    , log = new Log("Users")
+    , assert = require("assert");
 
 var dbName = "db_test_users";
 var testUsersCfg = {
@@ -19,7 +21,7 @@ var testUsersCfg = {
 describe("=================================================================================\n" +
     "    Test Users", function() {
 
-    var dbUsers = new DBAgent(testUsersCfg.dbConfig);   // database connection for check result
+    var dbUsers;   // database connection for check result
 
     // first, create the test database
     before(function (done) {
@@ -27,8 +29,9 @@ describe("======================================================================
             if (err) {
                 done(err);
             } else {
-                dbUsers.connect(true);
                 users.initInstance(testUsersCfg);
+                dbUsers = new DBAgent(testUsersCfg.dbConfig);
+                dbUsers.connect(true);
                 done();
             }
         });
@@ -47,11 +50,14 @@ describe("======================================================================
     });
 
     describe("# create user:", function() {
-        it ("create by uuid", function(done) {
-            //var uuid = users.createUser({"uuid":"1234567890"});
-            done();
+        it("create by udid", function(done) {
+            var info = {};
+            info["udid"] = "1234567890";
+            users.createUser(info, function(uuid) {
+                assert(uuid && uuid > 0);
+                done();
+            });
         });
-
     });
 
 });
