@@ -600,13 +600,13 @@ void MonsterBattleView::showTalkUI()
     {
         m_LayerDialogBg = CCLayerColor::create(ccc4(0, 0, 0, 255));
         m_LayerDialogBg->setAnchorPoint(CCPointZero);
-        m_LayerDialogBg->setContentSize(CCSizeMake(screanSize.width * 0.8f, screanSize.height * 0.2f));
-        m_LayerDialogBg->setPosition(CCPointMake(screanSize.width * 0.1f, 100));
+        m_LayerDialogBg->setContentSize(CCSizeMake(screanSize.width * 0.9f, screanSize.height * 0.3f));
+        m_LayerDialogBg->setPosition(CCPointMake(screanSize.width * 0.05f, 100));
         this->addChild(m_LayerDialogBg,4);
         
         m_LayerDialogBg->setVisible(false);
         
-        m_LabDialog = CCLabelTTF::create("", m_LayerDialogBg->getContentSize(), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter,"Arial", 18);
+        m_LabDialog = CCLabelTTF::create("", m_LayerDialogBg->getContentSize(), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter,"Arial", 14);
         m_LabDialog->setColor(ccWHITE);
         m_LabDialog->setAnchorPoint(CCPointZero);
         m_LabDialog->setPosition(CCPointZero);
