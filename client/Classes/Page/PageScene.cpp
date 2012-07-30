@@ -11,11 +11,8 @@
 #include "BossBattleView.h"
 #include "BattleDefine.h"
 #include "DictDataManager.h"
-<<<<<<< HEAD
 #include "LuckySprite.h"
-=======
 #include "TaskDataManager.h"
->>>>>>> d669eca62ff3ae3d1920451f75c0428cc8aff407
 
 USING_NS_CC;
 

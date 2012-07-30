@@ -653,13 +653,10 @@
 				187DC37D15B803970051A392 /* MonsterBattleView.cpp in Sources */,
 				187DC38015B803B80051A392 /* BossBattleView.cpp in Sources */,
 				155CC53215B92C2E00CE449D /* DictDataManager.cpp in Sources */,
-<<<<<<< HEAD
 				150B347D15C244B10051DB06 /* LuckySprite.cpp in Sources */,
-=======
 				F2AAC58D15C0DFF700952F4B /* TaskDataManager.cpp in Sources */,
 				F2AAC58E15C0DFF700952F4B /* TaskModule.cpp in Sources */,
 				F2D6B44915C1132600D78164 /* NpcTalkView.cpp in Sources */,
->>>>>>> d669eca62ff3ae3d1920451f75c0428cc8aff407
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

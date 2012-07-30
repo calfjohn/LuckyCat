@@ -13,6 +13,7 @@
 #include "Basic.h"
 #include "TaskBasic.h"
 #include "BattleDefine.h"
+#include "LuckySprite.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -52,13 +53,13 @@ public:
     
     
 private:
-    CCSprite *pMonsterSprite;
+    LuckySprite *pMonsterSprite;
     
     CCLabelTTF *pLabDes;
     CCLabelTTF *pLabEffect;
     CCLabelTTF *pLabSubHp;
     
-    CCSprite *pPlayerSprite;
+    LuckySprite *pPlayerSprite;
     CCProgressTimer *pMonsterPLine;
     CCProgressTimer *pPlayerPLine;
     
