@@ -1,7 +1,6 @@
 #include "cocos2d.h"
 #include "CCEGLView.h"
 #include "AppDelegate.h"
-#include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "LevelDataManager.h"
 #include "DictDataManager.h"
@@ -29,6 +28,8 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     // enable High Resource Mode(2x, such as iphone4) and maintains low resource on other devices.
 //     pDirector->enableRetinaDisplay(true);
+
+    pDirector->setDepthTest(true);
 
     // turn on display FPS
     pDirector->setDisplayStats(true);

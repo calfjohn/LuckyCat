@@ -35,9 +35,8 @@ void LevelDataManager::init( void )
 		return;
 	}
     
-    CppSQLite3Query q1 = db.execQuery("select * from bible;");
-    
     stBible tempBible;
+    CppSQLite3Query q1 = db.execQuery("select * from bible;");
 	while(!q1.eof())
 	{
         tempBible.id = q1.getIntField("id");
@@ -54,9 +53,9 @@ void LevelDataManager::init( void )
                 
                 tempChapter.id = q2.getIntField("id");
                 tempChapter.name = q2.getStringField("name");
+                tempChapter.imageId = q2.getIntField("image_id");
                 tempChapter.position.x = q2.getFloatField("position_x");
                 tempChapter.position.y = q2.getFloatField("position_y");
-                tempChapter.finish = false;
                 {
                     sprintf(tempSql, "select * from page where chapter_id = %d order by id;", tempChapter.id);
                     CppSQLite3Query q3 = db.execQuery(tempSql);

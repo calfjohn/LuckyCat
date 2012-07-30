@@ -138,6 +138,10 @@ void MonsterBattleView::initLayer(stPage *p_page, CCObject *target, SEL_CallFunc
     titleLabel->setColor(ccc3(255,55,0));
     this->addChild(titleLabel);
     
+    LuckySprite *_pMonsterSprite = LuckySprite::create(p_CurTask->targetId);
+    _pMonsterSprite->setPosition(CCPointMake(screanSize.width*0.5f, 260));
+    this->addChild(_pMonsterSprite);
+    _pMonsterSprite->setTag(TAG_MONSTER_SPRITE);
 
     
     CCLabelTTF *dscLabel = CCLabelTTF::create("", CCSizeMake(screanSize.width, 50), kCCTextAlignmentCenter,"Arial", 30);
@@ -573,11 +577,7 @@ void MonsterBattleView::showTalkUI()
     
     if ( !pMonsterSprite )
     {
-        string tempName;
-        const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(p_CurTask->targetId);
-        tempName = "image/monster/" + LevelDataManager::shareLevelDataManager()->ConvertToString(pMonster->image_id) + ".png";
-        
-        pMonsterSprite = CCSprite::create(tempName.c_str());
+        pMonsterSprite = LuckySprite::create(p_CurTask->targetId);
         pMonsterSprite->setPosition(CCPointMake(screanSize.width*0.5f, 260));
         this->addChild(pMonsterSprite);
         pMonsterSprite->setTag(TAG_MONSTER_SPRITE);
@@ -585,7 +585,7 @@ void MonsterBattleView::showTalkUI()
     else {
         string tempName;
         const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(p_CurTask->targetId);
-        tempName = "image/monster/" + LevelDataManager::shareLevelDataManager()->ConvertToString(pMonster->image_id) + ".png";
+        tempName = "image/monster/" + LevelDataManager::shareLevelDataManager()->ConvertToString(pMonster->imageId) + ".png";
         
         CCTexture2D *pTexture = CCTextureCache::sharedTextureCache()->addImage(tempName.c_str());
         pMonsterSprite->setTexture(pTexture);
@@ -632,11 +632,7 @@ void MonsterBattleView::showMonsterBattleUI()
     
     if ( !pMonsterSprite )
     {
-        string tempName;
-        const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(p_CurTask->targetId);
-        tempName = "image/monster/" + LevelDataManager::shareLevelDataManager()->ConvertToString(pMonster->image_id) + ".png";
-        
-        pMonsterSprite = CCSprite::create(tempName.c_str());
+        pMonsterSprite = LuckySprite::create(p_CurTask->targetId);
         pMonsterSprite->setPosition(CCPointMake(screanSize.width*0.5f, 260));
         this->addChild(pMonsterSprite);
         pMonsterSprite->setTag(TAG_MONSTER_SPRITE);
@@ -644,7 +640,7 @@ void MonsterBattleView::showMonsterBattleUI()
     else {
         string tempName;
         const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(p_CurTask->targetId);
-        tempName = "image/monster/" + LevelDataManager::shareLevelDataManager()->ConvertToString(pMonster->image_id) + ".png";
+        tempName = "image/monster/" + LevelDataManager::shareLevelDataManager()->ConvertToString(pMonster->imageId) + ".png";
         
         CCTexture2D *pTexture = CCTextureCache::sharedTextureCache()->addImage(tempName.c_str());
         pMonsterSprite->setTexture(pTexture);
@@ -668,36 +664,29 @@ void MonsterBattleView::showBossBattleUI()
 {
     CCSize screanSize = CCDirector::sharedDirector()->getWinSize();
     
-    string tempName;
-    const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(p_CurTask->targetId);
-    tempName = "image/monster/" + LevelDataManager::shareLevelDataManager()->ConvertToString(pMonster->image_id) + ".png";
-    
     if ( !pMonsterSprite )
     {
-        pMonsterSprite = CCSprite::create(tempName.c_str());
+        pMonsterSprite = LuckySprite::create(p_CurTask->targetId);
         pMonsterSprite->setPosition(CCPointMake(screanSize.width*0.5f, 260));
         this->addChild(pMonsterSprite);
         pMonsterSprite->setTag(TAG_MONSTER_SPRITE);
     }
     else {
-        CCTexture2D *pTexture = CCTextureCache::sharedTextureCache()->addImage(tempName.c_str());
-        pMonsterSprite->setTexture(pTexture);
+        LuckySprite *pTempSprite = LuckySprite::create(p_CurTask->targetId);
+        pMonsterSprite->setTexture(pTempSprite->getTexture());
     }
     
     pMonsterSprite->setScale(0.5f);
     
-    char strChar[512];
-    memset(strChar, 0, 512);
-    sprintf(strChar, "image/icon/hero_%d.png",1);
-    
     if ( !pPlayerSprite )
     {
-        pPlayerSprite = CCSprite::create(strChar);
+        pPlayerSprite = LuckySprite::create(37);
         pPlayerSprite->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height*0.20f));
         this->addChild(pPlayerSprite);
         pPlayerSprite->setTag(TAG_PLAYER_SPRITE);
         
-        pMonsterPLine = CCProgressTimer::create(CCSprite::create("image/extensions/sliderProgress.png"));
+        
+        pMonsterPLine = CCProgressTimer::create(LuckySprite::create(1001));
         pMonsterPLine->setType(kCCProgressTimerTypeBar);
         pMonsterPLine->setMidpoint(ccp(0.0f, 0.5f));
         pMonsterPLine->setPercentage(100);
@@ -706,7 +695,7 @@ void MonsterBattleView::showBossBattleUI()
         this->addChild(pMonsterPLine,3);
         pMonsterPLine->setTag(TAG_MONSTER_PLINE);
         
-        pPlayerPLine = CCProgressTimer::create(CCSprite::create("image/extensions/sliderProgress.png"));
+        pPlayerPLine = CCProgressTimer::create(LuckySprite::create(1001));
         pPlayerPLine->setType(kCCProgressTimerTypeBar);
         pPlayerPLine->setMidpoint(ccp(0.0f, 0.5f));
         pPlayerPLine->setPercentage(100);
@@ -731,8 +720,11 @@ void MonsterBattleView::showBossBattleUI()
         pLabSubHp->setVisible(false);
     }
     else {
-        CCTexture2D *pTexture = CCTextureCache::sharedTextureCache()->addImage(strChar);
-        pPlayerSprite->setTexture(pTexture);
+        LuckySprite *pTempSprite =LuckySprite::create(p_CurTask->targetId);
+        pMonsterSprite->setTexture(pTempSprite->getTexture());
+        
+        LuckySprite *pTempSprite2 = LuckySprite::create(37);
+        pPlayerSprite->setTexture(pTempSprite2->getTexture());
         
         pPlayerPLine->setVisible(true);
         

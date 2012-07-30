@@ -9,8 +9,9 @@
 #include "ChapterScene.h"
 #include "PageMapScene.h"
 #include "LevelDataManager.h"
-
+#include "LuckySprite.h"
 #include "BattleDefine.h"
+#include "LuckySprite.h"
 
 USING_NS_CC;
 
@@ -49,11 +50,11 @@ bool Chapter::init()
     pTitleLabel->setPosition(ccp(size.width/2, size.height - 20));
     this->addChild(pTitleLabel, 1);
     
-    CCSprite* pSprite = CCSprite::create("image/common/1.png");
+    LuckySprite* pSprite = LuckySprite::create(1);
     pSprite->setPosition(ccp(size.width/2, size.height/2));
     this->addChild(pSprite, 0);
     
-    CCSprite* pSprite2 = CCSprite::create("image/Chapter/0.png");
+    LuckySprite* pSprite2 = LuckySprite::create(12);
     pSprite2->setPosition(ccp(size.width/2, size.height/2));
     this->addChild(pSprite2, 0);
     
@@ -65,17 +66,13 @@ bool Chapter::init()
     string strNameSelect;
     string strNameDisable;
     bool bEnable = true;
-    CCMenuItemImage *pChapterItem;
+    CCMenuItemSprite *pChapterItem;
     vector<stChapter>::const_iterator iterTemp;
     for (iterTemp = pBible->listChapter.begin();
          iterTemp != pBible->listChapter.end();
          iterTemp++) 
     {
-        strName = "image/Chapter/" + LevelDataManager::shareLevelDataManager()->ConvertToString((*iterTemp).id) + ".png";
-        strNameSelect = "image/Chapter/" + LevelDataManager::shareLevelDataManager()->ConvertToString((*iterTemp).id) + LevelDataManager::shareLevelDataManager()->ConvertToString((*iterTemp).id) + ".png";
-        strNameDisable = "image/Chapter/" + LevelDataManager::shareLevelDataManager()->ConvertToString((*iterTemp).id) + LevelDataManager::shareLevelDataManager()->ConvertToString((*iterTemp).id) + LevelDataManager::shareLevelDataManager()->ConvertToString((*iterTemp).id) +".png";
-        
-        pChapterItem = CCMenuItemImage::create(strName.c_str(), strNameSelect.c_str(), strNameDisable.c_str(), this, menu_selector(Chapter::menuChapterCallback));
+        pChapterItem = CCMenuItemSprite::create(LuckySprite::create((*iterTemp).imageId), LuckySprite::create((*iterTemp).imageId+1), LuckySprite::create((*iterTemp).imageId+2), this, menu_selector(Chapter::menuChapterCallback));
         pChapterItem->setPosition((*iterTemp).position);
         pChapterItem->setEnabled(bEnable);
         pMenu->addChild(pChapterItem, 0, (*iterTemp).id);
@@ -83,8 +80,7 @@ bool Chapter::init()
     }
     
     //pMenu->alignItemsVerticallyWithPadding(20);
-    
-    CCMenuItemImage *pBackItem = CCMenuItemImage::create("image/common/2.png", "image/common/22.png", "image/common/22.png", this, menu_selector(Chapter::menuBackCallback));    
+    CCMenuItemSprite *pBackItem = CCMenuItemSprite::create(LuckySprite::create(2), LuckySprite::create(3), LuckySprite::create(3), this, menu_selector(Chapter::menuBackCallback));    
     pBackItem->setScale(0.5);
     pBackItem->setPosition(ccp(size.width/2 - 30, size.height/2 - 20));
     pMenu->addChild(pBackItem);
