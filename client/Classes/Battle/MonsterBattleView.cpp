@@ -110,6 +110,8 @@ void MonsterBattleView::initLayer(stPage *p_page, CCObject *target, SEL_CallFunc
     
     m_bIsWaitingForAction = false;
     
+    pBattleResultView = NULL;
+    
     mEventType = oneEventWasFinished;
     
     m_target = target;
@@ -327,11 +329,10 @@ void MonsterBattleView::playAction()
         {
             if ( tAcitonID == 3 )
             {
-                CCLabelTTF *pLabel = (CCLabelTTF *)this->getChildByTag(TAG_LABEL_DES);
-                pLabel->setColor(ccGREEN);
-                pLabel->setString("你获得胜利!");
-                pLabel->setVisible(true);
-                pLabel->runAction(pAction);
+                pBattleResultView = BattleResultView::create();
+                pBattleResultView->initView();
+                this->addChild(pBattleResultView,5);
+                pBattleResultView->runAction(pAction);
             }
             else {
                 CCSprite *pSprite = (CCSprite *)this->getChildByTag(TAG_MONSTER_SPRITE);
@@ -352,9 +353,10 @@ void MonsterBattleView::playOneActionEnd()
     {
         label->setVisible(false);
     }
-    CCLabelTTF *pLabel = (CCLabelTTF *)this->getChildByTag(TAG_LABEL_DES);
+    if ( pBattleResultView )
     {
-        pLabel->setVisible(false);
+        pBattleResultView->removeFromParentAndCleanup(true);
+        pBattleResultView = NULL;
     }
     
     if ( mActionList.empty() == false )
@@ -368,11 +370,10 @@ void MonsterBattleView::playOneActionEnd()
         {
             if(pAction)
             {
-                CCLabelTTF *pLabel = (CCLabelTTF *)this->getChildByTag(TAG_LABEL_DES);
-                pLabel->setColor(ccGREEN);
-                pLabel->setString("你获得胜利!");
-                pLabel->setVisible(true);
-                pLabel->runAction(pAction);
+                pBattleResultView = BattleResultView::create();
+                pBattleResultView->initView();
+                this->addChild(pBattleResultView,5);
+                pBattleResultView->runAction(pAction);
             }
         }
         else if ( tAcitonID == 4 ){
@@ -554,8 +555,11 @@ stTalk * MonsterBattleView::getNextTalk()
 
 void MonsterBattleView::showUI()
 {
-    CCLabelTTF *pLabel = (CCLabelTTF *)this->getChildByTag(TAG_LABEL_DES);
-    pLabel->setVisible(false);
+    if ( pBattleResultView )
+    {
+        pBattleResultView->removeFromParentAndCleanup(true);
+        pBattleResultView = NULL;
+    }
     if ( mEventType == talkEvent )
     {
         showTalkUI();

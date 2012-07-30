@@ -75,5 +75,11 @@ typedef struct
     string plistPath;
 }stImage;
 
+typedef struct 
+{
+    int id;
+    int num;
+}stGood;
+
 #endif
 

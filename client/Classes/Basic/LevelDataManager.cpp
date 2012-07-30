@@ -22,7 +22,6 @@ LevelDataManager::LevelDataManager( void )
 
 LevelDataManager::~LevelDataManager( void )
 {
-
 }
 
 void LevelDataManager::init( void )

@@ -46,6 +46,7 @@
 		187B98EC15B3FAB800BAE5B3 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 781C33B11547F06B00633F88 /* OpenAL.framework */; };
 		187DC37D15B803970051A392 /* MonsterBattleView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 187DC37C15B803970051A392 /* MonsterBattleView.cpp */; };
 		187DC38015B803B80051A392 /* BossBattleView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 187DC37F15B803B80051A392 /* BossBattleView.cpp */; };
+		187E0D4B15C679D500DB85F3 /* BattleResultView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 187E0D4A15C679D500DB85F3 /* BattleResultView.cpp */; };
 		1898E1D815B3F7E500A274B3 /* libcocos2dx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1898E1D515B3F7D500A274B3 /* libcocos2dx.a */; };
 		1898E1DC15B3F83900A274B3 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1898E1DB15B3F83900A274B3 /* libcurl.a */; };
 		1898E1FA15B3F94700A274B3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -152,6 +153,8 @@
 		187DC37E15B803AE0051A392 /* BossBattleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BossBattleView.h; sourceTree = "<group>"; };
 		187DC37F15B803B80051A392 /* BossBattleView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BossBattleView.cpp; sourceTree = "<group>"; };
 		187DC38115B806D50051A392 /* BattleDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BattleDefine.h; sourceTree = "<group>"; };
+		187E0D4915C679C500DB85F3 /* BattleResultView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BattleResultView.h; sourceTree = "<group>"; };
+		187E0D4A15C679D500DB85F3 /* BattleResultView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BattleResultView.cpp; sourceTree = "<group>"; };
 		1898E1CD15B3F7D500A274B3 /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = "../libs/cocos2d-x/cocos2dx/proj.ios/cocos2dx.xcodeproj"; sourceTree = "<group>"; };
 		1898E1DB15B3F83900A274B3 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = "../libs/cocos2d-x/cocos2dx/platform/third_party/ios/libraries/libcurl.a"; sourceTree = "<group>"; };
 		1898E1F915B3F94700A274B3 /* libCocosDension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCocosDension.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -386,6 +389,8 @@
 				187DC38115B806D50051A392 /* BattleDefine.h */,
 				F2D6B44715C1131500D78164 /* NpcTalkView.h */,
 				F2D6B44815C1132500D78164 /* NpcTalkView.cpp */,
+				187E0D4915C679C500DB85F3 /* BattleResultView.h */,
+				187E0D4A15C679D500DB85F3 /* BattleResultView.cpp */,
 			);
 			path = Battle;
 			sourceTree = "<group>";
@@ -657,6 +662,7 @@
 				F2AAC58D15C0DFF700952F4B /* TaskDataManager.cpp in Sources */,
 				F2AAC58E15C0DFF700952F4B /* TaskModule.cpp in Sources */,
 				F2D6B44915C1132600D78164 /* NpcTalkView.cpp in Sources */,
+				187E0D4B15C679D500DB85F3 /* BattleResultView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
