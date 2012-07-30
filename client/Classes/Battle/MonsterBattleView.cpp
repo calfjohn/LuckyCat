@@ -575,20 +575,18 @@ void MonsterBattleView::showTalkUI()
 {
     CCSize screanSize = CCDirector::sharedDirector()->getWinSize();
     
-    if ( !pMonsterSprite )
+    if (pMonsterSprite)
+    {
+        pMonsterSprite->removeFromParentAndCleanup(true);
+        pMonsterSprite = NULL;
+    }
+    const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(p_CurTask->targetId);
+    if (pMonster) 
     {
         pMonsterSprite = LuckySprite::create(p_CurTask->targetId);
         pMonsterSprite->setPosition(CCPointMake(screanSize.width*0.5f, 260));
         this->addChild(pMonsterSprite);
         pMonsterSprite->setTag(TAG_MONSTER_SPRITE);
-    }
-    else {
-        string tempName;
-        const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(p_CurTask->targetId);
-        tempName = "image/monster/" + LevelDataManager::shareLevelDataManager()->ConvertToString(pMonster->imageId) + ".png";
-        
-        CCTexture2D *pTexture = CCTextureCache::sharedTextureCache()->addImage(tempName.c_str());
-        pMonsterSprite->setTexture(pTexture);
     }
     
     pMonsterSprite->setScale(0.5f);
@@ -630,21 +628,17 @@ void MonsterBattleView::showMonsterBattleUI()
 {
     CCSize screanSize = CCDirector::sharedDirector()->getWinSize();
     
-    if ( !pMonsterSprite )
+    if (pMonsterSprite)
     {
+        pMonsterSprite->removeFromParentAndCleanup(true);
+        pMonsterSprite = NULL;
+    }
+    
         pMonsterSprite = LuckySprite::create(p_CurTask->targetId);
         pMonsterSprite->setPosition(CCPointMake(screanSize.width*0.5f, 260));
         this->addChild(pMonsterSprite);
         pMonsterSprite->setTag(TAG_MONSTER_SPRITE);
-    }
-    else {
-        string tempName;
-        const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(p_CurTask->targetId);
-        tempName = "image/monster/" + LevelDataManager::shareLevelDataManager()->ConvertToString(pMonster->imageId) + ".png";
-        
-        CCTexture2D *pTexture = CCTextureCache::sharedTextureCache()->addImage(tempName.c_str());
-        pMonsterSprite->setTexture(pTexture);
-    }
+    
     
     pMonsterSprite->setScale(0.5f);
     
