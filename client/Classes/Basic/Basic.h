@@ -75,5 +75,16 @@ typedef struct
     string plistPath;
 }stImage;
 
+typedef struct 
+{
+    int id;
+    int num;
+    
+    void print()
+    {
+        printf("Good ID %d, GoodNum %d\n",id,num);
+    }
+}stGood;
+
 #endif
 

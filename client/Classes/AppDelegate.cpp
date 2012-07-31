@@ -41,6 +41,12 @@ bool AppDelegate::applicationDidFinishLaunching()
     DictDataManager::shareDictDataManager();
     TaskDataManager::getShareInstance();
     
+    CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("image/Chapter/chapter.plist");
+    CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("image/common/common.plist");
+    CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("image/main/main.plist");
+    CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("image/monster/monster.plist");
+    CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("image/Page/page.plist");
+    
     // create a scene. it's an autorelease object
     CCScene *pScene = Cover::scene();
 
