@@ -86,5 +86,24 @@ typedef struct
     }
 }stGood;
 
+typedef struct {
+    int                     level;      //level of actor
+    std::string             title;      //title of notification
+    std::string             content;    //content of notification
+    std::vector<stGood>     bonus;      //bouns of level upgrade reaward
+    
+    void print()
+    {
+        printf("---stActorLevelUpgrade---\n");
+        printf("title %s\n", title.c_str());
+        printf("content %s\n", content.c_str());
+        printf("bonus\n");
+        for ( int i=0; i<bonus.size(); i++ )
+        {
+            bonus[i].print();
+        }
+    }
+}stActorLevelUpgrade;
+
 #endif
 
