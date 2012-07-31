@@ -110,6 +110,8 @@ void MonsterBattleView::initLayer(stPage *p_page, CCObject *target, SEL_CallFunc
     
     m_bIsWaitingForAction = false;
     
+    pBattleResultView = NULL;
+    
     mEventType = oneEventWasFinished;
     
     m_target = target;
@@ -138,7 +140,7 @@ void MonsterBattleView::initLayer(stPage *p_page, CCObject *target, SEL_CallFunc
     titleLabel->setColor(ccc3(255,55,0));
     this->addChild(titleLabel);
     
-    LuckySprite *_pMonsterSprite = LuckySprite::create(p_CurTask->targetId);
+    LuckySprite *_pMonsterSprite = LuckySprite::create(p_CurTask->targetId[0]);
     _pMonsterSprite->setPosition(CCPointMake(screanSize.width*0.5f, 260));
     this->addChild(_pMonsterSprite);
     _pMonsterSprite->setTag(TAG_MONSTER_SPRITE);
@@ -327,11 +329,10 @@ void MonsterBattleView::playAction()
         {
             if ( tAcitonID == 3 )
             {
-                CCLabelTTF *pLabel = (CCLabelTTF *)this->getChildByTag(TAG_LABEL_DES);
-                pLabel->setColor(ccGREEN);
-                pLabel->setString("你获得胜利!");
-                pLabel->setVisible(true);
-                pLabel->runAction(pAction);
+                pBattleResultView = BattleResultView::create();
+                pBattleResultView->initView();
+                this->addChild(pBattleResultView,5);
+                pBattleResultView->runAction(pAction);
             }
             else {
                 CCSprite *pSprite = (CCSprite *)this->getChildByTag(TAG_MONSTER_SPRITE);
@@ -352,9 +353,10 @@ void MonsterBattleView::playOneActionEnd()
     {
         label->setVisible(false);
     }
-    CCLabelTTF *pLabel = (CCLabelTTF *)this->getChildByTag(TAG_LABEL_DES);
+    if ( pBattleResultView )
     {
-        pLabel->setVisible(false);
+        pBattleResultView->removeFromParentAndCleanup(true);
+        pBattleResultView = NULL;
     }
     
     if ( mActionList.empty() == false )
@@ -368,11 +370,10 @@ void MonsterBattleView::playOneActionEnd()
         {
             if(pAction)
             {
-                CCLabelTTF *pLabel = (CCLabelTTF *)this->getChildByTag(TAG_LABEL_DES);
-                pLabel->setColor(ccGREEN);
-                pLabel->setString("你获得胜利!");
-                pLabel->setVisible(true);
-                pLabel->runAction(pAction);
+                pBattleResultView = BattleResultView::create();
+                pBattleResultView->initView();
+                this->addChild(pBattleResultView,5);
+                pBattleResultView->runAction(pAction);
             }
         }
         else if ( tAcitonID == 4 ){
@@ -554,8 +555,11 @@ stTalk * MonsterBattleView::getNextTalk()
 
 void MonsterBattleView::showUI()
 {
-    CCLabelTTF *pLabel = (CCLabelTTF *)this->getChildByTag(TAG_LABEL_DES);
-    pLabel->setVisible(false);
+    if ( pBattleResultView )
+    {
+        pBattleResultView->removeFromParentAndCleanup(true);
+        pBattleResultView = NULL;
+    }
     if ( mEventType == talkEvent )
     {
         showTalkUI();
@@ -575,20 +579,18 @@ void MonsterBattleView::showTalkUI()
 {
     CCSize screanSize = CCDirector::sharedDirector()->getWinSize();
     
-    if ( !pMonsterSprite )
+    if (pMonsterSprite)
     {
-        pMonsterSprite = LuckySprite::create(p_CurTask->targetId);
+        pMonsterSprite->removeFromParentAndCleanup(true);
+        pMonsterSprite = NULL;
+    }
+    const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(p_CurTask->targetId[0]);
+    if (pMonster) 
+    {
+        pMonsterSprite = LuckySprite::create(p_CurTask->targetId[0]);
         pMonsterSprite->setPosition(CCPointMake(screanSize.width*0.5f, 260));
         this->addChild(pMonsterSprite);
         pMonsterSprite->setTag(TAG_MONSTER_SPRITE);
-    }
-    else {
-        string tempName;
-        const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(p_CurTask->targetId);
-        tempName = "image/monster/" + LevelDataManager::shareLevelDataManager()->ConvertToString(pMonster->imageId) + ".png";
-        
-        CCTexture2D *pTexture = CCTextureCache::sharedTextureCache()->addImage(tempName.c_str());
-        pMonsterSprite->setTexture(pTexture);
     }
     
     pMonsterSprite->setScale(0.5f);
@@ -600,13 +602,13 @@ void MonsterBattleView::showTalkUI()
     {
         m_LayerDialogBg = CCLayerColor::create(ccc4(0, 0, 0, 255));
         m_LayerDialogBg->setAnchorPoint(CCPointZero);
-        m_LayerDialogBg->setContentSize(CCSizeMake(screanSize.width * 0.8f, screanSize.height * 0.2f));
-        m_LayerDialogBg->setPosition(CCPointMake(screanSize.width * 0.1f, 100));
+        m_LayerDialogBg->setContentSize(CCSizeMake(screanSize.width * 0.9f, screanSize.height * 0.3f));
+        m_LayerDialogBg->setPosition(CCPointMake(screanSize.width * 0.05f, 100));
         this->addChild(m_LayerDialogBg,4);
         
         m_LayerDialogBg->setVisible(false);
         
-        m_LabDialog = CCLabelTTF::create("", m_LayerDialogBg->getContentSize(), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter,"Arial", 18);
+        m_LabDialog = CCLabelTTF::create("", m_LayerDialogBg->getContentSize(), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter,"Arial", 14);
         m_LabDialog->setColor(ccWHITE);
         m_LabDialog->setAnchorPoint(CCPointZero);
         m_LabDialog->setPosition(CCPointZero);
@@ -630,21 +632,17 @@ void MonsterBattleView::showMonsterBattleUI()
 {
     CCSize screanSize = CCDirector::sharedDirector()->getWinSize();
     
-    if ( !pMonsterSprite )
+    if (pMonsterSprite)
     {
-        pMonsterSprite = LuckySprite::create(p_CurTask->targetId);
+        pMonsterSprite->removeFromParentAndCleanup(true);
+        pMonsterSprite = NULL;
+    }
+    
+        pMonsterSprite = LuckySprite::create(p_CurTask->targetId[0]);
         pMonsterSprite->setPosition(CCPointMake(screanSize.width*0.5f, 260));
         this->addChild(pMonsterSprite);
         pMonsterSprite->setTag(TAG_MONSTER_SPRITE);
-    }
-    else {
-        string tempName;
-        const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(p_CurTask->targetId);
-        tempName = "image/monster/" + LevelDataManager::shareLevelDataManager()->ConvertToString(pMonster->imageId) + ".png";
-        
-        CCTexture2D *pTexture = CCTextureCache::sharedTextureCache()->addImage(tempName.c_str());
-        pMonsterSprite->setTexture(pTexture);
-    }
+    
     
     pMonsterSprite->setScale(0.5f);
     
@@ -666,13 +664,13 @@ void MonsterBattleView::showBossBattleUI()
     
     if ( !pMonsterSprite )
     {
-        pMonsterSprite = LuckySprite::create(p_CurTask->targetId);
+        pMonsterSprite = LuckySprite::create(p_CurTask->targetId[0]);
         pMonsterSprite->setPosition(CCPointMake(screanSize.width*0.5f, 260));
         this->addChild(pMonsterSprite);
         pMonsterSprite->setTag(TAG_MONSTER_SPRITE);
     }
     else {
-        LuckySprite *pTempSprite = LuckySprite::create(p_CurTask->targetId);
+        LuckySprite *pTempSprite = LuckySprite::create(p_CurTask->targetId[0]);
         pMonsterSprite->setTexture(pTempSprite->getTexture());
     }
     
@@ -720,7 +718,7 @@ void MonsterBattleView::showBossBattleUI()
         pLabSubHp->setVisible(false);
     }
     else {
-        LuckySprite *pTempSprite =LuckySprite::create(p_CurTask->targetId);
+        LuckySprite *pTempSprite =LuckySprite::create(p_CurTask->targetId[0]);
         pMonsterSprite->setTexture(pTempSprite->getTexture());
         
         LuckySprite *pTempSprite2 = LuckySprite::create(37);
@@ -779,9 +777,7 @@ void MonsterBattleView::showDialog()
     stTalk *tTalk = getCurTalk();
     if ( tTalk )
     {
-        string dialog = "" + tTalk->npcName + " : " + tTalk->dialog;
-        
-        CCLog("%s\n",dialog.c_str());
+        string dialog = TaskDataManager::getShareInstance()->getDialogFromTalk(tTalk);
         
         if (m_LabDialog)m_LabDialog->setString(dialog.c_str());
         

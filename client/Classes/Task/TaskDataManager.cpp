@@ -10,6 +10,7 @@
 #include "CppSQLite3.h"
 #include "cocos2d.h"
 #include <algorithm>
+#include "BasicFunction.h"
 
 USING_NS_CC;
 
@@ -248,6 +249,22 @@ std::vector<stTask *> TaskDataManager::getASeriesOfTask(int task_id)
     return tVectorTask;
 }
 
+std::string TaskDataManager::getDialogFromTalk( stTalk * tmpTalk )
+{
+    if ( !tmpTalk || tmpTalk->dialogList.size() == 0 )
+    {
+        return "";
+    }
+    else if ( tmpTalk->dialogList.size() == 1 )
+    {
+        return tmpTalk->dialogList[0];
+    }
+    else {
+        int pos = randNumber(0,999)%tmpTalk->dialogList.size();
+        return tmpTalk->dialogList[pos];
+    }
+}
+
 #pragma Read SQLite
 void TaskDataManager::readDB()
 {
@@ -267,8 +284,20 @@ void TaskDataManager::readDB()
         stTask *tTask = new stTask();
         tTask->id = result.getIntField("id");
         tTask->type = (TaskType)result.getIntField("type");
-        tTask->targetId = result.getIntField("target_id");
-        tTask->bonusId = result.getIntField("bonus_id");
+        std::string strTarget = result.getStringField("target_id");
+        tTask->targetId = separateStringToNumberVector(strTarget, ",");
+        std::string strBonus = result.getStringField("bonus_id");
+        std::vector<int> tmpBonusList = separateStringToNumberVector(strBonus, ",");
+        
+        if (tmpBonusList.size() > 0)
+            CCAssert( tmpBonusList[0] == tmpBonusList.size()-1, "Something error in sql field\n");
+        for (int i = 1; tmpBonusList[0] != 0 && i+1 < tmpBonusList.size(); i+=2) {
+            stGood _good;
+            _good.id = tmpBonusList[i];
+            _good.num = tmpBonusList[i+1];
+            tTask->bonus.push_back(_good);
+        }
+        
         tTask->bonusRepeat = result.getIntField("bonus_repeat");
         tTask->nextTaskId = result.getIntField("next_task_id");
         
@@ -288,7 +317,10 @@ void TaskDataManager::readDB()
         stTalk *tTalk = new stTalk();
         tTalk->id = result_1.getIntField("id");
         tTalk->taskId = result_1.getIntField("task_id");
-        tTalk->dialog = result_1.getStringField("content");
+        std::string _dialog= result_1.getStringField("content");
+        
+        tTalk->dialogList = separateString(_dialog,"||");
+        
         tTalk->npcId = result_1.getIntField("npc_id");
         tTalk->npcName = result_1.getStringField("npc_name");
         

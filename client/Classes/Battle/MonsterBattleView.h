@@ -14,6 +14,7 @@
 #include "TaskBasic.h"
 #include "BattleDefine.h"
 #include "LuckySprite.h"
+#include "BattleResultView.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -90,6 +91,8 @@ private:
     std::vector<stTask *> mTaskList;
     
     bool m_bIsWaitingForAction;
+    
+    BattleResultView *pBattleResultView;
     
     /*
      *@brief show all UI. hidden some.

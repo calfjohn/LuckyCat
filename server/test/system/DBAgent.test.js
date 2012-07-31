@@ -1,15 +1,16 @@
 /* Test DB interface.
-*   dbTest is a default database while mysql installed.
+*   database world is a default database while mysql installed.
+*   database test_dbagent is not exist in mysql.
 */
 
 require("../../src/system/DBAgent");
 require("../../src/system/Log");
 
-var assert = require("assert");
-var util = require("util");
-var log = new Log("DBAgent.test");
+var assert = require("assert")
+    ,util = require("util")
+    ,log = new Log("DBAgent.test");
 
-var dbTest = {
+var dbWorldCfg = {
     host       : "localhost",
     user       : "root",
     password   : "99092026",
@@ -17,34 +18,93 @@ var dbTest = {
     debug       : false
 };
 
+var dbTestDBAgentName = "test_dbagent";
+var dbTestDBAgentCfg = {
+    host       : "localhost",
+    user       : "root",
+    password   : "99092026",
+    database   : dbTestDBAgentName,
+    debug       : false
+};
+
 describe("=================================================================================\n" +
-    "    Test DBAgent", function(done) {
-    it("query", function(done) {
-        var testDB = new DBAgent(dbTest).connect();
-        var queryCBCount = 0;
-        var dbcb = function(err, results) {
-            if (err) {
-                done(err);
-                return;
-            }
-            assert(results.length > 0);
-            if (results.length <= 6) {
-                log.d(results);
-            }
-            queryCBCount++;
-            if (queryCBCount >= 3) {
-                testDB.close();
+    "    Test DBAgent", function() {
+    describe("# access the database `world` which already existed in mysql:", function() {
+        it("query", function(done) {
+            var dbWorld = new DBAgent(dbWorldCfg);
+            dbWorld.connect(true);
+
+            // Query all data in table city.
+            dbWorld.query("SELECT * FROM city", function(err, results) {
+                if (err) {
+                    done(err);
+                    return;
+                }
+                assert(results.length > 0);
+            });
+
+            // Query one row which id = 1.
+            dbWorld.query("SELECT * FROM city WHERE ID = ?", 1, function(err, results) {
+                if (err) {
+                    done(err);
+                    return;
+                }
+                assert(results.length > 0);
+            });
+
+            // Query several rows.
+            dbWorld.query("SELECT * FROM city WHERE CountryCode = ? || CountryCode = ?", ["ABW", "AFG"], function(err, results) {
+                if (err) {
+                    done(err);
+                    return;
+                }
+                assert(results.length > 0);
+                dbWorld.close();
                 done();
-            }
-        };
+            });
+        });
+    });
 
-        // Query all data in table city.
-        testDB.query("SELECT * FROM city", dbcb);
+    var dbTest = new DBAgent(dbTestDBAgentCfg).connect();
 
-        // Query one row which id = 1.
-        testDB.query("SELECT * FROM city WHERE ID = ?", 1, dbcb);
+    describe(util.format("# create the database `%s` in mysql:", dbTestDBAgentName), function() {
+        it ("create", function(done) {
+            dbTest.createDatabase(true, function(err) {
+                if (err) {
+                    done(err)
+                } else {
+                    done();
+                }
+            });
+        });
+    });
 
-        // Query several rows.
-        testDB.query("SELECT * FROM city WHERE CountryCode = ? || CountryCode = ?", ["ABW", "AFG"], dbcb);
+    describe(util.format("# access the database `%s` in mysql:", dbTestDBAgentName),  function() {
+        it("create table", function(done){
+            dbTest.query("CREATE TABLE `a_test_table` (" +
+                "intColumn      int," +
+                "stringColumn   varchar(255)" +
+            ") COMMENT 'this is a test table.'",
+            function(err) {
+                if (err) {
+                    done(err);
+                } else {
+                    done();
+                }
+            })
+        });
+    });
+
+    describe(util.format("# drop the database `%s` in mysql:", dbTestDBAgentName),  function() {
+        it("drop", function(done) {
+            dbTest.query(util.format("DROP DATABASE `%s`", dbTestDBAgentName), function(err) {
+                if (err) {
+                    done(err);
+                } else {
+                    dbTest.close();
+                    done();
+                }
+            });
+        });
     });
 });

@@ -3,13 +3,14 @@
 
 LuckySprite::LuckySprite(void)
 {
+
 }
 
 LuckySprite::~LuckySprite(void)
 {
 }
 
-LuckySprite* LuckySprite::create(int imageId)
+LuckySprite* LuckySprite::create(int imageId, float scale)
 {
     const stImage *pImage = DictDataManager::shareDictDataManager()->getImage(imageId);
     if (!pImage) 
@@ -28,11 +29,11 @@ LuckySprite* LuckySprite::create(int imageId)
     }
     else 
     {
-        CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile(pImage->plistPath.c_str(), pImage->filePath.c_str());
         if (pobSprite && pobSprite->initWithSpriteFrameName( (pImage->plistPath + "/" + pImage->name).c_str()))
 //        if (pobSprite && pobSprite->initWithSpriteFrameName(pImage->name.c_str()))
         {
             pobSprite->autorelease();
+            pobSprite->setScale(scale);
             return pobSprite;
         }
     }

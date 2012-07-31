@@ -89,6 +89,16 @@ public:
 	static const cocos2d::CCPoint& left();
 	static const cocos2d::CCPoint& topLeft();
 };
+typedef struct 
+{
+    int id;
+    int num;
+    
+    void print()
+    {
+        printf("Good ID %d, GoodNum %d\n",id,num);
+    }
+}stGood;
 
 #endif
 

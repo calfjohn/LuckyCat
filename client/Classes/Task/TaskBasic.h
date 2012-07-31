@@ -18,6 +18,8 @@
 #include <assert.h>
 #include <math.h>
 #include "cocos2d.h"
+#include "Basic.h"
+
 
 using namespace std;
 
@@ -51,8 +53,8 @@ typedef struct
 {
 	int	id;				//id of task.
 	TaskType type;			//type of task. 0 main task, 1 side task.
-	int targetId;		//id of target.
-	int bonusId;		//bonus of task.
+    std::vector<int> targetId;		//id of target.
+	std::vector<stGood> bonus;		//bonus of task.
 	int nextTaskId;		//next task follow this task.
 	//int npcTalkId;		//a talk about this task.
 	bool bonusRepeat;	//if bonusRepeat is true, player can get bonus again.
@@ -62,8 +64,15 @@ typedef struct
         printf("---- stTask -----\n");
         printf("id %d\n", id);
         printf("type %d\n", type);
-        printf("targetId %d\n", targetId);
-        printf("bonusId %d\n", bonusId);
+        for ( int i=0; i<targetId.size(); i++ )
+        {
+            printf("%d target--> %d\n",i,targetId[i]);
+        }
+        printf("bonus\n");
+        for ( int i=0; i<bonus.size(); i++ )
+        {
+            bonus[i].print();
+        }
         printf("nextTaskId %d\n", nextTaskId);
         //printf("npcTalkId %d\n", npcTalkId);
         printf("bonusRepeat %d\n", bonusRepeat);
@@ -73,7 +82,7 @@ typedef struct
 typedef struct
 {
 	int id;				//id of talk.
-	std::string dialog;	//content of dialog.
+    std::vector<std::string> dialogList;     //list of dialog
 	int npcId;			//if npcId is 0, lead role is talk. else it is a monster.
     int taskId;
     std::string npcName;
@@ -82,10 +91,14 @@ typedef struct
     {
         printf("---- stTalk -----\n");
         printf("id %d\n", id);
-        printf("dialog %s\n", dialog.c_str());
         printf("npcId %d\n", npcId);
         printf("taskId %d\n", taskId);
         printf("npcName %s\n", npcName.c_str());
+        
+        for( int i = 0; i < dialogList.size(); i++ )
+        {
+            printf("Dialog %d: %s\n",i,dialogList[i].c_str());
+        }
     }
     bool operator < (const stTask &m)const {
         return id < m.id;
@@ -93,6 +106,13 @@ typedef struct
     bool operator > (const stTask &m)const {
         return id > m.id;
     }
+    bool operator < (const stTask *m)const {
+        return id < m->id;
+    }
+    bool operator > (const stTask *m)const {
+        return id > m->id;
+    }
 }stTalk;
+
 
 #endif

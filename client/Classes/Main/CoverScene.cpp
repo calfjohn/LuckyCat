@@ -41,13 +41,13 @@ bool Cover::init()
 
     CCSize size = CCDirector::sharedDirector()->getWinSize();
 
-    CCMenuItemSprite *pDaggerItem = CCMenuItemSprite::create(LuckySprite::create(4), LuckySprite::create(5), LuckySprite::create(6), this, menu_selector(Cover::menuDaggerCallback));
+    CCMenuItemSprite *pDaggerItem = CCMenuItemSprite::create(LuckySprite::create(4), LuckySprite::create(4, 1.1), LuckySprite::create(6), this, menu_selector(Cover::menuDaggerCallback));
     pDaggerItem->setPosition(ccp(size.width - 50, size.height - 80));
     
-    CCMenuItemSprite *pMagicItem = CCMenuItemSprite::create(LuckySprite::create(7), LuckySprite::create(8), LuckySprite::create(9), this, menu_selector(Cover::menuMagicCallback));
+    CCMenuItemSprite *pMagicItem = CCMenuItemSprite::create(LuckySprite::create(7), LuckySprite::create(7, 1.1), LuckySprite::create(9), this, menu_selector(Cover::menuMagicCallback));
     pMagicItem->setPosition(ccp(size.width - 80, size.height - 200));
     
-    CCMenuItemSprite *pBookItem = CCMenuItemSprite::create(LuckySprite::create(10), LuckySprite::create(11), LuckySprite::create(12), this, menu_selector(Cover::menuBookCallback));
+    CCMenuItemSprite *pBookItem = CCMenuItemSprite::create(LuckySprite::create(10), LuckySprite::create(10, 1.1), LuckySprite::create(12), this, menu_selector(Cover::menuBookCallback));
     pBookItem->setPosition(ccp(size.width/2 - 50, size.height/2 - 20));
     
     CCMenuItemFont *pCardItem = CCMenuItemFont::create("card", this, menu_selector(Cover::menuCardCallback));
