@@ -25,7 +25,7 @@ public:
     //
     LAYER_CREATE_FUNC(BattleResultView);
     
-    void initView();
+    void initView(stTask *tTask);
     
 };
 

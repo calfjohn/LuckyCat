@@ -8,7 +8,7 @@
 
 #include "BattleResultView.h"
 
-void BattleResultView::initView()
+void BattleResultView::initView(stTask *tTask)
 {
     CCSize screanSize = CCDirector::sharedDirector()->getWinSize();
     
@@ -30,8 +30,13 @@ void BattleResultView::initView()
     labelPrize->setPosition(CCPointMake(screanSize.width * 0.05f, screanSize.height *  0.48f ));
     bgColor->addChild(labelPrize);
     
-    for (int i = 0; i < 4; i++) {
-        CCLabelTTF *bonusLabel = CCLabelTTF::create("Goods XXX + 1000", CCSizeMake(screanSize.width * 0.8f, screanSize.height * 0.15f ), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter,"Arial", 18);
+    int i = 0;
+    for (std::vector<stGood>::iterator _iter = tTask->bonus.begin(); _iter < tTask->bonus.end(); _iter++,i++) {
+        stGood _goods = *_iter;
+        
+        char strChar[512];
+        sprintf(strChar, "GoodsName %d + %d",_goods.id,_goods.num);
+        CCLabelTTF *bonusLabel = CCLabelTTF::create(strChar, CCSizeMake(screanSize.width * 0.8f, screanSize.height * 0.15f ), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter,"Arial", 18);
         bonusLabel->setColor(ccGREEN);
         bonusLabel->setAnchorPoint(CCPointZero);
         bonusLabel->setPosition(CCPointMake(screanSize.width * 0.1f, screanSize.height *  ( 0.38f - 0.10f*i ) ));

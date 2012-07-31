@@ -48,6 +48,11 @@ public:
 		return ss.str();
         
 	}
+    
+    map<int, stActorLevelUpgrade *> m_mapActorLevelUpgrade;
+    void setMapActorLevelUpgrade( vector<stActorLevelUpgrade *> tmpList);
+    void deleteMapActorLevelUpgrade();
+    stActorLevelUpgrade * getMapActorLevelUpgrade(int _level);
 protected:
 	void init(void);
 	LevelDataManager(void);
