@@ -9,6 +9,7 @@
 #include "TaskDataManager.h"
 #include "CppSQLite3.h"
 #include "cocos2d.h"
+#include <algorithm>
 
 USING_NS_CC;
 
@@ -221,7 +222,8 @@ std::vector<stTalk *> TaskDataManager::getAllTalk(int task_id)
         }
     }
     
-    sort(tVectorRetTalk.begin(), tVectorRetTalk.end());
+    std::sort(tVectorRetTalk.begin(), tVectorRetTalk.end());
+	
     
     for (vector<stTalk *>::iterator it = tVectorRetTalk.begin(); it != tVectorRetTalk.end(); it++) {
         stTalk *_talk = *it;

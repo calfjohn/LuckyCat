@@ -37,6 +37,12 @@
     <Filter Include="source\Battle">
       <UniqueIdentifier>{9c87d537-9e68-4e8b-814a-ed20320217ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="source\Task">
+      <UniqueIdentifier>{02880fae-d748-49c1-97a1-ef0305c30f64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\PlayerInfo">
+      <UniqueIdentifier>{cacdc6a6-2e14-477d-9159-a2bcb7a593b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\LuckyCat.ico">
@@ -88,9 +94,6 @@
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\HelloWorldScene.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\libs\jsoncpp\src\lib_json\json_batchallocator.h">
       <Filter>source\third-party\jsoncpp</Filter>
     </ClInclude>
@@ -124,15 +127,27 @@
     <ClInclude Include="..\Classes\Page\PageMapScene.h">
       <Filter>source\Page</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Task\TaskBasic.h">
+      <Filter>source\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Task\TaskDataManager.h">
+      <Filter>source\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Task\TaskModule.h">
+      <Filter>source\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Basic\LuckySprite.h">
+      <Filter>source\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PlayerInfo\PlayerInfoBar.h">
+      <Filter>source\PlayerInfo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="..\libs\cppsqlite\CppSQLite3.cpp">
@@ -170,6 +185,18 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Page\PageMapScene.cpp">
       <Filter>source\Page</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Task\TaskDataManager.cpp">
+      <Filter>source\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Task\TaskModule.cpp">
+      <Filter>source\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Basic\LuckySprite.cpp">
+      <Filter>source\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\PlayerInfo\PlayerInfoBar.cpp">
+      <Filter>source\PlayerInfo</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
