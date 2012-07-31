@@ -26,45 +26,53 @@ app.configure("production", function() {
     app.use(express.errorHandler());
 });
 
-app.get("/user/login", require("./handler/login"));
-app.get("/user/login", require("./handler/createUser"));
-
 require("../system/DBAgent");
-var dbCfg = require("../config/user.UserServer");
-var db = new DBAgent(dbCfg.dbConfig);
 
 // init server, connect database here
-app.initServer = function (cb) {
-    db.connect();
-    process.nextTick(function() {
-        // emulate the async initialize operation
-        cb(null);
-    });
-/*
-    var doCreateTable = function() {
-        log.d("doCreateTable");
+app.initInstance = function (srvConfig, callback) {
+    var cfg = require("../config/user.UserServer");
+    var cb = function() {log.d(arguments);};
+    for (var i = 0; i < arguments.length; ++i) {
+        var arg = arguments[i];
+        switch (typeof arg) {
+            case "function":    cb = arg; break;
+            case "object":      cfg = arg; break;
+            default: throw new Error("Invalid argument");
+        }
+    }
+
+    var db = new DBAgent(cfg.dbConfig);
+    db.connect().createDatabase(cfg["reCreateDB"] || false, function(err) {
+        if (err) {
+            cb(err);
+            return;
+        }
         db.query(
             "CREATE TABLE IF NOT EXISTS users (" +
                 "uuid       bigint(8)       PRIMARY KEY AUTO_INCREMENT COMMENT '自增长ID'," +
                 "udid       varchar(127)," +
-                "91id       varchar(127)," +
+                "91id       varchar(127)" +
                 ") DEFAULT CHARSET=utf8 COMMENT='用户表' AUTO_INCREMENT=10000",
             function(err) {
-                cb (err);
+                if (err) {
+                    cb(err);
+                    return;
+                } else {
+                    app.initHandlers(app);
+                    var users = require("./Users");
+                    users.initInstance(cfg.dbConfig);
+                    cb(err);
+                    db.close();
+                    db = undefined;
+                }
             }
-        )
-    }
-    if (null == dbCfg.dbConfig["database"]) {
-        // config havn't set database, use code to create it.
-        log.d("doCreateDatabase");
-        db.createDatabase("db_luckycat", dbCfg.dbReCreate || false, function(err) {
-            if (err) {
-                cb (err);
-                return;
-            }
-            doCreateTable();
-        }).on("connect", function() { client.query("use db_luckycat")});
-    }*/
+        );
+    });
     return this;
-}
+};
+
+app.initHandlers = function (aExpress) {
+    aExpress.post("/user/login", require("./handler/login"));
+};
+
 module.exports = app;

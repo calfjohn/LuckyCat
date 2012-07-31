@@ -75,6 +75,20 @@ typedef struct
     string plistPath;
 }stImage;
 
+class VisibleRect
+{
+public:
+	static const cocos2d::CCRect&  rect();
+	static const cocos2d::CCPoint& center();
+	static const cocos2d::CCPoint& top();
+	static const cocos2d::CCPoint& topRight();
+	static const cocos2d::CCPoint& right();
+	static const cocos2d::CCPoint& bottomRight();
+	static const cocos2d::CCPoint& bottom();
+	static const cocos2d::CCPoint& bottomLeft();
+	static const cocos2d::CCPoint& left();
+	static const cocos2d::CCPoint& topLeft();
+};
 typedef struct 
 {
     int id;

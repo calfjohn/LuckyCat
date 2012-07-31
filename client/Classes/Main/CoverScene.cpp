@@ -97,6 +97,6 @@ void Cover::menuOptionCallback(CCObject* pSender)
 
 void Cover::registerWithTouchDispatcher()
 {
-    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, false);
+	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, false);
 }
 

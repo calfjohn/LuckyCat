@@ -9,8 +9,8 @@
 #include "TaskDataManager.h"
 #include "CppSQLite3.h"
 #include "cocos2d.h"
+#include <algorithm>
 #include "BasicFunction.h"
-
 
 USING_NS_CC;
 

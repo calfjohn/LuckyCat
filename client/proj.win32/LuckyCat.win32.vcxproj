@@ -47,7 +47,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.;..\Classes;..\libs\cocos2d-x\Network;..\libs\cocos2d-x\cocos2dx;..\libs\cocos2d-x\cocos2dx\include;..\libs\cocos2d-x\cocos2dx\kazmath\include;..\libs\cocos2d-x\cocos2dx\platform\win32;..\libs\cocos2d-x\cocos2dx\platform\third_party\win32;..\libs\cocos2d-x\cocos2dx\platform\third_party\win32\OGLES;..\libs\cocos2d-x\CocosDenshion\Include;..\libs\jsoncpp\include;..\libs\cppsqlite;..\Classes\Battle;..\Classes\Basic;..\Classes\Chapter;..\Classes\Main;..\Classes\Page;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\Classes;..\libs\cocos2d-x\Network;..\libs\cocos2d-x\cocos2dx;..\libs\cocos2d-x\cocos2dx\include;..\libs\cocos2d-x\cocos2dx\kazmath\include;..\libs\cocos2d-x\cocos2dx\platform\win32;..\libs\cocos2d-x\cocos2dx\platform\third_party\win32;..\libs\cocos2d-x\cocos2dx\platform\third_party\win32\OGLES;..\libs\cocos2d-x\CocosDenshion\Include;..\libs\jsoncpp\include;..\libs\cppsqlite;..\Classes\Battle;..\Classes\Basic;..\Classes\Chapter;..\Classes\Main;..\Classes\Page;..\Classes\Task;..\Classes\PlayerInfo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
@@ -143,14 +143,18 @@
     <ClInclude Include="..\Classes\Basic\Basic.h" />
     <ClInclude Include="..\Classes\Basic\DictDataManager.h" />
     <ClInclude Include="..\Classes\Basic\LevelDataManager.h" />
+    <ClInclude Include="..\Classes\Basic\LuckySprite.h" />
     <ClInclude Include="..\Classes\Battle\BattleDefine.h" />
     <ClInclude Include="..\Classes\Battle\BossBattleView.h" />
     <ClInclude Include="..\Classes\Battle\MonsterBattleView.h" />
     <ClInclude Include="..\Classes\Chapter\ChapterScene.h" />
-    <ClInclude Include="..\Classes\HelloWorldScene.h" />
     <ClInclude Include="..\Classes\Main\CoverScene.h" />
     <ClInclude Include="..\Classes\Page\PageMapScene.h" />
     <ClInclude Include="..\Classes\Page\PageScene.h" />
+    <ClInclude Include="..\Classes\PlayerInfo\PlayerInfoBar.h" />
+    <ClInclude Include="..\Classes\Task\TaskBasic.h" />
+    <ClInclude Include="..\Classes\Task\TaskDataManager.h" />
+    <ClInclude Include="..\Classes\Task\TaskModule.h" />
     <ClInclude Include="..\libs\jsoncpp\src\lib_json\json_batchallocator.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="resource.h" />
@@ -159,13 +163,16 @@
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\Basic\DictDataManager.cpp" />
     <ClCompile Include="..\Classes\Basic\LevelDataManager.cpp" />
+    <ClCompile Include="..\Classes\Basic\LuckySprite.cpp" />
     <ClCompile Include="..\Classes\Battle\BossBattleView.cpp" />
     <ClCompile Include="..\Classes\Battle\MonsterBattleView.cpp" />
     <ClCompile Include="..\Classes\Chapter\ChapterScene.cpp" />
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
     <ClCompile Include="..\Classes\Main\CoverScene.cpp" />
     <ClCompile Include="..\Classes\Page\PageMapScene.cpp" />
     <ClCompile Include="..\Classes\Page\PageScene.cpp" />
+    <ClCompile Include="..\Classes\PlayerInfo\PlayerInfoBar.cpp" />
+    <ClCompile Include="..\Classes\Task\TaskDataManager.cpp" />
+    <ClCompile Include="..\Classes\Task\TaskModule.cpp" />
     <ClCompile Include="..\libs\cppsqlite\CppSQLite3.cpp" />
     <ClCompile Include="..\libs\jsoncpp\src\lib_json\json_reader.cpp" />
     <ClCompile Include="..\libs\jsoncpp\src\lib_json\json_value.cpp" />
