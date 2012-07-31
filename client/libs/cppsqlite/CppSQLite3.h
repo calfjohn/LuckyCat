@@ -31,7 +31,6 @@
 #include "sqlite3.h"
 #include "stdio.h"
 #include "string.h" 
-//#include "CFLibcurl.h" 
 
 #define CPPSQLITE_ERROR 1000
 

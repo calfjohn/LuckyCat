@@ -37,7 +37,9 @@ public:
     
     bool isLastPageOfChapter(int chapterId, int pageId);
 
-    stBible m_stBible;
+    map<int, stBible>m_mapBible;
+    
+    const stBible *getBible();
     
     template <class T> 
 	static std::string ConvertToString(T value) {
@@ -66,7 +68,6 @@ protected:
 		}
 	};
 	static XLRelease Garbo;
-    
 };
 
 #endif

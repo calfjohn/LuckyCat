@@ -8,6 +8,7 @@
 
 #include "PageMapScene.h"
 #include "PageScene.h"
+#include "LuckySprite.h"
 
 USING_NS_CC;
 
@@ -45,11 +46,11 @@ bool PageMap::init()
     
     CCSize size = CCDirector::sharedDirector()->getWinSize();
     
-    CCSprite* pSprite = CCSprite::create("image/common/1.png");
+    LuckySprite* pSprite = LuckySprite::create(1);
     pSprite->setPosition(ccp(size.width/2, size.height/2));
     this->addChild(pSprite, 0);
     
-    CCSprite* pSprite1 = CCSprite::create("image/Page/1.png");
+    LuckySprite* pSprite1 = LuckySprite::create(22);
     pSprite1->setPosition(ccp(size.width/2, size.height/2));
     this->addChild(pSprite1, 0);    
     
@@ -57,7 +58,7 @@ bool PageMap::init()
     pMenu->setPosition(ccp(size.width/2, size.height/2));
     this->addChild(pMenu, 1, TAG_MENU);
     
-    m_pKnight = CCSprite::create("image/Page/3.png");
+    m_pKnight = LuckySprite::create(26);
     this->addChild(m_pKnight, 1);
     
     return true;
@@ -127,19 +128,19 @@ void PageMap::turnToChapter(int chapterId)
     pTitleLabel->setPosition(ccp(size.width/2, size.height - 20));
     this->addChild(pTitleLabel, 1);
 
-    CCMenuItemImage *pPageItem;
+    CCMenuItemSprite *pPageItem;
     vector<stPage>::iterator iterTemp;
     CCMenu *pMenu = (CCMenu *)getChildByTag(TAG_MENU);
     for (iterTemp = pChapter->listPage.begin();
          iterTemp != pChapter->listPage.end();
          iterTemp++) 
     {
-        pPageItem = CCMenuItemImage::create("image/Page/2.png", "image/Page/22.png", "image/Page/222.png", this, menu_selector(PageMap::menuPageCallback));
+        pPageItem = CCMenuItemSprite::create(LuckySprite::create(23), LuckySprite::create(24), LuckySprite::create(25), this, menu_selector(PageMap::menuPageCallback));
         pMenu->addChild(pPageItem, 0, (*iterTemp).id);
     }
     pMenu->alignItemsVerticallyWithPadding(20);
     
-    CCMenuItemImage *pBackItem = CCMenuItemImage::create("image/common/2.png", "image/common/22.png", "image/common/22.png", this, menu_selector(PageMap::menuBackCallback));
+    CCMenuItemSprite *pBackItem = CCMenuItemSprite::create(LuckySprite::create(2), LuckySprite::create(3), LuckySprite::create(3), this, menu_selector(PageMap::menuBackCallback));
     pBackItem->setScale(0.5);
     pBackItem->setPosition(ccp(size.width/2 - 30, size.height/2 - 20));
     pMenu->addChild(pBackItem);

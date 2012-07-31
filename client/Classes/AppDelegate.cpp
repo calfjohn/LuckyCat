@@ -1,11 +1,11 @@
 #include "cocos2d.h"
 #include "CCEGLView.h"
 #include "AppDelegate.h"
-#include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "LevelDataManager.h"
 #include "DictDataManager.h"
 #include "CoverScene.h"
+#include "TaskDataManager.h"
 
 using namespace CocosDenshion;
 
@@ -29,6 +29,8 @@ bool AppDelegate::applicationDidFinishLaunching()
     // enable High Resource Mode(2x, such as iphone4) and maintains low resource on other devices.
 //     pDirector->enableRetinaDisplay(true);
 
+    pDirector->setDepthTest(true);
+
     // turn on display FPS
     pDirector->setDisplayStats(true);
 
@@ -37,6 +39,13 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     LevelDataManager::shareLevelDataManager();
     DictDataManager::shareDictDataManager();
+    TaskDataManager::getShareInstance();
+    
+    CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("image/Chapter/chapter.plist");
+    CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("image/common/common.plist");
+    CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("image/main/main.plist");
+    CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("image/monster/monster.plist");
+    CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("image/Page/page.plist");
     
     // create a scene. it's an autorelease object
     CCScene *pScene = Cover::scene();

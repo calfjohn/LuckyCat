@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		150B345415C0D34C0051DB06 /* CCTouchPageTurn3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 150B345215C0D34C0051DB06 /* CCTouchPageTurn3D.cpp */; };
+		150B345515C0D34C0051DB06 /* CCTouchPageTurn3D.h in Headers */ = {isa = PBXBuildFile; fileRef = 150B345315C0D34C0051DB06 /* CCTouchPageTurn3D.h */; };
 		1549991115AACA6B00C8E4FD /* CCHttpClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1549990F15AACA6B00C8E4FD /* CCHttpClient.cpp */; };
 		1549991215AACA6B00C8E4FD /* CCHttpClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 1549991015AACA6B00C8E4FD /* CCHttpClient.h */; };
 		1549993415AC2A0000C8E4FD /* CCCallbackNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1549993315AC2A0000C8E4FD /* CCCallbackNode.h */; };
@@ -384,9 +386,13 @@
 		159A667E15904B4C003AEEC0 /* CCScrollViewLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 159A667C15904B4C003AEEC0 /* CCScrollViewLoader.h */; };
 		159A668315904B57003AEEC0 /* CCScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 159A668115904B57003AEEC0 /* CCScrollView.cpp */; };
 		159A668415904B57003AEEC0 /* CCScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = 159A668215904B57003AEEC0 /* CCScrollView.h */; };
+		15AFF08F15BE532200B55E22 /* CCTouchPageTurn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15AFF08D15BE532200B55E22 /* CCTouchPageTurn.cpp */; };
+		15AFF09015BE532200B55E22 /* CCTouchPageTurn.h in Headers */ = {isa = PBXBuildFile; fileRef = 15AFF08E15BE532200B55E22 /* CCTouchPageTurn.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		150B345215C0D34C0051DB06 /* CCTouchPageTurn3D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTouchPageTurn3D.cpp; sourceTree = "<group>"; };
+		150B345315C0D34C0051DB06 /* CCTouchPageTurn3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTouchPageTurn3D.h; sourceTree = "<group>"; };
 		1549990F15AACA6B00C8E4FD /* CCHttpClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCHttpClient.cpp; sourceTree = "<group>"; };
 		1549991015AACA6B00C8E4FD /* CCHttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCHttpClient.h; sourceTree = "<group>"; };
 		1549993315AC2A0000C8E4FD /* CCCallbackNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCCallbackNode.h; sourceTree = "<group>"; };
@@ -767,6 +773,8 @@
 		159A667C15904B4C003AEEC0 /* CCScrollViewLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCScrollViewLoader.h; sourceTree = "<group>"; };
 		159A668115904B57003AEEC0 /* CCScrollView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCScrollView.cpp; sourceTree = "<group>"; };
 		159A668215904B57003AEEC0 /* CCScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCScrollView.h; sourceTree = "<group>"; };
+		15AFF08D15BE532200B55E22 /* CCTouchPageTurn.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTouchPageTurn.cpp; sourceTree = "<group>"; };
+		15AFF08E15BE532200B55E22 /* CCTouchPageTurn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTouchPageTurn.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -951,6 +959,7 @@
 		1551A39B158F2ADE00E66CFE /* extensions */ = {
 			isa = PBXGroup;
 			children = (
+				15AFF08C15BE532200B55E22 /* CCTouchPageTurn */,
 				159A668015904B57003AEEC0 /* CCScrollView */,
 				1551A39C158F2ADE00E66CFE /* CCBReader */,
 				1551A3C2158F2ADE00E66CFE /* CCControlExtension */,
@@ -1522,6 +1531,17 @@
 			path = CCScrollView;
 			sourceTree = "<group>";
 		};
+		15AFF08C15BE532200B55E22 /* CCTouchPageTurn */ = {
+			isa = PBXGroup;
+			children = (
+				150B345215C0D34C0051DB06 /* CCTouchPageTurn3D.cpp */,
+				150B345315C0D34C0051DB06 /* CCTouchPageTurn3D.h */,
+				15AFF08D15BE532200B55E22 /* CCTouchPageTurn.cpp */,
+				15AFF08E15BE532200B55E22 /* CCTouchPageTurn.h */,
+			);
+			path = CCTouchPageTurn;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1744,6 +1764,8 @@
 				1549991215AACA6B00C8E4FD /* CCHttpClient.h in Headers */,
 				1549993415AC2A0000C8E4FD /* CCCallbackNode.h in Headers */,
 				1566DB9C15AD2F4700F3D2E3 /* CCMessageQueue.h in Headers */,
+				15AFF09015BE532200B55E22 /* CCTouchPageTurn.h in Headers */,
+				150B345515C0D34C0051DB06 /* CCTouchPageTurn3D.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1959,6 +1981,8 @@
 				1549991115AACA6B00C8E4FD /* CCHttpClient.cpp in Sources */,
 				1549993615AC2A0800C8E4FD /* CCCallbackNode.cpp in Sources */,
 				1566DB9B15AD2F4700F3D2E3 /* CCMessageQueue.cpp in Sources */,
+				15AFF08F15BE532200B55E22 /* CCTouchPageTurn.cpp in Sources */,
+				150B345415C0D34C0051DB06 /* CCTouchPageTurn3D.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -23,15 +23,20 @@ using namespace std;
 
 #define TRANSITION_PAGE_INTERVAL_TIME   1.0f
 
+
+#define INVALID_VALUES                  -1      //无效值, 比如 表示没有下一个值
 //a page is a game level
 typedef struct
 {
     int id;             //index of page
     string name;        //page's title
     string content;     //page's content
-    cocos2d::CCPoint postion;   //position on page map
-    int monsterId;      //monster id assosiate with monster_dict table in database
+    int imageId;        //page's image
+    int taskId;         //page's task
+    cocos2d::CCPoint position;   //position on page map
     int state;          //fight result 0:new 1:success 2: failed
+    std::string image;  //the background of page
+    bool end;           //is last page of chapter
 }stPage;
 
 //a chapter consist lot of page
@@ -39,6 +44,7 @@ typedef struct
 {
     int id;             //index of chapter
     string name;        //chapter's title
+    int imageId;        //chapter's image
     cocos2d::CCPoint position;   //position on chapter scene
     vector<stPage> listPage;    //a set of pages in chapter
 }stChapter;
@@ -46,24 +52,39 @@ typedef struct
 //a bible consist lot of stChapter
 typedef struct
 {
-    int id;
-    string name;
-    vector<stChapter> listChapter;
-}stBibleInstance;
-
-//a bible consist lot of stChapter
-typedef struct
-{
-    string name;
+    int id;                         //index of bible
+    string name;                    //bible name
+    int bgId;                       //bible background image
+    int chapterBgId;                //chapter background image
     vector<stChapter> listChapter;
 }stBible;
-
 
 typedef struct
 {
     int id;         //monster id
     string name;    //monster name
-    int image_id;   //monster image id
+    int imageId;   //monster image id
 }stMonster;
+
+typedef struct
+{
+    int id;
+    int type;
+    string name;
+    string filePath;
+    string plistPath;
+}stImage;
+
+typedef struct 
+{
+    int id;
+    int num;
+    
+    void print()
+    {
+        printf("Good ID %d, GoodNum %d\n",id,num);
+    }
+}stGood;
+
 #endif
 

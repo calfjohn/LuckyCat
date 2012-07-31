@@ -26,6 +26,8 @@ public:
 	}
     
     const stMonster* getMonsterImageId(int monsterId);
+    
+    const stImage *getImage(int imageId);
 protected:
 	void init(void);
 	DictDataManager(void);
@@ -48,6 +50,7 @@ protected:
 	static XLRelease Garbo;
     
     map<int, stMonster> m_mapMonster;
+    map<int, stImage> m_mapImage; 
 };
 
 #endif

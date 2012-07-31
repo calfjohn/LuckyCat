@@ -24,6 +24,8 @@ static const int TAG_PLAYER_SPRITE       = 21;
 static const int TAG_MONSTER_PLINE       = 22;
 static const int TAG_PLAYER_PLINE        = 23;
 
+static const int TAG_LABEL_TALK          = 1;
+
 
 #define TAG_BATTLE_LAYER        99
 

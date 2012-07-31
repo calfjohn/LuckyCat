@@ -10,6 +10,7 @@
 #include "BattleDefine.h"
 #include "LevelDataManager.h"
 #include "DictDataManager.h"
+#include "LuckySprite.h"
 
 static bool m_bIsInBattle = false;
 
@@ -30,7 +31,7 @@ void BossBattleView::initLayer(stPage *page, CCObject *target, SEL_CallFuncND pf
     this->setTouchEnabled(true);
     
     p_Boss = new GRole();
-    p_Boss->roleID = p_pPage->monsterId;
+    p_Boss->roleID = 1;
     p_Boss->setMaxHp(300);
     
     mPlayerList.clear();
@@ -54,10 +55,8 @@ void BossBattleView::initLayer(stPage *page, CCObject *target, SEL_CallFuncND pf
     titleLabel->setColor(ccc3(255,55,0));
     this->addChild(titleLabel);
     
-    string tempName;
-    const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(p_pPage->monsterId);
-    tempName = "image/monster/" + LevelDataManager::shareLevelDataManager()->ConvertToString(pMonster->image_id) + ".png";
-    CCSprite *_pMonsterSprite = CCSprite::create(tempName.c_str());
+    const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(1);
+    LuckySprite *_pMonsterSprite = LuckySprite::create(pMonster->imageId);
     _pMonsterSprite->setPosition(CCPointMake(screanSize.width*0.5f, 260));
     this->addChild(_pMonsterSprite);
     _pMonsterSprite->setTag(TAG_MONSTER_SPRITE);
@@ -71,26 +70,21 @@ void BossBattleView::initLayer(stPage *page, CCObject *target, SEL_CallFuncND pf
     
     dscLabel->setVisible(false);
     
-    
-    CCProgressTimer *pProgressBoss = CCProgressTimer::create(CCSprite::create("extensions/sliderProgress.png"));
+    CCProgressTimer *pProgressBoss = CCProgressTimer::create(LuckySprite::create(1001));
     pProgressBoss->setType(kCCProgressTimerTypeBar);
     pProgressBoss->setMidpoint(ccp(0.0f, 0.5f));
     pProgressBoss->setPercentage(100);
     pProgressBoss->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height- 50));
-    pProgressBoss->setColor(ccGRAY);
+    //pProgressBoss->setColor(ccGRAY);
     this->addChild(pProgressBoss,3);
     pProgressBoss->setTag(TAG_MONSTER_PLINE);
     
-    char strChar[512];
-    memset(strChar, 0, 512);
-    sprintf(strChar, "image/icon/hero_%d.png",1);
-    
-    CCSprite *_pPlayerSprite = CCSprite::create(strChar);
+    LuckySprite *_pPlayerSprite = LuckySprite::create(36);
     _pPlayerSprite->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height*0.20f));
     this->addChild(_pPlayerSprite);
     _pPlayerSprite->setTag(TAG_PLAYER_SPRITE);
     
-    CCProgressTimer *pProgressPlayer = CCProgressTimer::create(CCSprite::create("extensions/sliderProgress.png"));
+    CCProgressTimer *pProgressPlayer = CCProgressTimer::create(LuckySprite::create(1001));
     pProgressPlayer->setType(kCCProgressTimerTypeBar);
     pProgressPlayer->setMidpoint(ccp(0.0f, 0.5f));
     pProgressPlayer->setPercentage(100);

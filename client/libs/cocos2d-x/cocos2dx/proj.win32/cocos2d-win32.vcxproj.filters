@@ -115,6 +115,9 @@
     <Filter Include="network">
       <UniqueIdentifier>{ffbcdacb-6e4d-4f71-a09b-93c9ec2f8b97}</UniqueIdentifier>
     </Filter>
+    <Filter Include="extensions\CCTouchPageTurn">
+      <UniqueIdentifier>{21e560e7-b337-4d6c-aa48-d3a0402cf48c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\effects\CCGrabber.cpp">
@@ -557,6 +560,12 @@
     </ClCompile>
     <ClCompile Include="..\..\Network\CCNetwork.cpp">
       <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extensions\CCTouchPageTurn\CCTouchPageTurn.cpp">
+      <Filter>extensions\CCTouchPageTurn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extensions\CCTouchPageTurn\CCTouchPageTurn3D.cpp">
+      <Filter>extensions\CCTouchPageTurn</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1125,6 +1134,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Network\CCNetwork.h">
       <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extensions\CCTouchPageTurn\CCTouchPageTurn.h">
+      <Filter>extensions\CCTouchPageTurn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extensions\CCTouchPageTurn\CCTouchPageTurn3D.h">
+      <Filter>extensions\CCTouchPageTurn</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

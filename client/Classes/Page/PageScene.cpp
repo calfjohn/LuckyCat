@@ -11,6 +11,8 @@
 #include "BossBattleView.h"
 #include "BattleDefine.h"
 #include "DictDataManager.h"
+#include "LuckySprite.h"
+#include "TaskDataManager.h"
 
 USING_NS_CC;
 
@@ -66,9 +68,14 @@ void Page::turnToPage(int chapterId, stPage *pPage)
     m_nChapterId = chapterId;
     m_pPage = pPage;
     
+//    stTask *tTask = TaskDataManager::getShareInstance()->getTask(pPage->taskId);
+//    
+//    stTalk *tTalk = TaskDataManager::getShareInstance()->getTalk(tTask->npcTalkId);
+    
+    
     CCSize size = CCDirector::sharedDirector()->getWinSize();
     
-    CCSprite* pSprite = CCSprite::create("image/common/1.png");
+    LuckySprite* pSprite = LuckySprite::create(1);
     pSprite->setPosition(ccp(size.width/2, size.height/2));
     this->addChild(pSprite, 0);
     
@@ -76,12 +83,12 @@ void Page::turnToPage(int chapterId, stPage *pPage)
     pMenu->setPosition(CCPointZero);
     this->addChild(pMenu, 1, TAG_MENU);
     
-    CCMenuItemImage *pBackItem = CCMenuItemImage::create("image/common/2.png", "image/common/22.png", "image/common/22.png", this, menu_selector(Page::menuBackCallback)); 
+    CCMenuItemSprite *pBackItem = CCMenuItemSprite::create(LuckySprite::create(2), LuckySprite::create(3), LuckySprite::create(3), this, menu_selector(Page::menuBackCallback)); 
     pBackItem->setScale(0.5);
     pBackItem->setPosition(ccp(size.width - 30, size.height - 20));
     pMenu->addChild(pBackItem);
     
-    m_tips = CCLabelTTF::create(m_pPage->state && LevelDataManager::shareLevelDataManager()->isLastPageOfChapter(m_nChapterId, m_pPage->id) ? "End of Chapter" : "", "Arial", 28);
+    m_tips = CCLabelTTF::create(m_pPage->state && m_pPage->end ? "End of Chapter" : "", "Arial", 28);
     m_tips->setPosition(ccp(size.width/2, size.height/2 + 150));
     m_tips->setColor(ccRED);
     this->addChild(m_tips, 1);
@@ -101,18 +108,17 @@ void Page::turnToPage(int chapterId, stPage *pPage)
 //    m_state->setColor(ccBLACK);
 //    this->addChild(m_state, 1);
     
-    CCMenuItemImage *pAttackItem  = CCMenuItemImage::create("image/Page/4.png", "image/Page/44.png", "image/Page/444.png", this, menu_selector(Page::menuAttackCallback));
+    CCMenuItemSprite *pAttackItem  = CCMenuItemSprite::create(LuckySprite::create(29), LuckySprite::create(30), LuckySprite::create(31), this, menu_selector(Page::menuAttackCallback));
     pAttackItem->setPosition(ccp(size.width - 50, 50));
     pMenu->addChild(pAttackItem, 0, TAG_ATTACK);
     
     //    CCMenuItemFont *pNextItem = CCMenuItemFont::create("Next", this, menu_selector(Page::menuNextCallback));
     //    pMenu->addChild(pNextItem, 0, TAG_NEXT);
     
-    const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(pPage->monsterId);
+    const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(m_pPage->taskId);
     if (pMonster) 
     {
-        string tempName = "image/monster/" + LevelDataManager::shareLevelDataManager()->ConvertToString(pMonster->image_id) + ".png";
-        CCSprite *tempSprite = CCSprite::create(tempName.c_str());
+        LuckySprite *tempSprite = LuckySprite::create(pMonster->imageId);
         tempSprite->setPosition(ccp(size.width/2, size.height/2 - 150));
         tempSprite->setScale(0.35f);
         this->addChild(tempSprite, 1);
@@ -132,32 +138,17 @@ void Page::menuAttackCallback(CCObject* pSender)
 
     m_pPage->state = 1;
 //    m_state->setString(m_pPage->state ? "success": "");
-    m_tips->setString(m_pPage->state && LevelDataManager::shareLevelDataManager()->isLastPageOfChapter(m_nChapterId, m_pPage->id) ? "End of Chapter" : "");
+    m_tips->setString(m_pPage->state && m_pPage->end ? "End of Chapter" : "");
     //    adjustPageItem();
 }
 
 void Page::showBattleView(CCObject *pSender)
 {
-    if ( LevelDataManager::shareLevelDataManager()->isLastPageOfChapter(m_nChapterId, m_pPage->id) )
+    if ( MonsterBattleView::getIsInBattle() == false )
     {
-        if ( m_pPage->state == 0 )
-        {
-            if ( BossBattleView::getIsInBattle() == false )
-            {
-                BossBattleView *pBoss = BossBattleView::create();
-                pBoss->initLayer(m_pPage, this, callfuncND_selector(Page::fightCallback));
-                CCDirector::sharedDirector()->getRunningScene()->addChild(pBoss, 0, TAG_BATTLE_LAYER);
-            }
-        }
-    }
-    else
-    {
-        if ( MonsterBattleView::getIsInBattle() == false )
-        {
-            MonsterBattleView *pMonter = MonsterBattleView::create();
-            pMonter->initLayer(m_pPage, this, callfuncND_selector(Page::fightCallback));
-            CCDirector::sharedDirector()->getRunningScene()->addChild(pMonter, 0, TAG_BATTLE_LAYER);
-        }
+        MonsterBattleView *pMonter = MonsterBattleView::create();
+        pMonter->initLayer(m_pPage, this, callfuncND_selector(Page::fightCallback));
+        CCDirector::sharedDirector()->getRunningScene()->addChild(pMonter, 0, TAG_BATTLE_LAYER);
     }
 }
 
@@ -196,7 +187,7 @@ void Page::fightCallback(CCNode* pNode, void* data)
 //        pAttackItem->setPosition(ccp(size.width - 150, 50));
 //        
 //        pNextItem->setVisible(true);
-//        pNextItem->setEnabled(!LevelDataManager::shareLevelDataManager()->isLastPageOfChapter(m_nChapterId, m_pPage->id));
+//        pNextItem->setEnabled(!m_pPage->end);
 //    }
 //}
 

@@ -9,6 +9,8 @@
 #include "CoverScene.h"
 #include "ChapterScene.h"
 #include "LevelDataManager.h"
+#include "LuckySprite.h"
+
 USING_NS_CC;
 
 CCScene* Cover::scene()
@@ -35,17 +37,17 @@ CCScene* Cover::scene()
 // on "init" you need to initialize your instance
 bool Cover::init()
 {
-    CCLayer::init();
+    CCTouchPageTurn::init();
 
     CCSize size = CCDirector::sharedDirector()->getWinSize();
 
-    CCMenuItemImage *pDaggerItem  = CCMenuItemImage::create("image/Main/1.png", "image/Main/11.png", "image/Main/111.png", this, menu_selector(Cover::menuDaggerCallback));
+    CCMenuItemSprite *pDaggerItem = CCMenuItemSprite::create(LuckySprite::create(4), LuckySprite::create(4, 1.1), LuckySprite::create(6), this, menu_selector(Cover::menuDaggerCallback));
     pDaggerItem->setPosition(ccp(size.width - 50, size.height - 80));
     
-    CCMenuItemImage *pMagicItem = CCMenuItemImage::create("image/Main/2.png", "image/Main/22.png", "image/Main/222.png", this, menu_selector(Cover::menuMagicCallback));
+    CCMenuItemSprite *pMagicItem = CCMenuItemSprite::create(LuckySprite::create(7), LuckySprite::create(7, 1.1), LuckySprite::create(9), this, menu_selector(Cover::menuMagicCallback));
     pMagicItem->setPosition(ccp(size.width - 80, size.height - 200));
     
-    CCMenuItemImage *pBookItem = CCMenuItemImage::create("image/Main/3.png", "image/Main/33.png", "image/Main/333.png", this, menu_selector(Cover::menuBookCallback));
+    CCMenuItemSprite *pBookItem = CCMenuItemSprite::create(LuckySprite::create(10), LuckySprite::create(10, 1.1), LuckySprite::create(12), this, menu_selector(Cover::menuBookCallback));
     pBookItem->setPosition(ccp(size.width/2 - 50, size.height/2 - 20));
     
     CCMenuItemFont *pCardItem = CCMenuItemFont::create("card", this, menu_selector(Cover::menuCardCallback));
@@ -58,9 +60,11 @@ bool Cover::init()
     pMenu->setPosition(CCPointZero);
     this->addChild(pMenu, 1);
 
-    CCSprite* pSprite = CCSprite::create("image/common/1.png");
+    LuckySprite* pSprite = LuckySprite::create(1);
     pSprite->setPosition(ccp(size.width/2, size.height/2));
     this->addChild(pSprite, 0);
+    
+    this->setTouchEnabled(true);
 
     return true;
 }
@@ -77,8 +81,7 @@ void Cover::menuBookCallback(CCObject* pSender)
 {
     CCScene *pScene = Chapter::scene();
     
-    CCDirector::sharedDirector()->setDepthTest(true);
-    CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(1.2f, pScene, false);
+    CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
     
     CCDirector::sharedDirector()->pushScene(pTp);
 }
@@ -90,5 +93,10 @@ void Cover::menuCardCallback(CCObject* pSender)
 void Cover::menuOptionCallback(CCObject* pSender)
 {
     LevelDataManager::shareLevelDataManager()->reload();
+}
+
+void Cover::registerWithTouchDispatcher()
+{
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, false);
 }
 
