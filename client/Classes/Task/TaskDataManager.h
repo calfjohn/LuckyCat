@@ -64,6 +64,8 @@ public:
      *@brief get a series of task by a first task of one page
      */
     std::vector<stTask *> getASeriesOfTask(int task_id);
+    
+    std::string getDialogFromTalk( stTalk * tmpTalk );
 private:
     
     std::map<int,stTask *> mTaskMap;    //task map
