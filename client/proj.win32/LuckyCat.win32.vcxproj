@@ -141,12 +141,15 @@
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\Basic\Basic.h" />
+    <ClInclude Include="..\Classes\Basic\BasicFunction.h" />
     <ClInclude Include="..\Classes\Basic\DictDataManager.h" />
     <ClInclude Include="..\Classes\Basic\LevelDataManager.h" />
     <ClInclude Include="..\Classes\Basic\LuckySprite.h" />
     <ClInclude Include="..\Classes\Battle\BattleDefine.h" />
+    <ClInclude Include="..\Classes\Battle\BattleResultView.h" />
     <ClInclude Include="..\Classes\Battle\BossBattleView.h" />
     <ClInclude Include="..\Classes\Battle\MonsterBattleView.h" />
+    <ClInclude Include="..\Classes\Battle\NpcTalkView.h" />
     <ClInclude Include="..\Classes\Chapter\ChapterScene.h" />
     <ClInclude Include="..\Classes\Main\CoverScene.h" />
     <ClInclude Include="..\Classes\Page\PageMapScene.h" />
@@ -161,11 +164,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
+    <ClCompile Include="..\Classes\Basic\BasicFunction.cpp" />
     <ClCompile Include="..\Classes\Basic\DictDataManager.cpp" />
     <ClCompile Include="..\Classes\Basic\LevelDataManager.cpp" />
     <ClCompile Include="..\Classes\Basic\LuckySprite.cpp" />
+    <ClCompile Include="..\Classes\Battle\BattleResultView.cpp" />
     <ClCompile Include="..\Classes\Battle\BossBattleView.cpp" />
     <ClCompile Include="..\Classes\Battle\MonsterBattleView.cpp" />
+    <ClCompile Include="..\Classes\Battle\NpcTalkView.cpp" />
     <ClCompile Include="..\Classes\Chapter\ChapterScene.cpp" />
     <ClCompile Include="..\Classes\Main\CoverScene.cpp" />
     <ClCompile Include="..\Classes\Page\PageMapScene.cpp" />
