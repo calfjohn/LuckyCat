@@ -26,9 +26,6 @@ app.configure("production", function() {
     app.use(express.errorHandler());
 });
 
-app.get("/user/login", require("./handler/login"));
-app.get("/user/login", require("./handler/createUser"));
-
 require("../system/DBAgent");
 
 // init server, connect database here
@@ -61,6 +58,7 @@ app.initInstance = function (srvConfig, callback) {
                     cb(err);
                     return;
                 } else {
+                    app.initHandlers(app);
                     var users = require("./Users");
                     users.initInstance(cfg.dbConfig);
                     cb(err);
@@ -71,5 +69,10 @@ app.initInstance = function (srvConfig, callback) {
         );
     });
     return this;
-}
+};
+
+app.initHandlers = function (aExpress) {
+    aExpress.post("/user/login", require("./handler/login"));
+};
+
 module.exports = app;
