@@ -10,6 +10,7 @@
 #include "json/json.h"
 #include "CppSQLite3.h"
 #include "cocos2d.h"
+#include "BasicFunction.h"
 
 USING_NS_CC;
 
@@ -88,8 +89,6 @@ void LevelDataManager::init( void )
         q1.nextRow();
     }
 
-    db.close();
-
 /*    
     string strFullPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath("config/level");
     unsigned long nSize = 0;
@@ -141,6 +140,38 @@ void LevelDataManager::init( void )
         m_stBible.listChapter.push_back(tempChapter);
     }
 */    
+    CppSQLite3Query result = db.execQuery("select * from actor_level_upgrade;");
+    
+    std::vector<stActorLevelUpgrade *> tLevelList;
+	while(!result.eof())
+	{
+        stActorLevelUpgrade *tmpLevel = new stActorLevelUpgrade();
+        
+        tmpLevel->level = result.getIntField("level");
+        tmpLevel->title = result.getStringField("title");
+        tmpLevel->content = result.getStringField("content");
+        
+        std::string strBonus = result.getStringField("bonus");
+        std::vector<int> tmpBonusList = separateStringToNumberVector(strBonus, ",");
+        
+        if (tmpBonusList.size() > 0)
+            CCAssert( tmpBonusList[0]*2 == tmpBonusList.size()-1, "Something error in sql field\n");
+        for (int i = 1; tmpBonusList[0] != 0 && i+1 < tmpBonusList.size(); i+=2) {
+            stGood _good;
+            _good.id = tmpBonusList[i];
+            _good.num = tmpBonusList[i+1];
+            tmpLevel->bonus.push_back(_good);
+        }
+        
+        tmpLevel->print();
+        tLevelList.push_back(tmpLevel);
+        
+        result.nextRow();
+    }
+    this->setMapActorLevelUpgrade(tLevelList);
+    
+    
+    db.close();
 }
 
 const stBible *LevelDataManager::getBible()
@@ -258,3 +289,32 @@ void LevelDataManager::reload()
     init();
 }
 
+void LevelDataManager::setMapActorLevelUpgrade( vector<stActorLevelUpgrade *> tmpList)
+{
+    this->deleteMapActorLevelUpgrade();
+    
+    for (vector<stActorLevelUpgrade *>::iterator _iter = tmpList.begin(); _iter != tmpList.end(); _iter++) {
+        stActorLevelUpgrade *tmp = *_iter;
+        m_mapActorLevelUpgrade.insert(make_pair(tmp->level, tmp));
+    }
+}
+
+void LevelDataManager::deleteMapActorLevelUpgrade()
+{
+    for (map<int, stActorLevelUpgrade *>::iterator _iter = m_mapActorLevelUpgrade.begin(); _iter != m_mapActorLevelUpgrade.end(); _iter++) {
+        stActorLevelUpgrade *tmp = _iter->second;
+        CC_SAFE_DELETE(tmp);
+    }
+    m_mapActorLevelUpgrade.clear();
+}
+stActorLevelUpgrade * LevelDataManager::getMapActorLevelUpgrade(int _level)
+{
+    map<int, stActorLevelUpgrade *>::iterator _iter = m_mapActorLevelUpgrade.find(_level);
+    if ( _iter == m_mapActorLevelUpgrade.end() )
+    {
+        return NULL;
+    }
+    else {
+        return _iter->second;
+    }
+}

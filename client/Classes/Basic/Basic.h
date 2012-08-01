@@ -75,6 +75,20 @@ typedef struct
     string plistPath;
 }stImage;
 
+class VisibleRect
+{
+public:
+	static const cocos2d::CCRect&  rect();
+	static const cocos2d::CCPoint& center();
+	static const cocos2d::CCPoint& top();
+	static const cocos2d::CCPoint& topRight();
+	static const cocos2d::CCPoint& right();
+	static const cocos2d::CCPoint& bottomRight();
+	static const cocos2d::CCPoint& bottom();
+	static const cocos2d::CCPoint& bottomLeft();
+	static const cocos2d::CCPoint& left();
+	static const cocos2d::CCPoint& topLeft();
+};
 typedef struct 
 {
     int id;
@@ -85,6 +99,25 @@ typedef struct
         printf("Good ID %d, GoodNum %d\n",id,num);
     }
 }stGood;
+
+typedef struct {
+    int                     level;      //level of actor
+    std::string             title;      //title of notification
+    std::string             content;    //content of notification
+    std::vector<stGood>     bonus;      //bouns of level upgrade reaward
+    
+    void print()
+    {
+        printf("---stActorLevelUpgrade---\n");
+        printf("title %s\n", title.c_str());
+        printf("content %s\n", content.c_str());
+        printf("bonus\n");
+        for ( int i=0; i<bonus.size(); i++ )
+        {
+            bonus[i].print();
+        }
+    }
+}stActorLevelUpgrade;
 
 #endif
 
