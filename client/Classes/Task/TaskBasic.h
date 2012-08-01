@@ -56,7 +56,7 @@ typedef struct
     std::vector<int> targetId;		//id of target.
 	std::vector<stGood> bonus;		//bonus of task.
 	int nextTaskId;		//next task follow this task.
-	//int npcTalkId;		//a talk about this task.
+    int box_id;             //id of treasure chests
 	bool bonusRepeat;	//if bonusRepeat is true, player can get bonus again.
     
     void print()
@@ -74,13 +74,14 @@ typedef struct
             bonus[i].print();
         }
         printf("nextTaskId %d\n", nextTaskId);
-        //printf("npcTalkId %d\n", npcTalkId);
+        printf("box_id %d\n", box_id);
         printf("bonusRepeat %d\n", bonusRepeat);
     }
 }stTask;
 
-typedef struct
+class stTalk
 {
+public:
 	int id;				//id of talk.
     std::vector<std::string> dialogList;     //list of dialog
 	int npcId;			//if npcId is 0, lead role is talk. else it is a monster.
@@ -100,19 +101,19 @@ typedef struct
             printf("Dialog %d: %s\n",i,dialogList[i].c_str());
         }
     }
-    bool operator < (const stTask &m)const {
+    bool operator < (const stTalk &m)const {
         return id < m.id;
     }
-    bool operator > (const stTask &m)const {
+    bool operator > (const stTalk &m)const {
         return id > m.id;
     }
-    bool operator < (const stTask *m)const {
+    bool operator < (const stTalk *m)const {
         return id < m->id;
     }
-    bool operator > (const stTask *m)const {
+    bool operator > (const stTalk *m)const {
         return id > m->id;
     }
-}stTalk;
+};
 
 
 #endif

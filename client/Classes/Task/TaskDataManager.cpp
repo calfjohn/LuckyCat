@@ -9,10 +9,19 @@
 #include "TaskDataManager.h"
 #include "CppSQLite3.h"
 #include "cocos2d.h"
+#include <algorithm>
 #include "BasicFunction.h"
 
-
 USING_NS_CC;
+
+bool SortTalkById(stTalk *first,stTalk *second){
+	if(first == NULL || second == NULL)
+		return false;
+	if(first->id > second->id)
+		return false;
+	else
+        return true;
+}
 
 TaskDataManager *TaskDataManager::m_pInstance = NULL;
 TaskDataManager::XLRelease TaskDataManager::Garbo;
@@ -213,6 +222,8 @@ std::vector<stTalk *> TaskDataManager::getAllTalk(int task_id)
     printf("------getAllTalk-------\n");
     std::vector<stTalk *> tVectorRetTalk;
     std::map<int, stTalk *>::iterator _iter = mTalkMap.begin();
+    
+    std::vector<stTalk> talkVector;
     for ( ; _iter != mTalkMap.end(); _iter++)
     {
         stTalk *tmpTalk = _iter->second;
@@ -220,15 +231,24 @@ std::vector<stTalk *> TaskDataManager::getAllTalk(int task_id)
         if ( tmpTalk )//&& tmpTalk->taskId == task_id )
         {
             tVectorRetTalk.push_back(tmpTalk);
+            
+            stTalk t = *tmpTalk;
+            
+            talkVector.push_back(t);
         }
     }
     
-    sort(tVectorRetTalk.begin(), tVectorRetTalk.end());
-    
+    sort(tVectorRetTalk.begin(), tVectorRetTalk.end(),SortTalkById);    
     for (vector<stTalk *>::iterator it = tVectorRetTalk.begin(); it != tVectorRetTalk.end(); it++) {
         stTalk *_talk = *it;
         _talk->print();
     }
+    
+//    sort(talkVector.begin(), talkVector.end());
+//    for (vector<stTalk>::iterator it = talkVector.begin(); it != talkVector.end(); it++) {
+//        stTalk _talk = *it;
+//        _talk.print();
+//    }
     return tVectorRetTalk;
 }
 
@@ -289,7 +309,7 @@ void TaskDataManager::readDB()
         std::vector<int> tmpBonusList = separateStringToNumberVector(strBonus, ",");
         
         if (tmpBonusList.size() > 0)
-            CCAssert( tmpBonusList[0] == tmpBonusList.size()-1, "Something error in sql field\n");
+            CCAssert( tmpBonusList[0]*2 == tmpBonusList.size()-1, "Something error in sql field\n");
         for (int i = 1; tmpBonusList[0] != 0 && i+1 < tmpBonusList.size(); i+=2) {
             stGood _good;
             _good.id = tmpBonusList[i];
@@ -299,6 +319,7 @@ void TaskDataManager::readDB()
         
         tTask->bonusRepeat = result.getIntField("bonus_repeat");
         tTask->nextTaskId = result.getIntField("next_task_id");
+        tTask->box_id = result.getIntField("box_id");
         
         tTaskVector.push_back(tTask);
         tTask->print();

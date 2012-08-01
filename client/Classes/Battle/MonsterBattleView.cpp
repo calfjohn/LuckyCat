@@ -68,7 +68,17 @@ void MonsterBattleView::ccTouchEnded(CCTouch* touch, CCEvent *pEvent)
             stTask *tmp = this->getNextTask();
             if (tmp)this->showCurentEvent();
             else {
-                CC_ASSERT(true);
+                CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_BATTLE_LAYER));
+                if ( pLayer )
+                {
+                    pLayer->removeFromParentAndCleanup(true);
+                }
+                
+                setIsInBattle(false);
+                
+                m_bIsWaitingForAction = false;
+                
+                ((m_target)->*(m_pfnSelector))(this, NULL);
             }
         }
         else  if ( mEventType == finishedEvent ||  mEventType == oneEventWasFinished ) {
@@ -330,7 +340,7 @@ void MonsterBattleView::playAction()
             if ( tAcitonID == 3 )
             {
                 pBattleResultView = BattleResultView::create();
-                pBattleResultView->initView();
+                pBattleResultView->initView(p_CurTask);
                 this->addChild(pBattleResultView,5);
                 pBattleResultView->runAction(pAction);
             }
@@ -371,7 +381,7 @@ void MonsterBattleView::playOneActionEnd()
             if(pAction)
             {
                 pBattleResultView = BattleResultView::create();
-                pBattleResultView->initView();
+                pBattleResultView->initView(p_CurTask);
                 this->addChild(pBattleResultView,5);
                 pBattleResultView->runAction(pAction);
             }
@@ -520,11 +530,15 @@ stTask * MonsterBattleView::getNextTask()
             return p_CurTask;
         }
         else {
-            return NULL;
+            mEventType = finishedEvent;
+            p_CurTask = NULL;
+            return p_CurTask;
         }
     }
     else {
-        return NULL;
+        mEventType = finishedEvent;
+        p_CurTask = NULL;
+        return p_CurTask;
     }
 }
 
