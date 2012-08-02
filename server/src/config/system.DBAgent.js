@@ -14,8 +14,8 @@
  */
 
 exports.dbWorld = {
-    host       : "localhost",
+    host       : "192.168.0.51",
     user       : "root",
-    password   : "99092026",
+    password   : "123456",
     database   : "world"
 }

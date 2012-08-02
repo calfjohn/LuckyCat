@@ -3,9 +3,9 @@
  */
 
 module.exports = {
-    dbConfig : {  host       : "localhost"
+    dbConfig : {  host       : "192.168.0.51"
                ,   user       : "root"
-               ,   password   : "99092026"
+               ,   password   : "123456"
                ,   database   : "db_luckycat"
     },
     reCreateDB : true
