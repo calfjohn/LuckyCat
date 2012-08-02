@@ -13,7 +13,7 @@
 #include "DictDataManager.h"
 #include "LuckySprite.h"
 #include "TaskDataManager.h"
-#include "PlayerInfoBar.h"
+//#include "PlayerInfoBar.h"
 
 USING_NS_CC;
 
@@ -130,8 +130,8 @@ void Page::turnToPage(int chapterId, stPage *pPage)
         this->addChild(m_monster, 1);
     }
 
-	PlayerInfoBar* playerInfoBar = PlayerInfoBar::create();
-	this->addChild(playerInfoBar);
+//	PlayerInfoBar* playerInfoBar = PlayerInfoBar::create();
+//	this->addChild(playerInfoBar, 999);
 
 //    adjustPageItem();
 }
