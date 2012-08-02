@@ -131,7 +131,7 @@ void Page::turnToPage(int chapterId, stPage *pPage)
     }
 
 	PlayerInfoBar* playerInfoBar = PlayerInfoBar::create();
-	this->addChild(playerInfoBar);
+	this->addChild(playerInfoBar, 999);
 
 //    adjustPageItem();
 }

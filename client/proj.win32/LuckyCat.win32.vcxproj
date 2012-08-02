@@ -155,6 +155,7 @@
     <ClInclude Include="..\Classes\Page\PageMapScene.h" />
     <ClInclude Include="..\Classes\Page\PageScene.h" />
     <ClInclude Include="..\Classes\PlayerInfo\PlayerInfoBar.h" />
+    <ClInclude Include="..\Classes\PlayerInfo\PlayerInfoView.h" />
     <ClInclude Include="..\Classes\Task\TaskBasic.h" />
     <ClInclude Include="..\Classes\Task\TaskDataManager.h" />
     <ClInclude Include="..\Classes\Task\TaskModule.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="..\Classes\Page\PageMapScene.cpp" />
     <ClCompile Include="..\Classes\Page\PageScene.cpp" />
     <ClCompile Include="..\Classes\PlayerInfo\PlayerInfoBar.cpp" />
+    <ClCompile Include="..\Classes\PlayerInfo\PlayerInfoView.cpp" />
     <ClCompile Include="..\Classes\Task\TaskDataManager.cpp" />
     <ClCompile Include="..\Classes\Task\TaskModule.cpp" />
     <ClCompile Include="..\libs\cppsqlite\CppSQLite3.cpp" />

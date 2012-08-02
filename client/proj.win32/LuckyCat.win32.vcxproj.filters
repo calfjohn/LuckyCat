@@ -151,6 +151,9 @@
     <ClInclude Include="..\Classes\Basic\BasicFunction.h">
       <Filter>source\Basic</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\PlayerInfo\PlayerInfoView.h">
+      <Filter>source\PlayerInfo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -215,6 +218,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Basic\BasicFunction.cpp">
       <Filter>source\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\PlayerInfo\PlayerInfoView.cpp">
+      <Filter>source\PlayerInfo</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
