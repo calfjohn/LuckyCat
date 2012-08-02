@@ -3,9 +3,8 @@
 
 #include "cocos2d.h"
 
-USING_NS_CC;
 
-class LuckySprite : public CCSprite
+class LuckySprite : public cocos2d::CCSprite
 {
 public:
     LuckySprite(void);

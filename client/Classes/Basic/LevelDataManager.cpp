@@ -25,14 +25,14 @@ LevelDataManager::~LevelDataManager( void )
 {
 }
 
-void LevelDataManager::init( void )
+bool LevelDataManager::init( void )
 {
     string strFullPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath("config/LuckyCat.sqlite");
     CppSQLite3DB db;
     db.open(strFullPath.c_str());
 	if (!db.isOpen())
 	{
-		return;
+		return false;
 	}
     
     stBible tempBible;
@@ -88,58 +88,7 @@ void LevelDataManager::init( void )
         m_mapBible[tempBible.id] = tempBible;
         q1.nextRow();
     }
-
-/*    
-    string strFullPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath("config/level");
-    unsigned long nSize = 0;
-    const char* pBuffer = (const char *)CCFileUtils::sharedFileUtils()->getFileData(strFullPath.c_str(), "rb", &nSize);
-    
-    Json::Reader reader;
-	Json::Value json_root;
-	if (!reader.parse(pBuffer, json_root))
-		return;
-    
-    json_root = json_root["bible"];
-    m_stBible.name = json_root["name"].asString();
-    CCLOG("%s", m_stBible.name.c_str());
-
-    if(!json_root["listChpater"].isArray())
-    {
-        return;
-    }
-    
-    Json::Value jsonTempPage;
-    Json::Value jsonTempChapter;
-    for (int i = 0; i < json_root["listChpater"].size(); i++) 
-    {
-        stChapter tempChapter;
-        jsonTempChapter = json_root["listChpater"][i];
-        
-        tempChapter.id = jsonTempChapter["id"].asInt();
-        tempChapter.name = jsonTempChapter["name"].asString();
-        tempChapter.position.x = jsonTempChapter["position"]["x"].asInt();
-        tempChapter.position.y = jsonTempChapter["position"]["y"].asInt();
-        CCLOG("id:%d name:%s", tempChapter.id, tempChapter.name.c_str());
-
-        for (int j = 0; j < jsonTempChapter["listPage"].size(); j++) 
-        {
-            stPage  tempPage;
-            jsonTempPage = jsonTempChapter["listPage"][j];
-            
-            tempPage.id = jsonTempPage["id"].asInt();
-            tempPage.name = jsonTempPage["name"].asString();
-            tempPage.content = jsonTempPage["content"].asString();
-            tempPage.monsterId = jsonTempPage["monsterId"].asInt();
-            tempPage.state = jsonTempPage["state"].asInt();
-            
-            tempChapter.listPage.push_back(tempPage);
-            
-            CCLOG("id:%d name:%s content:%s monsterId:%d state:%d", tempPage.id, tempPage.name.c_str(), tempPage.content.c_str(), tempPage.monsterId, tempPage.state);            
-        }
-        
-        m_stBible.listChapter.push_back(tempChapter);
-    }
-*/    
+  
     CppSQLite3Query result = db.execQuery("select * from actor_level_upgrade;");
     
     std::vector<stActorLevelUpgrade *> tLevelList;
@@ -170,8 +119,9 @@ void LevelDataManager::init( void )
     }
     this->setMapActorLevelUpgrade(tLevelList);
     
-    
     db.close();
+    
+    return true;
 }
 
 const stBible *LevelDataManager::getBible()
@@ -179,7 +129,7 @@ const stBible *LevelDataManager::getBible()
     return &m_mapBible[1];
 }
 
-stPage *LevelDataManager::getNewPage(int chapterId)
+const stPage *LevelDataManager::getNewPage(int chapterId)
 {
     stPage *pPage = NULL;
     vector<stChapter>::iterator iterTemp;
@@ -239,7 +189,7 @@ bool LevelDataManager::isLastPageOfChapter(int chapterId, int pageId)
     return false;
 }
 
-stChapter *LevelDataManager::getChapter(int chapterId)
+const stChapter *LevelDataManager::getChapter(int chapterId)
 {
     vector<stChapter>::iterator iterTemp;
     for (iterTemp = m_mapBible[1].listChapter.begin();
@@ -254,7 +204,7 @@ stChapter *LevelDataManager::getChapter(int chapterId)
     return NULL;
 }
 
-stPage *LevelDataManager::getPage(int chapterId, int pageId)
+const stPage *LevelDataManager::getPage(int chapterId, int pageId)
 {
     stPage *pPage = NULL;
     vector<stChapter>::iterator iterTemp;
@@ -307,7 +257,8 @@ void LevelDataManager::deleteMapActorLevelUpgrade()
     }
     m_mapActorLevelUpgrade.clear();
 }
-stActorLevelUpgrade * LevelDataManager::getMapActorLevelUpgrade(int _level)
+
+const stActorLevelUpgrade * LevelDataManager::getMapActorLevelUpgrade(int _level)
 {
     map<int, stActorLevelUpgrade *>::iterator _iter = m_mapActorLevelUpgrade.find(_level);
     if ( _iter == m_mapActorLevelUpgrade.end() )
@@ -317,4 +268,33 @@ stActorLevelUpgrade * LevelDataManager::getMapActorLevelUpgrade(int _level)
     else {
         return _iter->second;
     }
+}
+
+bool LevelDataManager::changePageState(int chapterId, int pageId)
+{
+    stPage *pPage = NULL;
+    vector<stChapter>::iterator iterTemp;
+    for (iterTemp = m_mapBible[1].listChapter.begin();
+         iterTemp != m_mapBible[1].listChapter.end();
+         iterTemp++) 
+    {
+        if ((*iterTemp).id == chapterId) 
+        {
+            vector<stPage>::iterator iterPage;
+            for (iterPage = (*iterTemp).listPage.begin();
+                 iterPage != (*iterTemp).listPage.end();
+                 iterPage++) 
+            {
+                if ((*iterPage).id == pageId) 
+                {
+                    pPage = &(*iterPage);
+                    pPage->state = 1;
+                    break;
+                }
+            }
+            break;
+        }
+    }
+    
+    return pPage != NULL;
 }

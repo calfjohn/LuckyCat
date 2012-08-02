@@ -34,7 +34,7 @@ public:
     
     virtual void registerWithTouchDispatcher(void);
     
-    void initLayer(stPage *p_page, CCObject *target, SEL_CallFuncND pfnSelector);
+    void initLayer(const stPage *p_page, CCObject *target, SEL_CallFuncND pfnSelector);
     
     void fightAction();
     
@@ -72,7 +72,7 @@ private:
     
     SEL_CallFuncND  m_pfnSelector;    //callback selector
     
-    stPage *p_pPage;
+    const stPage *p_pPage;
     
     EventType mEventType;
     
