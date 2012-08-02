@@ -1,13 +1,14 @@
 /**
- * Account Authentication Server.
+ * Game logic server.
  * Responsibility:
- *  -   login:  authorize valid user, create new account for new user
+ *  -   combat:  actor combat with
  */
+
 require("../system/Log");
 
 var express = require("express")
     ,app = express.createServer()
-    ,log = new Log("UserServer");
+    ,log = new Log("GameServer");
 
 app.configure(function() {
     app.use(express.bodyParser());
@@ -26,9 +27,9 @@ app.configure("production", function() {
     app.use(express.errorHandler());
 });
 
-// init server, connect database here
+// init server, init modules here
 app.initInstance = function (srvConfig, callback) {
-    var cfg = require("../config/user.UserServer");
+    var cfg = require("../config/game.GameServer");
     var cb = function() {log.d(arguments);};
     for (var i = 0; i < arguments.length; ++i) {
         var arg = arguments[i];
@@ -39,17 +40,16 @@ app.initInstance = function (srvConfig, callback) {
         }
     }
 
-    require("./Users").initInstance(cfg.db_users, function(err) {
-        if (! err) {
-            app.initHandlers(app);
-        }
+    // init modules
+    require("./Actors").initInstance(cfg.db_actors, function(err) {
+        if (! err) app.initHandlers(app);
         cb(err);
     });
     return this;
 };
 
 app.initHandlers = function (aExpress) {
-    aExpress.post("/user/login", require("./handler/login"));
+    aExpress.post("/game/combat", require("./handler/combat"));
 };
 
 module.exports = app;
