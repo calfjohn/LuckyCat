@@ -159,6 +159,7 @@ const stPage *LevelDataManager::getNewPage(int chapterId)
 
 bool LevelDataManager::isChapterEnd(int chapterId)
 {
+    bool bRetValue = false;
     vector<stChapter>::iterator iterTemp;
     for (iterTemp = m_mapBible[1].listChapter.begin();
          iterTemp != m_mapBible[1].listChapter.end();
@@ -166,15 +167,17 @@ bool LevelDataManager::isChapterEnd(int chapterId)
     {
         if ((*iterTemp).id == chapterId && (*iterTemp).listPage.size() > 0) 
         {
-            return (*iterTemp).listPage.back().state == 1;
+            bRetValue = (*iterTemp).listPage.back().state == 1;
         }
     }
     
-    return false;
+    return bRetValue;
 }
 
 bool LevelDataManager::isLastPageOfChapter(int chapterId, int pageId)
 {
+    bool bRetValue = false;
+
     vector<stChapter>::iterator iterTemp;
     for (iterTemp = m_mapBible[1].listChapter.begin();
          iterTemp != m_mapBible[1].listChapter.end();
@@ -182,15 +185,16 @@ bool LevelDataManager::isLastPageOfChapter(int chapterId, int pageId)
     {
         if ((*iterTemp).id == chapterId) 
         {
-            return (*iterTemp).listPage.back().id == pageId;
+            bRetValue =  (*iterTemp).listPage.back().id == pageId;
         }
     }
     
-    return false;
+    return bRetValue;
 }
 
 const stChapter *LevelDataManager::getChapter(int chapterId)
 {
+    stChapter *pRetValue = NULL;
     vector<stChapter>::iterator iterTemp;
     for (iterTemp = m_mapBible[1].listChapter.begin();
          iterTemp != m_mapBible[1].listChapter.end();
@@ -198,10 +202,11 @@ const stChapter *LevelDataManager::getChapter(int chapterId)
     {
         if ((*iterTemp).id == chapterId) 
         {
-            return &(*iterTemp);
+            pRetValue =  &(*iterTemp);
         }
     }
-    return NULL;
+    
+    return pRetValue;
 }
 
 const stPage *LevelDataManager::getPage(int chapterId, int pageId)
@@ -260,14 +265,18 @@ void LevelDataManager::deleteMapActorLevelUpgrade()
 
 const stActorLevelUpgrade * LevelDataManager::getMapActorLevelUpgrade(int _level)
 {
+    stActorLevelUpgrade *pRetValue = NULL;
     map<int, stActorLevelUpgrade *>::iterator _iter = m_mapActorLevelUpgrade.find(_level);
     if ( _iter == m_mapActorLevelUpgrade.end() )
     {
-        return NULL;
+        pRetValue = NULL;
     }
-    else {
-        return _iter->second;
+    else 
+    {
+        pRetValue = _iter->second;
     }
+    
+    return pRetValue;
 }
 
 bool LevelDataManager::changePageState(int chapterId, int pageId)
