@@ -265,8 +265,8 @@ public:
 
     virtual void setOpacityModifyRGB(bool bValue) {CC_UNUSED_PARAM(bValue);}
     virtual bool isOpacityModifyRGB(void) { return false;}
-    //@deprecated: This interface will be deprecated sooner or later.
     LAYER_CREATE_FUNC(CCLayerColor)
+	//@deprecated: This interface will be deprecated sooner or later.
     LAYER_NODE_FUNC(CCLayerColor)
 protected:
     virtual void updateColor();

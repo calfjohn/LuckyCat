@@ -8,6 +8,11 @@
 
 #include "BattleResultView.h"
 
+
+USING_NS_CC;
+USING_NS_CC_EXT;
+using namespace std;
+
 void BattleResultView::initView(stTask *tTask)
 {
     CCSize screanSize = CCDirector::sharedDirector()->getWinSize();

@@ -16,11 +16,9 @@
 #include "LuckySprite.h"
 #include "BattleResultView.h"
 
-USING_NS_CC;
-USING_NS_CC_EXT;
-using namespace std;
 
-class MonsterBattleView : public CCLayer 
+
+class MonsterBattleView : public cocos2d::CCLayer 
 {
 public:
     //
@@ -28,18 +26,18 @@ public:
     
     virtual void onEnter();
     
-    virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
-    virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
-    virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
+    virtual bool ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
+    virtual void ccTouchMoved(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
+    virtual void ccTouchEnded(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
     
     virtual void registerWithTouchDispatcher(void);
-    
-    void initLayer(const stPage *p_page, CCObject *target, SEL_CallFuncND pfnSelector);
+
+    void initLayer(const stPage *p_page, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector);
     
     void fightAction();
     
-    CCFiniteTimeAction * createMonsterAction(unsigned int action_id);
-    CCFiniteTimeAction * createBossAction(unsigned int action_id);
+    cocos2d::CCFiniteTimeAction * createMonsterAction(unsigned int action_id);
+    cocos2d::CCFiniteTimeAction * createBossAction(unsigned int action_id);
     
     void playAction();
     
@@ -52,25 +50,28 @@ public:
     
     static void setIsInBattle(bool _b_state);
     
+    void removeAndCleanSelf();
     
+    // a selector callback
+    void menuBackCallback(cocos2d::CCObject* pSender);
 private:
     LuckySprite *pMonsterSprite;
     
-    CCLabelTTF *pLabDes;
-    CCLabelTTF *pLabEffect;
-    CCLabelTTF *pLabSubHp;
+    cocos2d::CCLabelTTF *pLabDes;
+    cocos2d::CCLabelTTF *pLabEffect;
+    cocos2d::CCLabelTTF *pLabSubHp;
     
     LuckySprite *pPlayerSprite;
-    CCProgressTimer *pMonsterPLine;
-    CCProgressTimer *pPlayerPLine;
+    cocos2d::CCProgressTimer *pMonsterPLine;
+    cocos2d::CCProgressTimer *pPlayerPLine;
     
     std::vector<unsigned int> mActionList;
     
-    CCPoint pBeginPoint;
+    cocos2d::CCPoint pBeginPoint;
     
-    CCObject*       m_target;         //callback listener
+    cocos2d::CCObject*       m_target;         //callback listener
     
-    SEL_CallFuncND  m_pfnSelector;    //callback selector
+    cocos2d::SEL_CallFuncND  m_pfnSelector;    //callback selector
     
     const stPage *p_pPage;
     
@@ -81,8 +82,8 @@ private:
     
     std::vector<stTalk *> mTalkList;
     
-    CCLayerColor *m_LayerDialogBg;
-    CCLabelTTF *m_LabDialog;
+    cocos2d::CCLayerColor *m_LayerDialogBg;
+    cocos2d::CCLabelTTF *m_LabDialog;
     
     GRole * p_Boss;
     

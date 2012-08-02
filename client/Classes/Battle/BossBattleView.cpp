@@ -12,6 +12,10 @@
 #include "DictDataManager.h"
 #include "LuckySprite.h"
 
+USING_NS_CC;
+USING_NS_CC_EXT;
+using namespace std;
+
 static bool m_bIsInBattle = false;
 
 void BossBattleView::onEnter()

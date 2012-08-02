@@ -219,7 +219,7 @@ bool TaskDataManager::addCurTask(stTask *tmpTask)
 
 std::vector<stTalk *> TaskDataManager::getAllTalk(int task_id)
 {
-    printf("------getAllTalk-------\n");
+    //printf("------getAllTalk-------\n");
     std::vector<stTalk *> tVectorRetTalk;
     std::map<int, stTalk *>::iterator _iter = mTalkMap.begin();
     
@@ -239,10 +239,10 @@ std::vector<stTalk *> TaskDataManager::getAllTalk(int task_id)
     }
     
     sort(tVectorRetTalk.begin(), tVectorRetTalk.end(),SortTalkById);    
-    for (vector<stTalk *>::iterator it = tVectorRetTalk.begin(); it != tVectorRetTalk.end(); it++) {
-        stTalk *_talk = *it;
-        _talk->print();
-    }
+//    for (vector<stTalk *>::iterator it = tVectorRetTalk.begin(); it != tVectorRetTalk.end(); it++) {
+//        stTalk *_talk = *it;
+//        _talk->print();
+//    }
     
 //    sort(talkVector.begin(), talkVector.end());
 //    for (vector<stTalk>::iterator it = talkVector.begin(); it != talkVector.end(); it++) {
@@ -254,7 +254,7 @@ std::vector<stTalk *> TaskDataManager::getAllTalk(int task_id)
 
 std::vector<stTask *> TaskDataManager::getASeriesOfTask(int task_id)
 {
-    printf("----get a series task-------\n");
+    //printf("----get a series task-------\n");
     std::vector<stTask *> tVectorTask;
     int tmpTaskId = task_id;
     while (tmpTaskId > 0 ) {
@@ -262,7 +262,7 @@ std::vector<stTask *> TaskDataManager::getASeriesOfTask(int task_id)
         tVectorTask.push_back(tmpTask);
         tmpTaskId = tmpTask->nextTaskId;
         
-        tmpTask->print();
+//        tmpTask->print();
     }
     
     return tVectorTask;
@@ -322,7 +322,6 @@ void TaskDataManager::readDB()
         tTask->box_id = result.getIntField("box_id");
         
         tTaskVector.push_back(tTask);
-        tTask->print();
         
         result.nextRow();
     }
@@ -345,7 +344,6 @@ void TaskDataManager::readDB()
         tTalk->npcName = result_1.getStringField("npc_name");
         
         tTalkVector.push_back(tTalk);
-        tTalk->print();
         
         result_1.nextRow();
     }
