@@ -21,24 +21,24 @@
 #include "Basic.h"
 
 
-using namespace std;
+
 
 //任务类型约定：
 //0，普通战斗
 //1，对话
 //2，特殊战斗
 enum TaskType {
-    generalBattle   =   0,   //general battle
-    DialogueTask    =   1,    //Dialogue
-    specialBattle   =   2     //Special battle
+    kTaskTypeGeneralBattle          =   0,   //general battle
+    kTaskTypeDialogue               =   1,    //Dialogue
+    kTaskTypeSpecialBattle          =   2     //Special battle
 };
 
 enum EventType {
-    talkEvent           = 1,
-    monsterBattleEvent  = 0,
-    bossBattleEvent     = 2,
-    oneEventWasFinished = 3,
-    finishedEvent       = 4         //event was finished
+    kEventTypeGeneralBattle         = 0,
+    kEventTypeTalk                  = 1,
+    kEventTypeSpecialBattle         = 2,
+    kEventTypeOneEventWasFinished   = 3,
+    kEventTypeFinishedEvent         = 4         //event was finished
     };
 
 //stNPC have info of npc's name and image

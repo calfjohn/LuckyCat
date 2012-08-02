@@ -15,11 +15,9 @@
 #include "BattleDefine.h"
 #include "LuckySprite.h"
 
-USING_NS_CC;
-USING_NS_CC_EXT;
-using namespace std;
 
-class BattleResultView : public CCLayer 
+
+class BattleResultView : public cocos2d::CCLayer 
 {
 public:
     //
