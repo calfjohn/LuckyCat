@@ -46,5 +46,3 @@ Actor = Class.extend({
         return ret;
     }
 });
-
-module.exports = new Actor();

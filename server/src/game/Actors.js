@@ -9,6 +9,7 @@ if (global.Actors) {
 
 require("../system/DBAgent");
 require("../system/Log");
+require("./Actor");
 
 var log = new Log("Actors")
     , util = require("util");
@@ -35,13 +36,13 @@ Actors = {
     },
 
     getActor: function(uuid, callback) {
-        Actors._dbAgent.query("SELECT `data` FROM `Actors` LIMIT 1 WHERE `uuid` = ?", [uuid], function (err, rows) {
+        Actors._dbAgent.query("SELECT `data` FROM `actors` WHERE `uuid` = ?", [uuid], function (err, rows) {
             if (err) {
                 throw err;
                 return;
             }
-            var data = (rows.length) ? null: rows[0].data;
-            callback(JSON.parse(data));
+            var data = (rows.length) ? JSON.parse(rows[0].data) : null;
+            callback(new Actor(data));
         });
     }
 };

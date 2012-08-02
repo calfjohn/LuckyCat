@@ -22,7 +22,7 @@ module.exports = {
           host      : "192.168.0.51"
         , user      : "root"
         , password : "123456"
-        , database : "db_luckycat"
+        , database : "db_luckycat_game"
         , recreate  : true              // recreate the database on database server
     }
 }

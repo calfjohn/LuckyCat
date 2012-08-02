@@ -20,7 +20,7 @@ module.exports = function (req, res, next) {
 
         var doCombat = function(actor) {
             if (! actor) next();
-            responResult(acotr.combatWithMonster(info.monster_id));
+            responseResult(actor.combatWithMonster(info.monster_id));
         };
 
         if (info) {
