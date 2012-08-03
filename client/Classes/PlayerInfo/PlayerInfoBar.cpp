@@ -9,8 +9,9 @@
  *        Created:  2012/7/30 17:13:50
  *       Revision:  none
  *
- *         Author:  lihx
- *   Organization:  
+ *         Author:  lihex (lhx), hexuan.li@cocos2d-x.org
+ *
+ *    Copyright (c) 2012 厦门雅基软件有限公司. All rights reserved.
  *
  * =====================================================================================
  */
@@ -18,6 +19,7 @@
 #include "Basic.h"
 #include "PlayerInfoBar.h"
 #include "PlayerInfoView.h"
+#include "LuckySprite.h"
 using namespace cocos2d;
 
 #define INFO_MENU_ITEMS_COUNT 2
@@ -42,7 +44,7 @@ bool PlayerInfoBar::init()
 		CC_BREAK_IF(!CCLayer::init());
 
 		/*Set plyer head icon*/
-		m_pPlayerIcon = CCMenuItemSprite::create(CCSprite::create("head.png"), CCSprite::create("head2.png"), this, menu_selector(PlayerInfoBar::playIconClicked));
+		m_pPlayerIcon = CCMenuItemSprite::create(LuckySprite::create(39), LuckySprite::create(40), this, menu_selector(PlayerInfoBar::playIconClicked));
 		m_pPlayerIcon->setAnchorPoint(CCPointZero);
 		CCMenu *infoMenu = CCMenu::create(m_pPlayerIcon, NULL);		
 		infoMenu->setPosition(CCPointZero);
