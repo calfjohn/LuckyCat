@@ -1,5 +1,5 @@
 /**
- *  Test user server function via http query, need run UserServer first.
+ *  Test game server function via http query, need run GameServer first.
  */
 
 var http = require("http");
@@ -7,7 +7,7 @@ var http = require("http");
 var postDataTo = function (sPath, vData, fCallback) {
     var opts = {
         host: "localhost",
-        port: 11111,
+        port: 22222,
         method: 'POST',
         path: sPath
     };
@@ -19,12 +19,13 @@ var postDataTo = function (sPath, vData, fCallback) {
 };
 
 describe("=================================================================================\n" +
-    "    Test UserServer", function() {
+    "    Test GameServer", function() {
 
-    it("Login", function(done) {
+    it("Combat", function(done) {
         var info = {};
-        info.udid = "1234567890";
-        postDataTo("/user/login", info, function(res) {
+        info.uuid = 10000;
+        info.monster_id = 0;
+        postDataTo("/game/combat", info, function(res) {
             res.on("data", function(chunk) {
                 console.log(chunk.toString());
                 done();
@@ -32,3 +33,4 @@ describe("======================================================================
         });
     });
 });
+

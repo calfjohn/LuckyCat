@@ -1,5 +1,5 @@
 /**
- * Config user server here.
+ * Config game server here.
  */
 
 /*  Export database's config for DBAgent.
@@ -18,11 +18,11 @@
  */
 
 module.exports = {
-    db_users        : {
-        host        : "192.168.0.51"
+        db_actors  : {
+          host      : "192.168.0.51"
         , user      : "root"
-        , password  : "123456"
-        , database  : "db_luckycat_user"
+        , password : "123456"
+        , database : "db_luckycat_game"
         , recreate  : true              // recreate the database on database server
     }
 }

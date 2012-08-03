@@ -7,15 +7,13 @@ var users = require("../../src/user/Users")
     , log = new Log("Users")
     , assert = require("assert");
 
-var dbName = "db_test_users";
+var dbName = "test_users";
 var testUsersCfg = {
-    dbConfig : {
-            host       : "localhost"
-        ,   user       : "root"
-        ,   password   : "99092026"
-        ,   database   : dbName
-    },
-    reCreateDB : true
+    host      : "192.168.0.51"
+    , user      : "root"
+    , password : "123456"
+    , database   : dbName
+    , recreate    : true
 };
 
 describe("=================================================================================\n" +
@@ -25,15 +23,10 @@ describe("======================================================================
 
     // first, create the test database
     before(function (done) {
-        require("../../src/user/UserServer").initInstance(testUsersCfg, function(err) {
-            if (err) {
-                done(err);
-            } else {
-                users.initInstance(testUsersCfg);
-                dbUsers = new DBAgent(testUsersCfg.dbConfig);
-                dbUsers.connect(true);
-                done();
-            }
+        users.initInstance(testUsersCfg, function(err) {
+            dbUsers = new DBAgent(testUsersCfg);
+            dbUsers.connect(true);
+            done();
         });
     });
 
