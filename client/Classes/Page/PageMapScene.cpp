@@ -73,15 +73,15 @@ void PageMap::onEnter()
 {
     CCLayer::onEnter();
     
-    stChapter *pChapter = LevelDataManager::shareLevelDataManager()->getChapter(m_nChapterId);
-    stPage * pPage = LevelDataManager::shareLevelDataManager()->getNewPage(m_nChapterId);
+    const stChapter *pChapter = LevelDataManager::shareLevelDataManager()->getChapter(m_nChapterId);
+    const stPage * pPage = LevelDataManager::shareLevelDataManager()->getNewPage(m_nChapterId);
     if (!pChapter)
     {
         return;
     }
 
     bool bEnable = true;
-    vector<stPage>::iterator iterTemp;
+    vector<stPage>::const_iterator iterTemp;
     CCMenuItemImage *pPageItem = NULL;
     for (iterTemp = pChapter->listPage.begin();
          iterTemp != pChapter->listPage.end();
@@ -117,7 +117,7 @@ void PageMap::turnToChapter(int chapterId)
 {
     CCSize size = CCDirector::sharedDirector()->getWinSize();
 
-    stChapter *pChapter = LevelDataManager::shareLevelDataManager()->getChapter(chapterId);
+    const stChapter *pChapter = LevelDataManager::shareLevelDataManager()->getChapter(chapterId);
     if (!pChapter)
     {
         return;
@@ -129,7 +129,7 @@ void PageMap::turnToChapter(int chapterId)
     this->addChild(pTitleLabel, 1);
 
     CCMenuItemSprite *pPageItem;
-    vector<stPage>::iterator iterTemp;
+    vector<stPage>::const_iterator iterTemp;
     CCMenu *pMenu = (CCMenu *)getChildByTag(TAG_MENU);
     for (iterTemp = pChapter->listPage.begin();
          iterTemp != pChapter->listPage.end();
@@ -149,7 +149,7 @@ void PageMap::turnToChapter(int chapterId)
 void PageMap::menuPageCallback(CCObject* pSender)
 {
     CCNode *pNode = (CCNode *)pSender;
-    stPage *pPage = LevelDataManager::shareLevelDataManager()->getPage(m_nChapterId, pNode->getTag());
+    const stPage *pPage = LevelDataManager::shareLevelDataManager()->getPage(m_nChapterId, pNode->getTag());
     if (!pPage) 
     {
         return;
@@ -160,13 +160,13 @@ void PageMap::menuPageCallback(CCObject* pSender)
     CCPoint postion = pNode->getPosition();
     m_pKnight->runAction(CCSequence::actions(
                                 CCMoveTo::actionWithDuration(0.5, ccp(postion.x + size.width/2 + 20, postion.y + size.height/2 + 20)), 
-                                CCCallFuncND::create(this, callfuncND_selector(PageMap::callback), pPage),
+                                CCCallFuncND::create(this, callfuncND_selector(PageMap::callback), (void *)pPage),
                                 NULL));
 }
                                              
 void PageMap::callback(CCNode* sender, void* data)
 {
-    stPage *pPage = (stPage *)data;
+    const stPage *pPage = (stPage *)data;
     
     CCScene *pScene = Page::scene(m_nChapterId, pPage);
     CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);

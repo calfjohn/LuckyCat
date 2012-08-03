@@ -26,12 +26,14 @@ public:
 	}
     
     void reload();
-
-    stPage *getPage(int chapterId, int pageId);
-
-    stPage *getNewPage(int chapterId);
     
-    stChapter *getChapter(int chapterId);
+    bool changePageState(int chapterId, int pageId);
+
+    const stPage *getPage(int chapterId, int pageId);
+
+    const stPage *getNewPage(int chapterId);
+    
+    const stChapter *getChapter(int chapterId);
 
     bool isChapterEnd(int chapterId);
     
@@ -52,9 +54,9 @@ public:
     map<int, stActorLevelUpgrade *> m_mapActorLevelUpgrade;
     void setMapActorLevelUpgrade( vector<stActorLevelUpgrade *> tmpList);
     void deleteMapActorLevelUpgrade();
-    stActorLevelUpgrade * getMapActorLevelUpgrade(int _level);
+    const stActorLevelUpgrade * getMapActorLevelUpgrade(int _level);
 protected:
-	void init(void);
+	bool init(void);
 	LevelDataManager(void);
 	virtual ~LevelDataManager(void);
 

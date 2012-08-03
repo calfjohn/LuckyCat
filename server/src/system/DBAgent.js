@@ -39,7 +39,7 @@ DBAgent = Class.extend({/** @lends DBAgent */
      * </p>
      */
     init: function(dbConfig) {
-        this._config = dbConfig;
+        this._config = JSON.parse(JSON.stringify(dbConfig));
     },
 
     connect: function(bCertainExisting) {

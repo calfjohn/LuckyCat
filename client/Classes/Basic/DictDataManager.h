@@ -29,7 +29,7 @@ public:
     
     const stImage *getImage(int imageId);
 protected:
-	void init(void);
+	bool init(void);
 	DictDataManager(void);
 	virtual ~DictDataManager(void);
 

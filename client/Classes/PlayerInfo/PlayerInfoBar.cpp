@@ -31,7 +31,7 @@ static const int scInfoMenuItems[INFO_MENU_ITEMS_COUNT]={
 PlayerInfoBar::PlayerInfoBar()
 :m_pPlayerIcon(NULL)
 ,m_pInfoItemsMenu(NULL)
-,m_iSelectedMenuItem(InfoMenuItemType::kInfoMenuItemTypePlayer)
+,m_iSelectedMenuItem(kInfoMenuItemTypePlayer)
 {
 
 }

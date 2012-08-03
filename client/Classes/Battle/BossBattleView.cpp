@@ -12,6 +12,10 @@
 #include "DictDataManager.h"
 #include "LuckySprite.h"
 
+USING_NS_CC;
+USING_NS_CC_EXT;
+using namespace std;
+
 static bool m_bIsInBattle = false;
 
 void BossBattleView::onEnter()
@@ -24,7 +28,7 @@ void BossBattleView::onEnter()
     
 }
 
-void BossBattleView::initLayer(stPage *page, CCObject *target, SEL_CallFuncND pfnSelector)
+void BossBattleView::initLayer(const stPage *page, CCObject *target, SEL_CallFuncND pfnSelector)
 {
     p_pPage = page;
     

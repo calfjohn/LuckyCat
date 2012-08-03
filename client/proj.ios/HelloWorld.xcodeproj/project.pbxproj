@@ -21,6 +21,10 @@
 		15AAE35515B6B6DB00F0CF5E /* ChapterScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15AAE35315B6B6DB00F0CF5E /* ChapterScene.cpp */; };
 		15AAE35915B6C1D200F0CF5E /* PageScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15AAE35715B6C1D200F0CF5E /* PageScene.cpp */; };
 		15BEAF9115B65AB600D5940D /* LevelDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15BEAF8F15B65AB600D5940D /* LevelDataManager.cpp */; };
+		15D5107115CA14DC00FE43A8 /* PlayerInfoBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15D5106F15CA14DC00FE43A8 /* PlayerInfoBar.cpp */; };
+		15D5107415CA2E6400FE43A8 /* head.png in Resources */ = {isa = PBXBuildFile; fileRef = 15D5107215CA2E6400FE43A8 /* head.png */; };
+		15D5107515CA2E6400FE43A8 /* head2.png in Resources */ = {isa = PBXBuildFile; fileRef = 15D5107315CA2E6400FE43A8 /* head2.png */; };
+		15D5107815CA3D4600FE43A8 /* PlayerInfoView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15D5107615CA3D4600FE43A8 /* PlayerInfoView.cpp */; };
 		15DD6D7A156DD120003E7567 /* fps_images.png in Resources */ = {isa = PBXBuildFile; fileRef = 15DD6D78156DD120003E7567 /* fps_images.png */; };
 		15EC314F15B7F46000EA9631 /* PageMapScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15EC314E15B7F46000EA9631 /* PageMapScene.cpp */; };
 		15EC315F15B7FE4000EA9631 /* CppSQLite3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15EC315A15B7FE4000EA9631 /* CppSQLite3.cpp */; };
@@ -127,6 +131,12 @@
 		15BEAF8E15B65AB600D5940D /* Basic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Basic.h; sourceTree = "<group>"; };
 		15BEAF8F15B65AB600D5940D /* LevelDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelDataManager.cpp; sourceTree = "<group>"; };
 		15BEAF9015B65AB600D5940D /* LevelDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelDataManager.h; sourceTree = "<group>"; };
+		15D5106F15CA14DC00FE43A8 /* PlayerInfoBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerInfoBar.cpp; sourceTree = "<group>"; };
+		15D5107015CA14DC00FE43A8 /* PlayerInfoBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerInfoBar.h; sourceTree = "<group>"; };
+		15D5107215CA2E6400FE43A8 /* head.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = head.png; sourceTree = "<group>"; };
+		15D5107315CA2E6400FE43A8 /* head2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = head2.png; sourceTree = "<group>"; };
+		15D5107615CA3D4600FE43A8 /* PlayerInfoView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerInfoView.cpp; sourceTree = "<group>"; };
+		15D5107715CA3D4600FE43A8 /* PlayerInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerInfoView.h; sourceTree = "<group>"; };
 		15DD6D78156DD120003E7567 /* fps_images.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fps_images.png; sourceTree = "<group>"; };
 		15EC314D15B7F45100EA9631 /* PageMapScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageMapScene.h; sourceTree = "<group>"; };
 		15EC314E15B7F46000EA9631 /* PageMapScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PageMapScene.cpp; sourceTree = "<group>"; };
@@ -320,6 +330,17 @@
 			path = Page;
 			sourceTree = "<group>";
 		};
+		15D5106E15CA14DC00FE43A8 /* PlayerInfo */ = {
+			isa = PBXGroup;
+			children = (
+				15D5107615CA3D4600FE43A8 /* PlayerInfoView.cpp */,
+				15D5107715CA3D4600FE43A8 /* PlayerInfoView.h */,
+				15D5106F15CA14DC00FE43A8 /* PlayerInfoBar.cpp */,
+				15D5107015CA14DC00FE43A8 /* PlayerInfoBar.h */,
+			);
+			path = PlayerInfo;
+			sourceTree = "<group>";
+		};
 		15DE3DB815B56D1C001B8372 /* Basic */ = {
 			isa = PBXGroup;
 			children = (
@@ -453,6 +474,8 @@
 		784521C214EBA449009D533B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				15D5107215CA2E6400FE43A8 /* head.png */,
+				15D5107315CA2E6400FE43A8 /* head2.png */,
 				15EC317615B8036000EA9631 /* image */,
 				15AAE33A15B68FF000F0CF5E /* config */,
 				15F990B3159C0DAF00848A44 /* fps_images-hd.png */,
@@ -471,6 +494,7 @@
 		BF23D4E2143315EB00657E08 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				15D5106E15CA14DC00FE43A8 /* PlayerInfo */,
 				F2AAC58715C0DFF700952F4B /* Task */,
 				187DC37A15B802FD0051A392 /* Battle */,
 				15AAE35615B6C1D100F0CF5E /* Page */,
@@ -625,6 +649,8 @@
 				15AAE33015B6894100F0CF5E /* sconscript in Resources */,
 				15AAE33B15B68FF000F0CF5E /* config in Resources */,
 				15EC317715B8036000EA9631 /* image in Resources */,
+				15D5107415CA2E6400FE43A8 /* head.png in Resources */,
+				15D5107515CA2E6400FE43A8 /* head2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -669,6 +695,8 @@
 				F2D6B44915C1132600D78164 /* NpcTalkView.cpp in Sources */,
 				187E0D4B15C679D500DB85F3 /* BattleResultView.cpp in Sources */,
 				18CE8E9F15C7762600C48686 /* BasicFunction.cpp in Sources */,
+				15D5107115CA14DC00FE43A8 /* PlayerInfoBar.cpp in Sources */,
+				15D5107815CA3D4600FE43A8 /* PlayerInfoView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

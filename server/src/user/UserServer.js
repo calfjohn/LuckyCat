@@ -26,8 +26,6 @@ app.configure("production", function() {
     app.use(express.errorHandler());
 });
 
-require("../system/DBAgent");
-
 // init server, connect database here
 app.initInstance = function (srvConfig, callback) {
     var cfg = require("../config/user.UserServer");
@@ -41,32 +39,11 @@ app.initInstance = function (srvConfig, callback) {
         }
     }
 
-    var db = new DBAgent(cfg.dbConfig);
-    db.connect().createDatabase(cfg["reCreateDB"] || false, function(err) {
-        if (err) {
-            cb(err);
-            return;
+    require("./Users").initInstance(cfg.db_users, function(err) {
+        if (! err) {
+            app.initHandlers(app);
         }
-        db.query(
-            "CREATE TABLE IF NOT EXISTS users (" +
-                "uuid       bigint(8)       PRIMARY KEY AUTO_INCREMENT COMMENT '自增长ID'," +
-                "udid       varchar(127)," +
-                "91id       varchar(127)" +
-                ") DEFAULT CHARSET=utf8 COMMENT='用户表' AUTO_INCREMENT=10000",
-            function(err) {
-                if (err) {
-                    cb(err);
-                    return;
-                } else {
-                    app.initHandlers(app);
-                    var users = require("./Users");
-                    users.initInstance(cfg.dbConfig);
-                    cb(err);
-                    db.close();
-                    db = undefined;
-                }
-            }
-        );
+        cb(err);
     });
     return this;
 };

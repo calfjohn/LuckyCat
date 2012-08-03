@@ -27,11 +27,26 @@ require("../system/Log");
 var log = new Log("Users")
     , util = require("util");
 
-global.Users = {
+Users = {
     _dbAgent : null,
-    initInstance : function(dbConfig) {
+    initInstance : function(dbConfig, callback) {
         Users._dbAgent = new DBAgent(dbConfig);
-        Users._dbAgent.connect(true);
+        Users._dbAgent.connect();
+
+        Users._dbAgent.createDatabase(dbConfig.recreate || false, function(err) {
+            if (err) {
+                throw err;
+                return;
+            }
+            Users._dbAgent.query("CREATE TABLE IF NOT EXISTS users (" +
+                "uuid       bigint(8)       PRIMARY KEY AUTO_INCREMENT COMMENT '自增长ID'," +
+                "udid       varchar(127)," +
+                "91id       varchar(127)" +
+                ") DEFAULT CHARSET=utf8 COMMENT='用户表' AUTO_INCREMENT=10000",
+                function (err) {
+                    callback(err);
+                });
+        });
     },
 
     // uuid returned by cb
@@ -46,7 +61,7 @@ global.Users = {
                         if (err) {
                             throw err;
                         } else {
-                            cb(ret[0]["LAST_INSERT_ID()"]);
+                            cb(ret.insertId);
                         }
                     });
                 }
@@ -80,4 +95,4 @@ global.Users = {
     }
 };
 
-module.exports = global.Users;
+module.exports = Users;

@@ -20,12 +20,12 @@ public:
     virtual bool init();  
 
     // there's no 'id' in cpp, so we recommand to return the exactly class pointer
-    static cocos2d::CCScene* scene(int chapterId, stPage *pPage);
+    static cocos2d::CCScene* scene(int chapterId, const stPage *pPage);
     
     // implement the "static node()" method manually
     LAYER_CREATE_FUNC(Page);
     
-    void turnToPage(int chapterId, stPage *pPage);
+    void turnToPage(int chapterId, const stPage *pPage);
     
     virtual bool ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
     virtual void ccTouchMoved(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
@@ -49,7 +49,7 @@ protected:
     cocos2d::CCLabelTTF *m_state;
     cocos2d::CCLabelTTF *m_tips;
     int m_nChapterId;
-    stPage *m_pPage;
+    const stPage *m_pPage;
     
     cocos2d::CCPoint pBeginPoint;
     

@@ -12,18 +12,20 @@
 #include "DictDataManager.h"
 #include "TaskDataManager.h"
 
+USING_NS_CC;
+USING_NS_CC_EXT;
+using namespace std;
+
 static bool m_bIsInBattle = false;
 
 void MonsterBattleView::onEnter()
 {
     CCLayer::onEnter();
-    
-    this->setTouchEnabled(true);
 }
 
 bool MonsterBattleView::ccTouchBegan(CCTouch* touch, CCEvent *pEvent)
 {
-    if ( mEventType == monsterBattleEvent && !touch) return false;
+    if ( mEventType == kEventTypeGeneralBattle && !touch) return false;
     
     pBeginPoint = this->convertTouchToNodeSpace(touch);
     
@@ -44,16 +46,16 @@ void MonsterBattleView::ccTouchEnded(CCTouch* touch, CCEvent *pEvent)
     
     if (distance_ > 2.0f)
     {
-        if ( mEventType == oneEventWasFinished )
+        if ( mEventType == kEventTypeOneEventWasFinished )
         {
             getNextTask();
         }
         //触发随机事件
-        if ( mEventType == talkEvent )
+        if ( mEventType == kEventTypeTalk )
         {
             this->showCurentEvent();
         }
-        else if ( mEventType == bossBattleEvent )
+        else if ( mEventType == kEventTypeSpecialBattle )
         {
             if (m_bIsWaitingForAction)
             {
@@ -64,46 +66,37 @@ void MonsterBattleView::ccTouchEnded(CCTouch* touch, CCEvent *pEvent)
             }
 
         }
-        else if ( mEventType == monsterBattleEvent ){
+        else if ( mEventType == kEventTypeGeneralBattle ){
             stTask *tmp = this->getNextTask();
             if (tmp)this->showCurentEvent();
             else {
-                CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_BATTLE_LAYER));
-                if ( pLayer )
-                {
-                    pLayer->removeFromParentAndCleanup(true);
-                }
-                
-                setIsInBattle(false);
-                
-                m_bIsWaitingForAction = false;
-                
-                ((m_target)->*(m_pfnSelector))(this, NULL);
+                this->scheduleOnce(schedule_selector(MonsterBattleView::removeAndCleanSelf), 0.1f);
             }
         }
-        else  if ( mEventType == finishedEvent ||  mEventType == oneEventWasFinished ) {
-            CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_BATTLE_LAYER));
-            if ( pLayer )
-            {
-                pLayer->removeFromParentAndCleanup(true);
-            }
-            
-            setIsInBattle(false);
-            
-            m_bIsWaitingForAction = false;
-            
-            ((m_target)->*(m_pfnSelector))(this, NULL);
+        else  if ( mEventType == kEventTypeFinishedEvent ||  mEventType == kEventTypeOneEventWasFinished ) {
+            this->scheduleOnce(schedule_selector(MonsterBattleView::removeAndCleanSelf), 0.1f);
+//            setIsInBattle(false);
+//            
+//            m_bIsWaitingForAction = false;
+//            
+//            ((m_target)->*(m_pfnSelector))(this, NULL);
+//            
+//            CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_BATTLE_LAYER));
+//            if ( pLayer )
+//            {
+//                pLayer->removeFromParentAndCleanup(true);
+//            }
         }
     }
 }
 
 void MonsterBattleView::registerWithTouchDispatcher(void)
 {
-    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority, true);
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority , true);
 }
 
 
-void MonsterBattleView::initLayer(stPage *p_page, CCObject *target, SEL_CallFuncND pfnSelector)
+void MonsterBattleView::initLayer(const stPage *p_page, CCObject *target, SEL_CallFuncND pfnSelector)
 {
     pMonsterSprite = NULL;
     
@@ -122,7 +115,7 @@ void MonsterBattleView::initLayer(stPage *p_page, CCObject *target, SEL_CallFunc
     
     pBattleResultView = NULL;
     
-    mEventType = oneEventWasFinished;
+    mEventType = kEventTypeOneEventWasFinished;
     
     m_target = target;
     m_pfnSelector = pfnSelector;
@@ -130,6 +123,8 @@ void MonsterBattleView::initLayer(stPage *p_page, CCObject *target, SEL_CallFunc
     p_pPage = p_page;
     
     if ( p_pPage == NULL )return;
+    
+    this->setTouchEnabled(true);
     
     mTalkList.clear();
     mTaskList = TaskDataManager::getShareInstance()->getASeriesOfTask(p_pPage->taskId);
@@ -140,6 +135,16 @@ void MonsterBattleView::initLayer(stPage *p_page, CCObject *target, SEL_CallFunc
     
     CCSize screanSize = CCDirector::sharedDirector()->getWinSize();
     
+    CCMenu* pMenu = CCMenu::create();
+    pMenu->setPosition(CCPointZero);
+    this->addChild(pMenu, 100, 1000);
+    
+    CCMenuItemSprite *pBackItem = CCMenuItemSprite::create(LuckySprite::create(2), LuckySprite::create(3), LuckySprite::create(3), this, menu_selector(MonsterBattleView::menuBackCallback)); 
+    pBackItem->setScale(0.5);
+    pBackItem->setPosition(ccp(screanSize.width - 30, screanSize.height - 20));
+    pMenu->addChild(pBackItem,5);
+    
+    
     //    cocos2d::CCLabelTTF *titleLabel = cocos2d::CCLabelTTF::create( "Monster Fight!", CCSizeMake(screanSize.width, 50),kCCVerticalTextAlignmentCenter,kCCVerticalTextAlignmentCenter,"Arial", 24); 
     //    titleLabel = CCLabelTTF::initWithString("Monster Fight!", "Arial", 50);
     
@@ -149,22 +154,17 @@ void MonsterBattleView::initLayer(stPage *p_page, CCObject *target, SEL_CallFunc
     titleLabel->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height- 40));
     titleLabel->setColor(ccc3(255,55,0));
     this->addChild(titleLabel);
-    
-    LuckySprite *_pMonsterSprite = LuckySprite::create(p_CurTask->targetId[0]);
-    _pMonsterSprite->setPosition(CCPointMake(screanSize.width*0.5f, 260));
-    this->addChild(_pMonsterSprite);
-    _pMonsterSprite->setTag(TAG_MONSTER_SPRITE);
 
     
-    CCLabelTTF *dscLabel = CCLabelTTF::create("", CCSizeMake(screanSize.width, 50), kCCTextAlignmentCenter,"Arial", 30);
-    //cellLabel->setPosition(ccp(cellSize.width , cellSize.height )); 
-    dscLabel->setAnchorPoint(ccp(0.5,0.5));
-    dscLabel->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height*0.75f));
-    dscLabel->setColor(ccc3(255,55,0));
-    this->addChild(dscLabel);
-    dscLabel->setTag(TAG_LABEL_DES);
-    
-    dscLabel->setVisible(false);
+//    CCLabelTTF *dscLabel = CCLabelTTF::create("", CCSizeMake(screanSize.width, 50), kCCTextAlignmentCenter,"Arial", 30);
+//    //cellLabel->setPosition(ccp(cellSize.width , cellSize.height )); 
+//    dscLabel->setAnchorPoint(ccp(0.5,0.5));
+//    dscLabel->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height*0.75f));
+//    dscLabel->setColor(ccc3(255,55,0));
+//    this->addChild(dscLabel);
+//    dscLabel->setTag(TAG_LABEL_DES);
+//    
+//    dscLabel->setVisible(false);
     
     showCurentEvent();
     
@@ -351,7 +351,7 @@ void MonsterBattleView::playAction()
         }
     }
     else {
-        mEventType = oneEventWasFinished;
+        mEventType = kEventTypeOneEventWasFinished;
         //this->showNextTask();
     }
 }
@@ -398,7 +398,7 @@ void MonsterBattleView::playOneActionEnd()
         }
     }
     else {
-        mEventType = oneEventWasFinished;
+        mEventType = kEventTypeOneEventWasFinished;
         //this->showNextTask();
     }
 }
@@ -442,22 +442,22 @@ stTask * MonsterBattleView::getCurTask(int task_id)
         p_CurTask = mTaskList[0];
         
         switch (p_CurTask->type) {
-            case generalBattle:
+            case kTaskTypeGeneralBattle:
             {
-                mEventType = monsterBattleEvent;
+                mEventType = kEventTypeGeneralBattle;
                 p_CurTalk = NULL;
                 break;
             }
-            case DialogueTask:
+            case kTaskTypeDialogue:
             {
-                mEventType = talkEvent;
+                mEventType = kEventTypeTalk;
                 mTalkList.clear();
                 mTalkList = TaskDataManager::getShareInstance()->getAllTalk(p_pPage->taskId);
                 break;
             }
-            case specialBattle:
+            case kTaskTypeSpecialBattle:
             {
-                mEventType = bossBattleEvent;
+                mEventType = kEventTypeSpecialBattle;
                 p_CurTalk = NULL;
             }
             default:
@@ -500,29 +500,29 @@ stTask * MonsterBattleView::getNextTask()
             p_CurTask = mTaskList[0];
             
             switch (p_CurTask->type) {
-                case generalBattle:
+                case kTaskTypeGeneralBattle:
                 {
-                    mEventType = monsterBattleEvent;
+                    mEventType = kEventTypeGeneralBattle;
                     p_CurTalk = NULL;
                     break;
                 }
-                case DialogueTask:
+                case kTaskTypeDialogue:
                 {
-                    mEventType = talkEvent;
+                    mEventType = kEventTypeTalk;
                     mTalkList.clear();
                     mTalkList = TaskDataManager::getShareInstance()->getAllTalk(p_pPage->taskId);
                     break;
                 }
-                case specialBattle:
+                case kTaskTypeSpecialBattle:
                 {
-                    mEventType = bossBattleEvent;
+                    mEventType = kEventTypeSpecialBattle;
                     m_bIsWaitingForAction = false;
                     p_CurTalk = NULL;
                     break;
                 }
                 default:
                 {
-                    mEventType = finishedEvent;
+                    mEventType = kEventTypeFinishedEvent;
                     p_CurTask = NULL;
                     break;
                 }
@@ -530,13 +530,13 @@ stTask * MonsterBattleView::getNextTask()
             return p_CurTask;
         }
         else {
-            mEventType = finishedEvent;
+            mEventType = kEventTypeFinishedEvent;
             p_CurTask = NULL;
             return p_CurTask;
         }
     }
     else {
-        mEventType = finishedEvent;
+        mEventType = kEventTypeFinishedEvent;
         p_CurTask = NULL;
         return p_CurTask;
     }
@@ -574,11 +574,11 @@ void MonsterBattleView::showUI()
         pBattleResultView->removeFromParentAndCleanup(true);
         pBattleResultView = NULL;
     }
-    if ( mEventType == talkEvent )
+    if ( mEventType == kEventTypeTalk )
     {
         showTalkUI();
     }
-    else if ( mEventType == monsterBattleEvent )
+    else if ( mEventType == kEventTypeGeneralBattle )
     {
         showMonsterBattleUI();
     }
@@ -601,7 +601,7 @@ void MonsterBattleView::showTalkUI()
     const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(p_CurTask->targetId[0]);
     if (pMonster) 
     {
-        pMonsterSprite = LuckySprite::create(p_CurTask->targetId[0]);
+        pMonsterSprite = LuckySprite::create(32);//LuckySprite::create(p_CurTask->targetId[0]);
         pMonsterSprite->setPosition(CCPointMake(screanSize.width*0.5f, 260));
         this->addChild(pMonsterSprite);
         pMonsterSprite->setTag(TAG_MONSTER_SPRITE);
@@ -651,12 +651,14 @@ void MonsterBattleView::showMonsterBattleUI()
         pMonsterSprite->removeFromParentAndCleanup(true);
         pMonsterSprite = NULL;
     }
-    
-        pMonsterSprite = LuckySprite::create(p_CurTask->targetId[0]);
+    const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(p_CurTask->targetId[0]);
+    if (pMonster) 
+    {
+        pMonsterSprite = LuckySprite::create(32);//LuckySprite::create(p_CurTask->targetId[0]);
         pMonsterSprite->setPosition(CCPointMake(screanSize.width*0.5f, 260));
         this->addChild(pMonsterSprite);
         pMonsterSprite->setTag(TAG_MONSTER_SPRITE);
-    
+    }
     
     pMonsterSprite->setScale(0.5f);
     
@@ -678,14 +680,10 @@ void MonsterBattleView::showBossBattleUI()
     
     if ( !pMonsterSprite )
     {
-        pMonsterSprite = LuckySprite::create(p_CurTask->targetId[0]);
+        pMonsterSprite = LuckySprite::create(32);//LuckySprite::create(p_CurTask->targetId[0]);
         pMonsterSprite->setPosition(CCPointMake(screanSize.width*0.5f, 260));
         this->addChild(pMonsterSprite);
         pMonsterSprite->setTag(TAG_MONSTER_SPRITE);
-    }
-    else {
-        LuckySprite *pTempSprite = LuckySprite::create(p_CurTask->targetId[0]);
-        pMonsterSprite->setTexture(pTempSprite->getTexture());
     }
     
     pMonsterSprite->setScale(0.5f);
@@ -700,7 +698,7 @@ void MonsterBattleView::showBossBattleUI()
         
         pMonsterPLine = CCProgressTimer::create(LuckySprite::create(1001));
         pMonsterPLine->setType(kCCProgressTimerTypeBar);
-        pMonsterPLine->setMidpoint(ccp(0.0f, 0.5f));
+        pMonsterPLine->setMidpoint(ccp(0.0f, 0.0f));
         pMonsterPLine->setPercentage(100);
         pMonsterPLine->setPosition(CCPointMake(screanSize.width*0.5f, screanSize.height- 50));
         //pProgressBoss->setColor(ccGRAY);
@@ -758,7 +756,7 @@ void MonsterBattleView::showCurentEvent()
 {
     this->showUI();
     EventType _event =  getEventType();
-    if ( talkEvent == _event ) {
+    if ( kEventTypeTalk == _event ) {
         showDialog();
     }
     else
@@ -775,7 +773,7 @@ void MonsterBattleView::getNextEvent()
 {
     if ( p_CurTask )
     {
-        if ( mEventType == talkEvent )
+        if ( mEventType == kEventTypeTalk )
         {
             //getNextTalk();
         }
@@ -802,14 +800,14 @@ void MonsterBattleView::showDialog()
     else
     {
         if (m_LabDialog)  m_LayerDialogBg->setVisible(false);
-        mEventType = oneEventWasFinished;
+        mEventType = kEventTypeOneEventWasFinished;
         //this->showNextTask();
     }
 }
 
 void MonsterBattleView::showfightAnimation()
 {
-    if ( mEventType == monsterBattleEvent )
+    if ( mEventType == kEventTypeGeneralBattle )
     {
         mActionList.push_back(3);
         mActionList.push_back(1);
@@ -847,4 +845,25 @@ void MonsterBattleView::showfightAnimation()
         
         this->playOneActionEnd();
     }
+}
+
+
+void MonsterBattleView::removeAndCleanSelf()
+{
+    setIsInBattle(false);
+    
+    m_bIsWaitingForAction = false;
+    
+    ((m_target)->*(m_pfnSelector))(this, NULL);
+    
+    CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_BATTLE_LAYER));
+    if ( pLayer )
+    {
+        pLayer->removeFromParentAndCleanup(true);
+    }
+}
+
+void MonsterBattleView::menuBackCallback(CCObject* pSender)
+{
+    this->removeAndCleanSelf();
 }

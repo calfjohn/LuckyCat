@@ -97,7 +97,7 @@ void Chapter::menuChapterCallback(CCObject* pSender)
 {
     CCNode *pNode = (CCNode *)pSender;
     
-    stPage *pPage = LevelDataManager::shareLevelDataManager()->getNewPage(pNode->getTag());
+    const stPage *pPage = LevelDataManager::shareLevelDataManager()->getNewPage(pNode->getTag());
     if (!pPage) 
     {
         return;

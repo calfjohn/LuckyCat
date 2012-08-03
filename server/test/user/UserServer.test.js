@@ -23,7 +23,7 @@ describe("======================================================================
 
     it("Login", function(done) {
         var info = {};
-        info.udid = "3234567890";
+        info.udid = "1234567890";
         postDataTo("/user/login", info, function(res) {
             res.on("data", function(chunk) {
                 console.log(chunk.toString());
