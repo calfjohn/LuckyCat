@@ -848,7 +848,7 @@ void MonsterBattleView::showfightAnimation()
 }
 
 
-void MonsterBattleView::removeAndCleanSelf()
+void MonsterBattleView::removeAndCleanSelf(float dt)
 {
     setIsInBattle(false);
     
@@ -865,5 +865,5 @@ void MonsterBattleView::removeAndCleanSelf()
 
 void MonsterBattleView::menuBackCallback(CCObject* pSender)
 {
-    this->removeAndCleanSelf();
+    this->removeAndCleanSelf(0);
 }
