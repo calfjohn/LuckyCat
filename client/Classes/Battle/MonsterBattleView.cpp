@@ -96,7 +96,7 @@ void MonsterBattleView::registerWithTouchDispatcher(void)
 }
 
 
-void MonsterBattleView::initLayer(stPage *p_page, CCObject *target, SEL_CallFuncND pfnSelector)
+void MonsterBattleView::initLayer(const stPage *p_page, CCObject *target, SEL_CallFuncND pfnSelector)
 {
     pMonsterSprite = NULL;
     

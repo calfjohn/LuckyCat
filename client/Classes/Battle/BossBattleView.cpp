@@ -28,7 +28,7 @@ void BossBattleView::onEnter()
     
 }
 
-void BossBattleView::initLayer(stPage *page, CCObject *target, SEL_CallFuncND pfnSelector)
+void BossBattleView::initLayer(const stPage *page, CCObject *target, SEL_CallFuncND pfnSelector)
 {
     p_pPage = page;
     

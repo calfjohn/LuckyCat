@@ -31,13 +31,13 @@ public:
     virtual void ccTouchEnded(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
     
     virtual void registerWithTouchDispatcher(void);
-    
-    void initLayer(stPage *p_page, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector);
+
+    void initLayer(const stPage *p_page, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector);
     
     void fightAction();
     
-    CCFiniteTimeAction * createMonsterAction(unsigned int action_id);
-    CCFiniteTimeAction * createBossAction(unsigned int action_id);
+    cocos2d::CCFiniteTimeAction * createMonsterAction(unsigned int action_id);
+    cocos2d::CCFiniteTimeAction * createBossAction(unsigned int action_id);
     
     void playAction();
     
@@ -73,7 +73,7 @@ private:
     
     cocos2d::SEL_CallFuncND  m_pfnSelector;    //callback selector
     
-    stPage *p_pPage;
+    const stPage *p_pPage;
     
     EventType mEventType;
     

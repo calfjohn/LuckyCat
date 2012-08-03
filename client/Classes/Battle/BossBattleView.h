@@ -14,8 +14,6 @@
 #include "touch_dispatcher/CCTouch.h"
 #include "Basic.h"
 
-
-
 class BossBattleView : public cocos2d::CCLayer
 {
 public:
@@ -23,7 +21,7 @@ public:
     
     virtual void onEnter();
     
-    void initLayer(stPage *p_Page, CCObject *target, cocos2d::SEL_CallFuncND pfnSelector);
+    void initLayer(const stPage *p_Page, CCObject *target, cocos2d::SEL_CallFuncND pfnSelector);
     
     void fightAction();
     
@@ -62,7 +60,7 @@ private:
     
     bool m_bIsWaitingForAction;
     
-    stPage *p_pPage;
+    const stPage *p_pPage;
 };
 
 

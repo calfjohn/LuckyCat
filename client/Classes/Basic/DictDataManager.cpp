@@ -25,7 +25,7 @@ DictDataManager::~DictDataManager( void )
 
 }
 
-void DictDataManager::init( void )
+bool DictDataManager::init( void )
 {
    string strFullPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath("config/LuckyCat.sqlite");
 
@@ -33,7 +33,7 @@ void DictDataManager::init( void )
     db.open(strFullPath.c_str());
 	if (!db.isOpen())
 	{
-		return;
+		return false;
 	}
 
     CppSQLite3Query q = db.execQuery("select * from monster;");
@@ -65,58 +65,33 @@ void DictDataManager::init( void )
         q.nextRow();
     }    
     db.close();
-/*
-    string strFullPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath("config/monster");
-    unsigned long nSize = 0;
-    const char* pBuffer = (const char *)CCFileUtils::sharedFileUtils()->getFileData(strFullPath.c_str(), "rb", &nSize);
-    
-	Json::Reader reader;
-	Json::Value json_root;
-	if (!reader.parse(pBuffer, json_root))
-		return;
-    
-    json_root = json_root["monster_dict"];
-    if(!json_root.isArray())
-    {
-        return;
-    }
-    
-    Json::Value jsonTempMonster;
-    for (int i = 0; i < json_root.size(); i++) 
-    {
-        stMonster tempMonster;
-        jsonTempMonster = json_root[i];
-        
-        tempMonster.id = jsonTempMonster["id"].asInt();
-        tempMonster.name = jsonTempMonster["name"].asString();
-        tempMonster.image_id = jsonTempMonster["image_id"].asInt();
-        CCLOG("id:%d name:%s image_id:%d", tempMonster.id, tempMonster.name.c_str(), tempMonster.image_id);
-        
-        m_mapMonster[tempMonster.id] = tempMonster;
-    }
-*/
+
+    return true;
 }
 
 const stMonster *DictDataManager::getMonsterImageId(int monsterId)
 {   
+    const stMonster *pRetValue = NULL;
     map<int, stMonster>::iterator iterTemp;
     iterTemp = m_mapMonster.find(monsterId);
     if (iterTemp != m_mapMonster.end()) 
     {
-        return &(*iterTemp).second;
+        pRetValue = &(*iterTemp).second;
     }
     
-    return NULL;
+    return pRetValue;
 }
 
 const stImage *DictDataManager::getImage(int imageId)
 {
+    const stImage *pRetValue = NULL;
+
     map<int, stImage>::iterator iterTemp;
     iterTemp = m_mapImage.find(imageId);
     if (iterTemp != m_mapImage.end()) 
     {
-        return &(*iterTemp).second;
+        pRetValue = &(*iterTemp).second;
     }
     
-    return NULL;
+    return pRetValue;
 }
