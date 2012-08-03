@@ -5,7 +5,7 @@
 	<key>frames</key>
 	<dict>
 		
-		<key>image/monster/monster.plist/1.png</key>
+		<key>monster_1.png</key>
 		<dict>
 			<key>aliases</key>
 			<array>
@@ -27,7 +27,7 @@
 			<false/>
 		</dict>
 		
-		<key>image/monster/monster.plist/2.png</key>
+		<key>monster_2.png</key>
 		<dict>
 			<key>aliases</key>
 			<array>
@@ -49,7 +49,7 @@
 			<false/>
 		</dict>
 		
-		<key>image/monster/monster.plist/3.png</key>
+		<key>monster_3.png</key>
 		<dict>
 			<key>aliases</key>
 			<array>
@@ -71,7 +71,7 @@
 			<false/>
 		</dict>
 		
-		<key>image/monster/monster.plist/4.png</key>
+		<key>monster_4.png</key>
 		<dict>
 			<key>aliases</key>
 			<array>
@@ -103,7 +103,7 @@
 		<key>size</key>
 		<string>{512, 512}</string>
 		<key>name</key>
-		<string>Untitled 2</string>
+		<string>Untitled</string>
 		<key>premultipliedAlpha</key>
 		<false/>
 		<key>target</key>
