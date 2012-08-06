@@ -50,7 +50,7 @@ public:
     
     static void setIsInBattle(bool _b_state);
     
-    void removeAndCleanSelf();
+    void removeAndCleanSelf(float dt);
     
     // a selector callback
     void menuBackCallback(cocos2d::CCObject* pSender);

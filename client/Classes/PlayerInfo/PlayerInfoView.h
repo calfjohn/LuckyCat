@@ -9,8 +9,9 @@
  *        Created:  2012/8/1 10:48:22
  *       Revision:  none
  *
- *         Author:  lihex
- *   Organization:  
+ *         Author:  lihex (lhx), hexuan.li@cocos2d-x.org
+ *
+ *	  Copyright (c) 2012 厦门雅基软件有限公司. All rights reserved.
  *
  * =====================================================================================
  */

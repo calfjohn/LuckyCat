@@ -5,7 +5,73 @@
 	<key>frames</key>
 	<dict>
 		
-		<key>image/chapter/chapter.plist/1.png</key>
+		<key>chapter_0.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{0, 0}, {324, 432}}</string>
+			<key>spriteOffset</key>
+			<string>{0, -0}</string>
+			<key>spriteSize</key>
+			<string>{324, 432}</string>
+			<key>spriteSourceSize</key>
+			<string>{324, 432}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{326, 564}, {324, 432}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>chapter_00.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{0, 0}, {421, 562}}</string>
+			<key>spriteOffset</key>
+			<string>{0, -0}</string>
+			<key>spriteSize</key>
+			<string>{421, 562}</string>
+			<key>spriteSourceSize</key>
+			<string>{421, 562}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{0, 0}, {421, 562}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>chapter_000.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{0, 0}, {324, 432}}</string>
+			<key>spriteOffset</key>
+			<string>{0, -0}</string>
+			<key>spriteSize</key>
+			<string>{324, 432}</string>
+			<key>spriteSourceSize</key>
+			<string>{324, 432}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{0, 564}, {324, 432}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>chapter_1.png</key>
 		<dict>
 			<key>aliases</key>
 			<array>
@@ -22,12 +88,12 @@
 			<key>spriteTrimmed</key>
 			<true/>
 			<key>textureRect</key>
-			<string>{{84, 0}, {63, 118}}</string>
+			<string>{{538, 237}, {63, 118}}</string>
 			<key>textureRotated</key>
 			<false/>
 		</dict>
 		
-		<key>image/chapter/chapter.plist/11.png</key>
+		<key>chapter_11.png</key>
 		<dict>
 			<key>aliases</key>
 			<array>
@@ -44,12 +110,12 @@
 			<key>spriteTrimmed</key>
 			<true/>
 			<key>textureRect</key>
-			<string>{{0, 0}, {82, 153}}</string>
+			<string>{{572, 0}, {82, 153}}</string>
 			<key>textureRotated</key>
 			<false/>
 		</dict>
 		
-		<key>image/chapter/chapter.plist/111.png</key>
+		<key>chapter_111.png</key>
 		<dict>
 			<key>aliases</key>
 			<array>
@@ -66,12 +132,12 @@
 			<key>spriteTrimmed</key>
 			<true/>
 			<key>textureRect</key>
-			<string>{{119, 120}, {63, 118}}</string>
+			<string>{{656, 0}, {63, 118}}</string>
 			<key>textureRotated</key>
 			<false/>
 		</dict>
 		
-		<key>image/chapter/chapter.plist/2.png</key>
+		<key>chapter_2.png</key>
 		<dict>
 			<key>aliases</key>
 			<array>
@@ -88,12 +154,12 @@
 			<key>spriteTrimmed</key>
 			<true/>
 			<key>textureRect</key>
-			<string>{{298, 0}, {113, 80}}</string>
+			<string>{{423, 206}, {113, 80}}</string>
 			<key>textureRotated</key>
 			<false/>
 		</dict>
 		
-		<key>image/chapter/chapter.plist/22.png</key>
+		<key>chapter_22.png</key>
 		<dict>
 			<key>aliases</key>
 			<array>
@@ -110,12 +176,12 @@
 			<key>spriteTrimmed</key>
 			<true/>
 			<key>textureRect</key>
-			<string>{{149, 0}, {147, 104}}</string>
+			<string>{{423, 0}, {147, 104}}</string>
 			<key>textureRotated</key>
 			<false/>
 		</dict>
 		
-		<key>image/chapter/chapter.plist/222.png</key>
+		<key>chapter_222.png</key>
 		<dict>
 			<key>aliases</key>
 			<array>
@@ -132,12 +198,12 @@
 			<key>spriteTrimmed</key>
 			<true/>
 			<key>textureRect</key>
-			<string>{{184, 106}, {113, 80}}</string>
+			<string>{{542, 155}, {113, 80}}</string>
 			<key>textureRotated</key>
 			<false/>
 		</dict>
 		
-		<key>image/chapter/chapter.plist/3.png</key>
+		<key>chapter_3.png</key>
 		<dict>
 			<key>aliases</key>
 			<array>
@@ -154,12 +220,12 @@
 			<key>spriteTrimmed</key>
 			<true/>
 			<key>textureRect</key>
-			<string>{{413, 0}, {90, 75}}</string>
+			<string>{{423, 288}, {90, 75}}</string>
 			<key>textureRotated</key>
 			<false/>
 		</dict>
 		
-		<key>image/chapter/chapter.plist/33.png</key>
+		<key>chapter_33.png</key>
 		<dict>
 			<key>aliases</key>
 			<array>
@@ -176,12 +242,12 @@
 			<key>spriteTrimmed</key>
 			<true/>
 			<key>textureRect</key>
-			<string>{{0, 155}, {117, 98}}</string>
+			<string>{{423, 106}, {117, 98}}</string>
 			<key>textureRotated</key>
 			<false/>
 		</dict>
 		
-		<key>image/chapter/chapter.plist/333.png</key>
+		<key>chapter_333.png</key>
 		<dict>
 			<key>aliases</key>
 			<array>
@@ -198,7 +264,7 @@
 			<key>spriteTrimmed</key>
 			<true/>
 			<key>textureRect</key>
-			<string>{{413, 77}, {90, 75}}</string>
+			<string>{{515, 357}, {90, 75}}</string>
 			<key>textureRotated</key>
 			<false/>
 		</dict>
@@ -211,9 +277,9 @@
 		<key>format</key>
 		<integer>3</integer>
 		<key>size</key>
-		<string>{512, 256}</string>
+		<string>{1024, 1024}</string>
 		<key>name</key>
-		<string>Untitled 2</string>
+		<string>Untitled</string>
 		<key>premultipliedAlpha</key>
 		<false/>
 		<key>target</key>
