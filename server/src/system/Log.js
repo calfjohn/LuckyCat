@@ -18,49 +18,58 @@ Log = Class.extend({
     },
 
     d: function(msgs) {
-        _outputLog(LogLevelDebug, this.tag, Array.prototype.slice.call(arguments), false);
+        Log._outputLog(LogLevelDebug, this.tag, Array.prototype.slice.call(arguments), false);
     },
 
     w: function(msgs) {
-        _outputLog(LogLevelWarning, this.tag, Array.prototype.slice.call(arguments), true);
+        Log._outputLog(LogLevelWarning, this.tag, Array.prototype.slice.call(arguments), true);
     },
 
     e: function(msgs) {
-        _outputLog(LogLevelError, this.tag, Array.prototype.slice.call(arguments), true);
+        Log._outputLog(LogLevelError, this.tag, Array.prototype.slice.call(arguments), true);
     }
 });
 
 Log.CurrentLevel = LogLevelDebug;
 
-var _outputLog = function(level, tag, msgArr, doTrace) {
-    if (level < Log.CurrentLevel) return;
+Log._outputDebugString = function (str) {
+    process.stdout.write(str, "utf8");
+};
+Log._outputWarningString = Log._outputDebugString;
+Log._outputErrorString = Log._outputDebugString;
 
+Log._outputLog = function(level, tag, msgArr, doTrace) {
+    if (level < Log.CurrentLevel) return;
+    var outputStringFunc = null;
     // translate level number to string.
     switch (level) {
-        case LogLevelDebug:
-            level = "debug";
-            break;
-        case LogLevelWarning:
-            level = "warning";
-            break;
-        case LogLevelError:
-            level = "error";
-            break;
+        case LogLevelDebug: level = "debug";        outputStringFunc = Log._outputDebugString;          break;
+        case LogLevelWarning: level = "warning";    outputStringFunc = Log._outputWarningString;    break;
+        case LogLevelError: level = "error";        outputStringFunc = Log._outputErrorString;      break;
+    }
+    // output log header
+    outputStringFunc(util.format("{\n    level: %s\n    time: %s\n    tag: %s\n    message: ", level, new Date().toLocaleTimeString(), tag));
+
+    // output log message
+    for (var i = 0; i < msgArr.length; ++i) {
+        outputStringFunc(util.format(msgArr[i]));
+        if (msgArr[i] instanceof Error) {
+            outputStringFunc("\n");
+            outputStringFunc(util.format(msgArr[i].stack));
+        }
+    }
+    outputStringFunc("\n");
+
+    // output log trace
+    if (doTrace) {
+        var err = new Error;
+        err.name = 'Trace:';
+        err.message = '';
+        Error.captureStackTrace(err, arguments.callee);
+        outputStringFunc(util.format(err.stack));
+        outputStringFunc("\n");
     }
 
-    // output log info in format.
-    for (var i = 0; i < msgArr.length; ++i) {
-        msgArr[i] = util.format(msgArr[i]).replace(/\n[ ]*/g, " ");
-    }
-    var logHeader = {
-        level: level,
-        time: new Date().toLocaleTimeString(),
-        tag: tag,
-        message: msgArr.join("")
-    };
-    if (doTrace) {
-        console.trace(util.inspect(logHeader));
-    } else {
-        console.log(logHeader);
-    }
+    // output log tail
+    outputStringFunc("}\n");
 };
