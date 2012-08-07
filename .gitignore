@@ -1,31 +1,22 @@
+# ignore for webstorm
 .idea/
-server/doc/api/
-*.sdf
-*.suo
-Debug.win32/
-*.opensdf
-ipch/
+
+# ignore for vp
 vpworkspace/
 *.vpp~*
+
+# ignore for doc generator
+server/doc/api/
+
+# ignore for vs
+*.sdf
+*.suo
+Debug.*/
+Release.*/
+*.opensdf
+ipch/
+
+# ignore for xcode
 .DS_Store
 xcuserdata/
 
-client/document/0 游戏流程.jpg
-client/document/1 游戏首页.jpg
-client/document/2 章节选择.jpg
-client/document/3 小节.jpg
-client/document/4 战斗动画.jpg
-client/document/5 boss战斗.jpg
-client/document/demo.key
-client/document/image/
-client/document/level.txt
-client/document/luckcat.doc
-client/document/luckcat.pages
-client/document/LuckCat客户端层次.mindnode
-client/document/LuckyCat.sqlite
-client/document/LuckyCat下半年计划.pages
-client/document/LuckyCat下半年计划1.pages
-client/document/LuckyCat客户端层次.png
-client/document/战斗系统.mindnode
-client/document/玩家属性结构.rtf
-client/document/立项前问题.mmap
