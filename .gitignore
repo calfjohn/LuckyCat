@@ -1,15 +1,22 @@
+# ignore for webstorm
 .idea/
-server/doc/api/
-*.sdf
-*.sln
-*.suo
-Debug.win32/
-*.opensdf
-ipch/
+
+# ignore for vp
 vpworkspace/
 *.vpp~*
+
+# ignore for doc generator
+server/doc/api/
+
+# ignore for vs
+*.sdf
+*.suo
+Debug.*/
+Release.*/
+*.opensdf
+ipch/
+
+# ignore for xcode
 .DS_Store
 xcuserdata/
 
-
-client/document/pm/LuckyCat下半年计划.pages
