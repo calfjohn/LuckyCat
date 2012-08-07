@@ -11,7 +11,7 @@
  *
  *         Author:  lihex (lhx), hexuan.li@cocos2d-x.org
  *
- *	  Copyright (c) 2012 厦门雅基软件有限公司. All rights reserved.
+ *	  Copyright (c) 2012 鍘﹂棬闆呭熀杞欢鏈夐檺鍏徃. All rights reserved.
  *
  * =====================================================================================
  */
