@@ -1,7 +1,6 @@
 .idea/
 server/doc/api/
 *.sdf
-*.sln
 *.suo
 Debug.win32/
 *.opensdf
