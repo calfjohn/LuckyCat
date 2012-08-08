@@ -11,7 +11,7 @@ var express = require("express")
     ,log = new Log("GameServer");
 
 app.configure(function() {
-    app.use(express.bodyParser());
+    //app.use(express.bodyParser());    // This cause handler' on data function doesn't be called.
     app.use(express.methodOverride());
     app.use(app.router);
 

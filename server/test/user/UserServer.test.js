@@ -13,8 +13,10 @@ var postDataTo = function (sPath, vData, fCallback) {
     };
     var cb = fCallback ? fCallback : function(res) {console.log(res);};
     var req = require("http").request(opts, cb);
-    req.write(JSON.stringify(vData));
-    req.end();
+    var data = JSON.stringify(vData);
+    req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
+    req.setHeader('Content-Length', data.length);
+    req.end(data);
     return req;
 };
 

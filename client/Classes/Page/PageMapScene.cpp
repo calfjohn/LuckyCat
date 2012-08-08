@@ -158,8 +158,8 @@ void PageMap::menuPageCallback(CCObject* pSender)
     m_pKnight->stopAllActions();
     CCSize size = CCDirector::sharedDirector()->getWinSize();
     CCPoint postion = pNode->getPosition();
-    m_pKnight->runAction(CCSequence::actions(
-                                CCMoveTo::actionWithDuration(0.5, ccp(postion.x + size.width/2 + 20, postion.y + size.height/2 + 20)), 
+    m_pKnight->runAction(CCSequence::create(
+                                CCMoveTo::create(0.5, ccp(postion.x + size.width/2 + 20, postion.y + size.height/2 + 20)), 
                                 CCCallFuncND::create(this, callfuncND_selector(PageMap::callback), (void *)pPage),
                                 NULL));
 }
