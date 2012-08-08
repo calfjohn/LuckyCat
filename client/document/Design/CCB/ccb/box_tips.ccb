@@ -208,8 +208,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>107</real>
-							<real>314</real>
+							<real>121</real>
+							<real>315</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -220,7 +220,7 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>120</real>
+							<real>96</real>
 							<real>30</real>
 							<integer>0</integer>
 						</array>
@@ -354,7 +354,7 @@
 						<key>type</key>
 						<string>Text</string>
 						<key>value</key>
-						<string>战斗胜利！</string>
+						<string>恭喜你！</string>
 					</dict>
 				</array>
 			</dict>
@@ -390,7 +390,7 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>125</real>
+							<real>141</real>
 							<real>20</real>
 							<integer>0</integer>
 						</array>
@@ -524,7 +524,7 @@
 						<key>type</key>
 						<string>Text</string>
 						<key>value</key>
-						<string>获得经验：10000</string>
+						<string>获得了经验：10000</string>
 					</dict>
 				</array>
 			</dict>
@@ -560,7 +560,7 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>128</real>
+							<real>144</real>
 							<real>20</real>
 							<integer>0</integer>
 						</array>
@@ -694,7 +694,7 @@
 						<key>type</key>
 						<string>Text</string>
 						<key>value</key>
-						<string>获得装备：玄铁剑</string>
+						<string>获得了装备：玄铁剑</string>
 					</dict>
 				</array>
 			</dict>
@@ -730,7 +730,7 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>128</real>
+							<real>144</real>
 							<real>20</real>
 							<integer>0</integer>
 						</array>
@@ -864,7 +864,7 @@
 						<key>type</key>
 						<string>Text</string>
 						<key>value</key>
-						<string>获得物品：金坷拉</string>
+						<string>获得了物品：金坷拉</string>
 					</dict>
 				</array>
 			</dict>
@@ -900,7 +900,7 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>125</real>
+							<real>141</real>
 							<real>20</real>
 							<integer>0</integer>
 						</array>
@@ -1034,7 +1034,7 @@
 						<key>type</key>
 						<string>Text</string>
 						<key>value</key>
-						<string>获得金钱：10000</string>
+						<string>获得了金钱：10000</string>
 					</dict>
 				</array>
 			</dict>
