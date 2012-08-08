@@ -5,13 +5,18 @@
 require("../../system/Log");
 
 module.exports = function(req, res, next) {
-    req.on("data", function(chunk) {
-        var users = require("../users");
-        var log = new Log("login");
+    var log = new Log("login");
 
-        var info = JSON.parse(chunk.toString());
+    var chunks = [];
+    req.on("data", function(chunk) {
+        chunks.push(chunk);
+    });
+    req.on("end", function () {
+        var info = JSON.parse(Buffer.concat(chunks));
+        chunks = undefined;
         log.d("request:", info);
 
+        var users = require("../users");
         var responseUUID = function (res, uuid) {
             var resInfo = {};
             resInfo.uuid=uuid;
