@@ -7,8 +7,13 @@ require("../../system/Log");
 module.exports = function (req, res, next) {
     var log = new Log("combat");
 
-    req.on("data", function (chunk) {
-        var info = JSON.parse(chunk.toString());
+    var chunks = [];
+    req.on("data", function(chunk) {
+        chunks.push(chunk);
+    });
+    req.on("end", function () {
+        var info = JSON.parse(Buffer.concat(chunks));
+        chunks = undefined;
         log.d("request:", info);
 
         var responseResult = function (ret) {

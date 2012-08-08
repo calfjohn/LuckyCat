@@ -23,6 +23,6 @@ module.exports = {
         , user      : "root"
         , password : "123456"
         , database : "db_luckycat_game"
-        , recreate  : true              // recreate the database on database server
+        , recreate  : false              // recreate the database on database server
     }
 }
