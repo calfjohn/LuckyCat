@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ApplicationName</key>
+	<string>Merlin.app</string>
+	<key>MACAddress</key>
+	<string>40:6c:8f:21:76:5e</string>
+	<key>Username</key>
+	<string>cocos2d</string>
+</dict>
+</plist>
