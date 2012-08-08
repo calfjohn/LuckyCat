@@ -29,7 +29,6 @@ LuckySprite* LuckySprite::create(int imageId, float scale)
     }
     else 
     {
-        //if (pobSprite && pobSprite->initWithSpriteFrameName( (pImage->plistPath + "/" + pImage->name).c_str()))
         if (pobSprite && pobSprite->initWithSpriteFrameName(pImage->name.c_str()))
         {
             pobSprite->autorelease();
