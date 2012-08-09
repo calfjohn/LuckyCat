@@ -57,3 +57,64 @@ std::vector<int> separateStringToNumberVector(std::string orgingStr,std::string 
     }
     return intList;
 }
+
+std::string ConvertJsonToString(Json::Value data)
+{
+	switch ( data.type() )
+	{
+		case Json::stringValue:
+			return data.asString();
+			
+		case Json::booleanValue:
+			if(data.asBool())
+				return "1";
+			return "0";
+			
+		case Json::intValue:
+			return ConvertToString(data.asInt());
+			
+		case Json::uintValue:
+			return ConvertToString(data.asUInt());
+			
+		case Json::nullValue:
+		case Json::realValue:
+		case Json::arrayValue:
+		case Json::objectValue:
+		default:
+			break;
+	}
+	
+	return "此json数据不能转换为字符串";
+}
+
+//返回-1，表示错误
+int ConvertJsonToInt(Json::Value data)
+{
+	switch ( data.type() )
+	{
+		case Json::stringValue:
+			return atoi(data.asString().c_str());
+			
+		case Json::booleanValue:
+			if(data.asBool())
+				return 1;
+			return 0;
+			
+		case Json::intValue:
+			return data.asInt();
+			
+		case Json::uintValue:
+			return data.asUInt();
+			
+		case Json::nullValue:
+		case Json::realValue:
+		case Json::arrayValue:
+		case Json::objectValue:
+		default:
+			break;
+	}
+	
+	
+	return -1;
+}
+

@@ -49,6 +49,8 @@ void CCCallbackNode::callback(void* data)
 
 void CCCallbackNode::performedCallback(float dt)
 {
+    CCLOG("%s", m_pRequestInfo->strResponseData.c_str());
+
     if(m_pRequestInfo && m_pRequestInfo->target && m_pRequestInfo->pfnSelector)
     {
         ((m_pRequestInfo->target)->*(m_pRequestInfo->pfnSelector))(this, m_pRequestInfo);

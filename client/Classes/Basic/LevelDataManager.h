@@ -43,14 +43,6 @@ public:
     
     const stBible *getBible();
     
-    template <class T> 
-	static std::string ConvertToString(T value) {
-		std::stringstream ss;
-		ss << value;
-		return ss.str();
-        
-	}
-    
     map<int, stActorLevelUpgrade *> m_mapActorLevelUpgrade;
     void setMapActorLevelUpgrade( vector<stActorLevelUpgrade *> tmpList);
     void deleteMapActorLevelUpgrade();
