@@ -162,7 +162,8 @@ void CCMessageQueue::push(std::string strUrl, int mode, const char * requestData
     tempInfo->pfnSelector = selector;
     tempInfo->stateCode = CURL_LAST;
     tempInfo->requestMode = mode;
-    tempInfo->target->retain();
+    CC_SAFE_RETAIN(tempInfo->target);
+
     CCTime::gettimeofdayCocos2d(&tempInfo->sendTime, NULL);
     
     pthread_mutex_lock(&s_asyncRequestMutex);
@@ -219,7 +220,7 @@ RequestInfo* CCMessageQueue::popUp()
         }
         else
         {
-            tempInfo->target->release();
+            CC_SAFE_RELEASE(tempInfo->target);
             m_responseQueue.pop_back();
         }
     }

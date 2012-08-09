@@ -46,6 +46,9 @@ bool CCNetwork::init()
 
 void CCNetwork::sendNetPackage(std::string strUrl, int mode, const char *buf, cocos2d::SEL_CallFuncND selector, cocos2d::CCObject *rec)
 {
+    CCLOG("url:%s",strUrl.c_str());
+    CCLOG("post:%s", buf);
+    
     CCMessageQueue::sharedMessagequeue()->push(strUrl, mode, buf, selector, rec);
 }
 

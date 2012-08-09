@@ -21,6 +21,7 @@
 		15AAE35515B6B6DB00F0CF5E /* ChapterScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15AAE35315B6B6DB00F0CF5E /* ChapterScene.cpp */; };
 		15AAE35915B6C1D200F0CF5E /* PageScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15AAE35715B6C1D200F0CF5E /* PageScene.cpp */; };
 		15BEAF9115B65AB600D5940D /* LevelDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15BEAF8F15B65AB600D5940D /* LevelDataManager.cpp */; };
+		15D0D34F15D363AF00F53819 /* NetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15D0D34D15D363AF00F53819 /* NetManager.cpp */; };
 		15D5107115CA14DC00FE43A8 /* PlayerInfoBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15D5106F15CA14DC00FE43A8 /* PlayerInfoBar.cpp */; };
 		15D5107815CA3D4600FE43A8 /* PlayerInfoView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15D5107615CA3D4600FE43A8 /* PlayerInfoView.cpp */; };
 		15DD6D7A156DD120003E7567 /* fps_images.png in Resources */ = {isa = PBXBuildFile; fileRef = 15DD6D78156DD120003E7567 /* fps_images.png */; };
@@ -129,6 +130,9 @@
 		15BEAF8E15B65AB600D5940D /* Basic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Basic.h; sourceTree = "<group>"; };
 		15BEAF8F15B65AB600D5940D /* LevelDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelDataManager.cpp; sourceTree = "<group>"; };
 		15BEAF9015B65AB600D5940D /* LevelDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelDataManager.h; sourceTree = "<group>"; };
+		15D0D34D15D363AF00F53819 /* NetManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetManager.cpp; sourceTree = "<group>"; };
+		15D0D34E15D363AF00F53819 /* NetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetManager.h; sourceTree = "<group>"; };
+		15D0D35915D36C3600F53819 /* Netbasic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Netbasic.h; sourceTree = "<group>"; };
 		15D5106F15CA14DC00FE43A8 /* PlayerInfoBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerInfoBar.cpp; sourceTree = "<group>"; };
 		15D5107015CA14DC00FE43A8 /* PlayerInfoBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerInfoBar.h; sourceTree = "<group>"; };
 		15D5107615CA3D4600FE43A8 /* PlayerInfoView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerInfoView.cpp; sourceTree = "<group>"; };
@@ -340,6 +344,9 @@
 		15DE3DB815B56D1C001B8372 /* Basic */ = {
 			isa = PBXGroup;
 			children = (
+				15D0D34D15D363AF00F53819 /* NetManager.cpp */,
+				15D0D34E15D363AF00F53819 /* NetManager.h */,
+				15D0D35915D36C3600F53819 /* Netbasic.h */,
 				150B347B15C244B10051DB06 /* LuckySprite.cpp */,
 				150B347C15C244B10051DB06 /* LuckySprite.h */,
 				15BEAF8E15B65AB600D5940D /* Basic.h */,
@@ -588,6 +595,9 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "厦门雅基软件有限公司";
+			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "LuckyCat" */;
 			compatibilityVersion = "Xcode 3.1";
 			developmentRegion = English;
@@ -689,6 +699,7 @@
 				18CE8E9F15C7762600C48686 /* BasicFunction.cpp in Sources */,
 				15D5107115CA14DC00FE43A8 /* PlayerInfoBar.cpp in Sources */,
 				15D5107815CA3D4600FE43A8 /* PlayerInfoView.cpp in Sources */,
+				15D0D34F15D363AF00F53819 /* NetManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
