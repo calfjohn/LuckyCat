@@ -1,9 +1,11 @@
 ccb/battle.ccbi
 ccb/battle_special.ccbi
+ccb/box_tips.ccbi
 ccb/dialog.ccbi
 ccb/equip.ccbi
 ccb/equip_scroll.ccbi
 ccb/fullscreen_tips.ccbi
 ccb/main.ccbi
+ccb/openbox.ccbi
 image/hero/hero_1001.png
 image/mainui/button_1001_d.png
