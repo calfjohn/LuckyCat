@@ -1,5 +1,9 @@
 /**
- *  Test game server function via http query, need run GameServer first.
+ * Created with JetBrains WebStorm.
+ * User: lihex
+ * Date: 12-8-9
+ * Time: 上午11:37
+ * To change this template use File | Settings | File Templates.
  */
 
 var http = require("http");
@@ -20,14 +24,26 @@ var postDataTo = function (sPath, vData, fCallback) {
     return req;
 };
 
+
 describe("=================================================================================\n" +
     "    Test GameServer", function() {
 
-    it("Combat", function(done) {
+    it("GetUserInfo", function(done) {
         var info = {};
-        info.uuid = 10000;
-        info.monster_id = 0;
-        postDataTo("/game/combat", info, function(res) {
+        var header = {
+            token: "0",
+            index : 0
+        };
+        var meta = {
+            mod : "game",
+            do: "getUserInfo",
+            in:{"category": "basic"},
+            out:{}
+        };
+
+        info.header = header;
+        info.meta = meta;
+        postDataTo("/game/getUserInfo", info, function(res) {
             res.on("data", function(chunk) {
                 console.log(chunk.toString());
                 done();
@@ -35,7 +51,3 @@ describe("======================================================================
         });
     });
 });
-
-
-});
-
