@@ -16,7 +16,7 @@
                BlueprintIdentifier = "1898E1F815B3F94700A274B3"
                BuildableName = "libCocosDension.a"
                BlueprintName = "CocosDension"
-               ReferencedContainer = "container:HelloWorld.xcodeproj">
+               ReferencedContainer = "container:LuckyCat.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

@@ -194,9 +194,9 @@
 				<key>children</key>
 				<array/>
 				<key>customClass</key>
-				<string>CCSprite</string>
+				<string></string>
 				<key>memberVarAssignmentName</key>
-				<string>mSpriteNpc</string>
+				<string></string>
 				<key>memberVarAssignmentType</key>
 				<integer>1</integer>
 				<key>properties</key>
@@ -263,7 +263,7 @@
 						<key>type</key>
 						<string>Integer</string>
 						<key>value</key>
-						<integer>-1</integer>
+						<integer>12</integer>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -342,9 +342,9 @@
 				<key>children</key>
 				<array/>
 				<key>customClass</key>
-				<string>CCLabelTTF</string>
+				<string></string>
 				<key>memberVarAssignmentName</key>
-				<string>mLabelNpcName</string>
+				<string></string>
 				<key>memberVarAssignmentType</key>
 				<integer>1</integer>
 				<key>properties</key>
@@ -411,7 +411,7 @@
 						<key>type</key>
 						<string>Integer</string>
 						<key>value</key>
-						<integer>-1</integer>
+						<integer>10</integer>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -512,9 +512,9 @@
 				<key>children</key>
 				<array/>
 				<key>customClass</key>
-				<string>CCLabelTTF</string>
+				<string></string>
 				<key>memberVarAssignmentName</key>
-				<string>mLabelDialogContent</string>
+				<string></string>
 				<key>memberVarAssignmentType</key>
 				<integer>1</integer>
 				<key>properties</key>
@@ -581,7 +581,7 @@
 						<key>type</key>
 						<string>Integer</string>
 						<key>value</key>
-						<integer>-1</integer>
+						<integer>11</integer>
 					</dict>
 					<dict>
 						<key>name</key>
