@@ -25,10 +25,22 @@ public:
     
     static BattleResultView *create(cocos2d::CCObject * pOwner);
     
+    static BattleResultView *createBoxResultView(cocos2d::CCObject *pOwner);
+    
     CCB_STATIC_NEW_AUTORELEASE_OBJECT_WITH_INIT_METHOD(BattleResultView, create);
     
     void initView(stTask *tTask);
     
+    void initView(std::vector<stGood> tGoodsList);
+    
+    void netCallBack(CCNode* pNode, void* data);
+    
+    bool haveBox();
+    
+    void showBoxView();
+    
+private:
+    stTask *p_CurTask;
 };
 
 class CCBReader;
