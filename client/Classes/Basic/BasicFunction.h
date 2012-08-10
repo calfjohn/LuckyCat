@@ -17,7 +17,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <math.h>
-#include "json.h"
+#include "json/json.h"
 #include "cocos2d.h"
 
 int randNumber(int begin, int end);
