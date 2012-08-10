@@ -9,7 +9,7 @@
 require("../../system/Log");
 
 module.exports = function (req, res, next) {
-    var log = new Log("getUserInfo");
+    var log = new Log("getActorInfo");
 
     var chunks = [];
     req.on("data", function(chunk) {

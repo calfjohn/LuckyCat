@@ -26,24 +26,24 @@ var postDataTo = function (sPath, vData, fCallback) {
 
 
 describe("=================================================================================\n" +
-    "    Test GameServer", function() {
+    "    Test Actor", function() {
 
-    it("GetUserInfo", function(done) {
+    it("GetActorInfo", function(done) {
         var info = {};
         var header = {
             token: "0",
             index : 0
         };
         var meta = {
-            mod : "game",
-            do: "getUserInfo",
+            mod : "actor",
+            do: "getActorInfo",
             in:{"category": "basic"},
             out:{}
         };
 
         info.header = header;
         info.meta = meta;
-        postDataTo("/game/getUserInfo", info, function(res) {
+        postDataTo("/game/actor/getActorInfo", info, function(res) {
             res.on("data", function(chunk) {
                 console.log(chunk.toString());
                 done();
