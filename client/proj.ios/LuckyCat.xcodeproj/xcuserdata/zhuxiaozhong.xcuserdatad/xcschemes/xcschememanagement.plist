@@ -9,12 +9,7 @@
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
-		<key>HelloWorld.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>0</integer>
-		</dict>
-		<key>cocosdension.xcscheme</key>
+		<key>LuckyCat.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>2</integer>
@@ -22,11 +17,6 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>1898E1E915B3F92300A274B3</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>1898E1F815B3F94700A274B3</key>
 		<dict>
 			<key>primary</key>
