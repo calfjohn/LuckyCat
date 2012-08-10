@@ -50,7 +50,7 @@ app.initInstance = function (srvConfig, callback) {
 
 app.initHandlers = function (aExpress) {
     aExpress.post("/game/combat", require("./handler/combat"));
-    aExpress.post("/game/getUserInfo", require("./handler/getUserInfo"));
+    aExpress.post("/game/actor/getActorInfo", require("./handler/actor.getActorInfo"));
 };
 
 module.exports = app;
