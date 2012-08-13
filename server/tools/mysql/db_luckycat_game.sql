@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2012 年 08 月 07 日 09:20
+-- 生成日期: 2012 年 08 月 13 日 11:22
 -- 服务器版本: 5.5.16
 -- PHP 版本: 5.3.8
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- 数据库: `luckycat`
+-- 数据库: `db_luckycat_game`
 --
 
 -- --------------------------------------------------------
@@ -27,18 +27,26 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `actor` (
-  `id` int(11) NOT NULL,
-  `nickname` text,
-  `image_id` int(11) DEFAULT NULL,
-  `level` int(11) DEFAULT NULL,
-  `exp` double DEFAULT NULL,
-  `hp` double DEFAULT NULL,
-  `career_id` int(11) DEFAULT NULL,
+  `id` int(8) NOT NULL,
+  `uuid` int(8) NOT NULL COMMENT '玩家唯一标识',
+  `nickname` text COMMENT '昵称',
+  `image_id` int(8) DEFAULT NULL COMMENT '头像',
+  `level` int(8) DEFAULT NULL COMMENT '等级',
+  `exp` double DEFAULT NULL COMMENT '经验',
+  `hp` double DEFAULT NULL COMMENT '生命值',
+  `career_id` int(8) DEFAULT NULL COMMENT '职业',
   PRIMARY KEY (`id`),
   KEY `actor_image_id` (`image_id`),
   KEY `actor_level` (`level`),
   KEY `actor_career_id` (`career_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `actor`
+--
+
+INSERT INTO `actor` (`id`, `uuid`, `nickname`, `image_id`, `level`, `exp`, `hp`, `career_id`) VALUES
+(0, 1234567, 'lihex', 1, 1, 100, 9999, 1);
 
 -- --------------------------------------------------------
 
@@ -48,21 +56,21 @@ CREATE TABLE IF NOT EXISTS `actor` (
 
 CREATE TABLE IF NOT EXISTS `actor_equipment` (
   `id` int(11) NOT NULL,
-  `actor_id` int(11) NOT NULL,
-  `equip_id` int(11) DEFAULT NULL,
-  `level` int(11) DEFAULT NULL,
-  `rank` int(11) DEFAULT NULL,
-  `color` int(11) DEFAULT NULL,
-  `buff_id1` int(11) DEFAULT NULL,
-  `buff_value1` double DEFAULT NULL,
-  `buff_id2` int(11) DEFAULT NULL,
-  `buff_value2` double DEFAULT NULL,
-  `buff_id3` int(11) DEFAULT NULL,
-  `buff_value3` double DEFAULT NULL,
-  `buff_id4` int(11) DEFAULT NULL,
-  `buff_value4` double DEFAULT NULL,
-  `buff_id5` int(11) DEFAULT NULL,
-  `buff_value5` double DEFAULT NULL,
+  `actor_id` int(11) NOT NULL COMMENT '玩家id',
+  `equip_id` int(11) DEFAULT NULL COMMENT '装备id',
+  `level` int(11) DEFAULT NULL COMMENT '等级',
+  `rank` int(11) DEFAULT NULL COMMENT '星级',
+  `color` int(11) DEFAULT NULL COMMENT '颜色',
+  `buff_id1` int(11) DEFAULT NULL COMMENT '关联buff',
+  `buff_value1` double DEFAULT NULL COMMENT '关联buff值',
+  `buff_id2` int(11) DEFAULT NULL COMMENT '关联buff',
+  `buff_value2` double DEFAULT NULL COMMENT '关联buff值',
+  `buff_id3` int(11) DEFAULT NULL COMMENT '关联buff',
+  `buff_value3` double DEFAULT NULL COMMENT '关联buff值',
+  `buff_id4` int(11) DEFAULT NULL COMMENT '关联buff',
+  `buff_value4` double DEFAULT NULL COMMENT '关联buff值',
+  `buff_id5` int(11) DEFAULT NULL COMMENT '关联buff',
+  `buff_value5` double DEFAULT NULL COMMENT '关联buff值',
   PRIMARY KEY (`id`),
   KEY `actor_equip_actor_id` (`actor_id`),
   KEY `actor_equip_equip_id` (`equip_id`),
@@ -82,15 +90,15 @@ CREATE TABLE IF NOT EXISTS `actor_equipment` (
 --
 
 CREATE TABLE IF NOT EXISTS `dict_actor_level_upgrade` (
-  `level` int(11) NOT NULL AUTO_INCREMENT,
-  `xp` double DEFAULT NULL,
-  `attack` double DEFAULT NULL,
-  `defence` double DEFAULT NULL,
-  `life` double DEFAULT NULL,
-  `speed` double DEFAULT NULL,
-  `title` text,
-  `content` text,
-  `bonus` text,
+  `level` int(11) NOT NULL AUTO_INCREMENT COMMENT '人物等级',
+  `xp` double DEFAULT NULL COMMENT '基础经验值',
+  `attack` double DEFAULT NULL COMMENT '基础攻击值',
+  `defence` double DEFAULT NULL COMMENT '基础防御值',
+  `life` double DEFAULT NULL COMMENT '基础生命值',
+  `speed` double DEFAULT NULL COMMENT '基础速度值',
+  `title` text COMMENT '升级提示标题',
+  `content` text COMMENT '升级提示内容',
+  `bonus` text COMMENT '升级奖励 总数量,id,类型(钱/经验/物品/奖励),数量',
   PRIMARY KEY (`level`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
@@ -110,9 +118,9 @@ INSERT INTO `dict_actor_level_upgrade` (`level`, `xp`, `attack`, `defence`, `lif
 
 CREATE TABLE IF NOT EXISTS `dict_bible` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` text,
-  `bg_id` int(11) DEFAULT NULL,
-  `chapter_bg_id` int(11) DEFAULT NULL,
+  `name` text COMMENT '名称',
+  `bg_id` int(11) DEFAULT NULL COMMENT '背景图片',
+  `chapter_bg_id` int(11) DEFAULT NULL COMMENT '章节背景图片',
   PRIMARY KEY (`id`),
   KEY `dict_bible_bg_id` (`bg_id`),
   KEY `dict_bible_chapter_bg_id` (`chapter_bg_id`)
@@ -128,18 +136,66 @@ INSERT INTO `dict_bible` (`id`, `name`, `bg_id`, `chapter_bg_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `dict_box`
+--
+
+CREATE TABLE IF NOT EXISTS `dict_box` (
+  `id` int(11) NOT NULL COMMENT '宝箱id',
+  `reward_min` int(11) NOT NULL COMMENT '奖励的最小数',
+  `reward_max` int(11) NOT NULL COMMENT '奖励的最大数',
+  `range` text NOT NULL COMMENT '???ID??.?,(1,2,6,7,8)'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 转存表中的数据 `dict_box`
+--
+
+INSERT INTO `dict_box` (`id`, `reward_min`, `reward_max`, `range`) VALUES
+(1, 1, 2, '1,2,3'),
+(2, 1, 2, '2,3,4');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `dict_box_reward`
+--
+
+CREATE TABLE IF NOT EXISTS `dict_box_reward` (
+  `id` int(11) NOT NULL COMMENT '奖励的id',
+  `reward_type` int(11) NOT NULL COMMENT '奖励的物品的类型',
+  `reward_id` int(11) NOT NULL COMMENT '奖励的物品的id',
+  `reward_num` int(11) NOT NULL COMMENT '奖励的物品的数量',
+  `probability` double NOT NULL COMMENT '????'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='奖励物品表';
+
+--
+-- 转存表中的数据 `dict_box_reward`
+--
+
+INSERT INTO `dict_box_reward` (`id`, `reward_type`, `reward_id`, `reward_num`, `probability`) VALUES
+(1, 1, 123, 400, 0.7),
+(2, 3, 2001, 500, 0.6),
+(3, 1, 2002, 502, 0.8),
+(4, 5, 2004, 507, 0.9),
+(5, 2, 2005, 502, 0.8),
+(6, 4, 2006, 502, 0.8);
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `dict_buff`
 --
 
 CREATE TABLE IF NOT EXISTS `dict_buff` (
   `id` int(11) NOT NULL,
-  `name` text,
-  `class` int(11) DEFAULT NULL,
-  `add_value` double DEFAULT NULL,
-  `multiply_value` double DEFAULT NULL,
-  `time` double DEFAULT NULL,
-  `count` double DEFAULT NULL,
-  `description` text,
+  `name` text COMMENT '名称',
+  `class` int(11) DEFAULT NULL COMMENT '影响属性 1生命 2 攻击 3 防御 4 速度 ',
+  `add_value` double DEFAULT NULL COMMENT '累加值',
+  `multiply_value` double DEFAULT NULL COMMENT '累乘值',
+  `time` double DEFAULT NULL COMMENT 'buff持续时间',
+  `inerval` double DEFAULT NULL COMMENT 'buff影响的时间间隔，与count互斥使用',
+  `count` double DEFAULT NULL COMMENT 'buff影响的行动次数，与interval互斥使用',
+  `description` text COMMENT '描述性文字（策划填写）',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -147,35 +203,35 @@ CREATE TABLE IF NOT EXISTS `dict_buff` (
 -- 转存表中的数据 `dict_buff`
 --
 
-INSERT INTO `dict_buff` (`id`, `name`, `class`, `add_value`, `multiply_value`, `time`, `count`, `description`) VALUES
-(1, NULL, NULL, NULL, NULL, NULL, NULL, '5'';''  `defApt`  防御增量'),
-(2, NULL, NULL, NULL, NULL, NULL, NULL, '6'';''  `atkApt` 攻击增量'),
-(3, NULL, NULL, NULL, NULL, NULL, NULL, '7'';'' `hpApt`  血量增量'),
-(4, NULL, NULL, NULL, NULL, NULL, NULL, '8'';''`speedApt` 速度增量'),
-(5, NULL, NULL, NULL, NULL, NULL, NULL, '9'';'' `strApt` , 力量增量'),
-(6, NULL, NULL, NULL, NULL, NULL, NULL, '10'';''  `conApt` , 体质增量'),
-(7, NULL, NULL, NULL, NULL, NULL, NULL, '11'';''  `staApt`  耐力增量'),
-(8, NULL, NULL, NULL, NULL, NULL, NULL, '12'';''  `agiApt`  敏捷增量'),
-(9, NULL, NULL, NULL, NULL, NULL, NULL, '15'';''  `atkAddPer` 攻击百分比加'),
-(10, NULL, NULL, NULL, NULL, NULL, NULL, '16'';''`defAddPer`  防守百分比加'),
-(11, NULL, NULL, NULL, NULL, NULL, NULL, '17'';''  `hitRate` 命中率的'),
-(12, NULL, NULL, NULL, NULL, NULL, NULL, '18'';''ll  `dodgeRate` 闪避率'),
-(13, NULL, NULL, NULL, NULL, NULL, NULL, '19'';''  `speedAddPer` 速度加成百分比'),
-(14, NULL, NULL, NULL, NULL, NULL, NULL, '20'';''  `criHurtPer` 暴击伤害百分比'),
-(15, NULL, NULL, NULL, NULL, NULL, NULL, '21'';''  `criRate` 暴击率'),
-(16, NULL, NULL, NULL, NULL, NULL, NULL, '22'';''  `crushRate` 破击率'),
-(17, NULL, NULL, NULL, NULL, NULL, NULL, '23'';''  `chaseRate` 追击率'),
-(18, NULL, NULL, NULL, NULL, NULL, NULL, '24'';''  `counterRate` 反击率'),
-(19, NULL, NULL, NULL, NULL, NULL, NULL, '25'';''  `revertRate` 反弹率'),
-(20, NULL, NULL, NULL, NULL, NULL, NULL, '26'';''  `revertHurtPer` 反弹伤害百分比'),
-(21, NULL, NULL, NULL, NULL, NULL, NULL, '27'';''  `suckBloodRate` 吸血概率'),
-(22, NULL, NULL, NULL, NULL, NULL, NULL, '28'';''  `suckBloodHurtPer` 吸血占伤害百分比'),
-(23, NULL, NULL, NULL, NULL, NULL, NULL, '29'';''  `rebornHpPer` 复活回血比率'),
-(24, NULL, NULL, NULL, NULL, NULL, NULL, '30'';''  `rebornRate` 复活概率'),
-(25, NULL, NULL, NULL, NULL, NULL, NULL, '31'';''  `supportRate` 援护概率'),
-(26, NULL, NULL, NULL, NULL, NULL, NULL, '32'';''  `supportHurtPer` 援护受到伤害百分比'),
-(27, NULL, NULL, NULL, NULL, NULL, NULL, '33'';''  `hurtUpperRangeAdd` 最大伤害范围'),
-(28, NULL, NULL, NULL, NULL, NULL, NULL, '34'';''  `hurtLowerRangeAdd` 最小伤害范围');
+INSERT INTO `dict_buff` (`id`, `name`, `class`, `add_value`, `multiply_value`, `time`, `inerval`, `count`, `description`) VALUES
+(1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ' 防御增量'),
+(2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '攻击增量'),
+(3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '血量增量'),
+(4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ' 速度增量'),
+(5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '力量增量'),
+(6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ' 体质增量'),
+(7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ' 耐力增量'),
+(8, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ' 敏捷增量'),
+(9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '攻击百分比加'),
+(10, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ' 防守百分比加'),
+(11, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ' 命中率的'),
+(12, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '闪避率'),
+(13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ' 速度加成百分比'),
+(14, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ' 暴击伤害百分比'),
+(15, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ' 暴击率'),
+(16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '破击率'),
+(17, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '追击率'),
+(18, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ' 反击率'),
+(19, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ' 反弹率'),
+(20, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '反弹伤害百分比'),
+(21, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ' 吸血概率'),
+(22, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ' 吸血占伤害百分比'),
+(23, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ' 复活回血比率'),
+(24, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ' 复活概率'),
+(25, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '援护概率'),
+(26, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ' 援护受到伤害百分比'),
+(27, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '最大伤害范围'),
+(28, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ' 最小伤害范围');
 
 -- --------------------------------------------------------
 
@@ -185,14 +241,15 @@ INSERT INTO `dict_buff` (`id`, `name`, `class`, `add_value`, `multiply_value`, `
 
 CREATE TABLE IF NOT EXISTS `dict_career` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `attack` double DEFAULT NULL,
-  `attack_growth` double DEFAULT NULL,
-  `defence` double DEFAULT NULL,
-  `defence_growth` double DEFAULT NULL,
-  `life` double DEFAULT NULL,
-  `life_growth` double DEFAULT NULL,
-  `speed` double DEFAULT NULL,
-  `speed_growth` double DEFAULT NULL,
+  `name` text COMMENT '名称',
+  `attack` double DEFAULT NULL COMMENT '基础攻击值',
+  `attack_growth` double DEFAULT NULL COMMENT '基础增长率',
+  `defence` double DEFAULT NULL COMMENT '基础防御值',
+  `defence_growth` double DEFAULT NULL COMMENT '基础增长率',
+  `life` double DEFAULT NULL COMMENT '基础生命值',
+  `life_growth` double DEFAULT NULL COMMENT '基础增长率',
+  `speed` double DEFAULT NULL COMMENT '基础速度值',
+  `speed_growth` double DEFAULT NULL COMMENT '基础增长率',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
@@ -200,8 +257,8 @@ CREATE TABLE IF NOT EXISTS `dict_career` (
 -- 转存表中的数据 `dict_career`
 --
 
-INSERT INTO `dict_career` (`id`, `attack`, `attack_growth`, `defence`, `defence_growth`, `life`, `life_growth`, `speed`, `speed_growth`) VALUES
-(1, 3, 0.2, 5, 0.2, 8, 0.2, 10, 0.2);
+INSERT INTO `dict_career` (`id`, `name`, `attack`, `attack_growth`, `defence`, `defence_growth`, `life`, `life_growth`, `speed`, `speed_growth`) VALUES
+(1, NULL, 3, 0.2, 5, 0.2, 8, 0.2, 10, 0.2);
 
 -- --------------------------------------------------------
 
@@ -212,10 +269,10 @@ INSERT INTO `dict_career` (`id`, `attack`, `attack_growth`, `defence`, `defence_
 CREATE TABLE IF NOT EXISTS `dict_chapter` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `bible_id` int(11) DEFAULT NULL,
-  `name` text,
-  `image_id` int(11) DEFAULT NULL,
-  `position_x` double DEFAULT '0',
-  `position_y` double DEFAULT '0',
+  `name` text COMMENT '名称',
+  `image_id` int(11) DEFAULT NULL COMMENT '前景图片',
+  `position_x` double DEFAULT '0' COMMENT '地图位置',
+  `position_y` double DEFAULT '0' COMMENT '地图位置',
   PRIMARY KEY (`id`),
   KEY `dict_chapter_bible_id` (`bible_id`),
   KEY `dict_chapter_image_id` (`image_id`)
@@ -238,15 +295,15 @@ INSERT INTO `dict_chapter` (`id`, `bible_id`, `name`, `image_id`, `position_x`, 
 
 CREATE TABLE IF NOT EXISTS `dict_equipment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` text,
-  `image_id` int(11) DEFAULT NULL,
-  `class` int(11) DEFAULT NULL,
-  `level_limit` int(11) DEFAULT NULL,
-  `life` double DEFAULT NULL,
-  `attack` double DEFAULT NULL,
-  `defence` double DEFAULT NULL,
-  `speed` double DEFAULT NULL,
-  `description` text,
+  `name` text COMMENT '名称',
+  `image_id` int(11) DEFAULT NULL COMMENT '图片',
+  `class` int(11) DEFAULT NULL COMMENT '1 头 2 武器 3 衣服  4 鞋子 ',
+  `level_limit` int(11) DEFAULT NULL COMMENT '使用等级',
+  `life` double DEFAULT NULL COMMENT '基础生命值',
+  `attack` double DEFAULT NULL COMMENT '基础攻击值',
+  `defence` double DEFAULT NULL COMMENT '基础防御值',
+  `speed` double DEFAULT NULL COMMENT '基础速度值',
+  `description` text COMMENT '描述文字（策划填写)',
   PRIMARY KEY (`id`),
   KEY `dict_equipment_image_id` (`image_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -258,8 +315,8 @@ CREATE TABLE IF NOT EXISTS `dict_equipment` (
 --
 
 CREATE TABLE IF NOT EXISTS `dict_equipment_level_growth` (
-  `level` int(11) NOT NULL,
-  `gowth` double DEFAULT NULL,
+  `level` int(11) NOT NULL COMMENT '装备等级',
+  `gowth` double DEFAULT NULL COMMENT '等级对应增长率',
   PRIMARY KEY (`level`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -281,8 +338,8 @@ INSERT INTO `dict_equipment_level_growth` (`level`, `gowth`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `dict_equipment_rank_growth` (
-  `rank` int(11) NOT NULL,
-  `gowth` double DEFAULT NULL,
+  `rank` int(11) NOT NULL COMMENT '星级',
+  `gowth` double DEFAULT NULL COMMENT '增长率',
   PRIMARY KEY (`rank`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -300,16 +357,42 @@ INSERT INTO `dict_equipment_rank_growth` (`rank`, `gowth`) VALUES
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `dict_event`
+--
+
+CREATE TABLE IF NOT EXISTS `dict_event` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` int(11) DEFAULT '0' COMMENT '0 普通战斗 1 对话 2 特殊战斗',
+  `target` int(11) DEFAULT NULL COMMENT '目标怪物id',
+  `next_event_id` int(11) DEFAULT NULL COMMENT '关联事件',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+
+--
+-- 转存表中的数据 `dict_event`
+--
+
+INSERT INTO `dict_event` (`id`, `type`, `target`, `next_event_id`) VALUES
+(1, 0, 1, -1),
+(2, 0, 1, -1),
+(3, 0, 1, -1),
+(4, 0, 1, -1),
+(5, 1, 2, 6),
+(6, 2, 2, -1);
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `dict_image`
 --
 
 CREATE TABLE IF NOT EXISTS `dict_image` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `description` text,
-  `type` int(11) DEFAULT '0',
-  `name` text,
-  `file_path` text,
-  `plist_path` text,
+  `description` text COMMENT '图片注释（策划使用）',
+  `type` int(11) DEFAULT '0' COMMENT '0 单图 1 打包图',
+  `name` text COMMENT '关键字，命名保持唯一',
+  `file_path` text COMMENT '全路径',
+  `plist_path` text COMMENT '全路径',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1002 ;
 
@@ -368,10 +451,10 @@ INSERT INTO `dict_image` (`id`, `description`, `type`, `name`, `file_path`, `pli
 
 CREATE TABLE IF NOT EXISTS `dict_item` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` text,
-  `image_id` int(11) DEFAULT NULL,
-  `buff_id` int(11) DEFAULT NULL,
-  `buff_value` double DEFAULT NULL,
+  `name` text COMMENT '物品名称',
+  `image_id` int(11) DEFAULT NULL COMMENT '物品图片',
+  `buff_id` int(11) DEFAULT NULL COMMENT '关联buff',
+  `buff_value` double DEFAULT NULL COMMENT 'buff值',
   PRIMARY KEY (`id`),
   KEY `dict_item_image_id` (`image_id`),
   KEY `dict_item_buff_id` (`buff_id`)
@@ -392,8 +475,8 @@ INSERT INTO `dict_item` (`id`, `name`, `image_id`, `buff_id`, `buff_value`) VALU
 
 CREATE TABLE IF NOT EXISTS `dict_monster` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` text,
-  `image_id` int(11) DEFAULT NULL,
+  `name` text COMMENT '怪物名称',
+  `image_id` int(11) DEFAULT NULL COMMENT '怪物头像',
   PRIMARY KEY (`id`),
   KEY `dict_monster_image_id` (`image_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
@@ -417,12 +500,12 @@ INSERT INTO `dict_monster` (`id`, `name`, `image_id`) VALUES
 
 CREATE TABLE IF NOT EXISTS `dict_npc_talk` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `task_id` int(11) DEFAULT NULL,
-  `content` text,
-  `npc_id` int(11) DEFAULT NULL,
-  `npc_name` text,
+  `event_id` int(11) DEFAULT NULL COMMENT '所属事件id',
+  `content` text COMMENT '对话内容',
+  `npc_id` int(11) DEFAULT NULL COMMENT '对话对象id',
+  `npc_name` text COMMENT '对话人名称',
   PRIMARY KEY (`id`),
-  KEY `dict_npc_talk_task_id` (`task_id`),
+  KEY `dict_npc_talk_task_id` (`event_id`),
   KEY `dict_npc_talk_npc_id` (`npc_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
@@ -430,7 +513,7 @@ CREATE TABLE IF NOT EXISTS `dict_npc_talk` (
 -- 转存表中的数据 `dict_npc_talk`
 --
 
-INSERT INTO `dict_npc_talk` (`id`, `task_id`, `content`, `npc_id`, `npc_name`) VALUES
+INSERT INTO `dict_npc_talk` (`id`, `event_id`, `content`, `npc_id`, `npc_name`) VALUES
 (1, 5, '你是谁？||Who a u?||你是哪只?', 38, '玩家'),
 (2, 5, '你不认识我？||气死我了\n作为第一个出场的Boss\n居然有人不认识我', 33, '？？？'),
 (3, 5, '谁要认识你这种红色的软趴趴\n的东西啊', 38, '玩家'),
@@ -446,17 +529,20 @@ INSERT INTO `dict_npc_talk` (`id`, `task_id`, `content`, `npc_id`, `npc_name`) V
 
 CREATE TABLE IF NOT EXISTS `dict_page` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `chapter_id` int(11) DEFAULT NULL,
-  `name` text,
-  `content` text,
-  `image_id` int(11) DEFAULT NULL,
-  `task_id` int(11) DEFAULT NULL,
-  `state` int(11) DEFAULT '0',
-  `position_x` double DEFAULT '0',
-  `position_y` double DEFAULT '0',
+  `chapter_id` int(11) DEFAULT NULL COMMENT '所属章节id',
+  `name` text COMMENT '本页名称',
+  `content` text COMMENT '本页内容',
+  `image_id` int(11) DEFAULT NULL COMMENT '前景图片',
+  `event_id` int(11) DEFAULT NULL COMMENT '关联事件',
+  `state` int(11) DEFAULT '0' COMMENT '0:未通过 1:通过',
+  `position_x` double DEFAULT '0' COMMENT '地图位置',
+  `position_y` double DEFAULT '0' COMMENT '地图位置',
+  `bonus` text COMMENT '总数量,id,类型(钱/经验/物品/奖励),数量',
+  `bonus_repeat` int(11) DEFAULT NULL COMMENT '是否能重复领取',
+  `box_id` int(11) DEFAULT NULL COMMENT '箱子id',
   PRIMARY KEY (`id`),
   KEY `dict_page_chapter_id` (`chapter_id`),
-  KEY `dict_page_task_id` (`task_id`),
+  KEY `dict_page_task_id` (`event_id`),
   KEY `dict_page_image_id` (`image_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
@@ -464,41 +550,12 @@ CREATE TABLE IF NOT EXISTS `dict_page` (
 -- 转存表中的数据 `dict_page`
 --
 
-INSERT INTO `dict_page` (`id`, `chapter_id`, `name`, `content`, `image_id`, `task_id`, `state`, `position_x`, `position_y`) VALUES
-(1, 1, '玄机', '这是一个伸手不见黑夜的五指\n啊不，伸手不见五指的黑夜\n我总感觉有些什么事情会发生', 32, 1, 0, 0, 0),
-(2, 1, '玄机', '没想到真的发生了呀\n不过为什么是这种恶心东西啊\n我要去找个有光的地方才好', 32, 4, 0, 0, 0),
-(3, 1, '玄机', '这里是什么倒霉地方啊\n我要离开\n但是好像一直走都在原处', 32, 3, 0, 0, 0),
-(4, 1, '玄机', '终于看到一点点亮光了\n不会再有恶心物了吧', 32, 4, 0, 0, 0),
-(5, 1, '玄机', '事实上，确实没有恶心物\n只有更恶心的物体\n挖，我吐。', 33, 5, 0, 0, 0);
-
--- --------------------------------------------------------
-
---
--- 表的结构 `dict_task`
---
-
-CREATE TABLE IF NOT EXISTS `dict_task` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` int(11) DEFAULT '0',
-  `target` text,
-  `bonus` text,
-  `bonus_repeat` int(11) DEFAULT NULL,
-  `next_task_id` int(11) DEFAULT NULL,
-  `box_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
-
---
--- 转存表中的数据 `dict_task`
---
-
-INSERT INTO `dict_task` (`id`, `type`, `target`, `bonus`, `bonus_repeat`, `next_task_id`, `box_id`) VALUES
-(1, 0, '1,2', '2,1,100,2,99', 1, -1, -1),
-(2, 0, '1,2', '2,1,100,2,99', 1, -1, -1),
-(3, 0, '1,2', '2,1,100,2,99', 1, -1, -1),
-(4, 0, '1', '2,1,100,2,99', 1, -1, -1),
-(5, 1, '2', '0', 0, 6, -1),
-(6, 2, '2', '1,1,100', 0, -1, 1);
+INSERT INTO `dict_page` (`id`, `chapter_id`, `name`, `content`, `image_id`, `event_id`, `state`, `position_x`, `position_y`, `bonus`, `bonus_repeat`, `box_id`) VALUES
+(1, 1, '玄机', '这是一个伸手不见黑夜的五指\n啊不，伸手不见五指的黑夜\n我总感觉有些什么事情会发生', 32, 1, 0, 0, 0, '', 0, 0),
+(2, 1, '玄机', '没想到真的发生了呀\n不过为什么是这种恶心东西啊\n我要去找个有光的地方才好', 32, 4, 0, 0, 0, '', 0, 0),
+(3, 1, '玄机', '这里是什么倒霉地方啊\n我要离开\n但是好像一直走都在原处', 32, 3, 0, 0, 0, '', 0, 0),
+(4, 1, '玄机', '终于看到一点点亮光了\n不会再有恶心物了吧', 32, 4, 0, 0, 0, '', 0, 0),
+(5, 1, '玄机', '事实上，确实没有恶心物\n只有更恶心的物体\n挖，我吐。', 33, 5, 0, 0, 0, '', 0, 0);
 
 --
 -- 限制导出的表
@@ -508,21 +565,21 @@ INSERT INTO `dict_task` (`id`, `type`, `target`, `bonus`, `bonus_repeat`, `next_
 -- 限制表 `actor`
 --
 ALTER TABLE `actor`
+  ADD CONSTRAINT `actor_career_id` FOREIGN KEY (`career_id`) REFERENCES `dict_career` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `actor_image_id` FOREIGN KEY (`image_id`) REFERENCES `dict_image` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `actor_level` FOREIGN KEY (`level`) REFERENCES `dict_actor_level_upgrade` (`level`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `actor_career_id` FOREIGN KEY (`career_id`) REFERENCES `dict_career` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `actor_level` FOREIGN KEY (`level`) REFERENCES `dict_actor_level_upgrade` (`level`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- 限制表 `actor_equipment`
 --
 ALTER TABLE `actor_equipment`
   ADD CONSTRAINT `actor_equip_actor_id` FOREIGN KEY (`actor_id`) REFERENCES `actor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `actor_equip_equip_id` FOREIGN KEY (`equip_id`) REFERENCES `dict_equipment` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `actor_equip_buff_id1` FOREIGN KEY (`buff_id1`) REFERENCES `dict_buff` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `actor_equip_buff_id2` FOREIGN KEY (`buff_id2`) REFERENCES `dict_buff` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `actor_equip_buff_id3` FOREIGN KEY (`buff_id3`) REFERENCES `dict_buff` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `actor_equip_buff_id4` FOREIGN KEY (`buff_id4`) REFERENCES `dict_buff` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `actor_equip_buff_id5` FOREIGN KEY (`buff_id5`) REFERENCES `dict_buff` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `actor_equip_equip_id` FOREIGN KEY (`equip_id`) REFERENCES `dict_equipment` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `actor_equip_level` FOREIGN KEY (`level`) REFERENCES `dict_equipment_level_growth` (`level`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `actor_equip_rank` FOREIGN KEY (`rank`) REFERENCES `dict_equipment_rank_growth` (`rank`) ON DELETE SET NULL ON UPDATE CASCADE;
 
@@ -550,8 +607,8 @@ ALTER TABLE `dict_equipment`
 -- 限制表 `dict_item`
 --
 ALTER TABLE `dict_item`
-  ADD CONSTRAINT `dict_item_image_id` FOREIGN KEY (`image_id`) REFERENCES `dict_image` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `dict_item_buff_id` FOREIGN KEY (`buff_id`) REFERENCES `dict_buff` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `dict_item_buff_id` FOREIGN KEY (`buff_id`) REFERENCES `dict_buff` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `dict_item_image_id` FOREIGN KEY (`image_id`) REFERENCES `dict_image` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- 限制表 `dict_monster`
@@ -563,7 +620,7 @@ ALTER TABLE `dict_monster`
 -- 限制表 `dict_npc_talk`
 --
 ALTER TABLE `dict_npc_talk`
-  ADD CONSTRAINT `dict_npc_talk_task_id` FOREIGN KEY (`task_id`) REFERENCES `dict_task` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `dict_npc_talk_event_id` FOREIGN KEY (`event_id`) REFERENCES `dict_event` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `dict_npc_talk_npc_id` FOREIGN KEY (`npc_id`) REFERENCES `dict_image` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
@@ -571,7 +628,7 @@ ALTER TABLE `dict_npc_talk`
 --
 ALTER TABLE `dict_page`
   ADD CONSTRAINT `dict_page_chapter_id` FOREIGN KEY (`chapter_id`) REFERENCES `dict_chapter` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `dict_page_task_id` FOREIGN KEY (`task_id`) REFERENCES `dict_task` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `dict_page_event_id` FOREIGN KEY (`event_id`) REFERENCES `dict_event` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `dict_page_image_id` FOREIGN KEY (`image_id`) REFERENCES `dict_image` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
