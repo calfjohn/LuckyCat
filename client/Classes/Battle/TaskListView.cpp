@@ -164,7 +164,7 @@ void TaskListView::removeAndCleanSelf(float dt)
     }
 }
 
-void TaskListView::oneTaskWasFinished()
+void TaskListView::oneTaskWasFinished(CCNode* node, void* data)
 {
     this->scheduleOnce(schedule_selector(TaskListView::showNextTask), 0.1f);
 }
@@ -226,7 +226,7 @@ void TaskListView::showSpecialBattleView()
     }
 }
 
-void TaskListView::showNextTask()
+void TaskListView::showNextTask(float dt)
 {
     if ( p_CurLayer )
     {
