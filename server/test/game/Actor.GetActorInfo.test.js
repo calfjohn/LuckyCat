@@ -25,13 +25,13 @@ var postDataTo = function (sPath, vData, fCallback) {
 };
 
 
-describe("=================================================================================\n" +
+describe("============================================================================\n" +
     "    Test Actor", function() {
 
     it("GetActorInfo", function(done) {
         var info = {};
         var header = {
-            token: "0",
+            token: "1234567", //til now we use uuid instead
             index : 0
         };
         var meta = {
