@@ -25,7 +25,7 @@ BattleResultView *BattleResultView::create(cocos2d::CCObject * pOwner)
     cocos2d::extension::CCBReader * ccbReader = new cocos2d::extension::CCBReader(ccNodeLoaderLibrary);
     ccbReader->autorelease();
     
-    CCNode * pNode = ccbReader->readNodeGraphFromFile("", "ccb/fullscreen_tips.ccbi", pOwner);
+    CCNode * pNode = ccbReader->readNodeGraphFromFile("pub/", "ccb/fullscreen_tips.ccbi", pOwner);
     
     BattleResultView *pBattleResultView = static_cast<BattleResultView *>(pNode);
     return pBattleResultView;

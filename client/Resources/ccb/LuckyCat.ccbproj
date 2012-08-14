@@ -9,11 +9,11 @@
 	<key>fileVersion</key>
 	<integer>1</integer>
 	<key>flattenPaths</key>
-	<true/>
+	<false/>
 	<key>javascriptBased</key>
 	<false/>
 	<key>publishDirectory</key>
-	<string>.</string>
+	<string>../pub</string>
 	<key>publishToZipFile</key>
 	<false/>
 	<key>resourcePaths</key>
