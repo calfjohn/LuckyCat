@@ -7,9 +7,14 @@
  */
 
 require("../../system/Log");
+require("../DictDataBox");
 
 module.exports = function (req, res, next) {
     var log = new Log("openBox");
+
+    DictBox.initDictData();
+
+
 
     var chunks = [];
     req.on("data", function(chunk) {
@@ -33,21 +38,27 @@ module.exports = function (req, res, next) {
             res.end();
         };
 
-        var getOpenBoxGetAward = function(taskId,boxId) {
-            if (! actor) next();
-            if("basic" == info.meta.in.category){
-                var ret_1={"id":1,"num":101};
-                responseResult(actor.getBasicInfo());
-            }else{
-                var ret_2={"id":2,"num":202};
-                responseResult(ret_2);
+        var getOpenBoxGetAward = function() {
+            //var ret_2={"id":2,"num":202};
+            //var array_ = {{"id":2,"num":202},{"id":2,"num":202},{"id":2,"num":202}};
+            var argIn = info.meta.in;
+            var ary = new Array();
+            for ( var i = 1; i < 4; i++ )
+            {
+                var obj = new Object();
+                obj.id = i*2;
+                obj.type = i+1;
+                obj.num = 100 + i;
+
+                ary.push(obj);
             }
+            responseResult(ary);
         };
 
         if (info) {
 //            var uuid = parseInt(info.header.token);
 //            require("../Actors").getActor(uuid, getBasicInfo);
-            getOpenBoxGetAward(1,1);
+            getOpenBoxGetAward(info);
         } else {
             next();
         }

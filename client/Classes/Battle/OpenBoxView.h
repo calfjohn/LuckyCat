@@ -41,6 +41,8 @@ public:
     void setTask(stTask *t);
     
     void showResultView();
+    
+    void netCallBack(CCNode* pNode, void* data);
 private:
     stTask *p_CurTask;
 };

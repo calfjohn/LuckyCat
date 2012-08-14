@@ -1,13 +1,14 @@
 #include "CCScrollViewLoader.h"
 
 USING_NS_CC;
-USING_NS_CC_EXT;
 
 #define PROPERTY_CONTAINER "container"
 #define PROPERTY_DIRECTION "direction"
 #define PROPERTY_CLIPSTOBOUNDS "clipsToBounds"
 #define PROPERTY_BOUNCES "bounces"
 #define PROPERTY_SCALE "scale"
+
+NS_CC_EXT_BEGIN
 
 void CCScrollViewLoader::onHandlePropTypeCheck(CCNode * pNode, CCNode * pParent, CCString * pPropertyName, bool pCheck, CCBReader * pCCBReader) {
     if(pPropertyName->compare(PROPERTY_CLIPSTOBOUNDS) == 0) {
@@ -42,3 +43,5 @@ void CCScrollViewLoader::onHandlePropTypeIntegerLabeled(CCNode * pNode, CCNode *
         CCNodeLoader::onHandlePropTypeFloatScale(pNode, pParent, pPropertyName, pIntegerLabeled, pCCBReader);
     }
 }
+
+NS_CC_EXT_END

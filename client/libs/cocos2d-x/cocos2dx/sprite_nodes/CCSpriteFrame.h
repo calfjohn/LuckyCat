@@ -90,6 +90,11 @@ public:
 
     const CCPoint& getOffset(void);
     void setOffset(const CCPoint& offsets);
+    
+    /** Create a CCSpriteFrame with a texture, rect in points.
+     It is assumed that the frame was not trimmed.
+     */
+    static CCSpriteFrame* createWithTexture(CCTexture2D* pobTexture, const CCRect& rect);
 
 public:
     ~CCSpriteFrame(void);

@@ -1,7 +1,6 @@
 #include "CCLabelTTFLoader.h"
 
 USING_NS_CC;
-USING_NS_CC_EXT;
 
 #define PROPERTY_COLOR "color"
 #define PROPERTY_OPACITY "opacity"
@@ -12,6 +11,8 @@ USING_NS_CC_EXT;
 #define PROPERTY_VERTICALALIGNMENT "verticalAlignment"
 #define PROPERTY_STRING "string"
 #define PROPERTY_DIMENSIONS "dimensions"
+
+NS_CC_EXT_BEGIN
 
 void CCLabelTTFLoader::onHandlePropTypeColor3(CCNode * pNode, CCNode * pParent, CCString * pPropertyName, ccColor3B pCCColor3B, CCBReader * pCCBReader) {
     if(pPropertyName->compare(PROPERTY_COLOR) == 0) {
@@ -78,3 +79,5 @@ void CCLabelTTFLoader::onHandlePropTypeSize(CCNode * pNode, CCNode * pParent, CC
         CCNodeLoader::onHandlePropTypeSize(pNode, pParent, pPropertyName, pSize, pCCBReader);
     }
 }
+
+NS_CC_EXT_END

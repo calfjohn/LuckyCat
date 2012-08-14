@@ -15,7 +15,8 @@
 #define ASSERT_FAIL_UNEXPECTED_PROPERTYTYPE(PROPERTYTYPE) CCLog("Unexpected property type: '%d'!\n", PROPERTYTYPE); assert(false)
 
 USING_NS_CC;
-USING_NS_CC_EXT;
+
+NS_CC_EXT_BEGIN
 
 CCNode * CCNodeLoader::loadCCNode(CCNode * pParent, CCBReader * pCCBReader) {
     CCNode * ccNode = this->createCCNode(pParent, pCCBReader);
@@ -415,7 +416,7 @@ CCSpriteFrame * CCNodeLoader::parsePropTypeSpriteFrame(CCNode * pNode, CCNode * 
 
         CCTexture2D * texture = CCTextureCache::sharedTextureCache()->addImage(spriteFilePath->getCString());
         CCRect bounds = CCRectMake(0, 0, texture->getContentSize().width, texture->getContentSize().height);
-        spriteFrame = CCSpriteFrame::create(texture, bounds);
+        spriteFrame = CCSpriteFrame::createWithTexture(texture, bounds);
     } else {
         CCSpriteFrameCache * frameCache = CCSpriteFrameCache::sharedSpriteFrameCache();
 
@@ -803,3 +804,5 @@ void CCNodeLoader::onHandlePropTypeBlockCCControl(CCNode * pNode, CCNode * pPare
 void CCNodeLoader::onHandlePropTypeCCBFile(CCNode * pNode, CCNode * pParent, CCString * pPropertyName, CCNode * pCCBFileNode, CCBReader * pCCBReader) {
     ASSERT_FAIL_UNEXPECTED_PROPERTY(pPropertyName);
 }
+
+NS_CC_EXT_END

@@ -181,6 +181,7 @@
 		1898E1F915B3F94700A274B3 /* libCocosDension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCocosDension.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		18CE8E9D15C7760A00C48686 /* BasicFunction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BasicFunction.h; sourceTree = "<group>"; };
 		18CE8E9E15C7762600C48686 /* BasicFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BasicFunction.cpp; sourceTree = "<group>"; };
+		18EED36815D90B43002EC7B9 /* FuzzyBgView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuzzyBgView.h; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* LuckyCat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LuckyCat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -314,6 +315,7 @@
 			children = (
 				15AAE34B15B6A38300F0CF5E /* CoverScene.cpp */,
 				15AAE34C15B6A38300F0CF5E /* CoverScene.h */,
+				18EED36815D90B43002EC7B9 /* FuzzyBgView.h */,
 			);
 			path = Main;
 			sourceTree = "<group>";

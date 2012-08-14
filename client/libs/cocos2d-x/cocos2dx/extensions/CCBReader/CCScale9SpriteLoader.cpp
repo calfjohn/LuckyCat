@@ -1,7 +1,6 @@
 #include "CCScale9SpriteLoader.h"
 
 USING_NS_CC;
-USING_NS_CC_EXT;
 
 #define PROPERTY_CONTENTSIZE "contentSize"
 #define PROPERTY_SPRITEFRAME "spriteFrame"
@@ -13,6 +12,8 @@ USING_NS_CC_EXT;
 #define PROPERTY_INSETTOP "insetTop"
 #define PROPERTY_INSETRIGHT "insetRight"
 #define PROPERTY_INSETBOTTOM "insetBottom"
+
+NS_CC_EXT_BEGIN
 
 void CCScale9SpriteLoader::onHandlePropTypeSpriteFrame(CCNode * pNode, CCNode * pParent, CCString * pPropertyName, CCSpriteFrame * pCCSpriteFrame, CCBReader * pCCBReader) {
     if(pPropertyName->compare(PROPERTY_SPRITEFRAME) == 0) {
@@ -70,3 +71,5 @@ void CCScale9SpriteLoader::onHandlePropTypeFloat(CCNode * pNode, CCNode * pParen
         CCNodeLoader::onHandlePropTypeFloat(pNode, pParent, pPropertyName, pFloat, pCCBReader);
     }
 }
+
+NS_CC_EXT_END
