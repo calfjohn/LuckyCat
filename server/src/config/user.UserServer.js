@@ -19,7 +19,7 @@
 
 module.exports = {
     service : {
-        port : 111111
+        port : 11111
     },
 
     db_users        : {
