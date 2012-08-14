@@ -18,6 +18,10 @@
  */
 
 module.exports = {
+    service : {
+        port : 111111
+    },
+
     db_users        : {
         host        : "192.168.0.51"
         , user      : "root"

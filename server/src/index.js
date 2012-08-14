@@ -7,6 +7,18 @@ process.on("uncaughtException", function(err) {
     globalLog.e(err);
 });
 
+// start admin server
+if (1) {
+    var adminServer = require("./admin/AdminServer").initInstance(function(err) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        console.log("admin server begin listen...");
+        adminServer.start();
+    });
+};
+
 // start user server
 if (1) {
     var userServer = require("./user/UserServer").initInstance(function(err) {
@@ -15,7 +27,7 @@ if (1) {
             return;
         }
         console.log("user server begin listen...");
-        userServer.listen(11111);
+        userServer.start();
     });
 };
 
@@ -27,7 +39,7 @@ if (1) {
            return;
         }
         console.log("game server begin listen...");
-        gameServer.listen(22222);
+        gameServer.start();
     });
 };
 

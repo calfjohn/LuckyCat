@@ -1,0 +1,9 @@
+extends layout
+
+block head
+    script(src="js/demo.js")
+
+block content
+    body(onload="init()")
+        div#main
+        input(type = "button", value = "更新", onclick = "update()")
