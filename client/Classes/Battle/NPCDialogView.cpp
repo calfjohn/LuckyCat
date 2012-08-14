@@ -12,6 +12,7 @@
 #include "TaskDataManager.h"
 #include "TaskBasic.h"
 #include "LuckySprite.h"
+#include "FuzzyBgView.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -33,6 +34,8 @@ NPCDialogView::~NPCDialogView()
 NPCDialogView *NPCDialogView::create(cocos2d::CCObject * pOwner)
 {
     cocos2d::extension::CCNodeLoaderLibrary * ccNodeLoaderLibrary = cocos2d::extension::CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
+    
+    ccNodeLoaderLibrary->registerCCNodeLoader("FuzzyBgView", FuzzyBgViewLoader::loader());
     
     ccNodeLoaderLibrary->registerCCNodeLoader("NPCDialogView", NPCDialogViewLoader::loader());
     

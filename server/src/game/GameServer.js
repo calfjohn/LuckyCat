@@ -6,8 +6,10 @@
 
 require("../system/Log");
 
-var express = require("express")
-    ,app = express.createServer()
+var http = require("http")
+    ,express = require("express")
+    ,app = express()
+    ,server = http.createServer(app)
     ,log = new Log("GameServer");
 
 app.configure(function() {
@@ -17,14 +19,14 @@ app.configure(function() {
 
     app.set("views", __dirname + "/");
     app.set("view engine", "jade");
-});
 
-app.configure('development', function(){
-    app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-});
-
-app.configure("production", function() {
-    app.use(express.errorHandler());
+    app.use(function(err, req, res, next) {
+        // if an error occurs Connect will pass it down
+        // through these "error-handling" middleware
+        // allowing you to respond however you like
+        log.e(err);
+        res.send(500, { error: 'Sorry something bad happened!' });
+    });
 });
 
 // init server, init modules here
@@ -48,9 +50,15 @@ app.initInstance = function (srvConfig, callback) {
     return this;
 };
 
+// start server, begin listening
+app.start = function() {
+    server.listen(require("../config/game.GameServer").service.port);
+};
+
 app.initHandlers = function (aExpress) {
     aExpress.post("/game/combat", require("./handler/combat"));
     aExpress.post("/game/actor/getActorInfo", require("./handler/actor.getActorInfo"));
+    aExpress.post("/game/task/openBox", require("./handler/task.openBox"));
 };
 
 module.exports = app;

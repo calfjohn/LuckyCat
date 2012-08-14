@@ -13,7 +13,7 @@
 #endif
 
 USING_NS_CC;
-USING_NS_CC_EXT;
+NS_CC_EXT_BEGIN;
 
 CCBReader::CCBReader(CCNodeLoaderLibrary * pCCNodeLoaderLibrary, CCBMemberVariableAssigner * pCCBMemberVariableAssigner, CCBSelectorResolver * pCCBSelectorResolver, CCNodeLoaderListener * pCCNodeLoaderListener) {
     this->mRootNode = NULL;
@@ -167,7 +167,7 @@ void CCBReader::readStringCacheEntry() {
     int numBytes = b0 << 8 | b1;
 
     const unsigned char * src = (const unsigned char *) (this->mBytes + this->mCurrentByte);
-    CCString * string = CCString::create(src, (unsigned long)numBytes);
+    CCString * string = CCString::createWithData(src, (unsigned long)numBytes);
     string->retain();
 
     this->mCurrentByte += numBytes;
@@ -410,3 +410,5 @@ bool CCBReader::endsWith(CCString * pString, CCString * pEnding) {
         return false;
     }
 }
+
+NS_CC_EXT_END;

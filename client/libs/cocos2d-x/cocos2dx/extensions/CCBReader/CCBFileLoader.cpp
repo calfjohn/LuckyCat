@@ -1,7 +1,8 @@
 #include "CCBFileLoader.h"
 
 USING_NS_CC;
-USING_NS_CC_EXT;
+
+NS_CC_EXT_BEGIN
 
 #define PROPERTY_CCBFILE "ccbFile"
 
@@ -12,3 +13,5 @@ void CCBFileLoader::onHandlePropTypeCCBFile(CCNode * pNode, CCNode * pParent, CC
         CCNodeLoader::onHandlePropTypeCCBFile(pNode, pParent, pPropertyName, pCCBFileNode, pCCBReader);
     }
 }
+
+NS_CC_EXT_END

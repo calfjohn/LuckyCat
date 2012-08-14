@@ -16,7 +16,8 @@
 #include "CCScrollViewLoader.h"
 
 USING_NS_CC;
-USING_NS_CC_EXT;
+
+NS_CC_EXT_BEGIN
 
 CCNodeLoaderLibrary::CCNodeLoaderLibrary() {
 
@@ -104,3 +105,5 @@ CCNodeLoaderLibrary * CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary() {
 
     return ccNodeLoaderLibrary;
 }
+
+NS_CC_EXT_END

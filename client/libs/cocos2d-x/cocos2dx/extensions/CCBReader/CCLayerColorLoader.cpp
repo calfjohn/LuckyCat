@@ -1,7 +1,8 @@
 #include "CCLayerColorLoader.h"
 
 USING_NS_CC;
-USING_NS_CC_EXT;
+
+NS_CC_EXT_BEGIN
 
 #define PROPERTY_COLOR "color"
 #define PROPERTY_OPACITY "opacity"
@@ -30,3 +31,5 @@ void CCLayerColorLoader::onHandlePropTypeBlendFunc(CCNode * pNode, CCNode * pPar
         CCLayerLoader::onHandlePropTypeBlendFunc(pNode, pParent, pPropertyName, pCCBlendFunc, pCCBReader);
     }
 }
+
+NS_CC_EXT_END
