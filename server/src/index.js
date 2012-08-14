@@ -7,6 +7,18 @@ process.on("uncaughtException", function(err) {
     globalLog.e(err);
 });
 
+// start admin server
+if (1) {
+    var adminServer = require("./admin/AdminServer").initInstance(function(err) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        console.log("admin server begin listen...");
+        adminServer.start();
+    });
+};
+
 // start user server
 if (1) {
     var userServer = require("./user/UserServer").initInstance(function(err) {
