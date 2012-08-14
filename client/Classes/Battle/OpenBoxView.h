@@ -45,6 +45,8 @@ public:
     void netCallBack(CCNode* pNode, void* data);
 private:
     stTask *p_CurTask;
+    
+    bool m_bIsOpen;
 };
 
 class CCBReader;

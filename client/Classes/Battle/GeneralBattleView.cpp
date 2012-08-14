@@ -125,18 +125,18 @@ void GeneralBattleView::setData(stTask *tTask, cocos2d::CCObject *target, cocos2
     
     this->setTouchEnabled(true);
     
-    this->showBattleResultView();
+    //this->showBattleResultView();
 }
 
 void GeneralBattleView::removeAndCleanSelf(float dt)
 {
     ((m_target)->*(m_pfnSelector))(this, NULL);
     
-    CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_TASK_LIST_LAYER));
-    if ( pLayer )
-    {
-        pLayer->removeFromParentAndCleanup(true);
-    }
+//    CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_TASK_LIST_LAYER));
+//    if ( pLayer )
+//    {
+//        pLayer->removeFromParentAndCleanup(true);
+//    }
 }
 
 void GeneralBattleView::menuBackCallback(CCObject* pSender)

@@ -23,7 +23,7 @@ USING_NS_CC;
 USING_NS_CC_EXT;
 using namespace std;
 
-OpenBoxView::OpenBoxView()
+OpenBoxView::OpenBoxView():m_bIsOpen(false)
 {
     
 }
@@ -71,8 +71,12 @@ void OpenBoxView::onMenuItemClicked(cocos2d::CCObject *pTarget)
 }
 
 void OpenBoxView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent) {
-    NetManager::shareNetManager()->send(kModeTask, kDoOpenBox, "\"taskId\": 1,\"boxId\": 1",                                      callfuncND_selector(OpenBoxView::netCallBack), this);
-    //NetManager::shareNetManager()->send(kModeGame, kDoGetActorInfo, "\"category\": \"basic\"", callfuncND_selector(OpenBoxView::netCallBack), this);
+    if ( m_bIsOpen == false )
+    {
+        m_bIsOpen = true;
+        NetManager::shareNetManager()->send(kModeTask, kDoOpenBox, "\"taskId\": 1,\"boxId\": 1",                                      callfuncND_selector(OpenBoxView::netCallBack), this);
+        //NetManager::shareNetManager()->send(kModeGame, kDoGetActorInfo, "\"category\": \"basic\"", callfuncND_selector(OpenBoxView::netCallBack), this);
+    }
 }
 
 void OpenBoxView::setTask(stTask *t)
@@ -119,7 +123,6 @@ void OpenBoxView::netCallBack(CCNode* pNode, void* data)
         Json::Value json_meta = json_root["meta"];
         Json::Value json_out = json_meta["out"];
         
-        int count = json_out.size();
         
         for (int i = 0; i < json_out.size(); i++) {
             Json::Value goods = json_out[i];
@@ -133,5 +136,6 @@ void OpenBoxView::netCallBack(CCNode* pNode, void* data)
         
         BattleResultView *pOpenBoxResult = BattleResultView::create(this);
         pOpenBoxResult->initView(tGoodsList);
+        this->addChild(pOpenBoxResult,99);
     }
 }

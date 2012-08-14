@@ -12,6 +12,7 @@
 #include "TaskDataManager.h"
 #include "BattleResultView.h"
 #include "LuckySprite.h"
+#include "FuzzyBgView.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -32,6 +33,7 @@ SpecialBattleView *SpecialBattleView::create(cocos2d::CCObject * pOwner)
     cocos2d::extension::CCNodeLoaderLibrary * ccNodeLoaderLibrary = cocos2d::extension::CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
     
     ccNodeLoaderLibrary->registerCCNodeLoader("SpecialBattleView", SpecialBattleViewLoader::loader());
+    ccNodeLoaderLibrary->registerCCNodeLoader("FuzzyBgView", FuzzyBgViewLoader::loader());
     
     cocos2d::extension::CCBReader * ccbReader = new cocos2d::extension::CCBReader(ccNodeLoaderLibrary);
     ccbReader->autorelease();
@@ -100,11 +102,11 @@ void SpecialBattleView::removeAndCleanSelf(float dt)
 {
     ((m_target)->*(m_pfnSelector))(this, NULL);
     
-    CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_TASK_LIST_LAYER));
-    if ( pLayer )
-    {
-        pLayer->removeFromParentAndCleanup(true);
-    }
+//    CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_TASK_LIST_LAYER));
+//    if ( pLayer )
+//    {
+//        pLayer->removeFromParentAndCleanup(true);
+//    }
 }
 
 void SpecialBattleView::menuBackCallback(CCObject* pSender)
