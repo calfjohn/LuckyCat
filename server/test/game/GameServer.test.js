@@ -20,7 +20,7 @@ var postDataTo = function (sPath, vData, fCallback) {
     return req;
 };
 
-describe("=================================================================================\n" +
+describe("============================================================================\n" +
     "    Test GameServer", function() {
 
     it("Combat", function(done) {

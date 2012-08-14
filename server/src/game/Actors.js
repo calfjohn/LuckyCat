@@ -16,24 +16,39 @@ var log = new Log("Actors")
 
 Actors = {
     _dbAgent : null,
+    _cache: null,
     initInstance : function(dbConfig, callback) {
         Actors._dbAgent = new DBAgent(dbConfig);
         Actors._dbAgent.connect(true);
+        // Cache all actors data on server start
+        Actors._dbAgent.query("SELECT * FROM `actor`", function (err, rows) {
+            if (err) {
+                throw err;
+                return;
+            }
+            Actors._cache = {};
+            for(var i = 0; i < rows.length; ++i){
+                var data = rows[i];
+                var strUUID = "" + data.uuid;
+                var datas = Actors._cache[strUUID];
+                if(undefined == datas) {
+                    datas = [];
+                }
+                datas[datas.length] = data;
+                //log.d("datas:",datas);
+                Actors._cache[strUUID] = datas;
+                //log.d("cache:", Actors._cache);
+            }
+        });
         process.nextTick(function() {
            callback(null);
         });
     },
 
     getActor: function(uuid, callback) {
-        Actors._dbAgent.query("SELECT * FROM `actor` WHERE `id` = ?", [uuid], function (err, rows) {
-            if (err) {
-                throw err;
-                return;
-            }
-            var len = rows.length;
-            var data = (rows.length) ? rows[0]: null;
-            callback(new Actor(data));
-        });
+        var rows = Actors._cache[""+uuid];
+        var data = (rows.length) ? rows[0]: null;
+        callback(new Actor(data));
     }
 };
 
