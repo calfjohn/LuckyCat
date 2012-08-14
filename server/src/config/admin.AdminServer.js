@@ -18,6 +18,10 @@
  */
 
 module.exports = {
+    service : {
+        port : 80
+    },
+
     db_admin  : {
         host      : "192.168.0.51"
         , user      : "root"

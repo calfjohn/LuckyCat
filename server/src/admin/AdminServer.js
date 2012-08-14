@@ -58,7 +58,7 @@ app.initInstance = function (srvConfig, callback) {
 
 // start server, begin listening
 app.start = function() {
-    server.listen(80);
+    server.listen(require("../config/user.UserServer").service.port);
 };
 
 app.initHandlers = function (aExpress) {

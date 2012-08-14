@@ -27,7 +27,7 @@ if (1) {
             return;
         }
         console.log("user server begin listen...");
-        userServer.listen(11111);
+        userServer.start();
     });
 };
 
@@ -39,7 +39,7 @@ if (1) {
            return;
         }
         console.log("game server begin listen...");
-        gameServer.listen(22222);
+        gameServer.start();
     });
 };
 
