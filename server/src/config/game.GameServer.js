@@ -19,7 +19,7 @@
 
 module.exports = {
     service : {
-        port : 222222
+        port : 22222
     },
 
     db_actors  : {

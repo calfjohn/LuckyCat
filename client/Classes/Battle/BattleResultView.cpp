@@ -67,11 +67,11 @@ void BattleResultView::initView(stTask *tTask)
         stGood _goods = *_iter;
         
         char strChar[512];
-        sprintf(strChar, "GoodsName %d + %d",_goods.id,_goods.num);
+        sprintf(strChar, "获得%d ： + %d",_goods.id,_goods.num);
         CCLabelTTF *bonusLabel = CCLabelTTF::create(strChar, CCSizeMake(screanSize.width * 0.8f, screanSize.height * 0.15f ), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter,"Arial", 18);
         bonusLabel->setColor(ccWHITE);
         bonusLabel->setAnchorPoint(CCPointZero);
-        bonusLabel->setPosition(CCPointMake(labtip_pos.x + 10, labtip_pos.y - 20*i - 70));
+        bonusLabel->setPosition(CCPointMake(labtip_pos.x, labtip_pos.y - 20*i - 70));
         this->addChild(bonusLabel);
     }
     

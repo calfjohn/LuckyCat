@@ -36,7 +36,7 @@ SpecialBattleView *SpecialBattleView::create(cocos2d::CCObject * pOwner)
     cocos2d::extension::CCBReader * ccbReader = new cocos2d::extension::CCBReader(ccNodeLoaderLibrary);
     ccbReader->autorelease();
     
-    CCNode * pNode = ccbReader->readNodeGraphFromFile("", "ccb/battle_special.ccbi", pOwner);
+    CCNode * pNode = ccbReader->readNodeGraphFromFile("pub/", "ccb/battle_special.ccbi", pOwner);
     
     SpecialBattleView *pSpecialBattleView = static_cast<SpecialBattleView *>(pNode);
     return pSpecialBattleView;

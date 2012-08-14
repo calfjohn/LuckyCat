@@ -202,7 +202,7 @@ void TaskListView::showDialogView()
 
 void TaskListView::showGeneralBattleView()
 {
-    GeneralBattleView *tGeneralBattle = GeneralBattleView::create();
+    GeneralBattleView *tGeneralBattle = GeneralBattleView::create(this);
     if (tGeneralBattle)
     {
         tGeneralBattle->setData(p_CurTask, this, callfuncND_selector(TaskListView::oneTaskWasFinished));

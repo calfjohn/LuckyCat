@@ -42,7 +42,7 @@ NPCDialogView *NPCDialogView::create(cocos2d::CCObject * pOwner)
     cocos2d::extension::CCBReader * ccbReader = new cocos2d::extension::CCBReader(ccNodeLoaderLibrary);
     ccbReader->autorelease();
     
-    CCNode * pNode = ccbReader->readNodeGraphFromFile("", "ccb/dialog.ccbi", pOwner);
+    CCNode * pNode = ccbReader->readNodeGraphFromFile("pub/", "ccb/dialog.ccbi", pOwner);
     
     NPCDialogView *pNPCDialogView = static_cast<NPCDialogView *>(pNode);
     return pNPCDialogView;
@@ -132,9 +132,6 @@ void NPCDialogView::setData(stTask *tTask, cocos2d::CCObject *target, cocos2d::S
     m_target = target;
     m_pfnSelector = pfnSelector;
     
-    CCNode *P1 = this->getChildByTag(10);
-    CCNode *P2 = this->getChildByTag(11);
-    CCNode *P3 = this->getChildByTag(12);
     mLabelNpcName = static_cast<CCLabelTTF *>(this->getChildByTag(10));
     mLabelDialogContent = static_cast<CCLabelTTF *>(this->getChildByTag(11));
     mSpriteNpc = static_cast<CCSprite *>(this->getChildByTag(12));
