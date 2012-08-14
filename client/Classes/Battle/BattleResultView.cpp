@@ -25,7 +25,7 @@ BattleResultView *BattleResultView::create(cocos2d::CCObject * pOwner)
     cocos2d::extension::CCBReader * ccbReader = new cocos2d::extension::CCBReader(ccNodeLoaderLibrary);
     ccbReader->autorelease();
     
-    CCNode * pNode = ccbReader->readNodeGraphFromFile("", "ccb/fullscreen_tips.ccbi", pOwner);
+    CCNode * pNode = ccbReader->readNodeGraphFromFile("pub/", "ccb/fullscreen_tips.ccbi", pOwner);
     
     BattleResultView *pBattleResultView = static_cast<BattleResultView *>(pNode);
     return pBattleResultView;
@@ -67,11 +67,11 @@ void BattleResultView::initView(stTask *tTask)
         stGood _goods = *_iter;
         
         char strChar[512];
-        sprintf(strChar, "GoodsName %d + %d",_goods.id,_goods.num);
+        sprintf(strChar, "获得%d ：%d",_goods.id,_goods.num);
         CCLabelTTF *bonusLabel = CCLabelTTF::create(strChar, CCSizeMake(screanSize.width * 0.8f, screanSize.height * 0.15f ), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter,"Arial", 18);
         bonusLabel->setColor(ccWHITE);
         bonusLabel->setAnchorPoint(CCPointZero);
-        bonusLabel->setPosition(CCPointMake(labtip_pos.x + 10, labtip_pos.y - 20*i - 70));
+        bonusLabel->setPosition(CCPointMake(labtip_pos.x, labtip_pos.y - 25*i - 40));
         this->addChild(bonusLabel);
     }
     
@@ -98,11 +98,11 @@ void BattleResultView::initView(std::vector<stGood> tGoodsList)
         stGood _goods = *_iter;
         
         char strChar[512];
-        sprintf(strChar, "GoodsName %d + %d",_goods.id,_goods.num);
+        sprintf(strChar, "获得%d ：%d",_goods.id,_goods.num);
         CCLabelTTF *bonusLabel = CCLabelTTF::create(strChar, CCSizeMake(screanSize.width * 0.8f, screanSize.height * 0.15f ), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter,"Arial", 18);
         bonusLabel->setColor(ccWHITE);
         bonusLabel->setAnchorPoint(CCPointZero);
-        bonusLabel->setPosition(CCPointMake(labtip_pos.x + 10, labtip_pos.y - 20*i - 70));
+        bonusLabel->setPosition(CCPointMake(labtip_pos.x, labtip_pos.y - 25*i - 40));
         this->addChild(bonusLabel);
     }
 }

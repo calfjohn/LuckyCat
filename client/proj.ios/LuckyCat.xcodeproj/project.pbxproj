@@ -58,6 +58,7 @@
 		1898E1DC15B3F83900A274B3 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1898E1DB15B3F83900A274B3 /* libcurl.a */; };
 		1898E1FA15B3F94700A274B3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		18CE8E9F15C7762600C48686 /* BasicFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18CE8E9E15C7762600C48686 /* BasicFunction.cpp */; };
+		18DA5EB715D9FCAC000B7831 /* pub in Resources */ = {isa = PBXBuildFile; fileRef = 18DA5EB615D9FCAC000B7831 /* pub */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
@@ -181,6 +182,7 @@
 		1898E1F915B3F94700A274B3 /* libCocosDension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCocosDension.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		18CE8E9D15C7760A00C48686 /* BasicFunction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BasicFunction.h; sourceTree = "<group>"; };
 		18CE8E9E15C7762600C48686 /* BasicFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BasicFunction.cpp; sourceTree = "<group>"; };
+		18DA5EB615D9FCAC000B7831 /* pub */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pub; sourceTree = "<group>"; };
 		18EED36815D90B43002EC7B9 /* FuzzyBgView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuzzyBgView.h; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* LuckyCat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LuckyCat.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -491,6 +493,7 @@
 		784521C214EBA449009D533B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				18DA5EB615D9FCAC000B7831 /* pub */,
 				1881484F15D37A880058DE29 /* ccb */,
 				15EC317615B8036000EA9631 /* image */,
 				15AAE33A15B68FF000F0CF5E /* config */,
@@ -669,6 +672,7 @@
 				15AAE33B15B68FF000F0CF5E /* config in Resources */,
 				15EC317715B8036000EA9631 /* image in Resources */,
 				1881485015D37A880058DE29 /* ccb in Resources */,
+				18DA5EB715D9FCAC000B7831 /* pub in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
