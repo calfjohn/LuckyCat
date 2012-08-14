@@ -2,13 +2,15 @@
 #define _CCB_CCSCALE9SPRITELOADER_H_
 
 #include "CCNodeLoader.h"
+#include "CCScale9SpriteLoader.h"
+#include "../CCControlExtension/CCScale9Sprite.h"
 
 NS_CC_EXT_BEGIN
 
 /* Forward declaration. */
 class CCBReader;
 
-class CC_DLL CCScale9SpriteLoader : public CCNodeLoader {
+class CCScale9SpriteLoader : public CCNodeLoader {
     public:
         virtual ~CCScale9SpriteLoader() {};
         CCB_STATIC_NEW_AUTORELEASE_OBJECT_METHOD(CCScale9SpriteLoader, loader);

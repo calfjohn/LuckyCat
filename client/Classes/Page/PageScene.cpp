@@ -7,13 +7,13 @@
 //
 
 #include "PageScene.h"
-#include "MonsterBattleView.h"
-#include "BossBattleView.h"
 #include "BattleDefine.h"
 #include "DictDataManager.h"
 #include "LuckySprite.h"
 #include "TaskDataManager.h"
 #include "PlayerInfoBar.h"
+
+#include "TaskListView.h"
 
 USING_NS_CC;
 
@@ -131,11 +131,17 @@ void Page::menuAttackCallback(CCObject* pSender)
 
 void Page::showBattleView(CCObject *pSender)
 {
-    if ( MonsterBattleView::getIsInBattle() == false )
+//    if ( MonsterBattleView::getIsInBattle() == false )
+//    {
+//        MonsterBattleView *pMonter = MonsterBattleView::create();
+//        pMonter->initLayer(m_pPage, this, callfuncND_selector(Page::fightCallback));
+//        CCDirector::sharedDirector()->getRunningScene()->addChild(pMonter, 0, TAG_BATTLE_LAYER);
+//    }
+    if ( TaskListView::getIsInTask() == false )
     {
-        MonsterBattleView *pMonter = MonsterBattleView::create();
-        pMonter->initLayer(m_pPage, this, callfuncND_selector(Page::fightCallback));
-        CCDirector::sharedDirector()->getRunningScene()->addChild(pMonter, 0, TAG_BATTLE_LAYER);
+        TaskListView *pTaskListView = TaskListView::create();
+        pTaskListView->initLayer(m_pPage, this, callfuncND_selector(Page::fightCallback));
+        CCDirector::sharedDirector()->getRunningScene()->addChild(pTaskListView, 0, TAG_TASK_LIST_LAYER);
     }
 }
 

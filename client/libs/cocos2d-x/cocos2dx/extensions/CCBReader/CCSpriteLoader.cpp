@@ -1,13 +1,14 @@
 #include "CCSpriteLoader.h"
 
 USING_NS_CC;
-USING_NS_CC_EXT;
 
 #define PROPERTY_FLIP "flip"
 #define PROPERTY_DISPLAYFRAME "displayFrame"
 #define PROPERTY_COLOR "color"
 #define PROPERTY_OPACITY "opacity"
 #define PROPERTY_BLENDFUNC "blendFunc"
+
+NS_CC_EXT_BEGIN
 
 void CCSpriteLoader::onHandlePropTypeSpriteFrame(CCNode * pNode, CCNode * pParent, CCString * pPropertyName, CCSpriteFrame * pCCSpriteFrame, CCBReader * pCCBReader) {
     if(pPropertyName->compare(PROPERTY_DISPLAYFRAME) == 0) {
@@ -49,3 +50,5 @@ void CCSpriteLoader::onHandlePropTypeBlendFunc(CCNode * pNode, CCNode * pParent,
         CCNodeLoader::onHandlePropTypeBlendFunc(pNode, pParent, pPropertyName, pCCBlendFunc, pCCBReader);
     }
 }
+
+NS_CC_EXT_END

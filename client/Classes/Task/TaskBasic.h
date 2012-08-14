@@ -21,16 +21,13 @@
 #include "Basic.h"
 
 
+#define TAG_TASK_LIST_LAYER        100
 
-
-//任务类型约定：
-//0，普通战斗
-//1，对话
-//2，特殊战斗
 enum TaskType {
     kTaskTypeGeneralBattle          =   0,   //general battle
     kTaskTypeDialogue               =   1,    //Dialogue
-    kTaskTypeSpecialBattle          =   2     //Special battle
+    kTaskTypeSpecialBattle          =   2,     //Special battle
+    kTaskTypeNone                   =   3       //There is no task
 };
 
 enum EventType {
@@ -39,7 +36,7 @@ enum EventType {
     kEventTypeSpecialBattle         = 2,
     kEventTypeOneEventWasFinished   = 3,
     kEventTypeFinishedEvent         = 4         //event was finished
-    };
+};
 
 //stNPC have info of npc's name and image
 typedef struct

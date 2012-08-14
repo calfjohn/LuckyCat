@@ -44,5 +44,17 @@ Actor = Class.extend({
         db.exp += ret.add_exp;
 
         return ret;
+    },
+
+    getBasicInfo:function () {
+        var db = this._db;
+        var ret = {};
+        ret.nickname = db.nickname;
+        ret.image_id = db.image_id;
+        ret.level = db.level;
+        ret.exp = db.exp;
+        ret.hp = db.hp;
+        ret.career_id = db.career_id;
+        return ret;
     }
 });

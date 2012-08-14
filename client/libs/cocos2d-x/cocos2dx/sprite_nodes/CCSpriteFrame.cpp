@@ -206,5 +206,14 @@ CCTexture2D* CCSpriteFrame::getTexture(void)
     return NULL;
 }
 
+CCSpriteFrame* CCSpriteFrame::createWithTexture(CCTexture2D *pobTexture, const CCRect& rect)
+{
+    CCSpriteFrame *pSpriteFrame = new CCSpriteFrame();;
+    pSpriteFrame->initWithTexture(pobTexture, rect);
+    pSpriteFrame->autorelease();
+    
+    return pSpriteFrame;
+}
+
 NS_CC_END
 

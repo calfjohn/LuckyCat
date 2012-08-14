@@ -7,33 +7,60 @@
 //
 
 #include "BattleResultView.h"
-
+#include "extensions/CCBReader/CCBReader.h"
+#include "extensions/CCBReader/CCNodeLoaderLibrary.h"
+#include "NetManager.h"
+#include "OpenBoxView.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
 using namespace std;
 
+BattleResultView *BattleResultView::create(cocos2d::CCObject * pOwner)
+{
+    cocos2d::extension::CCNodeLoaderLibrary * ccNodeLoaderLibrary = cocos2d::extension::CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
+    
+    ccNodeLoaderLibrary->registerCCNodeLoader("BattleResultView", BattleResultViewLoader::loader());
+    
+    cocos2d::extension::CCBReader * ccbReader = new cocos2d::extension::CCBReader(ccNodeLoaderLibrary);
+    ccbReader->autorelease();
+    
+    CCNode * pNode = ccbReader->readNodeGraphFromFile("", "ccb/fullscreen_tips.ccbi", pOwner);
+    
+    BattleResultView *pBattleResultView = static_cast<BattleResultView *>(pNode);
+    return pBattleResultView;
+}
+
+BattleResultView *BattleResultView::createBoxResultView(cocos2d::CCObject * pOwner)
+{
+    cocos2d::extension::CCNodeLoaderLibrary * ccNodeLoaderLibrary = cocos2d::extension::CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
+    
+    ccNodeLoaderLibrary->registerCCNodeLoader("BattleResultView", BattleResultViewLoader::loader());
+    
+    cocos2d::extension::CCBReader * ccbReader = new cocos2d::extension::CCBReader(ccNodeLoaderLibrary);
+    ccbReader->autorelease();
+    
+    CCNode * pNode = ccbReader->readNodeGraphFromFile("", "ccb/box_tips.ccbi", pOwner);
+    
+    BattleResultView *pBattleResultView = static_cast<BattleResultView *>(pNode);
+    return pBattleResultView;
+}
+
+
 void BattleResultView::initView(stTask *tTask)
 {
     CCSize screanSize = CCDirector::sharedDirector()->getWinSize();
     
-    CCLayerColor *bgColor = CCLayerColor::create(ccc4(0, 0, 0, 255));
-    bgColor->setAnchorPoint(CCPointZero);
-    bgColor->setContentSize(CCSizeMake(screanSize.width * 0.9f, screanSize.height * 0.7f));
-    bgColor->setPosition(CCPointMake(screanSize.width * 0.05f, 100));
-    this->addChild(bgColor,4);
-        
-    CCLabelTTF *labelTitle = CCLabelTTF::create("胜利", CCSizeMake(screanSize.width * 0.9f, screanSize.height * 0.2f ), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter,"Arial", 26);
-    labelTitle->setColor(ccRED);
-    labelTitle->setAnchorPoint(CCPointZero);
-    labelTitle->setPosition(CCPointMake(0, screanSize.height *  0.53f ));
-    bgColor->addChild(labelTitle);
+    CCLabelTTF *resultOfBattle = static_cast<CCLabelTTF *>(this->getChildByTag(10));
     
-    CCLabelTTF *labelPrize =  CCLabelTTF::create("获得以下奖励:", CCSizeMake(screanSize.width * 0.8f, screanSize.height * 0.05f ), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter,"Arial", 18);
-    labelPrize->setColor(ccRED);
-    labelPrize->setAnchorPoint(CCPointZero);
-    labelPrize->setPosition(CCPointMake(screanSize.width * 0.05f, screanSize.height *  0.48f ));
-    bgColor->addChild(labelPrize);
+    if (resultOfBattle)
+    {
+        resultOfBattle->setString("战斗失败");
+    }
+    
+    CCLabelTTF *labtip = static_cast<CCLabelTTF *>(this->getChildByTag(11));
+    
+    CCPoint labtip_pos = labtip->getPosition();
     
     int i = 0;
     for (std::vector<stGood>::iterator _iter = tTask->bonus.begin(); _iter < tTask->bonus.end(); _iter++,i++) {
@@ -42,9 +69,65 @@ void BattleResultView::initView(stTask *tTask)
         char strChar[512];
         sprintf(strChar, "GoodsName %d + %d",_goods.id,_goods.num);
         CCLabelTTF *bonusLabel = CCLabelTTF::create(strChar, CCSizeMake(screanSize.width * 0.8f, screanSize.height * 0.15f ), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter,"Arial", 18);
-        bonusLabel->setColor(ccGREEN);
+        bonusLabel->setColor(ccWHITE);
         bonusLabel->setAnchorPoint(CCPointZero);
-        bonusLabel->setPosition(CCPointMake(screanSize.width * 0.1f, screanSize.height *  ( 0.38f - 0.10f*i ) ));
-        bgColor->addChild(bonusLabel);
+        bonusLabel->setPosition(CCPointMake(labtip_pos.x + 10, labtip_pos.y - 20*i - 70));
+        this->addChild(bonusLabel);
     }
+    
+//    NetManager::shareNetManager()->send(kModeGame, kDoGetUserInfo, "\"category\": \"basic\"",                                      callfuncND_selector(BattleResultView::netCallBack), this);
+}
+
+void BattleResultView::initView(std::vector<stGood> tGoodsList)
+{
+    CCSize screanSize = CCDirector::sharedDirector()->getWinSize();
+    
+    CCLabelTTF *resultOfBattle = static_cast<CCLabelTTF *>(this->getChildByTag(10));
+    
+    if (resultOfBattle)
+    {
+        resultOfBattle->setString("开箱结果");
+    }
+    
+    CCLabelTTF *labtip = static_cast<CCLabelTTF *>(this->getChildByTag(11));
+    
+    CCPoint labtip_pos = labtip->getPosition();
+    
+    int i = 0;
+    for (std::vector<stGood>::iterator _iter = tGoodsList.begin(); _iter < tGoodsList.end(); _iter++,i++) {
+        stGood _goods = *_iter;
+        
+        char strChar[512];
+        sprintf(strChar, "GoodsName %d + %d",_goods.id,_goods.num);
+        CCLabelTTF *bonusLabel = CCLabelTTF::create(strChar, CCSizeMake(screanSize.width * 0.8f, screanSize.height * 0.15f ), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter,"Arial", 18);
+        bonusLabel->setColor(ccWHITE);
+        bonusLabel->setAnchorPoint(CCPointZero);
+        bonusLabel->setPosition(CCPointMake(labtip_pos.x + 10, labtip_pos.y - 20*i - 70));
+        this->addChild(bonusLabel);
+    }
+}
+
+bool BattleResultView::haveBox()
+{
+    if ( p_CurTask->box_id == -1  )
+    {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
+void BattleResultView::showBoxView()
+{
+    OpenBoxView *pOpenBoxView = OpenBoxView::create(this);
+    pOpenBoxView->setTask(p_CurTask);
+    this->addChild(pOpenBoxView);
+}
+
+
+
+void BattleResultView::netCallBack(CCNode* pNode, void* data)
+{    
+    
 }

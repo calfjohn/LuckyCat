@@ -27,12 +27,15 @@ describe("======================================================================
         var info = {};
         info.uuid = 10000;
         info.monster_id = 0;
-        postDataTo("/game/combat", info, function(res) {
+        postDataTo("/game/actor/getActorInfo", info, function(res) {
             res.on("data", function(chunk) {
                 console.log(chunk.toString());
                 done();
             });
         });
     });
+});
+
+
 });
 

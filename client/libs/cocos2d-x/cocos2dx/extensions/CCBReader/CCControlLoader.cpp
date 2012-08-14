@@ -1,7 +1,7 @@
 #include "CCControlLoader.h"
 
 USING_NS_CC;
-USING_NS_CC_EXT;
+NS_CC_EXT_BEGIN
 
 #define PROPERTY_ENABLED "enabled"
 #define PROPERTY_SELECTED "selected"
@@ -24,3 +24,5 @@ void CCControlLoader::onHandlePropTypeBlockCCControl(CCNode * pNode, CCNode * pP
         CCNodeLoader::onHandlePropTypeBlockCCControl(pNode, pParent, pPropertyName, pBlockCCControlData, pCCBReader);
     }
 }
+
+NS_CC_EXT_END

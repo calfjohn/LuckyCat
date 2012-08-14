@@ -233,4 +233,24 @@ CCString* CCString::createWithContentsOfFile(const char* pszFileName)
     return pRet;
 }
 
+CCString* CCString::createWithData(const unsigned char* pData, unsigned long nLen)
+{
+    CCString* pRet = NULL;
+    if (pData != NULL)
+    {
+        char* pStr = (char*)malloc(nLen+1);
+        if (pStr != NULL)
+        {
+            pStr[nLen] = '\0';
+            if (nLen > 0)
+            {
+                memcpy(pStr, pData, nLen);
+            }
+            
+            pRet = CCString::create(pStr);
+            free(pStr);
+        }
+    }
+    return pRet;
+}
 NS_CC_END

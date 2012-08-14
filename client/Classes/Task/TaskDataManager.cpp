@@ -219,7 +219,6 @@ bool TaskDataManager::addCurTask(stTask *tmpTask)
 
 std::vector<stTalk *> TaskDataManager::getAllTalk(int task_id)
 {
-    //printf("------getAllTalk-------\n");
     std::vector<stTalk *> tVectorRetTalk;
     std::map<int, stTalk *>::iterator _iter = mTalkMap.begin();
     
@@ -227,8 +226,8 @@ std::vector<stTalk *> TaskDataManager::getAllTalk(int task_id)
     for ( ; _iter != mTalkMap.end(); _iter++)
     {
         stTalk *tmpTalk = _iter->second;
-        //todo
-        if ( tmpTalk )//&& tmpTalk->taskId == task_id )
+        
+        if ( tmpTalk && tmpTalk->taskId == task_id )
         {
             tVectorRetTalk.push_back(tmpTalk);
             
@@ -239,17 +238,12 @@ std::vector<stTalk *> TaskDataManager::getAllTalk(int task_id)
     }
     
     sort(tVectorRetTalk.begin(), tVectorRetTalk.end(),SortTalkById);    
-//    for (vector<stTalk *>::iterator it = tVectorRetTalk.begin(); it != tVectorRetTalk.end(); it++) {
-//        stTalk *_talk = *it;
-//        _talk->print();
-//    }
-    
-//    sort(talkVector.begin(), talkVector.end());
-//    for (vector<stTalk>::iterator it = talkVector.begin(); it != talkVector.end(); it++) {
-//        stTalk _talk = *it;
-//        _talk.print();
-//    }
-    return tVectorRetTalk;
+    std::vector<stTalk *> retVectorTalk;
+    for (vector<stTalk *>::iterator it = tVectorRetTalk.begin(); it != tVectorRetTalk.end(); it++) {
+        stTalk *_talk = *it;
+        retVectorTalk.push_back(_talk);
+    }
+    return retVectorTalk;
 }
 
 std::vector<stTask *> TaskDataManager::getASeriesOfTask(int task_id)

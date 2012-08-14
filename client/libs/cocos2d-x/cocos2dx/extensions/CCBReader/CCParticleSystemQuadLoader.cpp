@@ -1,7 +1,6 @@
 #include "CCParticleSystemQuadLoader.h"
 
 USING_NS_CC;
-USING_NS_CC_EXT;
 
 #define PROPERTY_EMITERMODE "emitterMode"
 #define PROPERTY_POSVAR "posVar"
@@ -25,6 +24,8 @@ USING_NS_CC_EXT;
 #define PROPERTY_STARTRADIUS "startRadius"
 #define PROPERTY_ENDRADIUS "endRadius"
 #define PROPERTY_ROTATEPERSECOND "rotatePerSecond"
+
+NS_CC_EXT_BEGIN
 
 void CCParticleSystemQuadLoader::onHandlePropTypeIntegerLabeled(CCNode * pNode, CCNode * pParent, CCString * pPropertyName, int pIntegerLabeled, CCBReader * pCCBReader) {
     if(pPropertyName->compare(PROPERTY_EMITERMODE) == 0) {
@@ -131,3 +132,5 @@ void CCParticleSystemQuadLoader::onHandlePropTypeTexture(CCNode * pNode, CCNode 
         CCNodeLoader::onHandlePropTypeTexture(pNode, pParent, pPropertyName, pCCTexture2D, pCCBReader);
     }
 }
+
+NS_CC_EXT_END

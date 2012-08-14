@@ -1,7 +1,6 @@
 #include "CCLayerGradientLoader.h"
 
 USING_NS_CC;
-USING_NS_CC_EXT;
 
 #define PROPERTY_STARTCOLOR "startColor"
 #define PROPERTY_ENDCOLOR "endColor"
@@ -9,6 +8,8 @@ USING_NS_CC_EXT;
 #define PROPERTY_ENDOPACITY "endOpacity"
 #define PROPERTY_VECTOR "vector"
 #define PROPERTY_BLENDFUNC "blendFunc"
+
+NS_CC_EXT_BEGIN
 
 void CCLayerGradientLoader::onHandlePropTypeColor3(CCNode * pNode, CCNode * pParent, CCString * pPropertyName, ccColor3B pCCColor3B, CCBReader * pCCBReader) {
     if(pPropertyName->compare(PROPERTY_STARTCOLOR) == 0) {
@@ -49,3 +50,5 @@ void CCLayerGradientLoader::onHandlePropTypePoint(CCNode * pNode, CCNode * pPare
         CCLayerLoader::onHandlePropTypePoint(pNode, pParent, pPropertyName, pPoint, pCCBReader);
     }
 }
+
+NS_CC_EXT_END
