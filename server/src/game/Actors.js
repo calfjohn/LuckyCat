@@ -34,6 +34,19 @@ Actors = {
             var data = (rows.length) ? rows[0]: null;
             callback(new Actor(data));
         });
+    },
+
+    //根据输入的章节、页面号更新进度状态
+    //章节号默认递增、页面号默认递增，且都不重复
+    updateProgress: function(uuid, chapter_id, page_id) {
+        Actors._dbAgent.query("UPDATE `actor` SET `chapter_id` = ? AND `page_id` = ? WHERE `id` = ? AND (`chapter_id` > ? OR (`chapter_id` = ? AND `page_id` < ?))",
+                [chapter_id, page_id, uuid, chapter_id, chapter_id, page_id], function (err) {
+            if (err) {
+                throw err;
+            }
+
+            return true;
+        });
     }
 };
 

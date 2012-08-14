@@ -40,17 +40,23 @@ app.initInstance = function (srvConfig, callback) {
         }
     }
 
+    require("./Level").initInstance(cfg.db_actors, function(err) {
+        cb(err);
+    });
     // init modules
     require("./Actors").initInstance(cfg.db_actors, function(err) {
         if (! err) app.initHandlers(app);
         cb(err);
     });
+
+
     return this;
 };
 
 app.initHandlers = function (aExpress) {
     aExpress.post("/game/combat", require("./handler/combat"));
     aExpress.post("/game/getUserInfo", require("./handler/getUserInfo"));
+    aExpress.post("/game/battle/fight1", require("./handler/battle.fight1"));
 };
 
 module.exports = app;

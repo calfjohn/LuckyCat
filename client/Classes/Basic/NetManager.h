@@ -18,8 +18,10 @@
 class NetManager
 {
 public:
-	bool send(ModeRequestType modEnum, DoRequestType doEnum,const char* requestData, cocos2d::SEL_CallFuncND selector, cocos2d::CCObject *rec);
+	bool send(ModeRequestType modEnum, DoRequestType doEnum, cocos2d::SEL_CallFuncND selector, cocos2d::CCObject *rec, const char* requestData);
     
+    bool sendEx(ModeRequestType modEnum, DoRequestType doEnum, cocos2d::SEL_CallFuncND selector, cocos2d::CCObject *rec, const char* format,...);
+
     std::string GetLastError(){return m_lastError;}
     
     std::string GetLastSuccess(){return m_lastSuccess;}
