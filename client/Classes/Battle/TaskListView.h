@@ -31,9 +31,9 @@ public:
     void initLayer(const stPage *p_page, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector);
     
     
-    void oneTaskWasFinished();
+    void oneTaskWasFinished(CCNode* node, void* data);
     
-    void showNextTask();
+    void showNextTask(float dt);
 
 private:
     cocos2d::CCPoint pBeginPoint;
