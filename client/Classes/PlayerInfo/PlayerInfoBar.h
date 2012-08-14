@@ -27,7 +27,7 @@ enum InfoMenuItemType {
 	kInfoMenuItemTypeEquipment		 = 1,
 };
 
-class PlayerInfoView;
+class TestPlayerInfoView;
 class PlayerInfoBar : public cocos2d::CCLayer
 {
     public:
@@ -48,7 +48,8 @@ class PlayerInfoBar : public cocos2d::CCLayer
 		cocos2d::CCMenu	*m_pInfoItemsMenu;
 
 		CC_SYNTHESIZE(int, m_iSelectedMenuItem, SelectedMenuItem);
-		PlayerInfoView *m_pPlayerInfoView;
+		TestPlayerInfoView *m_pPlayerInfoView;
+        int m_iPlayerInfoViewTag;
 
 }; /* -----  end of class PlayerInfoBar  ----- */
 
