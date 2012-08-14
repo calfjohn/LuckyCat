@@ -17,6 +17,7 @@ app.configure(function() {
     app.use(express.methodOverride());
     app.use(app.router);
 
+
     app.set("views", __dirname + "/");
     app.set("view engine", "jade");
 
@@ -57,7 +58,7 @@ app.start = function() {
 
 app.initHandlers = function (aExpress) {
     aExpress.post("/game/combat", require("./handler/combat"));
-    aExpress.post("/game/actor/getActorInfo", require("./handler/actor.getActorInfo"));
+    aExpress.post("/game/actor/getBasicInfo", require("./handler/actor.getBasicInfo.js"));
     aExpress.post("/game/task/openBox", require("./handler/task.openBox"));
 };
 
