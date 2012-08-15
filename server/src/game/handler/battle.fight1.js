@@ -21,17 +21,6 @@ module.exports = function (req, res, next) {
         chunks = undefined;
         log.d("request:", info);
 
-        if (info) {
-            //receive input parameter
-            var chapterId = parseInt(info.meta.in.chapterId);
-            var pageId = parseInt(info.meta.in.pageId);
-            var uuid = parseInt(info.header.token);
-
-            require("../Level").getLevel(uuid, chapter_id, page_id, getBattelResult);
-        } else {
-            next();
-        }
-
         var responseResult = function (ret) {
             var respData={};
             var out = ret;
@@ -61,7 +50,7 @@ module.exports = function (req, res, next) {
 
             ret.award = {};
             ret.award.item = [];
-            if(db.bonuse_repeat)
+            if(data.bonuse_repeat)
             {
                 ret.award.gold = 10;
                 ret.award.exp = 100;
@@ -74,5 +63,17 @@ module.exports = function (req, res, next) {
 
             responseResult(ret);
         };
+
+        if (info) {
+            //receive input parameter
+            var chapterId = parseInt(info.meta.in.chapterId);
+            var pageId = parseInt(info.meta.in.pageId);
+            var uuid = parseInt(info.header.token);
+
+            require("../Level").getLevel(uuid, chapterId, pageId, getBattelResult);
+        } else {
+            next();
+        }
+
     });
 };

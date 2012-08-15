@@ -53,13 +53,13 @@ Actors = {
 
     updateProgress: function(id, chapterId, pageId){
         var strUUID = "" + id;
-        if(chapterId < Actors._cache[strUUID].chapter_id ||
-            (chapterId  == Actors._cache[strUUID].chapter_id && pageId <= Actors._cache[strUUID].page_id)){
+        if(chapterId < Actors._cache[strUUID][0].chapter_id ||
+            (chapterId  == Actors._cache[strUUID][0].chapter_id && pageId <= Actors._cache[strUUID][0].page_id)){
             return;
         }
 
-        Actors._cache[strUUID].chapter_id = chapterId;
-        Actors._cache[strUUID].page_id = pageId;
+        Actors._cache[strUUID][0].chapter_id = chapterId;
+        Actors._cache[strUUID][0].page_id = pageId;
     }
 };
 

@@ -148,7 +148,7 @@ void Page::showBattleView(CCObject *pSender)
 
 void Page::fightCallback(CCNode* pNode, void* data)
 {   
-    NetManager::shareNetManager()->sendEx(kModeBattle, kDoFight1, NULL, NULL, "\"chapterId\": %d, \"pageId\": %d", m_nChapterId, m_pPage->id);
+    NetManager::shareNetManager()->sendEx(kModeBattle, kDoFight1, callfuncND_selector(Page::nextPageCallback), this, "\"chapterId\": %d, \"pageId\": %d", m_nChapterId, m_pPage->id);
 }
 
 
