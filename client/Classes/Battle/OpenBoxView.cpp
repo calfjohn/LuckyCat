@@ -74,7 +74,7 @@ void OpenBoxView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::
     if ( m_bIsOpen == false )
     {
         m_bIsOpen = true;
-        NetManager::shareNetManager()->send(kModeTask, kDoOpenBox, "\"taskId\": 1,\"boxId\": 1",                                      callfuncND_selector(OpenBoxView::netCallBack), this);
+        NetManager::shareNetManager()->send(kModeTask, kDoOpenBox, callfuncND_selector(OpenBoxView::netCallBack), this, "\"taskId\": 1,\"boxId\": 1");
         //NetManager::shareNetManager()->send(kModeGame, kDoGetActorInfo, "\"category\": \"basic\"", callfuncND_selector(OpenBoxView::netCallBack), this);
     }
 }

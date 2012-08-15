@@ -22,20 +22,32 @@ using namespace std;
 bool NetManager::init(void)
 {
 //	m_mapError[-1] = "通讯错误或者返回的json数据内容错误";
-//	m_mapError[6] = "订单无效";
-//	m_mapError[7] = "不能充值或支付";
 
     m_strToken = "1";
-    m_strUrl = "http://192.168.0.122:22222/";
+    m_strUrl = "http://localhost:22222/game/";
     m_nIndex = 1;
 	return true;
 }
 
-bool NetManager::send(ModeRequestType modEnum, DoRequestType doEnum,const char* requestData, cocos2d::SEL_CallFuncND selector, cocos2d::CCObject *rec)
+bool NetManager::send(ModeRequestType modEnum, DoRequestType doEnum, cocos2d::SEL_CallFuncND selector, cocos2d::CCObject *rec, const char* requestData)
 {
     CCNetwork::sharedNetwork()->sendNetPackage(GenerateUrl(doEnum), 1, GeneratePost(modEnum, doEnum, requestData).c_str(), selector, rec);
     
     return true;
+}
+
+bool NetManager::sendEx(ModeRequestType modEnum, DoRequestType doEnum, cocos2d::SEL_CallFuncND selector, cocos2d::CCObject *rec, const char* format,...)
+{
+	va_list   vlist;
+	va_start(vlist,format); 
+	char temp[1024]="";
+	char* param = NULL;
+	vsnprintf(temp,1024,format,vlist);
+	va_end(vlist);
+	if(strlen(temp) > 0)
+		param = temp;
+    
+	return send(modEnum, doEnum, selector, rec, param);
 }
 
 string NetManager::GeneratePost(ModeRequestType modEnum, DoRequestType doEnum,const char* requestData)
@@ -43,7 +55,7 @@ string NetManager::GeneratePost(ModeRequestType modEnum, DoRequestType doEnum,co
 	char temp[10240];
 	if (requestData == NULL || strlen(requestData) == 0)
 	{
-		sprintf(temp, "{\"header\":{\"token\": \"%s\", \"index\": %d}, \"meta\":{\"mod\": \"%s\", \"do\": \"%s\", \"ver\":%d, \"in\":{}}}", m_strToken.c_str(), m_nIndex++, g_modNames[modEnum].c_str(), g_doNames[doEnum].c_str(), g_doVersion[doEnum]);
+		sprintf(temp, "{\"header\":{\"token\": \"%s\", \"index\": %d}, \"meta\":{\"mod\": \"%s\", \"do\": \"%s\", \"ver\":%d, \"in\":{}}}}", m_strToken.c_str(), m_nIndex++, g_modNames[modEnum].c_str(), g_doNames[doEnum].c_str(), g_doVersion[doEnum]);
 	} 
 	else
 	{
