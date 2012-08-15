@@ -77,6 +77,7 @@
 		D4ABB4B313B4395300552E6E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D4ABB4B213B4395300552E6E /* main.m */; };
 		F2AAC58D15C0DFF700952F4B /* TaskDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F2AAC58915C0DFF700952F4B /* TaskDataManager.cpp */; };
 		F2AAC58E15C0DFF700952F4B /* TaskModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F2AAC58B15C0DFF700952F4B /* TaskModule.cpp */; };
+		FA8C106D15DA585000FF3FA4 /* TestPlayerInfoView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA8C106B15DA585000FF3FA4 /* TestPlayerInfoView.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -212,6 +213,8 @@
 		F2AAC58A15C0DFF700952F4B /* TaskDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskDataManager.h; sourceTree = "<group>"; };
 		F2AAC58B15C0DFF700952F4B /* TaskModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TaskModule.cpp; sourceTree = "<group>"; };
 		F2AAC58C15C0DFF700952F4B /* TaskModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskModule.h; sourceTree = "<group>"; };
+		FA8C106B15DA585000FF3FA4 /* TestPlayerInfoView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestPlayerInfoView.cpp; sourceTree = "<group>"; };
+		FA8C106C15DA585000FF3FA4 /* TestPlayerInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestPlayerInfoView.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -345,6 +348,8 @@
 		15D5106E15CA14DC00FE43A8 /* PlayerInfo */ = {
 			isa = PBXGroup;
 			children = (
+				FA8C106B15DA585000FF3FA4 /* TestPlayerInfoView.cpp */,
+				FA8C106C15DA585000FF3FA4 /* TestPlayerInfoView.h */,
 				15D5107615CA3D4600FE43A8 /* PlayerInfoView.cpp */,
 				15D5107715CA3D4600FE43A8 /* PlayerInfoView.h */,
 				15D5106F15CA14DC00FE43A8 /* PlayerInfoBar.cpp */,
@@ -722,6 +727,7 @@
 				1881484E15D36EBB0058DE29 /* TaskListView.cpp in Sources */,
 				15D0D34F15D363AF00F53819 /* NetManager.cpp in Sources */,
 				188D088315D4BAC400AF970A /* OpenBoxView.cpp in Sources */,
+				FA8C106D15DA585000FF3FA4 /* TestPlayerInfoView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

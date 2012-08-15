@@ -85,7 +85,7 @@ bool PlayerInfoBar::init()
 		//m_pPlayerInfoView->setPosition(ccp(40,100));
 		this->addChild(m_pPlayerInfoView,1);
 		m_pPlayerInfoView->setVisible(false);
-
+        m_pPlayerInfoView->sendPlayerInfo();
 		bRet = true;
 	} while (0);
 
