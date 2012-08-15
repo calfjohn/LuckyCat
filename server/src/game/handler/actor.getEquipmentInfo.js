@@ -38,14 +38,13 @@ module.exports = function (req, res, next) {
             responseResult(equipment.getAllInfo());
         };
 
-        var getEquipment = function(actor) {
-            if (! actor) next();
-            require("../ActorEquipments").getEquipment(actor.id, getEquipmentInfo);
-        };
-
         if (info) {
             var uuid = info.header.token;
-            require("../Actors").getActor(uuid, getEquipment);
+            require("../Actors").getActor(uuid, function(actor){
+                if (actor != null){
+                    require("../ActorEquipments").getEquipment(actor, getEquipmentInfo);
+                }
+            });
         } else {
             next();
         }

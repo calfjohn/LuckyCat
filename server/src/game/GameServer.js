@@ -51,6 +51,11 @@ app.initInstance = function (srvConfig, callback) {
         if (! err) app.initHandlers(app);
         cb(err);
     });
+
+    require("./ActorEquipments").initInstance(cfg.db_actors, function(err) {
+        if (! err) app.initHandlers(app);
+        cb(err);
+    });
     return this;
 };
 

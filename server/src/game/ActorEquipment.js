@@ -26,6 +26,10 @@ ActorEquipment = Class.extend({
 
     getAllInfo:function () {
         var db = this._db;
+        var ret = {};
+        ret = db;
+        delete ret.id;
+        delete ret.actor_id;
         return db;
     }
 });

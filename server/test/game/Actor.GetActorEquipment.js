@@ -31,7 +31,7 @@ describe("======================================================================
     it("GetEquipmentInfo", function(done) {
         var info = {};
         var header = {
-            token: "1234567", //til now we use uuid instead
+            token: "1", //til now we use uuid instead
             index : 0
         };
         var meta = {

@@ -38,9 +38,4 @@ Actor = Class.extend({
         return ret;
     }
 
-/*    getEquipmentInfo:function() {
-        var log = new Log("actor.getEquipmentInfo");
-        var db = this._db;
-        var equipment = require("./ActorEquipments").getEquipment(db.id);
-    }*/
 });
