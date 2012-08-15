@@ -14,6 +14,7 @@
 #include "NPCDialogView.h"
 #include "GeneralBattleView.h"
 #include "SpecialBattleView.h"
+#include "OpenBoxView.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -164,7 +165,7 @@ void TaskListView::removeAndCleanSelf(float dt)
     }
 }
 
-void TaskListView::oneTaskWasFinished()
+void TaskListView::oneTaskWasFinished(CCNode* node, void* data)
 {
     this->scheduleOnce(schedule_selector(TaskListView::showNextTask), 0.1f);
 }
@@ -202,7 +203,7 @@ void TaskListView::showDialogView()
 
 void TaskListView::showGeneralBattleView()
 {
-    GeneralBattleView *tGeneralBattle = GeneralBattleView::create();
+    GeneralBattleView *tGeneralBattle = GeneralBattleView::create(this);
     if (tGeneralBattle)
     {
         tGeneralBattle->setData(p_CurTask, this, callfuncND_selector(TaskListView::oneTaskWasFinished));
@@ -223,10 +224,19 @@ void TaskListView::showSpecialBattleView()
         p_CurLayer = static_cast<cocos2d::CCLayer *>(tSpecialBattle);
         
         this->addChild(p_CurLayer);
+        
+        OpenBoxView *p = OpenBoxView::create(tSpecialBattle);
+        tSpecialBattle->addChild(p,99);
     }
 }
 
-void TaskListView::showNextTask()
+void TaskListView::showOpenBoxView()
+{
+    OpenBoxView *p = OpenBoxView::create(this);
+    this->addChild(p,99);
+}
+
+void TaskListView::showNextTask(float dt)
 {
     if ( p_CurLayer )
     {

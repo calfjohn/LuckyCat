@@ -154,6 +154,18 @@
     <ClInclude Include="..\Classes\PlayerInfo\PlayerInfoView.h">
       <Filter>source\PlayerInfo</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Battle\GeneralBattleView.h">
+      <Filter>source\Battle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Battle\NPCDialogView.h">
+      <Filter>source\Battle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Battle\SpecialBattleView.h">
+      <Filter>source\Battle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Battle\TaskListView.h">
+      <Filter>source\Battle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -189,12 +201,6 @@
     <ClCompile Include="..\Classes\Basic\DictDataManager.cpp">
       <Filter>source\Basic</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Battle\BossBattleView.cpp">
-      <Filter>source\Battle</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Battle\MonsterBattleView.cpp">
-      <Filter>source\Battle</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Page\PageMapScene.cpp">
       <Filter>source\Page</Filter>
     </ClCompile>
@@ -213,14 +219,23 @@
     <ClCompile Include="..\Classes\Battle\BattleResultView.cpp">
       <Filter>source\Battle</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Battle\NpcTalkView.cpp">
-      <Filter>source\Battle</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Basic\BasicFunction.cpp">
       <Filter>source\Basic</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\PlayerInfo\PlayerInfoView.cpp">
       <Filter>source\PlayerInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Battle\GeneralBattleView.cpp">
+      <Filter>source\Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Battle\NPCDialogView.cpp">
+      <Filter>source\Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Battle\SpecialBattleView.cpp">
+      <Filter>source\Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Battle\TaskListView.cpp">
+      <Filter>source\Battle</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

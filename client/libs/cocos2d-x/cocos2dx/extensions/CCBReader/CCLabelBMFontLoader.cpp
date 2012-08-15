@@ -1,7 +1,8 @@
 #include "CCLabelBMFontLoader.h"
 
 USING_NS_CC;
-USING_NS_CC_EXT;
+
+NS_CC_EXT_BEGIN
 
 #define PROPERTY_COLOR "color"
 #define PROPERTY_OPACITY "opacity"
@@ -48,3 +49,5 @@ void CCLabelBMFontLoader::onHandlePropTypeText(CCNode * pNode, CCNode * pParent,
         CCNodeLoader::onHandlePropTypeText(pNode, pParent, pPropertyName, pText, pCCBReader);
     }
 }
+
+NS_CC_EXT_END

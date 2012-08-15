@@ -139,6 +139,12 @@ public:
      *          it means that you needn't do a release operation unless you retain it.
      */
     static CCString* createWithContentsOfFile(const char* pszFileName);
+    
+    /** create a string with binary data 
+     *  @return A CCString pointer which is an autorelease object pointer,
+     *          it means that you needn't do a release operation unless you retain it.
+     */
+    static CCString* createWithData(const unsigned char* pData, unsigned long nLen);
 
 private:
 

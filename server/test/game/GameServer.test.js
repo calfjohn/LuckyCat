@@ -20,14 +20,14 @@ var postDataTo = function (sPath, vData, fCallback) {
     return req;
 };
 
-describe("=================================================================================\n" +
+describe("============================================================================\n" +
     "    Test GameServer", function() {
 
     it("Combat", function(done) {
         var info = {};
         info.uuid = 10000;
         info.monster_id = 0;
-        postDataTo("/game/combat", info, function(res) {
+        postDataTo("/game/actor/getActorInfo", info, function(res) {
             res.on("data", function(chunk) {
                 console.log(chunk.toString());
                 done();

@@ -12,6 +12,7 @@
 #include "TaskDataManager.h"
 #include "TaskBasic.h"
 #include "LuckySprite.h"
+#include "FuzzyBgView.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -34,12 +35,14 @@ NPCDialogView *NPCDialogView::create(cocos2d::CCObject * pOwner)
 {
     cocos2d::extension::CCNodeLoaderLibrary * ccNodeLoaderLibrary = cocos2d::extension::CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
     
+    ccNodeLoaderLibrary->registerCCNodeLoader("FuzzyBgView", FuzzyBgViewLoader::loader());
+    
     ccNodeLoaderLibrary->registerCCNodeLoader("NPCDialogView", NPCDialogViewLoader::loader());
     
     cocos2d::extension::CCBReader * ccbReader = new cocos2d::extension::CCBReader(ccNodeLoaderLibrary);
     ccbReader->autorelease();
     
-    CCNode * pNode = ccbReader->readNodeGraphFromFile("", "ccb/dialog.ccbi", pOwner);
+    CCNode * pNode = ccbReader->readNodeGraphFromFile("pub/", "ccb/dialog.ccbi", pOwner);
     
     NPCDialogView *pNPCDialogView = static_cast<NPCDialogView *>(pNode);
     return pNPCDialogView;
@@ -129,9 +132,6 @@ void NPCDialogView::setData(stTask *tTask, cocos2d::CCObject *target, cocos2d::S
     m_target = target;
     m_pfnSelector = pfnSelector;
     
-    CCNode *P1 = this->getChildByTag(10);
-    CCNode *P2 = this->getChildByTag(11);
-    CCNode *P3 = this->getChildByTag(12);
     mLabelNpcName = static_cast<CCLabelTTF *>(this->getChildByTag(10));
     mLabelDialogContent = static_cast<CCLabelTTF *>(this->getChildByTag(11));
     mSpriteNpc = static_cast<CCSprite *>(this->getChildByTag(12));
@@ -164,11 +164,11 @@ void NPCDialogView::removeAndCleanSelf(float dt)
 {
     ((m_target)->*(m_pfnSelector))(this, NULL);
     
-    CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_TASK_LIST_LAYER));
-    if ( pLayer )
-    {
-        pLayer->removeFromParentAndCleanup(true);
-    }
+//    CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_TASK_LIST_LAYER));
+//    if ( pLayer )
+//    {
+//        pLayer->removeFromParentAndCleanup(true);
+//    }
 }
 
 void NPCDialogView::menuBackCallback(CCObject* pSender)

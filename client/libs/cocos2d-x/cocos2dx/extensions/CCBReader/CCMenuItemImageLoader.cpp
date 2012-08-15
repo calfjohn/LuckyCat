@@ -1,11 +1,12 @@
 #include "CCMenuItemImageLoader.h"
 
 USING_NS_CC;
-USING_NS_CC_EXT;
 
 #define PROPERTY_NORMALDISPLAYFRAME "normalSpriteFrame"
 #define PROPERTY_SELECTEDDISPLAYFRAME "selectedSpriteFrame"
 #define PROPERTY_DISABLEDDISPLAYFRAME "disabledSpriteFrame"
+
+NS_CC_EXT_BEGIN
 
 void CCMenuItemImageLoader::onHandlePropTypeSpriteFrame(CCNode * pNode, CCNode * pParent, CCString * pPropertyName, CCSpriteFrame * pCCSpriteFrame, CCBReader * pCCBReader) {
     if(pPropertyName->compare(PROPERTY_NORMALDISPLAYFRAME) == 0) {
@@ -24,3 +25,5 @@ void CCMenuItemImageLoader::onHandlePropTypeSpriteFrame(CCNode * pNode, CCNode *
         CCMenuItemLoader::onHandlePropTypeSpriteFrame(pNode, pParent, pPropertyName, pCCSpriteFrame, pCCBReader);
     }
 }
+
+NS_CC_EXT_END

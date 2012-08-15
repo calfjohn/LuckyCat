@@ -18,7 +18,11 @@
  */
 
 module.exports = {
-        db_actors  : {
+    service : {
+        port : 22222
+    },
+
+    db_actors  : {
           host      : "192.168.0.51"
         , user      : "root"
         , password : "123456"

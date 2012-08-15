@@ -13,6 +13,7 @@
 #include "TaskDataManager.h"
 #include "BattleResultView.h"
 #include "LuckySprite.h"
+#include "FuzzyBgView.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -33,11 +34,12 @@ GeneralBattleView *GeneralBattleView::create(cocos2d::CCObject * pOwner)
     cocos2d::extension::CCNodeLoaderLibrary * ccNodeLoaderLibrary = cocos2d::extension::CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
     
     ccNodeLoaderLibrary->registerCCNodeLoader("GeneralBattleView", GeneralBattleViewLoader::loader());
+    ccNodeLoaderLibrary->registerCCNodeLoader("FuzzyBgView", FuzzyBgViewLoader::loader());
     
     cocos2d::extension::CCBReader * ccbReader = new cocos2d::extension::CCBReader(ccNodeLoaderLibrary);
     ccbReader->autorelease();
     
-    CCNode * pNode = ccbReader->readNodeGraphFromFile("", "ccb/battle.ccbi", pOwner);
+    CCNode * pNode = ccbReader->readNodeGraphFromFile("pub/", "ccb/battle.ccbi", pOwner);
     
     GeneralBattleView *pGeneralBattleView = static_cast<GeneralBattleView *>(pNode);
     return pGeneralBattleView;
@@ -123,18 +125,18 @@ void GeneralBattleView::setData(stTask *tTask, cocos2d::CCObject *target, cocos2
     
     this->setTouchEnabled(true);
     
-    this->showBattleResultView();
+    //this->showBattleResultView();
 }
 
 void GeneralBattleView::removeAndCleanSelf(float dt)
 {
     ((m_target)->*(m_pfnSelector))(this, NULL);
     
-    CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_TASK_LIST_LAYER));
-    if ( pLayer )
-    {
-        pLayer->removeFromParentAndCleanup(true);
-    }
+//    CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_TASK_LIST_LAYER));
+//    if ( pLayer )
+//    {
+//        pLayer->removeFromParentAndCleanup(true);
+//    }
 }
 
 void GeneralBattleView::menuBackCallback(CCObject* pSender)
