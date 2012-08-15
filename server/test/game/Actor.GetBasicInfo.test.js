@@ -26,9 +26,9 @@ var postDataTo = function (sPath, vData, fCallback) {
 
 
 describe("============================================================================\n" +
-    "    Test Actor", function() {
+    "    Test Actor GetBasicInfo", function() {
 
-    it("GetActorInfo", function(done) {
+    it("GetBasicInfo", function(done) {
         var info = {};
         var header = {
             token: "1234567", //til now we use uuid instead
@@ -36,14 +36,14 @@ describe("======================================================================
         };
         var meta = {
             mod : "actor",
-            do: "getActorInfo",
-            in:{"category": "basic"},
+            do: "getBasicInfo",
+            in:{},
             out:{}
         };
 
         info.header = header;
         info.meta = meta;
-        postDataTo("/game/actor/getActorInfo", info, function(res) {
+        postDataTo("/game/actor/getBasicInfo", info, function(res) {
             res.on("data", function(chunk) {
                 console.log(chunk.toString());
                 done();
