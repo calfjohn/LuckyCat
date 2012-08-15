@@ -20,18 +20,6 @@ module.exports = function (req, res, next) {
         chunks = undefined;
         log.d("request:", info);
 
-        if (info) {
-            var uuid = parseInt(info.header.token);
-            require("../Actors").getActor(uuid, getBasicInfo);
-        } else {
-            next();
-        }
-
-        var getBasicInfo = function (actor) {
-            if (!actor) next();
-            responseResult(actor.getBasicInfo());
-        };
-
         var responseResult = function (ret) {
             var respData = {};
             var out = ret;
@@ -44,6 +32,20 @@ module.exports = function (req, res, next) {
             res.write(JSON.stringify(respData));
             res.end();
         };
+
+        var getBasicInfo = function (actor) {
+            if (!actor) next();
+            responseResult(actor.getBasicInfo());
+        };
+
+
+
+        if (info) {
+            var uuid = parseInt(info.header.token);
+            require("../Actors").getActor(uuid, getBasicInfo);
+        } else {
+            next();
+        }
 
     });
 };

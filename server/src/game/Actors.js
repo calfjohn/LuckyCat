@@ -49,6 +49,17 @@ Actors = {
         var rows = Actors._cache[""+uuid];
         var data = (rows.length) ? rows[0]: null;
         callback(new Actor(data));
+    },
+
+    updateProgress: function(id, chapterId, pageId){
+        var strUUID = "" + id;
+        if(chapterId < Actors._cache[strUUID][0].chapter_id ||
+            (chapterId  == Actors._cache[strUUID][0].chapter_id && pageId <= Actors._cache[strUUID][0].page_id)){
+            return;
+        }
+
+        Actors._cache[strUUID][0].chapter_id = chapterId;
+        Actors._cache[strUUID][0].page_id = pageId;
     }
 };
 

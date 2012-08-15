@@ -33,6 +33,8 @@ Actor = Class.extend({
         ret.exp = db.exp;
         ret.hp = db.hp;
         ret.career_id = db.career_id;
+        ret.chapter_id = db.chapter_id;
+        ret.page_id = db.page_id;
         return ret;
     }
 
