@@ -21,6 +21,17 @@ module.exports = function (req, res, next) {
         chunks = undefined;
         log.d("request:", info);
 
+        if (info) {
+            //receive input parameter
+            var chapterId = parseInt(info.meta.in.chapterId);
+            var pageId = parseInt(info.meta.in.pageId);
+            var uuid = parseInt(info.header.token);
+
+            require("../Level").getLevel(uuid, chapter_id, page_id, getBattelResult);
+        } else {
+            next();
+        }
+
         var responseResult = function (ret) {
             var respData={};
             var out = ret;
@@ -34,49 +45,34 @@ module.exports = function (req, res, next) {
             res.end();
         };
 
-
-        var getBattelResult = function(uuid, chapter_id, page_id) {
+        var getBattelResult = function(uuid, chapter_id, page_id, data) {
             var ret={};
+            ret.result = {};
 
-            //关卡是否存在
-            var data = require("../Level").getLevel(chapter_id, page_id);
             if(data == undefined)
             {
+                ret.result.state = 0;
+                ret.result.type = 1;
                 return ret;
             }
 
-            ret.result = {};
-
             //更新进度
-            if(require("../Actors").updateProgress(uuid, chapter_id, page_id)){
-                ret.award = {};
+            require("../Actors").updateProgress(uuid, chapter_id, page_id);
+
+            ret.award = {};
+            ret.award.item = [];
+            if(db.bonuse_repeat)
+            {
                 ret.award.gold = 10;
                 ret.award.exp = 100;
-                ret.award.item = [];
                 ret.award.item.push({itemId:1, count:1});
                 ret.award.item.push({itemId:2, count:3});
-                ret.result.state = 0;
-                ret.result.type = 1;
             }
-            else{
-                ret.result.type = 1;
-                ret.result.state = 1;
-            }
+
+            ret.result.type = 1;
+            ret.result.state = 1;
 
             responseResult(ret);
         };
-
-        if (info) {
-            //receive input parameter
-            var chapterId = parseInt(info.meta.in.chapterId);
-            var pageId = parseInt(info.meta.in.pageId);
-            var uuid = parseInt(info.header.token);
-
-            getBattelResult(uuid, chapterId, pageId);
-        } else {
-            next();
-        }
-
-
     });
 };

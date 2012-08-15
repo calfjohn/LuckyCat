@@ -25,23 +25,21 @@ Level = {
     initInstance : function(dbConfig, callback) {
         Level._dbAgent = new DBAgent(dbConfig);
         Level._dbAgent.connect(true);
-        process.nextTick(function() {
-            callback(null);
-        });
+//        process.nextTick(function() {
+//            callback(null);
+//        });
     },
 
-    getLevel: function(chapterId, pageId) {
-        Level._dbAgent.query("SELECT * FROM `dict_page` WHERE `chapter_id` = ? AND `id` = ?", [chapterId, pageId], function (err, rows) {
-                var data;
+    getLevel: function(uuid, chapterId, pageId, callback) {
+        Level._dbAgent.query("SELECT 'bonus_repeat' FROM `dict_page` WHERE `chapter_id` = ? AND `id` = ?", [chapterId, pageId], function (err, rows) {
                 if (err) {
                     throw err;
                 }
                 else{
                     var len = rows.length;
-                    data = (rows.length) ? rows[0]: null;
+                    var data = (rows.length) ? rows[0]: null;
+                    callback(uuid, chapterId, pageId, data);
                 }
-
-                return data;
         });
      }
 };
