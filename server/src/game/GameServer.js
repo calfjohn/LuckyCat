@@ -17,6 +17,7 @@ app.configure(function() {
     app.use(express.methodOverride());
     app.use(app.router);
 
+
     app.set("views", __dirname + "/");
     app.set("view engine", "jade");
 
@@ -42,8 +43,16 @@ app.initInstance = function (srvConfig, callback) {
         }
     }
 
+    require("./Level").initInstance(cfg.db_actors, function(err) {
+        cb(err);
+    });
     // init modules
     require("./Actors").initInstance(cfg.db_actors, function(err) {
+        if (! err) app.initHandlers(app);
+        cb(err);
+    });
+
+    require("./ActorEquipments").initInstance(cfg.db_actors, function(err) {
         if (! err) app.initHandlers(app);
         cb(err);
     });
@@ -57,8 +66,9 @@ app.start = function() {
 
 app.initHandlers = function (aExpress) {
     aExpress.post("/game/combat", require("./handler/combat"));
-    aExpress.post("/game/actor/getActorInfo", require("./handler/actor.getActorInfo"));
+    aExpress.post("/game/actor/getBasicInfo", require("./handler/actor.getBasicInfo.js"));
+    aExpress.post("/game/actor/getEquipmentInfo", require("./handler/actor.getEquipmentInfo.js"));
     aExpress.post("/game/task/openBox", require("./handler/task.openBox"));
+    aExpress.post("/game/battle/fight1", require("./handler/battle.fight1"));
 };
-
 module.exports = app;

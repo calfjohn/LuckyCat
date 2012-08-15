@@ -17,11 +17,13 @@
 #include "CCMessageQueue.h"
 #include "json.h"
 
+#include "FuzzyBgView.h"
+
 USING_NS_CC;
 USING_NS_CC_EXT;
 using namespace std;
 
-OpenBoxView::OpenBoxView()
+OpenBoxView::OpenBoxView():m_bIsOpen(false)
 {
     
 }
@@ -35,12 +37,13 @@ OpenBoxView *OpenBoxView::create(cocos2d::CCObject * pOwner)
 {
     cocos2d::extension::CCNodeLoaderLibrary * ccNodeLoaderLibrary = cocos2d::extension::CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
     
+    ccNodeLoaderLibrary->registerCCNodeLoader("FuzzyBgView", FuzzyBgViewLoader::loader());
     ccNodeLoaderLibrary->registerCCNodeLoader("OpenBoxView", OpenBoxViewLoader::loader());
     
     cocos2d::extension::CCBReader * ccbReader = new cocos2d::extension::CCBReader(ccNodeLoaderLibrary);
     ccbReader->autorelease();
     
-    CCNode * pNode = ccbReader->readNodeGraphFromFile("", "ccb/openbox.ccbi", pOwner);
+    CCNode * pNode = ccbReader->readNodeGraphFromFile("pub/", "ccb/openbox.ccbi", pOwner);
     
     OpenBoxView *pOpenBoxView = static_cast<OpenBoxView *>(pNode);
     return pOpenBoxView;
@@ -68,7 +71,12 @@ void OpenBoxView::onMenuItemClicked(cocos2d::CCObject *pTarget)
 }
 
 void OpenBoxView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent) {
-        NetManager::shareNetManager()->send(kModeTask, kDoOpenBox, "\"taskId\": 1,\"boxId\": 1",                                      callfuncND_selector(OpenBoxView::netCallBack), this);
+    if ( m_bIsOpen == false )
+    {
+        m_bIsOpen = true;
+        NetManager::shareNetManager()->send(kModeTask, kDoOpenBox, callfuncND_selector(OpenBoxView::netCallBack), this, "\"taskId\": 1,\"boxId\": 1");
+        //NetManager::shareNetManager()->send(kModeGame, kDoGetActorInfo, "\"category\": \"basic\"", callfuncND_selector(OpenBoxView::netCallBack), this);
+    }
 }
 
 void OpenBoxView::setTask(stTask *t)
@@ -105,6 +113,8 @@ void OpenBoxView::netCallBack(CCNode* pNode, void* data)
             CCLog("----> This Requst Was Time Out CURLE_OPERATION_TIMEDOUT...");
         }
         
+        vector<stGood> tGoodsList;
+        
         Json::Reader reader;
         Json::Value json_root;
         if (!reader.parse(tempInfo->strResponseData.c_str(), json_root))
@@ -113,15 +123,19 @@ void OpenBoxView::netCallBack(CCNode* pNode, void* data)
         Json::Value json_meta = json_root["meta"];
         Json::Value json_out = json_meta["out"];
         
-        int count = json_out.size();
         
         for (int i = 0; i < json_out.size(); i++) {
             Json::Value goods = json_out[i];
-            int _id = goods["id"].asInt();
-            int _type = goods["type"].asInt();
-            int _num = goods["num"].asInt();
+            stGood tmpGoods;
+            tmpGoods.id = goods["id"].asInt();
+            tmpGoods.type = goods["type"].asInt();
+            tmpGoods.num = goods["num"].asInt();
             
-            printf("Goods ID : %d, Type : %d, Num : %d\n",_id,_type,_num);
+            tGoodsList.push_back(tmpGoods);
         }
+        
+        BattleResultView *pOpenBoxResult = BattleResultView::create(this);
+        pOpenBoxResult->initView(tGoodsList);
+        this->addChild(pOpenBoxResult,99);
     }
 }

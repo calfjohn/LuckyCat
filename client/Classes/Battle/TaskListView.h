@@ -80,6 +80,8 @@ private:
     
     void showSpecialBattleView();
     
+    void showOpenBoxView();
+    
     void removeAndCleanSelf(float dt);
     
     

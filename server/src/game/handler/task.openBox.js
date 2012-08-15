@@ -12,7 +12,7 @@ require("../DictDataBox");
 module.exports = function (req, res, next) {
     var log = new Log("openBox");
 
-    DictBox.initDictData();
+    //DictBox.initDictData();
 
 
 
