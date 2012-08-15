@@ -59,6 +59,7 @@ app.start = function() {
 app.initHandlers = function (aExpress) {
     aExpress.post("/game/combat", require("./handler/combat"));
     aExpress.post("/game/actor/getBasicInfo", require("./handler/actor.getBasicInfo.js"));
+    aExpress.post("/game/actor/getEquipmentInfo", require("./handler/actor.getEquipmentInfo.js"));
     aExpress.post("/game/task/openBox", require("./handler/task.openBox"));
 };
 

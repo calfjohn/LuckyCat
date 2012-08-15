@@ -22,18 +22,10 @@ ActorEquipment = Class.extend({
 
     initDefaultData: function(){
         var db = this._db;
-        db.exp = 0;
     },
 
-    getBasicInfo:function () {
+    getAllInfo:function () {
         var db = this._db;
-        var ret = {};
-        ret.nickname = db.nickname;
-        ret.image_id = db.image_id;
-        ret.level = db.level;
-        ret.exp = db.exp;
-        ret.hp = db.hp;
-        ret.career_id = db.career_id;
-        return ret;
+        return db;
     }
 });
