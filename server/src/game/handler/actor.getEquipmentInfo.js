@@ -20,12 +20,6 @@ module.exports = function (req, res, next) {
         chunks = undefined;
         log.d("request:", info);
 
-        var getEquipmentInfo = function(actor) {
-            if (! actor) next();
-            var part = info.meta.in.part;
-            responseResult(actor.getEquipment(part));
-        };
-
         var responseResult = function (ret) {
             var respData={};
             var out = ret;
@@ -39,9 +33,18 @@ module.exports = function (req, res, next) {
             res.end();
         };
 
+        var getEquipmentInfo = function(equipment) {
+            if (! equipment) next();
+            responseResult(equipment.getAllInfo());
+        };
+
         if (info) {
             var uuid = info.header.token;
-            require("../Actors").getActor(uuid, getEquipmentInfo);
+            require("../Actors").getActor(uuid, function(actor){
+                if (actor != null){
+                    require("../ActorEquipments").getEquipment(actor, getEquipmentInfo);
+                }
+            });
         } else {
             next();
         }

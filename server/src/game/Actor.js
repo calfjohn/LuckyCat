@@ -26,6 +26,7 @@ Actor = Class.extend({
     getBasicInfo:function () {
         var db = this._db;
         var ret = {};
+        ret.id = db.id;
         ret.nickname = db.nickname;
         ret.image_id = db.image_id;
         ret.level = db.level;
@@ -35,12 +36,6 @@ Actor = Class.extend({
         ret.chapter_id = db.chapter_id;
         ret.page_id = db.page_id;
         return ret;
-    },
-
-    getEquipment:function(part) {
-        var log = new Log("actor.getEquipmentInfo");
-        log.d(part);
-        var db = this._db;
-        var equipment = require("./ActorEquipments").getEquipment(db.id);
     }
+
 });
