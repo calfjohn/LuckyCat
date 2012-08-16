@@ -66,7 +66,7 @@ private:
 
 	std::string GeneratePost(ModeRequestType modEnum, DoRequestType doEnum,const char* requestData);
 
-	std::string GenerateUrl(DoRequestType doEnum);
+	std::string GenerateUrl(ModeRequestType modEnum, DoRequestType doEnum);
 
 	std::map<int, std::string> m_mapError;
     
