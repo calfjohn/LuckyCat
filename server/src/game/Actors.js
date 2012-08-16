@@ -16,7 +16,8 @@ var log = new Log("Actors")
 
 Actors = {
     _dbAgent : null,
-    _cache: null,
+    _cacheActors: null,
+    _cacheEquipments: null,
     initInstance:function (dbConfig, callback) {
         Actors._dbAgent = new DBAgent(dbConfig);
         Actors._dbAgent.connect(true);
@@ -26,35 +27,70 @@ Actors = {
                 throw err;
                 return;
             }
-            Actors._cache = {};
+            /**
+             *   Actors._cacheActors struct:
+             *     |--UUID:key
+             *          |--data:value
+             */
+            Actors._cacheActors = {};
             for (var i = 0; i < rows.length; ++i) {
                 var data = rows[i];
                 var strUUID = "" + data.uuid;
-                Actors._cache[strUUID] = data;
+                Actors._cacheActors[strUUID] = data;
             }
         });
+
+        Actors._dbAgent.query("SELECT * FROM `actor_equipment`", function (err, rows) {
+            if (err) {
+                throw err;
+                return;
+            }
+            /**
+             *   Actors._cacheEquipments struct:
+             *     |--actorID:key
+             *          |--equipment_id:key
+             *             |--data:value
+             */
+            Actors._cacheEquipments = {};
+            for(var i = 0; i < rows.length; ++i){
+                var data = rows[i];
+                var strActorID= "" + data.actor_id;
+                var datas = Actors._cacheEquipments[strActorID];
+                if(undefined == datas){
+                    datas = {};
+                }
+                datas[""+data.id] =data;
+                Actors._cacheEquipments[strActorID] = datas;
+            }
+        });
+
         process.nextTick(function () {
             callback(null);
         });
     },
 
     getActor: function(uuid, callback) {
-        var data = Actors._cache[""+uuid];
-        if(undefined == data){
-            data = null;
+        //get a actor basic info by uuid
+        var actorDB = Actors._cacheActors[""+uuid];
+        var equipDB = null;
+        if(undefined != actorDB){
+            // get the equipmnets by actor's actor_id
+             equipDB = Actors._cacheEquipments[""+actorDB.id];
+        }else{
+            actorDB = null;
         }
-        callback(new Actor(data));
+        callback(new Actor(actorDB, equipDB));
     },
 
-    updateProgress: function(uuid, chapterId, pageId){
-        var strUUID = "" + uuid;
-        if(chapterId < Actors._cache[strUUID].chapter_id ||
-            (chapterId  == Actors._cache[strUUID].chapter_id && pageId <= Actors._cache[strUUID].page_id)){
+    updateProgress: function(id, chapterId, pageId){
+        var strUUID = "" + id;
+        if(chapterId < Actors._cacheActors[strUUID].chapter_id ||
+            (chapterId  == Actors._cacheActors[strUUID].chapter_id && pageId <= Actors._cacheActors[strUUID].page_id)){
             return;
         }
 
-        Actors._cache[strUUID].chapter_id = chapterId;
-        Actors._cache[strUUID].page_id = pageId;
+        Actors._cacheActors[strUUID].chapter_id = chapterId;
+        Actors._cacheActors[strUUID].page_id = pageId;
     }
 };
 

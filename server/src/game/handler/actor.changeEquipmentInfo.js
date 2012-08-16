@@ -1,15 +1,16 @@
 /**
  * Created with JetBrains WebStorm.
  * User: lihex
- * Date: 12-8-14
- * Time: 上午11:42
+ * Date: 12-8-16
+ * Time: 下午5:33
  * To change this template use File | Settings | File Templates.
  */
+
 
 require("../../system/Log");
 
 module.exports = function (req, res, next) {
-    var log = new Log("actor.getEquipmentInfo");
+    var log = new Log("actor.changeEquipmentInfo");
 
     var chunks = [];
     req.on("data", function(chunk) {
@@ -39,12 +40,8 @@ module.exports = function (req, res, next) {
             require("../Actors").getActor(uuid, function(actor){
                 if (actor != null){
                     var part = parseInt(info.meta.in.part);
-                    if(0 == part){ //all
-                        responseResult(actor.getAllEquipments());
-                    }
-                    if(1 == part){ //equipped
-                        responseResult(actor.getEquippedEquipment());
-                    }
+                    var equipID = parseInt(info.meta.in.equipID);
+                    actor.changeEquipment(part, equipID, responseResult);
                 }
             });
         } else {
