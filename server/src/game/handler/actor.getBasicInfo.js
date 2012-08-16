@@ -9,10 +9,10 @@
 require("../../system/Log");
 
 module.exports = function (req, res, next) {
-    var log = new Log("getActorInfo");
+    var log = new Log("getBasicInfo");
 
     var chunks = [];
-    req.on("data", function(chunk) {
+    req.on("data", function (chunk) {
         chunks.push(chunk);
     });
     req.on("end", function () {
@@ -21,7 +21,7 @@ module.exports = function (req, res, next) {
         log.d("request:", info);
 
         var responseResult = function (ret) {
-            var respData={};
+            var respData = {};
             var out = ret;
             var header = info.header;
             var meta = info.meta;
@@ -33,15 +33,12 @@ module.exports = function (req, res, next) {
             res.end();
         };
 
-        var getBasicInfo = function(actor) {
-            if (! actor) next();
-            if("basic" == info.meta.in.category){
+        var getBasicInfo = function (actor) {
+            if (!actor) next();
             responseResult(actor.getBasicInfo());
-            }else{
-                var ret={};
-                responseResult(ret);
-            }
         };
+
+
 
         if (info) {
             var uuid = parseInt(info.header.token);
@@ -49,5 +46,6 @@ module.exports = function (req, res, next) {
         } else {
             next();
         }
+
     });
 };

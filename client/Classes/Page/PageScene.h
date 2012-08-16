@@ -41,6 +41,8 @@ protected:
     
     void fightCallback(CCNode* pNode, void* data);
 
+    void nextPageCallback(CCNode* pNode, void* data);
+    
 //    void adjustPageItem();
     
     cocos2d::CCLabelTTF *m_title;

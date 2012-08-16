@@ -23,7 +23,6 @@
 		15BEAF9115B65AB600D5940D /* LevelDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15BEAF8F15B65AB600D5940D /* LevelDataManager.cpp */; };
 		15D0D34F15D363AF00F53819 /* NetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15D0D34D15D363AF00F53819 /* NetManager.cpp */; };
 		15D5107115CA14DC00FE43A8 /* PlayerInfoBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15D5106F15CA14DC00FE43A8 /* PlayerInfoBar.cpp */; };
-		15D5107815CA3D4600FE43A8 /* PlayerInfoView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15D5107615CA3D4600FE43A8 /* PlayerInfoView.cpp */; };
 		15DD6D7A156DD120003E7567 /* fps_images.png in Resources */ = {isa = PBXBuildFile; fileRef = 15DD6D78156DD120003E7567 /* fps_images.png */; };
 		15EC314F15B7F46000EA9631 /* PageMapScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15EC314E15B7F46000EA9631 /* PageMapScene.cpp */; };
 		15EC315F15B7FE4000EA9631 /* CppSQLite3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15EC315A15B7FE4000EA9631 /* CppSQLite3.cpp */; };
@@ -77,6 +76,7 @@
 		D4ABB4B313B4395300552E6E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D4ABB4B213B4395300552E6E /* main.m */; };
 		F2AAC58D15C0DFF700952F4B /* TaskDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F2AAC58915C0DFF700952F4B /* TaskDataManager.cpp */; };
 		F2AAC58E15C0DFF700952F4B /* TaskModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F2AAC58B15C0DFF700952F4B /* TaskModule.cpp */; };
+		FA8C106D15DA585000FF3FA4 /* PlayerInfoView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA8C106B15DA585000FF3FA4 /* PlayerInfoView.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -139,8 +139,6 @@
 		15D0D35915D36C3600F53819 /* Netbasic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Netbasic.h; sourceTree = "<group>"; };
 		15D5106F15CA14DC00FE43A8 /* PlayerInfoBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerInfoBar.cpp; sourceTree = "<group>"; };
 		15D5107015CA14DC00FE43A8 /* PlayerInfoBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerInfoBar.h; sourceTree = "<group>"; };
-		15D5107615CA3D4600FE43A8 /* PlayerInfoView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerInfoView.cpp; sourceTree = "<group>"; };
-		15D5107715CA3D4600FE43A8 /* PlayerInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerInfoView.h; sourceTree = "<group>"; };
 		15DD6D78156DD120003E7567 /* fps_images.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fps_images.png; sourceTree = "<group>"; };
 		15EC314D15B7F45100EA9631 /* PageMapScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageMapScene.h; sourceTree = "<group>"; };
 		15EC314E15B7F46000EA9631 /* PageMapScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PageMapScene.cpp; sourceTree = "<group>"; };
@@ -212,6 +210,8 @@
 		F2AAC58A15C0DFF700952F4B /* TaskDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskDataManager.h; sourceTree = "<group>"; };
 		F2AAC58B15C0DFF700952F4B /* TaskModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TaskModule.cpp; sourceTree = "<group>"; };
 		F2AAC58C15C0DFF700952F4B /* TaskModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskModule.h; sourceTree = "<group>"; };
+		FA8C106B15DA585000FF3FA4 /* PlayerInfoView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerInfoView.cpp; sourceTree = "<group>"; };
+		FA8C106C15DA585000FF3FA4 /* PlayerInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerInfoView.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -345,8 +345,8 @@
 		15D5106E15CA14DC00FE43A8 /* PlayerInfo */ = {
 			isa = PBXGroup;
 			children = (
-				15D5107615CA3D4600FE43A8 /* PlayerInfoView.cpp */,
-				15D5107715CA3D4600FE43A8 /* PlayerInfoView.h */,
+				FA8C106B15DA585000FF3FA4 /* PlayerInfoView.cpp */,
+				FA8C106C15DA585000FF3FA4 /* PlayerInfoView.h */,
 				15D5106F15CA14DC00FE43A8 /* PlayerInfoBar.cpp */,
 				15D5107015CA14DC00FE43A8 /* PlayerInfoBar.h */,
 			);
@@ -715,13 +715,13 @@
 				187E0D4B15C679D500DB85F3 /* BattleResultView.cpp in Sources */,
 				18CE8E9F15C7762600C48686 /* BasicFunction.cpp in Sources */,
 				15D5107115CA14DC00FE43A8 /* PlayerInfoBar.cpp in Sources */,
-				15D5107815CA3D4600FE43A8 /* PlayerInfoView.cpp in Sources */,
 				1881484B15D36EBB0058DE29 /* GeneralBattleView.cpp in Sources */,
 				1881484C15D36EBB0058DE29 /* NPCDialogView.cpp in Sources */,
 				1881484D15D36EBB0058DE29 /* SpecialBattleView.cpp in Sources */,
 				1881484E15D36EBB0058DE29 /* TaskListView.cpp in Sources */,
 				15D0D34F15D363AF00F53819 /* NetManager.cpp in Sources */,
 				188D088315D4BAC400AF970A /* OpenBoxView.cpp in Sources */,
+				FA8C106D15DA585000FF3FA4 /* PlayerInfoView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

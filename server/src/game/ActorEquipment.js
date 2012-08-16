@@ -1,12 +1,14 @@
 /**
- * Actor model.
+ * Created with JetBrains WebStorm.
+ * User: lihex
+ * Date: 12-8-14
+ * Time: 上午11:33
+ * To change this template use File | Settings | File Templates.
  */
 
 require("../system/Class");
-require("../system/Log");
 
-
-Actor = Class.extend({
+ActorEquipment = Class.extend({
     _db: {},                // actor database
     _tdb: {},               // actor temporary database, will not sync to database
 
@@ -20,22 +22,14 @@ Actor = Class.extend({
 
     initDefaultData: function(){
         var db = this._db;
-        db.exp = 0;
     },
 
-    getBasicInfo:function () {
+    getAllInfo:function () {
         var db = this._db;
         var ret = {};
-        ret.id = db.id;
-        ret.nickname = db.nickname;
-        ret.image_id = db.image_id;
-        ret.level = db.level;
-        ret.exp = db.exp;
-        ret.hp = db.hp;
-        ret.career_id = db.career_id;
-        ret.chapter_id = db.chapter_id;
-        ret.page_id = db.page_id;
-        return ret;
+        ret = db;
+        delete ret.id;
+        delete ret.actor_id;
+        return db;
     }
-
 });
