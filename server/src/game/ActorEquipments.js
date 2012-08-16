@@ -35,12 +35,7 @@ ActorEquipments = {
             for(var i = 0; i < rows.length; ++i){
                 var data = rows[i];
                 var strActorID= "" + data.actor_id;
-                var datas = ActorEquipments._cache[strActorID];
-                if(undefined == datas) {
-                    datas = [];
-                }
-                datas[datas.length] = data;
-                ActorEquipments._cache[strActorID] = datas;
+                ActorEquipments._cache[strActorID] = data;
             }
         });
         process.nextTick(function() {
@@ -48,9 +43,8 @@ ActorEquipments = {
         });
     },
 
-    getEquipment: function(actorID, callback) {
-        var rows = ActorEquipments._cache[""+actorID];
-        var data = (rows.length) ? rows[0]: null;
+    getEquipment: function(actor, callback) {
+        var data = ActorEquipments._cache[""+actor._db.id];
         callback(new ActorEquipment(data));
     }
 };

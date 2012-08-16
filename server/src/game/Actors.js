@@ -17,7 +17,7 @@ var log = new Log("Actors")
 Actors = {
     _dbAgent : null,
     _cache: null,
-    initInstance : function(dbConfig, callback) {
+    initInstance:function (dbConfig, callback) {
         Actors._dbAgent = new DBAgent(dbConfig);
         Actors._dbAgent.connect(true);
         // Cache all actors data on server start
@@ -27,39 +27,34 @@ Actors = {
                 return;
             }
             Actors._cache = {};
-            for(var i = 0; i < rows.length; ++i){
+            for (var i = 0; i < rows.length; ++i) {
                 var data = rows[i];
                 var strUUID = "" + data.uuid;
-                var datas = Actors._cache[strUUID];
-                if(undefined == datas) {
-                    datas = [];
-                }
-                datas[datas.length] = data;
-                //log.d("datas:",datas);
-                Actors._cache[strUUID] = datas;
-                //log.d("cache:", Actors._cache);
+                Actors._cache[strUUID] = data;
             }
         });
-        process.nextTick(function() {
-           callback(null);
+        process.nextTick(function () {
+            callback(null);
         });
     },
 
     getActor: function(uuid, callback) {
-        var rows = Actors._cache[""+uuid];
-        var data = (rows.length) ? rows[0]: null;
+        var data = Actors._cache[""+uuid];
+        if(undefined == data){
+            data = null;
+        }
         callback(new Actor(data));
     },
 
     updateProgress: function(id, chapterId, pageId){
         var strUUID = "" + id;
-        if(chapterId < Actors._cache[strUUID][0].chapter_id ||
-            (chapterId  == Actors._cache[strUUID][0].chapter_id && pageId <= Actors._cache[strUUID][0].page_id)){
+        if(chapterId < Actors._cache[strUUID].chapter_id ||
+            (chapterId  == Actors._cache[strUUID].chapter_id && pageId <= Actors._cache[strUUID].page_id)){
             return;
         }
 
-        Actors._cache[strUUID][0].chapter_id = chapterId;
-        Actors._cache[strUUID][0].page_id = pageId;
+        Actors._cache[strUUID].chapter_id = chapterId;
+        Actors._cache[strUUID].page_id = pageId;
     }
 };
 
