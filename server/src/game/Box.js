@@ -201,10 +201,15 @@ Box = {
     openBox:function (tBoxId)
     {
         var tStBox = this.getBox(tBoxId);
+        if ( tStBox == null )
+        {
+            //the box is no exit.
+            return null;
+        }
         var rewardRange = new Array();
         var rewardArray = new Array();
 
-        if ( tStBox == null )return;
+
 
         for ( var i = 0; i < tStBox.range.length; i++)
         {
@@ -213,7 +218,16 @@ Box = {
             rewardRange.push(tmp);
         }
 
-        var rewardCount = Math.round(tStBox.rewardMax - tStBox.rewardMin);
+        var rewardCount;
+        if (tStBox.rewardMax != tStBox.rewardMin)
+        {
+            rewardCount = parseInt((Math.random() * 100)) % (tStBox.rewardMax - tStBox.rewardMin + 1) + tStBox.rewardMin;
+        }
+        else
+        {
+            rewardCount = tStBox.rewardMin;
+        }
+
         if (rewardCount < 0)
         {
             rewardCount = 1;
@@ -240,7 +254,7 @@ Box = {
             if (Math.random() > tReward.probability)
             {
                 rewardArray.push(tReward);
-                rewardRange.slice(index,1);
+                rewardRange.splice(index,1);
                 curRewwardCount++;
             }
         }

@@ -34,7 +34,7 @@ void TaskListView::onEnter()
 
 void TaskListView::initLayer(const stPage *p_page, CCObject *target, SEL_CallFuncND pfnSelector)
 {
-    mEventType = kEventTypeOneEventWasFinished;
+    mTaskType = kTaskTypeOneEventWasFinished;
     
     m_target = target;
     m_pfnSelector = pfnSelector;
@@ -46,13 +46,12 @@ void TaskListView::initLayer(const stPage *p_page, CCObject *target, SEL_CallFun
     mTaskList.clear();
     mTaskList = TaskDataManager::getShareInstance()->getASeriesOfTask(p_pPage->taskId);
     
-    p_CurTask = getCurTask(p_pPage->taskId);
+    p_CurTask = getCurTask();
     
-    
-    this->showCurrentTask();
+    this->showCurTask();
 };
 
-stTask * TaskListView::getCurTask(int task_id)
+stTask * TaskListView::getCurTask()
 {
     if ( mTaskList.empty() == false )
     {
@@ -61,18 +60,18 @@ stTask * TaskListView::getCurTask(int task_id)
         switch (p_CurTask->type) {
             case kTaskTypeGeneralBattle:
             {
-                mEventType = kEventTypeGeneralBattle;
+                mTaskType = kTaskTypeGeneralBattle;
 
                 break;
             }
             case kTaskTypeDialogue:
             {
-                mEventType = kEventTypeTalk;
+                mTaskType = kTaskTypeDialogue;
                 break;
             }
             case kTaskTypeSpecialBattle:
             {
-                mEventType = kEventTypeSpecialBattle;
+                mTaskType = kTaskTypeSpecialBattle;
             }
             default:
                 break;
@@ -85,7 +84,7 @@ stTask * TaskListView::getCurTask(int task_id)
     return p_CurTask;
 }
 
-stTask * TaskListView::getNextTask()
+void TaskListView::popTask()
 {
     if ( mTaskList.empty() == false )
     {
@@ -99,57 +98,41 @@ stTask * TaskListView::getNextTask()
             switch (p_CurTask->type) {
                 case kTaskTypeGeneralBattle:
                 {
-                    mEventType = kEventTypeGeneralBattle;
+                    mTaskType = kTaskTypeGeneralBattle;
                     break;
                 }
                 case kTaskTypeDialogue:
                 {
-                    mEventType = kEventTypeTalk;
+                    mTaskType = kTaskTypeDialogue;
                     break;
                 }
                 case kTaskTypeSpecialBattle:
                 {
-                    mEventType = kEventTypeSpecialBattle;
+                    mTaskType = kTaskTypeSpecialBattle;
                     break;
                 }
                 default:
                 {
-                    mEventType = kEventTypeFinishedEvent;
+                    mTaskType = kTaskTypeFinishedEvent;
                     p_CurTask = NULL;
                     break;
                 }
             }
-            return p_CurTask;
         }
         else {
-            mEventType = kEventTypeFinishedEvent;
+            mTaskType = kTaskTypeFinishedEvent;
             p_CurTask = NULL;
-            return p_CurTask;
         }
     }
     else {
-        mEventType = kEventTypeFinishedEvent;
+        mTaskType = kTaskTypeFinishedEvent;
         p_CurTask = NULL;
-        return p_CurTask;
     }
 }
 
-TaskType TaskListView::getCurrentTaskType()
+TaskType TaskListView::getTaskType()
 {
-    if ( p_CurTask )
-    {
-        TaskType ret = p_CurTask->type;
-        return ret;
-    }
-    else
-    {
-        return kTaskTypeNone;
-    }
-}
-
-EventType TaskListView::getEventType()
-{
-    return mEventType;
+    return mTaskType;
 }
 
 void TaskListView::removeAndCleanSelf(float dt)
@@ -165,25 +148,25 @@ void TaskListView::removeAndCleanSelf(float dt)
     }
 }
 
-void TaskListView::oneTaskWasFinished(CCNode* node, void* data)
+void TaskListView::callbackTaskWasFinished(CCNode* node, void* data)
 {
     this->scheduleOnce(schedule_selector(TaskListView::showNextTask), 0.1f);
 }
 
-void TaskListView::showCurrentTask()
+void TaskListView::showCurTask()
 {
-    if ( mEventType == kEventTypeTalk )
+    if ( mTaskType == kTaskTypeDialogue )
     {
         showDialogView();
     }
-    else if ( mEventType == kEventTypeSpecialBattle )
+    else if ( mTaskType == kTaskTypeSpecialBattle )
     {
         showSpecialBattleView();
     }
-    else if ( mEventType == kEventTypeGeneralBattle ){
+    else if ( mTaskType == kTaskTypeGeneralBattle ){
         showGeneralBattleView();
     }
-    else  if ( mEventType == kEventTypeFinishedEvent ||  mEventType == kEventTypeOneEventWasFinished ) {
+    else  if ( mTaskType == kTaskTypeFinishedEvent ||  mTaskType == kTaskTypeOneEventWasFinished ) {
         this->scheduleOnce(schedule_selector(TaskListView::removeAndCleanSelf), 0.05f);
     }
 }
@@ -193,7 +176,7 @@ void TaskListView::showDialogView()
     NPCDialogView *tDialog = NPCDialogView::create(this);
     if (tDialog)
     {
-        tDialog->setData(p_CurTask, this, callfuncND_selector(TaskListView::oneTaskWasFinished));
+        tDialog->setData(p_CurTask, this, callfuncND_selector(TaskListView::callbackTaskWasFinished));
         
         p_CurLayer = static_cast<cocos2d::CCLayer *>(tDialog);
         
@@ -206,7 +189,7 @@ void TaskListView::showGeneralBattleView()
     GeneralBattleView *tGeneralBattle = GeneralBattleView::create(this);
     if (tGeneralBattle)
     {
-        tGeneralBattle->setData(p_CurTask, this, callfuncND_selector(TaskListView::oneTaskWasFinished));
+        tGeneralBattle->setData(p_CurTask, this, callfuncND_selector(TaskListView::callbackTaskWasFinished));
         
         p_CurLayer = static_cast<cocos2d::CCLayer *>(tGeneralBattle);
         
@@ -221,7 +204,7 @@ void TaskListView::showSpecialBattleView()
     SpecialBattleView *tSpecialBattle = SpecialBattleView::create(this);
     if (tSpecialBattle)
     {
-        tSpecialBattle->setData(p_CurTask, this, callfuncND_selector(TaskListView::oneTaskWasFinished));
+        tSpecialBattle->setData(p_CurTask, this, callfuncND_selector(TaskListView::callbackTaskWasFinished));
         
         p_CurLayer = static_cast<cocos2d::CCLayer *>(tSpecialBattle);
         
@@ -250,7 +233,7 @@ void TaskListView::showNextTask(float dt)
         p_CurLayer = NULL;
     }
     
-    getNextTask();
+    popTask();
     
-    showCurrentTask();
+    showCurTask();
 }
