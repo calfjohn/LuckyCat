@@ -34,7 +34,7 @@ module.exports = function (req, res, next) {
             res.end();
         };
 
-        var getBattelResult = function(uuid, chapter_id, page_id, data) {
+        var getBattelResult = function(uuid, data) {
             var ret={};
             ret.result = {};
 
@@ -45,11 +45,12 @@ module.exports = function (req, res, next) {
                 return ret;
             }
 
-            //更新进度
-            require("../Actors").updateProgress(uuid, chapter_id, page_id);
+            //更新玩家进度
+            require("../Actors").updateProgress(uuid, data.chapter_id, data.id);
 
             ret.award = {};
             ret.award.item = [];
+            //不发放重复奖励
             if(data.bonuse_repeat)
             {
                 ret.award.gold = 10;
