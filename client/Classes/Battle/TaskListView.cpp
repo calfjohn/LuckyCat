@@ -211,6 +211,8 @@ void TaskListView::showGeneralBattleView()
         p_CurLayer = static_cast<cocos2d::CCLayer *>(tGeneralBattle);
         
         this->addChild(p_CurLayer);
+        
+        this->showOpenBoxView();
     }
 }
 
@@ -225,15 +227,18 @@ void TaskListView::showSpecialBattleView()
         
         this->addChild(p_CurLayer);
         
-        OpenBoxView *p = OpenBoxView::create(tSpecialBattle);
-        tSpecialBattle->addChild(p,99);
+        this->showOpenBoxView();
     }
 }
 
 void TaskListView::showOpenBoxView()
 {
-    OpenBoxView *p = OpenBoxView::create(this);
-    this->addChild(p,99);
+    if ( p_CurTask && p_CurTask->box_id != -1 )
+    {
+        OpenBoxView *p = OpenBoxView::create(this);
+        p->setTask(p_CurTask);
+        this->addChild(p,99);
+    }
 }
 
 void TaskListView::showNextTask(float dt)

@@ -26,7 +26,7 @@ bool NetManager::init(void)
 //	m_mapError[7] = "不能充值或支付";
 
     m_strToken = "0";
-    m_strUrl = "http://192.168.0.128:22222/";
+    m_strUrl = "http://192.168.0.113:22222/";
     m_nIndex = 1;
 	return true;
 }
