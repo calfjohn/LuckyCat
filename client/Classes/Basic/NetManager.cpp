@@ -55,7 +55,7 @@ string NetManager::GeneratePost(ModeRequestType modEnum, DoRequestType doEnum,co
 	char temp[10240];
 	if (requestData == NULL || strlen(requestData) == 0)
 	{
-		sprintf(temp, "{\"header\":{\"token\": \"%s\", \"index\": %d}, \"meta\":{\"mod\": \"%s\", \"do\": \"%s\", \"ver\":%d, \"in\":{}}}}", m_strToken.c_str(), m_nIndex++, g_modNames[modEnum].c_str(), g_doNames[doEnum].c_str(), g_doVersion[doEnum]);
+		sprintf(temp, "{\"header\":{\"token\": \"%s\", \"index\": %d}, \"meta\":{\"mod\": \"%s\", \"do\": \"%s\", \"ver\":%d, \"in\":{}}}", m_strToken.c_str(), m_nIndex++, g_modNames[modEnum].c_str(), g_doNames[doEnum].c_str(), g_doVersion[doEnum]);
 	} 
 	else
 	{

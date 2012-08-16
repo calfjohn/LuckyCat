@@ -49,6 +49,7 @@ class PlayerInfoBar : public cocos2d::CCLayer
 
 		CC_SYNTHESIZE(int, m_iSelectedMenuItem, SelectedMenuItem);
 		PlayerInfoView *m_pPlayerInfoView;
+        int m_iPlayerInfoViewTag;
 
 }; /* -----  end of class PlayerInfoBar  ----- */
 
