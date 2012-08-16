@@ -8,6 +8,7 @@
 
 #include "EquipInfoView.h"
 #include "FuzzyBgView.h"
+#include "NetManager.h"
 #include "extensions/CCBReader/CCBSelectorResolver.h"
 #include "extensions/CCBReader/CCBReader.h"
 #include "extensions/CCBReader/CCNodeLoaderLibrary.h"
@@ -32,7 +33,7 @@ EquipInfoView * EquipInfoView::create(cocos2d::CCObject * pOwner){
     CCNode * pNode = ccbReader->readNodeGraphFromFile("pub/", "ccb/equip.ccbi", pOwner);
     
     EquipInfoView *pEquipView = static_cast<EquipInfoView *>(pNode);
-    
+    pEquipView->sendPlayerEquipInfoRequest();
     return pEquipView;
 }
 
@@ -109,4 +110,14 @@ void EquipInfoView::setEquipProprety(){
 
 void EquipInfoView::setPlayerEquipInfoForType(EquipType type){
     
-}   
+}
+
+void EquipInfoView::sendPlayerEquipInfoRequest(){
+    NetManager::shareNetManager()->sendEx(kModeActor, kDoGetEquipmentInfo, callfuncND_selector(EquipInfoView::responsePlayerEquipInfoRequest), this, "\"part\":%d",0);
+}
+
+void EquipInfoView::responsePlayerEquipInfoRequest(CCNode *pNode, void* data){
+    
+}
+
+

@@ -62,7 +62,7 @@ PlayerInfoView *PlayerInfoView::create(cocos2d::CCObject * pOwner)
     CCNode * pNode = ccbReader->readNodeGraphFromFile("pub/", "ccb/info.ccbi", pOwner);
     
     PlayerInfoView *pInfoView = static_cast<PlayerInfoView *>(pNode);
-    
+    pInfoView->m_pPlayerEquipInfoView = EquipInfoView::create(pInfoView);
     return pInfoView;
 }
 

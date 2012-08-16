@@ -53,6 +53,10 @@ public:
     void setEquipInfoForType(EquipType type);
     
     void setPlayerEquipInfoForType(EquipType type);
+
+    void sendPlayerEquipInfoRequest();
+
+    void responsePlayerEquipInfoRequest(CCNode *pNode, void* data);
 private:
     cocos2d::CCLabelTTF *m_labEquipName;
     cocos2d::CCSprite *m_sprEquipIcon;
@@ -69,6 +73,7 @@ private:
     void deleteEquipInfo();
 
     void setPlayerEquipInfo();
+
 };
 
 class CCBReader;
