@@ -248,7 +248,7 @@ std::vector<stTalk *> TaskDataManager::getAllTalk(int task_id)
 
 std::vector<stTask *> TaskDataManager::getASeriesOfTask(int task_id)
 {
-    //printf("----get a series task-------\n");
+    printf("----get a series task-------\n");
     std::vector<stTask *> tVectorTask;
     int tmpTaskId = task_id;
     while (tmpTaskId > 0 ) {
@@ -256,7 +256,7 @@ std::vector<stTask *> TaskDataManager::getASeriesOfTask(int task_id)
         tVectorTask.push_back(tmpTask);
         tmpTaskId = tmpTask->nextTaskId;
         
-//        tmpTask->print();
+        tmpTask->print();
     }
     
     return tVectorTask;

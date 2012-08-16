@@ -30,50 +30,39 @@ public:
     
     void initLayer(const stPage *p_page, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector);
     
-    
-    void oneTaskWasFinished(CCNode* node, void* data);
-    
-    void showNextTask(float dt);
+    /*
+     * this function will callback, when current task was finished.
+     */
+    void callbackTaskWasFinished(CCNode* node, void* data);
 
 private:
-    cocos2d::CCPoint pBeginPoint;
-    
-    cocos2d::CCObject*       m_target;         //callback listener
-    
-    cocos2d::SEL_CallFuncND  m_pfnSelector;    //callback selector
-    
-    const stPage *p_pPage;      //Point of page
-    
-    EventType mEventType;       //Current task's event type
-    
-    stTask *p_CurTask;          //Current Task
-    
-    std::vector<stTask *> mTaskList;        //All task in this page
-    
-    cocos2d::CCLayer *p_CurLayer;       //Current Show Layer
+    /*
+     * pop current task and show next task, If there is no exit any task, remove TaskListView
+     * It is work in fuctionf callbackTaskWasFinished.
+     */
+    void showNextTask(float dt);
     
     /*
      *@brief get current task
      */
-    stTask * getCurTask(int task_id);
+    stTask * getCurTask();
     
     /*
-     *@brief get next task
+     *@brief pop current task
      */
-    stTask * getNextTask();
-    
-    /*
-     *@brief get current task type
-     */
-    TaskType getCurrentTaskType();
+    void popTask();
     
     /*
      *@brief get the Event Type.
      */
-    EventType getEventType();
+    TaskType getTaskType();
     
-    void showCurrentTask();
-
+    
+    /*
+     * this function is show UI.
+     */
+    void showCurTask();
+    
     void showDialogView();
     
     void showGeneralBattleView();
@@ -84,6 +73,23 @@ private:
     
     void removeAndCleanSelf(float dt);
     
+private:
+    
+    cocos2d::CCPoint pBeginPoint;
+    
+    cocos2d::CCObject*       m_target;         //callback listener
+    
+    cocos2d::SEL_CallFuncND  m_pfnSelector;    //callback selector
+    
+    const stPage *p_pPage;      //Point of page
+    
+    TaskType mTaskType;       //Current task's event type
+    
+    stTask *p_CurTask;          //Current Task
+    
+    std::vector<stTask *> mTaskList;        //All task in this page
+    
+    cocos2d::CCLayer *p_CurLayer;       //Current Show Layer
     
 };
 
