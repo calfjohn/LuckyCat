@@ -120,5 +120,19 @@ typedef struct {
     }
 }stActorLevelUpgrade;
 
+typedef struct {
+    int             uuid;
+    std::string     nickName;
+    int             imageId;
+    int             level;
+    int             exp;
+    int             hp;
+    int             career_id;
+    int             chapter_id;
+    int             page_id;
+}stActorUerInfo;
+
+static stActorUerInfo* UserInfo;
+
 #endif
 

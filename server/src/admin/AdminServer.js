@@ -20,8 +20,8 @@ app.configure(function() {
     app.use(express.methodOverride());
     app.use(app.router);
     app.use(express.static(__dirname + "/www"));  //设定静态网页服务目录
-    app.set("views", __dirname + "/views");
-    app.set("view engine", "jade");
+    // app.set("views", __dirname + "/views");    // 决定不使用动态模板生成页面，使用www下的静态页面+websocket的服务模式
+    // app.set("view engine", "jade");
 
     app.use(function(err, req, res, next) {
         // if an error occurs Connect will pass it down
@@ -62,14 +62,11 @@ app.start = function() {
 };
 
 app.initHandlers = function (aExpress) {
-    aExpress.get("/",require("./handler/page/Main"));
-    aExpress.get("/login", require("./handler/page/Login"));
     aExpress.post("/login", require("./handler/login"));
-    //aExpress.all("/*", require("./handler/page/Main"));
 
     // init socket handlers
     var socket = io.listen(server, {log:false});
-    socket.sockets.on("connection", require("./socket/getData"));
+    socket.sockets.on("connection", require("./socket/RoleAgent"));
 
     aExpress.adminSocket = socket;
 };

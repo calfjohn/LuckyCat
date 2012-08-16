@@ -81,11 +81,11 @@ bool PlayerInfoBar::init()
 		this->addChild(m_pInfoItemsMenu);
 
 
-		m_pPlayerInfoView = PlayerInfoView::create();
-		m_pPlayerInfoView->setPosition(ccp(40,100));
-		this->addChild(m_pPlayerInfoView);
+		m_pPlayerInfoView = PlayerInfoView::create(this);
+		//m_pPlayerInfoView->setPosition(ccp(40,100));
+		this->addChild(m_pPlayerInfoView,1);
 		m_pPlayerInfoView->setVisible(false);
-
+        m_pPlayerInfoView->sendPlayerInfo();
 		bRet = true;
 	} while (0);
 
@@ -96,7 +96,9 @@ bool PlayerInfoBar::init()
 void PlayerInfoBar::playIconClicked(CCObject* pSender)
 {
 	m_pInfoItemsMenu->setVisible(m_pInfoItemsMenu->isVisible()? false:true);
-	m_pPlayerInfoView->setVisible(m_pInfoItemsMenu->isVisible());
+    //PlayerInfoView* info = (PlayerInfoView*)this->getChildByTag(m_iPlayerInfoViewTag);
+	//info->setVisible(info->isVisible());
+    m_pPlayerInfoView->setVisible(m_pPlayerInfoView->isVisible()? false:true);
 	CCLog("Out put Menu!");
 }
 
