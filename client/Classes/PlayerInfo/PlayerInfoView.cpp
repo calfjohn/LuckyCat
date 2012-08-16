@@ -142,15 +142,15 @@ void PlayerInfoView::responesPlayerInfo(CCNode *pNode, void* data){
         //std::string strData = info->strResponseData;
         if(reader.parse(info->strResponseData, root)){
             std::string nickname = root["meta"]["out"]["nickname"].asCString();
-            cocos2d::CCString* strNickname = cocos2d::CCString::createWithFormat("名称:%s",nickname.c_str());
+            cocos2d::CCString* strNickname = cocos2d::CCString::createWithFormat("名称：%s",nickname.c_str());
             setPlayerInfoLabelForTag(kNickNameInfo,strNickname);
             int level = root["meta"]["out"]["level"].asInt();
-            cocos2d::CCString* strLevel = cocos2d::CCString::createWithFormat("等级:%d",level);
+            cocos2d::CCString* strLevel = cocos2d::CCString::createWithFormat("等级：%d",level);
             setPlayerInfoLabelForTag(kLevelInfo, strLevel);
             //int exp = root["meta"]["out"]["exp"].asInt();
             //setPlayerInfoLabelForTag(kLevelInfo, cocos2d::CCString::createWithFormat("%d",exp));
             int hp = root["meta"]["out"]["hp"].asInt();
-            cocos2d::CCString* strHp = cocos2d::CCString::createWithFormat("hp:%d",hp);
+            cocos2d::CCString* strHp = cocos2d::CCString::createWithFormat("H  P：%d",hp);
             setPlayerInfoLabelForTag(kHpInfo, strHp);
         }
     }
