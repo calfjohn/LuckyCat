@@ -26,12 +26,27 @@ module.exports = function (req, res, next) {
 
         var responseResult = function (ret) {
             var respData={};
-            var out = ret;
             var header = info.header;
             var meta = info.meta;
             respData.heard = header;
             respData.meta = meta;
-            respData.meta.out = out;
+
+            if ( ret == null )
+            {
+                //failed. the box id is not exit.
+                var out = new Object();
+                out.result = 1;
+                out.goodsArray = ret;
+                respData.meta.out = out;
+            }
+            else
+            {
+                //open box success.
+                var out = new Object();
+                out.result = 0;
+                out.goodsArray = ret;
+                respData.meta.out = out;
+            }
             log.d("responseResult", respData);
             res.write(JSON.stringify(respData));
             res.end();
