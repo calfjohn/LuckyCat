@@ -130,9 +130,20 @@ typedef struct {
     int             career_id;
     int             chapter_id;
     int             page_id;
-}stActorUerInfo;
+}stActorUserInfo;
 
-static stActorUerInfo* UserInfo;
+typedef struct{
+    std::string                 equipName;
+    std::string                 equipIconName;
+    std::vector<std::string>    equipProprety;
+}stActorEquipInfo;
+
+typedef struct{
+    int                 userEquipId;
+    std::string         userEquipName;
+    std::string         userEquipType;
+    stActorEquipInfo    *equipInfo;
+}stActorUserEquipInfo;
 
 #endif
 

@@ -7,6 +7,7 @@
 //
 
 #include "PlayerInfoView.h"
+#include "EquipInfoView.h"
 #include "FuzzyBgView.h"
 #include "NetManager.h"
 #include "json.h"

@@ -19,6 +19,7 @@
 #include "Basic.h"
 #include "PlayerInfoBar.h"
 #include "PlayerInfoView.h"
+#include "EquipInfoView.h"
 #include "LuckySprite.h"
 using namespace cocos2d;
 
@@ -86,6 +87,7 @@ bool PlayerInfoBar::init()
 		this->addChild(m_pPlayerInfoView,1);
 		m_pPlayerInfoView->setVisible(false);
         m_pPlayerInfoView->sendPlayerInfo();
+        
 		bRet = true;
 	} while (0);
 
@@ -96,8 +98,6 @@ bool PlayerInfoBar::init()
 void PlayerInfoBar::playIconClicked(CCObject* pSender)
 {
 	m_pInfoItemsMenu->setVisible(m_pInfoItemsMenu->isVisible()? false:true);
-    //PlayerInfoView* info = (PlayerInfoView*)this->getChildByTag(m_iPlayerInfoViewTag);
-	//info->setVisible(info->isVisible());
     m_pPlayerInfoView->setVisible(m_pPlayerInfoView->isVisible()? false:true);
 	CCLog("Out put Menu!");
 }
