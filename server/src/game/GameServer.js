@@ -17,7 +17,6 @@ app.configure(function() {
     app.use(express.methodOverride());
     app.use(app.router);
 
-
     app.set("views", __dirname + "/");
     app.set("view engine", "jade");
 
@@ -43,19 +42,33 @@ app.initInstance = function (srvConfig, callback) {
         }
     }
 
-    require("./Level").initInstance(cfg.db_actors, function(err) {
-        cb(err);
-    });
     // init modules
-    require("./Actors").initInstance(cfg.db_actors, function(err) {
-        if (! err) app.initHandlers(app);
-        cb(err);
-    });
+    var dbs = 2;
+    var cbCalled = false;
+    var dbCallback = function(err) {
+        if (cbCalled) return;
 
-    require("./ActorEquipments").initInstance(cfg.db_actors, function(err) {
-        if (! err) app.initHandlers(app);
-        cb(err);
-    });
+        if (err) {
+            cbCalled = true;
+            cb(err);
+            return;
+        }
+        else
+        {
+            app.initHandlers(app);
+            cbCalled = true;
+            cb(null);
+        }
+        --dbs;
+        if (dbs <= 0) {
+            cbCalled = true;
+            cb(null);
+        }
+    };
+
+    require("./Actors").initInstance(cfg.db_actors, dbCallback);
+    require("./Box").initInstance(cfg.db_actors, dbCallback);
+
     return this;
 };
 
@@ -66,9 +79,11 @@ app.start = function() {
 
 app.initHandlers = function (aExpress) {
     aExpress.post("/game/combat", require("./handler/combat"));
+    aExpress.post("/game/box/openBox", require("./handler/box.openBox"));
     aExpress.post("/game/actor/getBasicInfo", require("./handler/actor.getBasicInfo.js"));
     aExpress.post("/game/actor/getEquipmentInfo", require("./handler/actor.getEquipmentInfo.js"));
-    aExpress.post("/game/task/openBox", require("./handler/task.openBox"));
     aExpress.post("/game/battle/fight1", require("./handler/battle.fight1"));
+    aExpress.post("/game/battle/fight2", require("./handler/battle.fight2"));
 };
+
 module.exports = app;

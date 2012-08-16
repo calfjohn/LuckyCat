@@ -13,7 +13,6 @@
 #include "TaskDataManager.h"
 #include "PlayerInfoBar.h"
 #include "NetManager.h"
-
 #include "TaskListView.h"
 
 USING_NS_CC;
@@ -154,6 +153,15 @@ void Page::fightCallback(CCNode* pNode, void* data)
 
 void Page::nextPageCallback(CCNode* pNode, void* data)
 {       
+    Json::Value root;
+    Json::Reader reader;
+    
+    if(!reader.parse(NetManager::shareNetManager()->response(data), root) 
+       && !root["meta"]["out"]["result"]["state"].asInt())
+    {
+        return;
+    }
+    
     const stPage *pPage = LevelDataManager::shareLevelDataManager()->getNewPage(m_nChapterId);
     if (m_pPage == pPage) 
     {

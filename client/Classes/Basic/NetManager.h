@@ -14,6 +14,7 @@
 #include "json.h"
 #include "Netbasic.h"
 #include "cocos2d.h"
+#include "CCNetwork.h"
 
 class NetManager
 {
@@ -26,6 +27,7 @@ public:
     
     std::string GetLastSuccess(){return m_lastSuccess;}
     
+    const char* response(void *data);
 public:
 	static NetManager* shareNetManager(void)
 	{

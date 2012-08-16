@@ -16,6 +16,7 @@ enum ModeRequestType
 	kModeGame,
     kModeTask,
     kModeActor,
+    kModeBox,
     kModeBattle,
 	//add more
 
@@ -27,6 +28,7 @@ const std::string g_modNames[MOD_COUNT] = {
 	"game",
     "task",
     "actor",
+    "box",
     "battle",
     
     //add more
@@ -55,7 +57,7 @@ const std::string g_doNames[DO_COUNT] = {
 const std::string g_url[DO_COUNT] = {
 	"login/",
     "actor/getActorInfo/",
-    "task/openBox/",
+    "box/openBox/",
     "getUserInfo/",
     "battle/fight1/",
     "actor/getBasicInfo/",
@@ -63,6 +65,7 @@ const std::string g_url[DO_COUNT] = {
 
 const int g_doVersion[DO_COUNT] = {
 	1,
+    1,
     1,
     1,
     1,
