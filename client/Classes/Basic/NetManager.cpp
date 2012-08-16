@@ -79,7 +79,7 @@ string NetManager::GetErrorInfo(int errorCode)
 	return "无效的错误代码：" + ConvertToString(errorCode);
 }
 
-const char* NetManager::response(void *data)
+const char* NetManager::processResponse(void *data)
 {
     CCAssert(data != NULL, "");
     RequestInfo *info = (RequestInfo *)data;

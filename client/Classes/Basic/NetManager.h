@@ -27,7 +27,7 @@ public:
     
     std::string GetLastSuccess(){return m_lastSuccess;}
     
-    const char* response(void *data);
+    const char* processResponse(void *data);
 public:
 	static NetManager* shareNetManager(void)
 	{

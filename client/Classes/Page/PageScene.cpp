@@ -156,7 +156,7 @@ void Page::nextPageCallback(CCNode* pNode, void* data)
     Json::Value root;
     Json::Reader reader;
     
-    if(!reader.parse(NetManager::shareNetManager()->response(data), root) 
+    if(!reader.parse(NetManager::shareNetManager()->processResponse(data), root) 
        && !root["meta"]["out"]["result"]["state"].asInt())
     {
         return;
