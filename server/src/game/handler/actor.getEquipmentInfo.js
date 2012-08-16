@@ -28,21 +28,23 @@ module.exports = function (req, res, next) {
             respData.heard = header;
             respData.meta = meta;
             respData.meta.out = out;
+            respData.meta.result = 0;
             log.d("responseResult", respData);
             res.write(JSON.stringify(respData));
             res.end();
-        };
-
-        var getEquipmentInfo = function(equipment) {
-            if (! equipment) next();
-            responseResult(equipment.getAllInfo());
         };
 
         if (info) {
             var uuid = info.header.token;
             require("../Actors").getActor(uuid, function(actor){
                 if (actor != null){
-                    require("../ActorEquipments").getEquipment(actor, getEquipmentInfo);
+                    var part = parseInt(info.meta.in.part);
+                    if(0 == part){
+                        responseResult(actor.getAllEquipments());
+                    }
+                    if(1 == part){
+                        responseResult(actor.getEquippedEquipment());
+                    }
                 }
             });
         } else {
