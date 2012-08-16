@@ -10,6 +10,7 @@ Actor = Class.extend({
     _dbBasic: {},                // basic data from table actor
     _dbEquipment: {},           // equipment data from table actor_equipment
     _tdb: {},               // actor temporary database, will not sync to database
+    _log: new Log("getBasicInfo"),
 
     init: function(basicDB, equipDB) {
         if (basicDB && equipDB) {
@@ -69,6 +70,33 @@ Actor = Class.extend({
         ret.eq_hand_id = basicDB.eq_hand_id
         ret.eq_foot_id = basicDB.eq_foot_id
         return ret;
+    },
+
+    changeEquipment: function(part, equipID, callback){
+        var basicDB = this._dbBasic;
+        var equipDB = this._dbEquipment;
+
+        var ret = {};
+        // check equipID is valid
+        if(undefined != equipDB[equipID]){
+            if(0 == part){
+                basicDB.eq_hand_id = equipID;
+            }
+            else if( 1 == part){ // body
+                basicDB.eq_body_id = equipID;
+            }
+            else if( 2 == part){ // hand
+                basicDB.eq_hand_id = equipID;
+            }
+            else if( 3 == part){ // foot
+                basicDB.eq_foot_id = equipID;
+            }
+
+        }else{
+            _log.d("invalid equipID, this actor don't have this quipment %d.",equipID);
+        }
+
+        callback(ret);
     }
 
 });
