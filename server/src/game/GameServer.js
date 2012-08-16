@@ -80,7 +80,10 @@ app.start = function() {
 app.initHandlers = function (aExpress) {
     aExpress.post("/game/combat", require("./handler/combat"));
     aExpress.post("/game/box/openBox", require("./handler/box.openBox"));
-    //aExpress.post("/game/actor/getActorInfo", require("./handler/actor.getActorInfo"));
+    aExpress.post("/game/actor/getBasicInfo", require("./handler/actor.getBasicInfo.js"));
+    aExpress.post("/game/actor/getEquipmentInfo", require("./handler/actor.getEquipmentInfo.js"));
+    aExpress.post("/game/battle/fight1", require("./handler/battle.fight1"));
+    aExpress.post("/game/battle/fight2", require("./handler/battle.fight2"));
 };
 
 module.exports = app;

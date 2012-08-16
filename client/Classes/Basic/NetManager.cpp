@@ -8,16 +8,13 @@
 
 #include "NetManager.h"
 #include "BasicFunction.h"
-#include "CCNetwork.h"
+#include "CCMessageQueue.h"
 
 USING_NS_CC_NETWORK;
 using namespace std;
 
 NetManager* NetManager::m_pInstance = NULL;
 NetManager::Release NetManager::Garbo;
-
-USING_NS_CC_NETWORK;
-using namespace std;
 
 bool NetManager::init(void)
 {
@@ -81,3 +78,15 @@ string NetManager::GetErrorInfo(int errorCode)
 	
 	return "无效的错误代码：" + ConvertToString(errorCode);
 }
+
+const char* NetManager::response(void *data)
+{
+    CCAssert(data != NULL, "");
+    RequestInfo *info = (RequestInfo *)data;
+
+    //通用返回数据处理，比如错误信息（timeout，业务失败）
+    
+    //返回数据到业务模块
+    return info->strResponseData.c_str();
+}
+
