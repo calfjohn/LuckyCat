@@ -15,7 +15,7 @@
 #include "extensions/CCBReader/CCBMemberVariableAssigner.h"
 #include "extensions/CCBReader/CCLayerLoader.h"
 
-#include "TaskBasic.h"
+#include "EventBasic.h"
 
 class SpecialBattleView 
 : public cocos2d::CCLayer
@@ -44,7 +44,7 @@ public:
     
     virtual void registerWithTouchDispatcher(void);
     
-    void setData(stTask *tTask, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector);
+    void setData(stEvent *tEvent, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector);
     
     void removeAndCleanSelf(float dt);
     
@@ -52,7 +52,7 @@ public:
 private:
     cocos2d::CCPoint         pBeginPoint;
     
-    stTask *p_CurTask;
+    stEvent *p_CurEvent;
     
     cocos2d::CCObject*       m_target;         //callback listener
     

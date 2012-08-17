@@ -10,10 +10,10 @@
 #include "BattleDefine.h"
 #include "DictDataManager.h"
 #include "LuckySprite.h"
-#include "TaskDataManager.h"
+#include "EventDataManager.h"
 #include "PlayerInfoBar.h"
 #include "NetManager.h"
-#include "TaskListView.h"
+#include "EventListView.h"
 
 USING_NS_CC;
 
@@ -103,7 +103,7 @@ void Page::turnToPage(int chapterId, const stPage *pPage)
     pAttackItem->setPosition(ccp(size.width - 50, 50));
     pMenu->addChild(pAttackItem, 0, TAG_ATTACK);
     
-    const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(m_pPage->taskId);
+    const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(m_pPage->eventId);
     if (pMonster) 
     {
         LuckySprite *tempSprite = LuckySprite::create(pMonster->imageId);
@@ -137,11 +137,11 @@ void Page::showBattleView(CCObject *pSender)
 //        pMonter->initLayer(m_pPage, this, callfuncND_selector(Page::fightCallback));
 //        CCDirector::sharedDirector()->getRunningScene()->addChild(pMonter, 0, TAG_BATTLE_LAYER);
 //    }
-    if ( TaskListView::getIsInTask() == false )
+    if ( EventListView::getIsInEvent() == false )
     {
-        TaskListView *pTaskListView = TaskListView::create();
-        pTaskListView->initLayer(m_pPage, this, callfuncND_selector(Page::fightCallback));
-        CCDirector::sharedDirector()->getRunningScene()->addChild(pTaskListView, 0, TAG_TASK_LIST_LAYER);
+        EventListView *pEventListView = EventListView::create();
+        pEventListView->initLayer(m_pPage, this, callfuncND_selector(Page::fightCallback));
+        CCDirector::sharedDirector()->getRunningScene()->addChild(pEventListView, 0, TAG_EVENT_LIST_LAYER);
     }
 }
 
