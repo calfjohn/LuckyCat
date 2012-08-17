@@ -140,7 +140,7 @@ void PlayerInfoView::responesPlayerInfo(CCNode *pNode, void* data){
         Json::Value root;
         Json::Reader reader;
         
-        if(reader.parse(NetManager::shareNetManager()->response(data), root)){
+        if(reader.parse(NetManager::shareNetManager()->processResponse(data), root)){
             std::string nickname = root["meta"]["out"]["nickname"].asCString();
             cocos2d::CCString* strNickname = cocos2d::CCString::createWithFormat("名称：%s",nickname.c_str());
             setPlayerInfoLabelForTag(kNickNameInfo,strNickname);
