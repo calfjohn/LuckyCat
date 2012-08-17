@@ -32,7 +32,7 @@ typedef struct
     string name;        //page's title
     string content;     //page's content
     int imageId;        //page's image
-    int taskId;         //page's task
+    int eventId;         //page's event
     cocos2d::CCPoint position;   //position on page map
     int state;          //fight result 0:new 1:success 2: failed
     std::string image;  //the background of page

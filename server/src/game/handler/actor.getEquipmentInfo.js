@@ -7,6 +7,8 @@
  */
 
 require("../../system/Log");
+var partAll = 0;
+var partEquipped = 1;
 
 module.exports = function (req, res, next) {
     var log = new Log("actor.getEquipmentInfo");
@@ -39,10 +41,10 @@ module.exports = function (req, res, next) {
             require("../Actors").getActor(uuid, function(actor){
                 if (actor != null){
                     var part = parseInt(info.meta.in.part);
-                    if(0 == part){ //all
+                    if(partAll == part){ //all
                         responseResult(actor.getAllEquipments());
                     }
-                    if(1 == part){ //equipped
+                    if(partEquipped == part){ //equipped
                         responseResult(actor.getEquippedEquipment());
                     }
                 }

@@ -5,12 +5,17 @@
 require("../system/Class");
 require("../system/Log");
 
+var util = require("util");
+var log = new Log("Actor.changeEquipment");
+var partHead = 0;
+var partBody = 1;
+var partHand = 2;
+var partFoot = 3;
 
 Actor = Class.extend({
     _dbBasic: {},                // basic data from table actor
     _dbEquipment: {},           // equipment data from table actor_equipment
     _tdb: {},               // actor temporary database, will not sync to database
-    _log: new Log("getBasicInfo"),
 
     init: function(basicDB, equipDB) {
         if (basicDB && equipDB) {
@@ -76,24 +81,29 @@ Actor = Class.extend({
         var basicDB = this._dbBasic;
         var equipDB = this._dbEquipment;
 
-        var ret = {};
+        var ret = {
+            result: 0,
+            out: {}
+        };
         // check equipID is valid
         if(undefined != equipDB[equipID]){
-            if(0 == part){
+            if(partHead == part){
                 basicDB.eq_hand_id = equipID;
             }
-            else if( 1 == part){ // body
+            else if( partBody == part){ // body
                 basicDB.eq_body_id = equipID;
             }
-            else if( 2 == part){ // hand
+            else if( partHand == part){ // hand
                 basicDB.eq_hand_id = equipID;
             }
-            else if( 3 == part){ // foot
+            else if( partFoot == part){ // foot
                 basicDB.eq_foot_id = equipID;
             }
 
         }else{
-            _log.d("invalid equipID, this actor don't have this quipment %d.",equipID);
+            ret.result = 1;
+            ret.out.msg = "invalid equipID, this actor don't have this quipment";
+            log.d(util.format("invalid equipID, this actor don't have this quipment %d.",equipID));
         }
 
         callback(ret);

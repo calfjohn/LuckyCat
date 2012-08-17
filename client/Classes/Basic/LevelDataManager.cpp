@@ -67,7 +67,7 @@ bool LevelDataManager::init( void )
                         tempPage.name = q3.getStringField("name");
                         tempPage.content = q3.getStringField("content");
                         tempPage.imageId =  q3.getIntField("image_id");
-                        tempPage.taskId =  q3.getIntField("task_id");
+                        tempPage.eventId =  q3.getIntField("task_id");
                         tempPage.state = q3.getIntField("state");
                         tempPage.position.x = q3.getFloatField("position_x");
                         tempPage.position.y = q3.getFloatField("position_y");

@@ -15,7 +15,7 @@
 #include "extensions/CCBReader/CCBMemberVariableAssigner.h"
 #include "extensions/CCBReader/CCLayerLoader.h"
 
-#include "TaskBasic.h"
+#include "EventBasic.h"
 
 class NPCDialogView 
 : public cocos2d::CCLayer
@@ -49,7 +49,7 @@ public:
     
     void setDialog(stTalk *talk);
     
-    void setData(stTask *tTask, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector);
+    void setData(stEvent *tEvent, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector);
     
     void showDialog();
     
@@ -62,7 +62,7 @@ private:
     cocos2d::CCLabelTTF *mLabelDialogContent;
     cocos2d::CCSprite *mSpriteNpc;
     
-    stTask *p_CurTask;
+    stEvent *p_CurEvent;
     
     std::vector<stTalk *> mTalkList;
     
