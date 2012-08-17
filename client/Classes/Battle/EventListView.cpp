@@ -226,7 +226,7 @@ void EventListView::showOpenBoxView()
     {
         OpenBoxView *p = OpenBoxView::create(this);
         p->setEvent(p_CurEvent);
-        this->addChild(p,99);
+        p_CurLayer->addChild(p,99);
     }
 }
 
