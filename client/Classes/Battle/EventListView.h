@@ -1,17 +1,17 @@
 //
-//  TaskListView.h
+//  EventListView.h
 //  HelloWorld
 //
 //  Created by XiaoZhong Zhu on 12-8-8.
 //  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
 //
 
-#ifndef HelloWorld_TaskListView_h
-#define HelloWorld_TaskListView_h
+#ifndef HelloWorld_EventListView_h
+#define HelloWorld_EventListView_h
 
 #include "cocos2d.h"
 #include "Basic.h"
-#include "TaskBasic.h"
+#include "EventBasic.h"
 #include "BattleDefine.h"
 #include "LuckySprite.h"
 #include "BattleResultView.h"
@@ -19,49 +19,49 @@
 
 
 
-class TaskListView : public cocos2d::CCLayer 
+class EventListView : public cocos2d::CCLayer 
 {
 public:
-    static bool getIsInTask();
+    static bool getIsInEvent();
     //
-    LAYER_CREATE_FUNC(TaskListView);
+    LAYER_CREATE_FUNC(EventListView);
     
     virtual void onEnter();
     
     void initLayer(const stPage *p_page, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector);
     
     /*
-     * this function will callback, when current task was finished.
+     * this function will callback, when current Event was finished.
      */
-    void callbackTaskWasFinished(CCNode* node, void* data);
+    void callbackEventWasFinished(CCNode* node, void* data);
 
 private:
     /*
-     * pop current task and show next task, If there is no exit any task, remove TaskListView
-     * It is work in fuctionf callbackTaskWasFinished.
+     * pop current Event and show next Event, If there is no exit any Event, remove EventListView
+     * It is work in fuctionf callbackEventWasFinished.
      */
-    void showNextTask(float dt);
+    void showNextEvent(float dt);
     
     /*
-     *@brief get current task
+     *@brief get current Event
      */
-    stTask * getCurTask();
+    stEvent * getCurEvent();
     
     /*
-     *@brief pop current task
+     *@brief pop current Event
      */
-    void popTask();
+    void popEvent();
     
     /*
      *@brief get the Event Type.
      */
-    TaskType getTaskType();
+    LEventType getLEventType();
     
     
     /*
      * this function is show UI.
      */
-    void showCurTask();
+    void showCurEvent();
     
     void showDialogView();
     
@@ -83,11 +83,11 @@ private:
     
     const stPage *p_pPage;      //Point of page
     
-    TaskType mTaskType;       //Current task's event type
+    LEventType mLEventType;       //Current Event's event type
     
-    stTask *p_CurTask;          //Current Task
+    stEvent *p_CurEvent;          //Current Event
     
-    std::vector<stTask *> mTaskList;        //All task in this page
+    std::vector<stEvent *> mEventList;        //All Event in this page
     
     cocos2d::CCLayer *p_CurLayer;       //Current Show Layer
     
