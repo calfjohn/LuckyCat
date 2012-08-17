@@ -8,11 +8,13 @@ role = {
 
     init: function() {
         //创建WebSockets
-        var socket = io.connect('http://localhost', { port: 80 });
+        var socket = io.connect(adminServer, { port: 80 });
         //响应ws消息
         socket.on(ROLE_LOGIN, this.onLogin);
         socket.on(ROLE_LOGOUT, this.onLogout);
-
+        socket.on("error", function(err) {
+            alert(err);
+        })
         this._socket = socket;
     },
 

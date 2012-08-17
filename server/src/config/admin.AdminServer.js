@@ -27,5 +27,7 @@ module.exports = {
         , user      : "root"
         , password : "123456"
         , database : "db_luckycat_admin"
-    }
+    },
+
+    server_secret : "aXoqIwP"
 }
