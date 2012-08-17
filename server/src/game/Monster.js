@@ -35,9 +35,9 @@ Monster = {
             for(var i = 0; i < rows.length; ++i){
                 var data = rows[i];
                 var strID = "" + data.id;
-                log.d("datas:",data);
+                //log.d("datas:",data);
                 Monster._cache[strID] = data;
-                log.d("cache:", Monster._cache);
+                //log.d("cache:", Monster._cache);
             }
         });
         process.nextTick(function() {
