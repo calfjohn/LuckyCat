@@ -15,6 +15,7 @@
 #include "GeneralBattleView.h"
 #include "SpecialBattleView.h"
 #include "OpenBoxView.h"
+#include "ChapterScene.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -137,15 +138,20 @@ LEventType EventListView::getLEventType()
 
 void EventListView::removeAndCleanSelf(float dt)
 {
-    m_bIsInEvent = false;
+//    m_bIsInEvent = false;
+//    
+//    ((m_target)->*(m_pfnSelector))(this, NULL);
+//    
+//    CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_BATTLE_LAYER));
+//    if ( pLayer )
+//    {
+//        pLayer->removeFromParentAndCleanup(true);
+//    }
+    CCScene *pScene = Chapter::scene();
     
-    ((m_target)->*(m_pfnSelector))(this, NULL);
+    CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
     
-    CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_BATTLE_LAYER));
-    if ( pLayer )
-    {
-        pLayer->removeFromParentAndCleanup(true);
-    }
+    CCDirector::sharedDirector()->replaceScene(pTp);
 }
 
 void EventListView::callbackEventWasFinished(CCNode* node, void* data)
@@ -220,7 +226,7 @@ void EventListView::showOpenBoxView()
     {
         OpenBoxView *p = OpenBoxView::create(this);
         p->setEvent(p_CurEvent);
-        this->addChild(p,99);
+        p_CurLayer->addChild(p,99);
     }
 }
 
