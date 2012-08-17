@@ -14,6 +14,7 @@
 #include "PlayerInfoBar.h"
 #include "NetManager.h"
 #include "EventListView.h"
+#include "ChapterScene.h"
 
 USING_NS_CC;
 
@@ -148,6 +149,9 @@ void Page::nextPageCallback(CCNode* pNode, void* data)
     const stPage *pPage = LevelDataManager::shareLevelDataManager()->getNewPage(m_nChapterId);
     if (m_pPage == pPage) 
     {
+        CCScene *pScene = Chapter::scene();   
+        CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
+        CCDirector::sharedDirector()->replaceScene(pTp);
         return;
     }
     

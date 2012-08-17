@@ -138,20 +138,20 @@ LEventType EventListView::getLEventType()
 
 void EventListView::removeAndCleanSelf(float dt)
 {
-//    m_bIsInEvent = false;
-//    
-//    ((m_target)->*(m_pfnSelector))(this, NULL);
-//    
-//    CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_BATTLE_LAYER));
-//    if ( pLayer )
-//    {
-//        pLayer->removeFromParentAndCleanup(true);
-//    }
-    CCScene *pScene = Chapter::scene();
+    m_bIsInEvent = false;
     
-    CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
+    ((m_target)->*(m_pfnSelector))(this, NULL);
     
-    CCDirector::sharedDirector()->replaceScene(pTp);
+    CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_BATTLE_LAYER));
+    if ( pLayer )
+    {
+        pLayer->removeFromParentAndCleanup(true);
+    }
+//    CCScene *pScene = Chapter::scene();
+//    
+//    CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
+//    
+//    CCDirector::sharedDirector()->replaceScene(pTp);
 }
 
 void EventListView::callbackEventWasFinished(CCNode* node, void* data)
