@@ -76,6 +76,7 @@
 		BF365AA812A103F70050DCF4 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF365AA712A103F70050DCF4 /* AppController.mm */; };
 		BF4DE6AD138BB89600CF907D /* RootViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF4DE6AC138BB89600CF907D /* RootViewController.mm */; };
 		D4ABB4B313B4395300552E6E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D4ABB4B213B4395300552E6E /* main.m */; };
+		FA5A00EE15DE187F00C1A9B9 /* EquipInfoView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA5A00EC15DE187F00C1A9B9 /* EquipInfoView.cpp */; };
 		FA8C106D15DA585000FF3FA4 /* PlayerInfoView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA8C106B15DA585000FF3FA4 /* PlayerInfoView.cpp */; };
 /* End PBXBuildFile section */
 
@@ -186,7 +187,7 @@
 		18CE8E9D15C7760A00C48686 /* BasicFunction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BasicFunction.h; sourceTree = "<group>"; };
 		18CE8E9E15C7762600C48686 /* BasicFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BasicFunction.cpp; sourceTree = "<group>"; };
 		18DA5EB615D9FCAC000B7831 /* pub */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pub; sourceTree = "<group>"; };
-		18EED36815D90B43002EC7B9 /* FuzzyBgView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuzzyBgView.h; sourceTree = "<group>"; };
+		18EED36815D90B43002EC7B9 /* FuzzyBgView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FuzzyBgView.h; path = ../Main/FuzzyBgView.h; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* LuckyCat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LuckyCat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -210,6 +211,8 @@
 		BF4DE6AB138BB89600CF907D /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		BF4DE6AC138BB89600CF907D /* RootViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RootViewController.mm; sourceTree = "<group>"; };
 		D4ABB4B213B4395300552E6E /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		FA5A00EC15DE187F00C1A9B9 /* EquipInfoView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EquipInfoView.cpp; sourceTree = "<group>"; };
+		FA5A00ED15DE187F00C1A9B9 /* EquipInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EquipInfoView.h; sourceTree = "<group>"; };
 		FA8C106B15DA585000FF3FA4 /* PlayerInfoView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerInfoView.cpp; sourceTree = "<group>"; };
 		FA8C106C15DA585000FF3FA4 /* PlayerInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerInfoView.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -317,7 +320,6 @@
 			children = (
 				15AAE34B15B6A38300F0CF5E /* CoverScene.cpp */,
 				15AAE34C15B6A38300F0CF5E /* CoverScene.h */,
-				18EED36815D90B43002EC7B9 /* FuzzyBgView.h */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -345,6 +347,8 @@
 		15D5106E15CA14DC00FE43A8 /* PlayerInfo */ = {
 			isa = PBXGroup;
 			children = (
+				FA5A00EC15DE187F00C1A9B9 /* EquipInfoView.cpp */,
+				FA5A00ED15DE187F00C1A9B9 /* EquipInfoView.h */,
 				FA8C106B15DA585000FF3FA4 /* PlayerInfoView.cpp */,
 				FA8C106C15DA585000FF3FA4 /* PlayerInfoView.h */,
 				15D5106F15CA14DC00FE43A8 /* PlayerInfoBar.cpp */,
@@ -448,6 +452,7 @@
 				187E0D4A15C679D500DB85F3 /* BattleResultView.cpp */,
 				188D088215D4BAC400AF970A /* OpenBoxView.h */,
 				188D088115D4BAC400AF970A /* OpenBoxView.cpp */,
+				18EED36815D90B43002EC7B9 /* FuzzyBgView.h */,
 			);
 			path = Battle;
 			sourceTree = "<group>";
@@ -723,6 +728,7 @@
 				184FEDCB15DDE0C2006A8373 /* EventDataManager.cpp in Sources */,
 				184FEDCC15DDE0C2006A8373 /* EventModule.cpp in Sources */,
 				184FEDCF15DDE0E1006A8373 /* EventListView.cpp in Sources */,
+				FA5A00EE15DE187F00C1A9B9 /* EquipInfoView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

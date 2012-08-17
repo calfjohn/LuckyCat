@@ -15,6 +15,7 @@
 #include "GeneralBattleView.h"
 #include "SpecialBattleView.h"
 #include "OpenBoxView.h"
+#include "ChapterScene.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -146,6 +147,11 @@ void EventListView::removeAndCleanSelf(float dt)
     {
         pLayer->removeFromParentAndCleanup(true);
     }
+//    CCScene *pScene = Chapter::scene();
+//    
+//    CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
+//    
+//    CCDirector::sharedDirector()->replaceScene(pTp);
 }
 
 void EventListView::callbackEventWasFinished(CCNode* node, void* data)
@@ -220,7 +226,7 @@ void EventListView::showOpenBoxView()
     {
         OpenBoxView *p = OpenBoxView::create(this);
         p->setEvent(p_CurEvent);
-        this->addChild(p,99);
+        p_CurLayer->addChild(p,99);
     }
 }
 

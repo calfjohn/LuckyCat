@@ -1,0 +1,75 @@
+ccb/battle.ccbi
+ccb/battle_special.ccbi
+ccb/box_tips.ccbi
+ccb/confirm.ccbi
+ccb/console.ccbi
+ccb/cover.ccbi
+ccb/dialog.ccbi
+ccb/equip.ccbi
+ccb/equip_scroll.ccbi
+ccb/fullscreen_tips.ccbi
+ccb/fuzzy.ccbi
+ccb/info.ccbi
+ccb/openbox.ccbi
+ccb/page.ccbi
+ccb/test_ccb.ccbi
+ccb/toolbar.ccbi
+image/fullscreen/full_1001.png
+image/fullscreen/fuzzy.png
+image/fullscreen/page_1001.png
+image/fullscreen/page_1002.png
+image/hero/hero_1001.png
+image/hero/hero_1002.png
+image/hero/monster_1001.png
+image/hero/monster_1002.png
+image/hero/monster_1003.png
+image/mainui/button_1001_d.png
+image/mainui/button_1001_h.png
+image/mainui/button_1001_n.png
+image/mainui/button_1002_d.png
+image/mainui/button_1002_h.png
+image/mainui/button_1002_n.png
+image/mainui/button_1003_d.png
+image/mainui/button_1003_h.png
+image/mainui/button_1003_n.png
+image/mainui/button_1004_d.png
+image/mainui/button_1004_h.png
+image/mainui/button_1004_n.png
+image/mainui/button_1005_d.png
+image/mainui/button_1005_h.png
+image/mainui/button_1005_n.png
+image/mainui/button_control_001_d.png
+image/mainui/button_control_001_h.png
+image/mainui/button_control_001_n.png
+image/mainui/button_scoll_1001_h.png
+image/mainui/button_scoll_1001_n.png
+image/mainui/button_scoll_1002_h.png
+image/mainui/button_scoll_1002_n.png
+image/mainui/main_ dice_1001_d.png
+image/mainui/main_ dice_1001_h.png
+image/mainui/main_ dice_1001_n.png
+image/mainui/main_ rim_1001.png
+image/mainui/main_ rim_1002.png
+image/mainui/main_ rim_1003.png
+image/mainui/main_ rim_1004.png
+image/mainui/main_ rim_1005.png
+image/mainui/main_ball_d.png
+image/mainui/main_ball_h.png
+image/mainui/main_ball_n.png
+image/mainui/main_bg_1001.png
+image/mainui/main_hp_d.png
+image/mainui/main_hp_n.png
+image/mainui/main_setting_d.png
+image/mainui/main_setting_h.png
+image/mainui/main_setting_n.png
+image/mainui/main_sword_d.png
+image/mainui/main_sword_h.png
+image/mainui/main_sword_n.png
+image/mainui/mian_book_d.png
+image/mainui/mian_book_h.png
+image/mainui/mian_book_n.png
+image/mainui/mian_box_1001_d.png
+image/mainui/mian_box_1001_h.png
+image/mainui/mian_box_1001_n.png
+image/mainui/ui_goal_1001.png
+image/scene/scene_1001.png
