@@ -63,6 +63,7 @@ PlayerInfoView *PlayerInfoView::create(cocos2d::CCObject * pOwner)
     
     PlayerInfoView *pInfoView = static_cast<PlayerInfoView *>(pNode);
     pInfoView->m_pPlayerEquipInfoView = EquipInfoView::create(pInfoView);
+    pInfoView->m_pPlayerEquipInfoView->sendPlayerEquipInfoRequest();
     return pInfoView;
 }
 
@@ -131,7 +132,7 @@ void PlayerInfoView::setPlayerInfoLabelForTag(const int tag, cocos2d::CCString *
 
 //Send basic player information request
 void PlayerInfoView::sendPlayerInfo(){
-    NetManager::shareNetManager()->send(kModeActor, kDoGetBasicInfo, callfuncND_selector(PlayerInfoView::responesPlayerInfo), this, NULL);
+    NetManager::shareNetManager()->sendEx(kModeActor, kDoGetBasicInfo, callfuncND_selector(PlayerInfoView::responesPlayerInfo), this, "");
 }
 
 void PlayerInfoView::responesPlayerInfo(CCNode *pNode, void* data){
@@ -139,9 +140,7 @@ void PlayerInfoView::responesPlayerInfo(CCNode *pNode, void* data){
         Json::Value root;
         Json::Reader reader;
         
-        ccnetwork::RequestInfo *info = (ccnetwork::RequestInfo *)data;
-        //std::string strData = info->strResponseData;
-        if(reader.parse(info->strResponseData, root)){
+        if(reader.parse(NetManager::shareNetManager()->response(data), root)){
             std::string nickname = root["meta"]["out"]["nickname"].asCString();
             cocos2d::CCString* strNickname = cocos2d::CCString::createWithFormat("名称：%s",nickname.c_str());
             setPlayerInfoLabelForTag(kNickNameInfo,strNickname);

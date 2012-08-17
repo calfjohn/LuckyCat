@@ -33,7 +33,6 @@ EquipInfoView * EquipInfoView::create(cocos2d::CCObject * pOwner){
     CCNode * pNode = ccbReader->readNodeGraphFromFile("pub/", "ccb/equip.ccbi", pOwner);
     
     EquipInfoView *pEquipView = static_cast<EquipInfoView *>(pNode);
-    pEquipView->sendPlayerEquipInfoRequest();
     return pEquipView;
 }
 
@@ -96,18 +95,6 @@ void EquipInfoView::setEquipInfo(cocos2d::CCSprite *equipIcon, cocos2d::CCLabelT
 }
 */
 
-void EquipInfoView::setEquipName(){
-    
-}
-
-void EquipInfoView::setEquipIcon(){
-
-}
-
-void EquipInfoView::setEquipProprety(){
-
-}
-
 void EquipInfoView::setPlayerEquipInfoForType(EquipType type){
     
 }
@@ -117,7 +104,15 @@ void EquipInfoView::sendPlayerEquipInfoRequest(){
 }
 
 void EquipInfoView::responsePlayerEquipInfoRequest(CCNode *pNode, void* data){
+    Json::Value root;
+    Json::Reader reader;
     
+    if(reader.parse(NetManager::shareNetManager()->response(data), root)){
+        Json::Value out = root["meta"]["out"];
+        for(int i = 0;i<out.size();i++){
+            //std::cout << "i = " << i << " " << out[i]["equip_id"].asInt() << std::endl;
+        }
+    }
 }
 
 

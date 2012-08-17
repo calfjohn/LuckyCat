@@ -67,11 +67,6 @@ private:
 
     //void setEquipInfo(cocos2d::CCSprite *equipIcon, cocos2d::CCLabelTTF *equipName, std::vector<cocos2d::CCLabelTTF> &equipProprety);
     
-    void setEquipName();
-    void setEquipIcon();
-    void setEquipProprety();
-    void deleteEquipInfo();
-
     void setPlayerEquipInfo();
 
 };
