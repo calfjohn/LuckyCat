@@ -55,7 +55,6 @@ const std::string g_doNames[DO_COUNT] = {
     "getEquipmentInfo",
 };
 
-<<<<<<< HEAD
 const std::string g_url[DO_COUNT] = {
 	"login/",
     "actor/getActorInfo/",
@@ -66,8 +65,7 @@ const std::string g_url[DO_COUNT] = {
     "actor/getEquipmentInfo",
 };
 
-=======
->>>>>>> origin/master
+
 const int g_doVersion[DO_COUNT] = {
 	1,
     1,

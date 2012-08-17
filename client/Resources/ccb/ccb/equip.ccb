@@ -1689,7 +1689,6 @@
 			</dict>
 			<dict>
 				<key>baseClass</key>
-<<<<<<< HEAD
 				<string>CCControlButton</string>
 				<key>children</key>
 				<array/>
@@ -2940,8 +2939,6 @@
 			</dict>
 			<dict>
 				<key>baseClass</key>
-=======
->>>>>>> origin/master
 				<string>CCSprite</string>
 				<key>children</key>
 				<array/>
