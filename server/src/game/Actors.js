@@ -11,13 +11,14 @@ require("../system/DBAgent");
 require("../system/Log");
 require("./Actor");
 
-var log = new Log("Actors")
-    , util = require("util");
+var log, util;
+log = new Log("Actors");
+util = require("util");
 
 Actors = {
-    _dbAgent : null,
-    _cacheActors: null,
-    _cacheEquipments: null,
+    _dbAgent:null,
+    _cacheActors:null,
+    _cacheEquipments:null,
     initInstance:function (dbConfig, callback) {
         Actors._dbAgent = new DBAgent(dbConfig);
         Actors._dbAgent.connect(true);
@@ -52,14 +53,14 @@ Actors = {
              *             |--data:value
              */
             Actors._cacheEquipments = {};
-            for(var i = 0; i < rows.length; ++i){
+            for (var i = 0; i < rows.length; ++i) {
                 var data = rows[i];
-                var strActorID= "" + data.actor_id;
+                var strActorID = "" + data.actor_id;
                 var datas = Actors._cacheEquipments[strActorID];
-                if(undefined == datas){
+                if (undefined == datas) {
                     datas = {};
                 }
-                datas[""+data.id] =data;
+                datas["" + data.id] = data;
                 Actors._cacheEquipments[strActorID] = datas;
             }
         });
@@ -69,14 +70,14 @@ Actors = {
         });
     },
 
-    getActor: function(uuid, callback) {
+    getActor:function (uuid, callback) {
         //get a actor basic info by uuid
-        var actorDB = Actors._cacheActors[""+uuid];
+        var actorDB = Actors._cacheActors["" + uuid];
         var equipDB = null;
-        if(undefined != actorDB){
+        if (undefined != actorDB) {
             // get the equipmnets by actor's actor_id
-             equipDB = Actors._cacheEquipments[""+actorDB.id];
-        }else{
+            equipDB = Actors._cacheEquipments["" + actorDB.id];
+        } else {
             actorDB = null;
         }
         callback(new Actor(actorDB, equipDB));
@@ -88,8 +89,8 @@ Actors = {
 
     updateProgress: function(id, chapterId, pageId){
         var strUUID = "" + id;
-        if(chapterId < Actors._cacheActors[strUUID].chapter_id ||
-            (chapterId  == Actors._cacheActors[strUUID].chapter_id && pageId <= Actors._cacheActors[strUUID].page_id)){
+        if (chapterId < Actors._cacheActors[strUUID].chapter_id ||
+            (chapterId == Actors._cacheActors[strUUID].chapter_id && pageId <= Actors._cacheActors[strUUID].page_id)) {
             return;
         }
 

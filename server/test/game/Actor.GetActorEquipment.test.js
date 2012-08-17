@@ -37,7 +37,7 @@ describe("======================================================================
         var meta = {
             mod : "actor",
             do: "getEquipmentInfo",
-            in:{"part": "1"},
+            in:{"part": "0"},
             out:{}
         };
 

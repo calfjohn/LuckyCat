@@ -7,6 +7,7 @@
 //
 
 #include "PlayerInfoView.h"
+#include "EquipInfoView.h"
 #include "FuzzyBgView.h"
 #include "NetManager.h"
 #include "json.h"
@@ -61,7 +62,8 @@ PlayerInfoView *PlayerInfoView::create(cocos2d::CCObject * pOwner)
     CCNode * pNode = ccbReader->readNodeGraphFromFile("pub/", "ccb/info.ccbi", pOwner);
     
     PlayerInfoView *pInfoView = static_cast<PlayerInfoView *>(pNode);
-    
+    pInfoView->m_pPlayerEquipInfoView = EquipInfoView::create(pInfoView);
+    pInfoView->m_pPlayerEquipInfoView->sendPlayerEquipInfoRequest();
     return pInfoView;
 }
 
@@ -130,7 +132,7 @@ void PlayerInfoView::setPlayerInfoLabelForTag(const int tag, cocos2d::CCString *
 
 //Send basic player information request
 void PlayerInfoView::sendPlayerInfo(){
-    NetManager::shareNetManager()->send(kModeActor, kDoGetBasicInfo, callfuncND_selector(PlayerInfoView::responesPlayerInfo), this, NULL);
+    NetManager::shareNetManager()->sendEx(kModeActor, kDoGetBasicInfo, callfuncND_selector(PlayerInfoView::responesPlayerInfo), this, "");
 }
 
 void PlayerInfoView::responesPlayerInfo(CCNode *pNode, void* data){
@@ -138,19 +140,17 @@ void PlayerInfoView::responesPlayerInfo(CCNode *pNode, void* data){
         Json::Value root;
         Json::Reader reader;
         
-        ccnetwork::RequestInfo *info = (ccnetwork::RequestInfo *)data;
-        //std::string strData = info->strResponseData;
-        if(reader.parse(info->strResponseData, root)){
+        if(reader.parse(NetManager::shareNetManager()->processResponse(data), root)){
             std::string nickname = root["meta"]["out"]["nickname"].asCString();
-            cocos2d::CCString* strNickname = cocos2d::CCString::createWithFormat("名称:%s",nickname.c_str());
+            cocos2d::CCString* strNickname = cocos2d::CCString::createWithFormat("名称：%s",nickname.c_str());
             setPlayerInfoLabelForTag(kNickNameInfo,strNickname);
             int level = root["meta"]["out"]["level"].asInt();
-            cocos2d::CCString* strLevel = cocos2d::CCString::createWithFormat("等级:%d",level);
+            cocos2d::CCString* strLevel = cocos2d::CCString::createWithFormat("等级：%d",level);
             setPlayerInfoLabelForTag(kLevelInfo, strLevel);
             //int exp = root["meta"]["out"]["exp"].asInt();
             //setPlayerInfoLabelForTag(kLevelInfo, cocos2d::CCString::createWithFormat("%d",exp));
             int hp = root["meta"]["out"]["hp"].asInt();
-            cocos2d::CCString* strHp = cocos2d::CCString::createWithFormat("hp:%d",hp);
+            cocos2d::CCString* strHp = cocos2d::CCString::createWithFormat("H  P：%d",hp);
             setPlayerInfoLabelForTag(kHpInfo, strHp);
         }
     }
