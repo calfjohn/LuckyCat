@@ -16,6 +16,8 @@
 #include "extensions/CCBReader/CCBMemberVariableAssigner.h"
 #include "extensions/CCBReader/CCLayerLoader.h"
 
+class EquipInfoView;
+
 class PlayerInfoView
 : public cocos2d::CCLayer
 , public cocos2d::extension::CCBMemberVariableAssigner
@@ -51,6 +53,7 @@ private:
     cocos2d::CCLabelTTF *m_labTitle;
     cocos2d::CCLabelTTF *m_labScore;
     
+    EquipInfoView *m_pPlayerEquipInfoView;
 };
 
 class CCBReader;
