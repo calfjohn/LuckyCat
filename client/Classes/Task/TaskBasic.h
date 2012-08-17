@@ -27,15 +27,9 @@ enum TaskType {
     kTaskTypeGeneralBattle          =   0,   //general battle
     kTaskTypeDialogue               =   1,    //Dialogue
     kTaskTypeSpecialBattle          =   2,     //Special battle
-    kTaskTypeNone                   =   3       //There is no task
-};
-
-enum EventType {
-    kEventTypeGeneralBattle         = 0,
-    kEventTypeTalk                  = 1,
-    kEventTypeSpecialBattle         = 2,
-    kEventTypeOneEventWasFinished   = 3,
-    kEventTypeFinishedEvent         = 4         //event was finished
+    kTaskTypeOneEventWasFinished    =   3,
+    kTaskTypeFinishedEvent          =   4,         //event was finished
+    kTaskTypeNone                   =   5       //There is no task
 };
 
 //stNPC have info of npc's name and image

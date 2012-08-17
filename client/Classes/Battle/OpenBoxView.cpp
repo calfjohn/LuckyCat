@@ -19,6 +19,8 @@
 
 #include "FuzzyBgView.h"
 
+#define TAG_BUTTON_OPEN_BOX 11
+
 USING_NS_CC;
 USING_NS_CC_EXT;
 using namespace std;
@@ -71,11 +73,13 @@ void OpenBoxView::onMenuItemClicked(cocos2d::CCObject *pTarget)
 }
 
 void OpenBoxView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent) {
-    if ( m_bIsOpen == false )
+    //if ( m_bIsOpen == false && p_CurTask && p_CurTask->box_id != -1)
     {
         m_bIsOpen = true;
-        NetManager::shareNetManager()->send(kModeTask, kDoOpenBox, callfuncND_selector(OpenBoxView::netCallBack), this, "\"taskId\": 1,\"boxId\": 1");
-        //NetManager::shareNetManager()->send(kModeGame, kDoGetActorInfo, "\"category\": \"basic\"", callfuncND_selector(OpenBoxView::netCallBack), this);
+        
+        char strChar[100];
+        sprintf(strChar,"\"taskId\": %d,\"boxId\": %d" ,p_CurTask->id, p_CurTask->box_id);
+        NetManager::shareNetManager()->send(kModeBox, kDoOpenBox,                                      callfuncND_selector(OpenBoxView::netCallBack), this, strChar);
     }
 }
 
@@ -100,6 +104,11 @@ void OpenBoxView::netCallBack(CCNode* pNode, void* data)
 {    
     if ( data )
     {
+        if ( pNode->getTag() == TAG_BUTTON_OPEN_BOX )
+        {
+            CCControlButton *pButton = (CCControlButton *)pNode;
+            pButton->cocos2d::extension::CCControl::setSelected(true);
+        }
         ccnetwork::RequestInfo *tempInfo = static_cast<ccnetwork::RequestInfo *>(data);
         
         CCLog("--------> 测试返回 url : %s\n>> ReuestInfo: %s,\n>> ResponseData %s",tempInfo->strUrl.c_str(),tempInfo->strRequestData.c_str(),tempInfo->strResponseData.c_str());
@@ -123,9 +132,17 @@ void OpenBoxView::netCallBack(CCNode* pNode, void* data)
         Json::Value json_meta = json_root["meta"];
         Json::Value json_out = json_meta["out"];
         
+        int ret = json_out["result"].asInt();
+        if ( ret != 0 )
+        {
+            //open box failed. the box id is not exit. alert player.
+            
+            return;
+        }
+        Json::Value json_goodsArray = json_out["goodsArray"];
         
-        for (int i = 0; i < json_out.size(); i++) {
-            Json::Value goods = json_out[i];
+        for (int i = 0; i < json_goodsArray.size(); i++) {
+            Json::Value goods = json_goodsArray[i];
             stGood tmpGoods;
             tmpGoods.id = goods["id"].asInt();
             tmpGoods.type = goods["type"].asInt();

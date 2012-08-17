@@ -28,6 +28,7 @@ module.exports = function (req, res, next) {
             respData.heard = header;
             respData.meta = meta;
             respData.meta.out = out;
+            respData.meta.result = 0;
             log.d("responseResult", respData);
             res.write(JSON.stringify(respData));
             res.end();
@@ -37,8 +38,6 @@ module.exports = function (req, res, next) {
             if (!actor) next();
             responseResult(actor.getBasicInfo());
         };
-
-
 
         if (info) {
             var uuid = parseInt(info.header.token);
