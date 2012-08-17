@@ -67,6 +67,7 @@ app.initInstance = function (srvConfig, callback) {
     };
 
     require("./Actors").initInstance(cfg.db_actors, dbCallback);
+    require("./DictManager").initInstance(cfg.db_actors, dbCallback);
     require("./Box").initInstance(cfg.db_actors, dbCallback);
 
     return this;
