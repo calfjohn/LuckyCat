@@ -68,6 +68,8 @@ app.initInstance = function (srvConfig, callback) {
 
     require("./Actors").initInstance(cfg.db_actors, dbCallback);
     require("./Box").initInstance(cfg.db_actors, dbCallback);
+    require("./Monster").initInstance(cfg.db_actors, dbCallback);
+    require("./Level").initInstance(cfg.db_actors, dbCallback);
 
     return this;
 };

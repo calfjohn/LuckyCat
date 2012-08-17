@@ -83,7 +83,7 @@ Actors = {
     },
 
     getActorFromCache: function(uuid) {
-        return Actors._cache[""+uuid];
+        return Actors._cacheActors[""+uuid];
     },
 
     updateProgress: function(id, chapterId, pageId){
