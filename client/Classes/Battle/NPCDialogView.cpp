@@ -9,8 +9,8 @@
 #include "NPCDialogView.h"
 #include "extensions/CCBReader/CCBReader.h"
 #include "extensions/CCBReader/CCNodeLoaderLibrary.h"
-#include "TaskDataManager.h"
-#include "TaskBasic.h"
+#include "EventDataManager.h"
+#include "EventBasic.h"
 #include "LuckySprite.h"
 #include "FuzzyBgView.h"
 
@@ -121,14 +121,14 @@ void NPCDialogView::registerWithTouchDispatcher(void)
 
 void NPCDialogView::setDialog(stTalk *tTalk)
 {
-    string dialog = TaskDataManager::getShareInstance()->getDialogFromTalk(tTalk);
+    string dialog = EventDataManager::getShareInstance()->getDialogFromTalk(tTalk);
     mLabelNpcName->setString(tTalk->npcName.c_str());
     mLabelDialogContent->setString(dialog.c_str());
 }
 
-void NPCDialogView::setData(stTask *tTask, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector)
+void NPCDialogView::setData(stEvent *tEvent, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector)
 {
-    p_CurTask = tTask;
+    p_CurEvent = tEvent;
     m_target = target;
     m_pfnSelector = pfnSelector;
     
@@ -138,7 +138,7 @@ void NPCDialogView::setData(stTask *tTask, cocos2d::CCObject *target, cocos2d::S
     
     mTalkList.clear();
     
-    mTalkList = TaskDataManager::getShareInstance()->getAllTalk(p_CurTask->id);
+    mTalkList = EventDataManager::getShareInstance()->getAllTalk(p_CurEvent->id);
     
     
     pBeginPoint = CCPointZero;
@@ -164,7 +164,7 @@ void NPCDialogView::removeAndCleanSelf(float dt)
 {
     ((m_target)->*(m_pfnSelector))(this, NULL);
     
-//    CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_TASK_LIST_LAYER));
+//    CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_EVENT_LIST_LAYER));
 //    if ( pLayer )
 //    {
 //        pLayer->removeFromParentAndCleanup(true);

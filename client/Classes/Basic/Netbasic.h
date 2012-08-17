@@ -13,7 +13,9 @@
 enum ModeRequestType
 {
     kModeTask = 0,
+    kModeEvent,
     kModeActor,
+    kModeBox,
     kModeBattle,
 	//add more
 
@@ -22,7 +24,9 @@ enum ModeRequestType
 
 const std::string g_modNames[MOD_COUNT] = {
     "task",
+    "event",
     "actor",
+    "box",
     "battle",
     
     //add more

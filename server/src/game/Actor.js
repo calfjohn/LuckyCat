@@ -5,26 +5,34 @@
 require("../system/Class");
 require("../system/Log");
 
+var util = require("util");
+var log = new Log("Actor.changeEquipment");
+var partHead = 0;
+var partBody = 1;
+var partHand = 2;
+var partFoot = 3;
 
 Actor = Class.extend({
-    _db: {},                // actor database
+    _dbBasic: {},                // basic data from table actor
+    _dbEquipment: {},           // equipment data from table actor_equipment
     _tdb: {},               // actor temporary database, will not sync to database
 
-    init: function(dbData) {
-        if (dbData) {
-            this._db = dbData;
+    init: function(basicDB, equipDB) {
+        if (basicDB && equipDB) {
+            this._dbBasic = basicDB;
+            this._dbEquipment = equipDB;
         } else {
             this.initDefaultData();
         }
     },
 
     initDefaultData: function(){
-        var db = this._db;
-        db.exp = 0;
+        var db = this._dbBasic;
+        db._dbBasic.exp = 0;
     },
 
     getBasicInfo:function () {
-        var db = this._db;
+        var db = this._dbBasic;
         var ret = {};
         ret.id = db.id;
         ret.nickname = db.nickname;
@@ -36,6 +44,69 @@ Actor = Class.extend({
         ret.chapter_id = db.chapter_id;
         ret.page_id = db.page_id;
         return ret;
+    },
+
+    getAllEquipments: function(){
+        var db = this._dbEquipment;
+        var ret = [];
+        for(var key in db){
+            var equipment = {};
+            var value = db[key];
+            equipment.equip_id = value.equip_id;
+            equipment.level = value.level;
+            equipment.rank = value.rank;
+            equipment.color = value.color;
+            equipment.item1_id = value.item1_id;
+            equipment.item2_id = value.item2_id;
+            equipment.item3_id = value.item3_id;
+            equipment.item4_id = value.item4_id;
+            equipment.item5_id = value.item5_id;
+            ret.push(equipment);
+        }
+        return ret;
+    },
+
+    getEquippedEquipment: function(){
+        var basicDB = this._dbBasic;
+        var equipDB = this._dbEquipment;
+        var ret = {};
+        ret.eq_head_id = basicDB.eq_head_id
+        ret.eq_body_id = basicDB.eq_body_id
+        ret.eq_hand_id = basicDB.eq_hand_id
+        ret.eq_foot_id = basicDB.eq_foot_id
+        return ret;
+    },
+
+    changeEquipment: function(part, equipID, callback){
+        var basicDB = this._dbBasic;
+        var equipDB = this._dbEquipment;
+
+        var ret = {
+            result: 0,
+            out: {}
+        };
+        // check equipID is valid
+        if(undefined != equipDB[equipID]){
+            if(partHead == part){
+                basicDB.eq_hand_id = equipID;
+            }
+            else if( partBody == part){ // body
+                basicDB.eq_body_id = equipID;
+            }
+            else if( partHand == part){ // hand
+                basicDB.eq_hand_id = equipID;
+            }
+            else if( partFoot == part){ // foot
+                basicDB.eq_foot_id = equipID;
+            }
+
+        }else{
+            ret.result = 1;
+            ret.out.msg = "invalid equipID, this actor don't have this quipment";
+            log.d(util.format("invalid equipID, this actor don't have this quipment %d.",equipID));
+        }
+
+        callback(ret);
     }
 
 });

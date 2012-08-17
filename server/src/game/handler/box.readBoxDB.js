@@ -1,17 +1,19 @@
 /**
  * Created with JetBrains WebStorm.
- * User: lihex
- * Date: 12-8-14
- * Time: 上午11:42
+ * User: marucs
+ * Date: 12-8-9
+ * Time: 上午9:53
  * To change this template use File | Settings | File Templates.
  */
 
 require("../../system/Log");
-var partAll = 0;
-var partEquipped = 1;
 
 module.exports = function (req, res, next) {
-    var log = new Log("actor.getEquipmentInfo");
+    var log = new Log("readBoxDB");
+
+    //DictBox.initDictData();
+
+
 
     var chunks = [];
     req.on("data", function(chunk) {
@@ -30,29 +32,32 @@ module.exports = function (req, res, next) {
             respData.heard = header;
             respData.meta = meta;
             respData.meta.out = out;
-            respData.meta.result = 0;
             log.d("responseResult", respData);
             res.write(JSON.stringify(respData));
             res.end();
         };
 
-        if (info) {
-            var uuid = info.header.token;
-            require("../Actors").getActor(uuid, function(actor){
-                if (actor != null){
-                    var part = parseInt(info.meta.in.part);
-                    if(partAll == part){ //all
-                        responseResult(actor.getAllEquipments());
-                    }
-                    if(partEquipped == part){ //equipped
-                        responseResult(actor.getEquippedEquipment());
-                    }
+        var readBoxBDNow = function () {
+
+            var dbCallback = function(err) {
+                if (err) {
+                    cb(err);
+                    return;
                 }
-            });
+                else
+                {
+                    cb(null);
+                }
+            };
+
+            require("../Box").readBoxDB( dbCallback);
+        }
+
+        if (info) {
+            readBoxBDNow();
         } else {
             next();
         }
-
 
 
     });

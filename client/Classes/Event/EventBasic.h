@@ -1,13 +1,13 @@
 //
-//  TaskBasic.h
+//  EventBasic.h
 //  HelloWorld
 //
 //  Created by MarucsChoo on 12-7-25.
 //  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
 //
 
-#ifndef HelloWorld_TaskBasic_h
-#define HelloWorld_TaskBasic_h
+#ifndef HelloWorld_EventBasic_h
+#define HelloWorld_EventBasic_h
 
 #include <vector>
 #include <map>
@@ -21,21 +21,15 @@
 #include "Basic.h"
 
 
-#define TAG_TASK_LIST_LAYER        100
+#define TAG_EVENT_LIST_LAYER        100
 
-enum TaskType {
-    kTaskTypeGeneralBattle          =   0,   //general battle
-    kTaskTypeDialogue               =   1,    //Dialogue
-    kTaskTypeSpecialBattle          =   2,     //Special battle
-    kTaskTypeNone                   =   3       //There is no task
-};
-
-enum EventType {
-    kEventTypeGeneralBattle         = 0,
-    kEventTypeTalk                  = 1,
-    kEventTypeSpecialBattle         = 2,
-    kEventTypeOneEventWasFinished   = 3,
-    kEventTypeFinishedEvent         = 4         //event was finished
+enum LEventType {
+    kLEventTypeGeneralBattle          =   0,   //general battle
+    kLEventTypeDialogue               =   1,    //Dialogue
+    kLEventTypeSpecialBattle          =   2,     //Special battle
+    kLEventTypeOneEventWasFinished    =   3,
+    kLEventTypeFinishedEvent          =   4,         //event was finished
+    kLEventTypeNone                   =   5       //There is no event
 };
 
 //stNPC have info of npc's name and image
@@ -48,17 +42,17 @@ typedef struct
 
 typedef struct
 {
-	int	id;				//id of task.
-	TaskType type;			//type of task. 0 main task, 1 side task.
+	int	id;				//id of event.
+	LEventType type;			//type of event. 0 main event, 1 side event.
     std::vector<int> targetId;		//id of target.
-	std::vector<stGood> bonus;		//bonus of task.
-	int nextTaskId;		//next task follow this task.
+	std::vector<stGood> bonus;		//bonus of event.
+	int nextEventId;		//next event follow this event.
     int box_id;             //id of treasure chests
 	bool bonusRepeat;	//if bonusRepeat is true, player can get bonus again.
     
     void print()
     {
-        printf("---- stTask -----\n");
+        printf("---- stEvent -----\n");
         printf("id %d\n", id);
         printf("type %d\n", type);
         for ( int i=0; i<targetId.size(); i++ )
@@ -70,11 +64,11 @@ typedef struct
         {
             bonus[i].print();
         }
-        printf("nextTaskId %d\n", nextTaskId);
+        printf("nextEventId %d\n", nextEventId);
         printf("box_id %d\n", box_id);
         printf("bonusRepeat %d\n", bonusRepeat);
     }
-}stTask;
+}stEvent;
 
 class stTalk
 {
@@ -82,7 +76,7 @@ public:
 	int id;				//id of talk.
     std::vector<std::string> dialogList;     //list of dialog
 	int npcId;			//if npcId is 0, lead role is talk. else it is a monster.
-    int taskId;
+    int eventId;
     std::string npcName;
     
     void print()
@@ -90,7 +84,7 @@ public:
         printf("---- stTalk -----\n");
         printf("id %d\n", id);
         printf("npcId %d\n", npcId);
-        printf("taskId %d\n", taskId);
+        printf("eventId %d\n", eventId);
         printf("npcName %s\n", npcName.c_str());
         
         for( int i = 0; i < dialogList.size(); i++ )

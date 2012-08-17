@@ -90,42 +90,42 @@ void PlayerInfoView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2
 }
 
 void PlayerInfoView::setPlayerInfoLabelForTag(const int tag, cocos2d::CCString *infomation){
-    switch (tag) {
-        case kNickNameInfo:
-            m_labNickName = (cocos2d::CCLabelTTF*)this->getChildByTag(kNickNameInfo);
-            m_labNickName->setString(infomation->getCString());
-            break;
-        case kLevelInfo:
-            m_labLevel = (cocos2d::CCLabelTTF*)this->getChildByTag(kLevelInfo);
-            m_labLevel->setString(infomation->getCString());
-            break;
-        case kHpInfo:
-            m_labHP = (cocos2d::CCLabelTTF*)this->getChildByTag(kHpInfo);
-            m_labHP->setString(infomation->getCString());
-            break;
-        case kAttackInfo:
-            m_labAttack = (cocos2d::CCLabelTTF*)this->getChildByTag(kAttackInfo);
-            m_labAttack->setString(infomation->getCString());
-            break;
-        case kRefenshInfo:
-            m_labRefensh = (cocos2d::CCLabelTTF*)this->getChildByTag(kRefenshInfo);
-            m_labRefensh->setString(infomation->getCString());
-            break;
-        case kSpeedInfo:
-            m_labSpeed = (cocos2d::CCLabelTTF*)this->getChildByTag(kSpeedInfo);
-            m_labSpeed->setString(infomation->getCString());
-            break;
-        case kTitleInfo:
-            m_labTitle = (cocos2d::CCLabelTTF*)this->getChildByTag(kTitleInfo);
-            m_labTitle->setString(infomation->getCString());
-            break;
-        case kScoreInfo:
-            m_labScore = (cocos2d::CCLabelTTF*)this->getChildByTag(kScoreInfo);
-            m_labScore->setString(infomation->getCString());
-            break;
-        default:
-            break;
-    }
+//    switch (tag) {
+//        case kNickNameInfo:
+//            m_labNickName = (cocos2d::CCLabelTTF*)this->getChildByTag(kNickNameInfo);
+//            m_labNickName->setString(infomation->getCString());
+//            break;
+//        case kLevelInfo:
+//            m_labLevel = (cocos2d::CCLabelTTF*)this->getChildByTag(kLevelInfo);
+//            m_labLevel->setString(infomation->getCString());
+//            break;
+//        case kHpInfo:
+//            m_labHP = (cocos2d::CCLabelTTF*)this->getChildByTag(kHpInfo);
+//            m_labHP->setString(infomation->getCString());
+//            break;
+//        case kAttackInfo:
+//            m_labAttack = (cocos2d::CCLabelTTF*)this->getChildByTag(kAttackInfo);
+//            m_labAttack->setString(infomation->getCString());
+//            break;
+//        case kRefenshInfo:
+//            m_labRefensh = (cocos2d::CCLabelTTF*)this->getChildByTag(kRefenshInfo);
+//            m_labRefensh->setString(infomation->getCString());
+//            break;
+//        case kSpeedInfo:
+//            m_labSpeed = (cocos2d::CCLabelTTF*)this->getChildByTag(kSpeedInfo);
+//            m_labSpeed->setString(infomation->getCString());
+//            break;
+//        case kTitleInfo:
+//            m_labTitle = (cocos2d::CCLabelTTF*)this->getChildByTag(kTitleInfo);
+//            m_labTitle->setString(infomation->getCString());
+//            break;
+//        case kScoreInfo:
+//            m_labScore = (cocos2d::CCLabelTTF*)this->getChildByTag(kScoreInfo);
+//            m_labScore->setString(infomation->getCString());
+//            break;
+//        default:
+//            break;
+//    }
 }
 
 //Send basic player information request

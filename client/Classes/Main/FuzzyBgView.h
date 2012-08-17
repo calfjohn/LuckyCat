@@ -15,7 +15,7 @@
 #include "extensions/CCBReader/CCBMemberVariableAssigner.h"
 #include "extensions/CCBReader/CCLayerLoader.h"
 
-#include "TaskBasic.h"
+#include "EventBasic.h"
 
 class FuzzyBgView
 :public cocos2d::CCLayer

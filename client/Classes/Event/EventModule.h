@@ -1,15 +1,15 @@
 //
-//  TaskModule.h
+//  EventModule.h
 //  HelloWorld
 //
 //  Created by MarucsChoo on 12-7-25.
 //  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
 //
 
-#ifndef HelloWorld_TaskModule_h
-#define HelloWorld_TaskModule_h
+#ifndef HelloWorld_EventModule_h
+#define HelloWorld_EventModule_h
 
-#include "TaskBasic.h"
+#include "EventBasic.h"
 #include <vector>
 #include <map>
 #include <string>
@@ -20,14 +20,14 @@
 #include <math.h>
 #include "cocos2d.h"
 
-class TaskModule
+class EventModule
 {
 public:
-    static TaskModule* getShareInstance(void)
+    static EventModule* getShareInstance(void)
 	{
 		if (!m_pInstance)
 		{
-			m_pInstance = new TaskModule();
+			m_pInstance = new EventModule();
 			m_pInstance->init();
 		}
 		return m_pInstance;
@@ -35,22 +35,22 @@ public:
 	}
     
 protected:
-    TaskModule();
-    virtual ~TaskModule();
+    EventModule();
+    virtual ~EventModule();
     
     void init();
     
-    static TaskModule *m_pInstance;
+    static EventModule *m_pInstance;
     
 	class XLRelease
 	{
 	public:
 		~XLRelease()
 		{
-			if(TaskModule::m_pInstance)
+			if(EventModule::m_pInstance)
 			{
-				delete TaskModule::m_pInstance;
-				TaskModule::m_pInstance = NULL;
+				delete EventModule::m_pInstance;
+				EventModule::m_pInstance = NULL;
 			}
 		}
 	};

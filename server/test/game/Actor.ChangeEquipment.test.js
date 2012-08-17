@@ -1,8 +1,8 @@
 /**
  * Created with JetBrains WebStorm.
  * User: lihex
- * Date: 12-8-9
- * Time: 上午11:37
+ * Date: 12-8-16
+ * Time: 下午5:43
  * To change this template use File | Settings | File Templates.
  */
 
@@ -26,9 +26,9 @@ var postDataTo = function (sPath, vData, fCallback) {
 
 
 describe("============================================================================\n" +
-    "    Test Actor GetBasicInfo", function() {
+    "    Test  Actor.ChangeEquipment", function() {
 
-    it("GetBasicInfo", function(done) {
+    it("ChangeEquipment", function(done) {
         var info = {};
         var header = {
             token: "1", //til now we use uuid instead
@@ -36,14 +36,14 @@ describe("======================================================================
         };
         var meta = {
             mod : "actor",
-            do: "getBasicInfo",
-            in:{},
+            do: "changeEquipmentInfo",
+            in:{"part": 1, "equipID": 11},
             out:{}
         };
 
         info.header = header;
         info.meta = meta;
-        postDataTo("/game/actor/getBasicInfo", info, function(res) {
+        postDataTo("/game/actor/changeEquipmentInfo", info, function(res) {
             res.on("data", function(chunk) {
                 console.log(chunk.toString());
                 done();

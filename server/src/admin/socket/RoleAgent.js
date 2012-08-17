@@ -4,6 +4,7 @@ var ROLE_LOGIN = "login";
 var ROLE_LOGOUT = "logout";
 
 module.exports = function(client) {
+    console.log('A socket with sessionID ' + client.handshake.sessionID + ' connected!');
 
     client.on(ROLE_LOGIN, function() {
         client.emit(ROLE_LOGIN, "some data as result." + new Date().toLocaleString());

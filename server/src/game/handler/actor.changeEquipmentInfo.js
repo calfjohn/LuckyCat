@@ -1,17 +1,16 @@
 /**
  * Created with JetBrains WebStorm.
  * User: lihex
- * Date: 12-8-14
- * Time: 上午11:42
+ * Date: 12-8-16
+ * Time: 下午5:33
  * To change this template use File | Settings | File Templates.
  */
 
+
 require("../../system/Log");
-var partAll = 0;
-var partEquipped = 1;
 
 module.exports = function (req, res, next) {
-    var log = new Log("actor.getEquipmentInfo");
+    var log = new Log("actor.changeEquipmentInfo");
 
     var chunks = [];
     req.on("data", function(chunk) {
@@ -24,13 +23,14 @@ module.exports = function (req, res, next) {
 
         var responseResult = function (ret) {
             var respData={};
-            var out = ret;
+            var result = ret.result;
+            var out = ret.out;
             var header = info.header;
             var meta = info.meta;
             respData.heard = header;
             respData.meta = meta;
             respData.meta.out = out;
-            respData.meta.result = 0;
+            respData.meta.result = result;
             log.d("responseResult", respData);
             res.write(JSON.stringify(respData));
             res.end();
@@ -41,12 +41,8 @@ module.exports = function (req, res, next) {
             require("../Actors").getActor(uuid, function(actor){
                 if (actor != null){
                     var part = parseInt(info.meta.in.part);
-                    if(partAll == part){ //all
-                        responseResult(actor.getAllEquipments());
-                    }
-                    if(partEquipped == part){ //equipped
-                        responseResult(actor.getEquippedEquipment());
-                    }
+                    var equipID = parseInt(info.meta.in.equipID);
+                    actor.changeEquipment(part, equipID, responseResult);
                 }
             });
         } else {

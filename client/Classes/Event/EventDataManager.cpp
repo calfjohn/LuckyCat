@@ -1,12 +1,12 @@
 //
-//  TaskDataManager.cpp
+//  EventDataManager.cpp
 //  HelloWorld
 //
 //  Created by JamesChen on 12-7-25.
 //  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
 //
 
-#include "TaskDataManager.h"
+#include "EventDataManager.h"
 #include "CppSQLite3.h"
 #include "cocos2d.h"
 #include <algorithm>
@@ -23,43 +23,43 @@ bool SortTalkById(stTalk *first,stTalk *second){
         return true;
 }
 
-TaskDataManager *TaskDataManager::m_pInstance = NULL;
-TaskDataManager::XLRelease TaskDataManager::Garbo;
+EventDataManager *EventDataManager::m_pInstance = NULL;
+EventDataManager::XLRelease EventDataManager::Garbo;
 
-TaskDataManager::TaskDataManager()
+EventDataManager::EventDataManager()
 {
-    mTaskMap.clear();
+    mEventMap.clear();
     mTalkMap.clear();
     mNpcMap.clear();
-    mCurTaskMap.clear();
+    mCurEventMap.clear();
 }
 
-TaskDataManager::~TaskDataManager()
+EventDataManager::~EventDataManager()
 {
-    this->deleteTaskMap();
+    this->deleteEventMap();
     this->deleteTalkMap();
     this->deleteNpcMap();
-    this->deleteCurTaskMap();
+    this->deleteCurEventMap();
 }
 
-void TaskDataManager::init()
+void EventDataManager::init()
 {
     this->readDB();
 }
 
-void TaskDataManager::deleteTaskMap()
+void EventDataManager::deleteEventMap()
 {
-    for (std::map<int,stTask *>::iterator _iter = mTaskMap.begin(); _iter != mTaskMap.end() ; _iter++ )
+    for (std::map<int,stEvent *>::iterator _iter = mEventMap.begin(); _iter != mEventMap.end() ; _iter++ )
     {
-        stTask *tmpTask = _iter->second;
+        stEvent *tmpEvent = _iter->second;
         
-        CC_SAFE_FREE(tmpTask);
+        CC_SAFE_FREE(tmpEvent);
     }
     
-    mTaskMap.clear();
+    mEventMap.clear();
 }
 
-void TaskDataManager::deleteTalkMap()
+void EventDataManager::deleteTalkMap()
 {
     for (std::map<int,stTalk *>::iterator _iter = mTalkMap.begin(); _iter != mTalkMap.end() ; _iter++ )
     {
@@ -71,7 +71,7 @@ void TaskDataManager::deleteTalkMap()
     mTalkMap.clear();
 }
 
-void TaskDataManager::deleteNpcMap()
+void EventDataManager::deleteNpcMap()
 {
     for (std::map<int,stNPC *>::iterator _iter = mNpcMap.begin(); _iter != mNpcMap.end() ; _iter++ )
     {
@@ -83,32 +83,32 @@ void TaskDataManager::deleteNpcMap()
     mNpcMap.clear();
 }
 
-void TaskDataManager::deleteCurTaskMap()
+void EventDataManager::deleteCurEventMap()
 {
-    for (std::map<int,stTask *>::iterator _iter = mCurTaskMap.begin(); _iter != mCurTaskMap.end() ; _iter++ )
+    for (std::map<int,stEvent *>::iterator _iter = mCurEventMap.begin(); _iter != mCurEventMap.end() ; _iter++ )
     {
-        stTask *tmpTask = _iter->second;
+        stEvent *tmpEvent = _iter->second;
         
-        CC_SAFE_FREE(tmpTask);
+        CC_SAFE_FREE(tmpEvent);
     }
     
-    mCurTaskMap.clear();
+    mCurEventMap.clear();
 }
 
-void TaskDataManager::setTaskMap(std::vector<stTask *> tmpVector)
+void EventDataManager::setEventMap(std::vector<stEvent *> tmpVector)
 {
-    this->deleteTaskMap();
+    this->deleteEventMap();
     
-    std::vector<stTask *>::iterator _iter = tmpVector.begin();
+    std::vector<stEvent *>::iterator _iter = tmpVector.begin();
     for (; _iter != tmpVector.end(); _iter++)
     {
-        stTask *tmpTask = *_iter;
+        stEvent *tmpEvent = *_iter;
         
-        mTaskMap.insert(make_pair(tmpTask->id, tmpTask));
+        mEventMap.insert(make_pair(tmpEvent->id, tmpEvent));
     }
 }
 
-void TaskDataManager::setTalkMap(std::vector<stTalk *> tmpVector)
+void EventDataManager::setTalkMap(std::vector<stTalk *> tmpVector)
 {
     this->deleteTalkMap();
     
@@ -121,7 +121,7 @@ void TaskDataManager::setTalkMap(std::vector<stTalk *> tmpVector)
     }
 }
 
-void TaskDataManager::setNpcMap(std::vector<stNPC *> tmpVector)
+void EventDataManager::setNpcMap(std::vector<stNPC *> tmpVector)
 {
     this->deleteNpcMap();
     
@@ -134,20 +134,20 @@ void TaskDataManager::setNpcMap(std::vector<stNPC *> tmpVector)
     }
 }
 
-stTask * TaskDataManager::getTask(int taskId)
+stEvent * EventDataManager::getEvent(int EventId)
 {
-    std::map<int, stTask*>::iterator _iter = mTaskMap.find(taskId);
-    if ( _iter != mTaskMap.end() )
+    std::map<int, stEvent*>::iterator _iter = mEventMap.find(EventId);
+    if ( _iter != mEventMap.end() )
     {
-        stTask *tmpTask = _iter->second;
-        return tmpTask;
+        stEvent *tmpEvent = _iter->second;
+        return tmpEvent;
     }
     else {
         return NULL;
     }
 }
 
-stNPC * TaskDataManager::getNPC(int npcId)
+stNPC * EventDataManager::getNPC(int npcId)
 {
     std::map<int, stNPC *>::iterator _iter = mNpcMap.find(npcId);
     if ( _iter != mNpcMap.end() )
@@ -160,7 +160,7 @@ stNPC * TaskDataManager::getNPC(int npcId)
     }
 }
 
-stTalk * TaskDataManager::getTalk(int talkId)
+stTalk * EventDataManager::getTalk(int talkId)
 {
     std::map<int, stTalk *>::iterator _iter = mTalkMap.find(talkId);
     if ( _iter != mTalkMap.end() )
@@ -174,12 +174,12 @@ stTalk * TaskDataManager::getTalk(int talkId)
     }
 }
 
-stTask * TaskDataManager::getCurTask(int taskId)
+stEvent * EventDataManager::getCurEvent(int EventId)
 {
-    std::map<int, stTask *>::iterator _iter = mCurTaskMap.find(taskId);
-    if ( _iter != mCurTaskMap.end() )
+    std::map<int, stEvent *>::iterator _iter = mCurEventMap.find(EventId);
+    if ( _iter != mCurEventMap.end() )
     {
-        stTask *tmpTalk = _iter->second;
+        stEvent *tmpTalk = _iter->second;
         return tmpTalk;
     }
     else
@@ -188,13 +188,13 @@ stTask * TaskDataManager::getCurTask(int taskId)
     }
 }
 
-bool TaskDataManager::removeCurTask(int taskId)
+bool EventDataManager::removeCurEvent(int EventId)
 {
-    std::map<int, stTask *>::iterator _iter = mCurTaskMap.find(taskId);
-    if ( _iter != mCurTaskMap.end() )
+    std::map<int, stEvent *>::iterator _iter = mCurEventMap.find(EventId);
+    if ( _iter != mCurEventMap.end() )
     {
-        stTask *tmpTask = _iter->second;
-        CC_SAFE_FREE(tmpTask);
+        stEvent *tmpEvent = _iter->second;
+        CC_SAFE_FREE(tmpEvent);
         return true;
     }
     else
@@ -203,21 +203,21 @@ bool TaskDataManager::removeCurTask(int taskId)
     }
 }
 
-bool TaskDataManager::addCurTask(stTask *tmpTask)
+bool EventDataManager::addCurEvent(stEvent *tmpEvent)
 {
-    if ( NULL != tmpTask )
+    if ( NULL != tmpEvent )
     {
-        std::map<int, stTask *>::iterator _iter = mCurTaskMap.find(tmpTask->id);
-        if ( _iter == mCurTaskMap.end() )
+        std::map<int, stEvent *>::iterator _iter = mCurEventMap.find(tmpEvent->id);
+        if ( _iter == mCurEventMap.end() )
         {
-            mCurTaskMap.insert(make_pair(tmpTask->id, tmpTask));
+            mCurEventMap.insert(make_pair(tmpEvent->id, tmpEvent));
             return true;
         }
     }
     return false;
 }
 
-std::vector<stTalk *> TaskDataManager::getAllTalk(int task_id)
+std::vector<stTalk *> EventDataManager::getAllTalk(int event_id)
 {
     std::vector<stTalk *> tVectorRetTalk;
     std::map<int, stTalk *>::iterator _iter = mTalkMap.begin();
@@ -227,7 +227,7 @@ std::vector<stTalk *> TaskDataManager::getAllTalk(int task_id)
     {
         stTalk *tmpTalk = _iter->second;
         
-        if ( tmpTalk && tmpTalk->taskId == task_id )
+        if ( tmpTalk && tmpTalk->eventId == event_id )
         {
             tVectorRetTalk.push_back(tmpTalk);
             
@@ -246,23 +246,23 @@ std::vector<stTalk *> TaskDataManager::getAllTalk(int task_id)
     return retVectorTalk;
 }
 
-std::vector<stTask *> TaskDataManager::getASeriesOfTask(int task_id)
+std::vector<stEvent *> EventDataManager::getASeriesOfEvent(int event_id)
 {
-    //printf("----get a series task-------\n");
-    std::vector<stTask *> tVectorTask;
-    int tmpTaskId = task_id;
-    while (tmpTaskId > 0 ) {
-        stTask *tmpTask = getTask(tmpTaskId);
-        tVectorTask.push_back(tmpTask);
-        tmpTaskId = tmpTask->nextTaskId;
+    printf("----get a series Event-------\n");
+    std::vector<stEvent *> tVectorEvent;
+    int tmpEventId = event_id;
+    while (tmpEventId > 0 ) {
+        stEvent *tmpEvent = getEvent(tmpEventId);
+        tVectorEvent.push_back(tmpEvent);
+        tmpEventId = tmpEvent->nextEventId;
         
-//        tmpTask->print();
+        tmpEvent->print();
     }
     
-    return tVectorTask;
+    return tVectorEvent;
 }
 
-std::string TaskDataManager::getDialogFromTalk( stTalk * tmpTalk )
+std::string EventDataManager::getDialogFromTalk( stTalk * tmpTalk )
 {
     if ( !tmpTalk || tmpTalk->dialogList.size() == 0 )
     {
@@ -279,7 +279,7 @@ std::string TaskDataManager::getDialogFromTalk( stTalk * tmpTalk )
 }
 
 #pragma Read SQLite
-void TaskDataManager::readDB()
+void EventDataManager::readDB()
 {
     string strFullPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath("config/LuckyCat.sqlite");
     CppSQLite3DB db;
@@ -289,16 +289,16 @@ void TaskDataManager::readDB()
 		return;
 	}
     
-    CppSQLite3Query result = db.execQuery("select * from task;");
+    CppSQLite3Query result = db.execQuery("select * from Task;");
     
-    std::vector<stTask *> tTaskVector;
+    std::vector<stEvent *> tEventVector;
 	while(!result.eof())
 	{
-        stTask *tTask = new stTask();
-        tTask->id = result.getIntField("id");
-        tTask->type = (TaskType)result.getIntField("type");
+        stEvent *tEvent = new stEvent();
+        tEvent->id = result.getIntField("id");
+        tEvent->type = (LEventType)result.getIntField("type");
         std::string strTarget = result.getStringField("target_id");
-        tTask->targetId = separateStringToNumberVector(strTarget, ",");
+        tEvent->targetId = separateStringToNumberVector(strTarget, ",");
         std::string strBonus = result.getStringField("bonus_id");
         std::vector<int> tmpBonusList = separateStringToNumberVector(strBonus, ",");
         
@@ -308,19 +308,19 @@ void TaskDataManager::readDB()
             stGood _good;
             _good.id = tmpBonusList[i];
             _good.num = tmpBonusList[i+1];
-            tTask->bonus.push_back(_good);
+            tEvent->bonus.push_back(_good);
         }
         
-        tTask->bonusRepeat = result.getIntField("bonus_repeat");
-        tTask->nextTaskId = result.getIntField("next_task_id");
-        tTask->box_id = result.getIntField("box_id");
+        tEvent->bonusRepeat = result.getIntField("bonus_repeat");
+        tEvent->nextEventId = result.getIntField("next_task_id");
+        tEvent->box_id = result.getIntField("box_id");
         
-        tTaskVector.push_back(tTask);
+        tEventVector.push_back(tEvent);
         
         result.nextRow();
     }
     
-    this->setTaskMap(tTaskVector);
+    this->setEventMap(tEventVector);
     
     CppSQLite3Query result_1 = db.execQuery("select * from npc_talk;");
     
@@ -329,7 +329,7 @@ void TaskDataManager::readDB()
 	{
         stTalk *tTalk = new stTalk();
         tTalk->id = result_1.getIntField("id");
-        tTalk->taskId = result_1.getIntField("task_id");
+        tTalk->eventId = result_1.getIntField("task_id");
         std::string _dialog= result_1.getStringField("content");
         
         tTalk->dialogList = separateString(_dialog,"||");
