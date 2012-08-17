@@ -34,13 +34,167 @@ module.exports = function (req, res, next) {
             res.end();
         };
 
+        var whoIsFast = function(team){
+            var teamId = -1;
+            var tempMember = {};
+            tempMember.time = -1;
+
+            for(var i = 0; i < team.length; i++){
+                var tempTeam = team[i];
+                for(var j = 0; j < tempTeam.length; j++){
+                    if(tempTeam[j].time < tempMember.time)
+                    {
+                        tempMember = tempTeam[j].;
+                        teamId = i;
+                    }
+                }
+            }
+
+            return tempMember, teamId;
+        };
+
+        var whoIsDefender = function(teamId){
+            var tempMember= {};
+            tempMember.hurt = 0;
+            //选择生命力最弱的
+            for(var i = 0; i < team[teamId].length; i++){
+                if(team[i].hurt < tempMember.hurt)
+                {
+                    tempMember = team[i];
+                }
+            }
+
+            return tempMember;
+        };
+
+        var contructResult = function(team1, team2){
+            var battleResult = {};
+            battleResult.awardArray = {};
+            battleResult.awardArray.gold = 0;
+            battleResult.awardArray.exp = 0;
+            battleResult.awardArray.item = [];
+
+            battleResult.battleArray = {};
+            battleResult.battleArray.playlist = [];
+            battleResult.battleArray.team1Final = [];
+            battleResult.battleArray.team1Fina2 = [];
+
+            battleResult.team1 = [];
+            battleResult.team2 = [];
+
+            battleResult.result = {};
+            battleResult.result.type = 0;
+            battleResult.result.state = 0;
+        };
+
+        var versus = function(attacker, defender){
+            defender.hurt = defender.hurt - (attacker.attack - defender.defence);
+            if(defender.hurt < 0)
+            {
+                defender.hurt = 0;
+            }
+
+            return defender.hurt == 0;//死没？
+        };
+
+        var updateTime = function(time){
+            for(var i = 0; i < team1[i]; i++){
+                if()
+                team1[i].time -= time;
+            }
+
+            for(var i = 0; i < team2[i]; i++){
+                if(team2[i].time < tempMember.time)
+                {
+                    tempMember = team[i];
+                    team = team1;
+                }
+            }
+        }
+
+        var fight  = function(team) {
+            //team1 The attacking side
+            //team2 The defence side
+
+            //遍历计算每个角色属性加成
+            //遍历每个角色的速度，定出优先顺序
+            //选择被攻击角色
+            //被攻击角色是否闪避
+            //被攻击角色是否反震
+            //攻击角色是否爆击
+            //攻击，计算伤害值
+            //更新相关角色属性
+            //直到有一队全部死亡
+            //否则下一个
+            var battleResult;
+            while(true){
+                var attacker, teamId = whoIsFast(team);
+                var defender = whoIsDefender(!teamId);//only two team, one is 0, the orther is 1
+                if(versus(attacker, defender))
+                {
+                    break;
+                }
+            }
+
+            responseResult(undefined);
+        };
+
+        var teamUp1 = function(data) {
+            var team = [];
+            var member = {};
+
+            member.id = data.id;
+            member.imageId = data.image_id;
+            member.level = data.level;
+            member.name = data.nickname;
+            member.equip = [];
+            member.skill = [];
+            member.hp = data.hp;
+            member.hurt = member.hp;
+            member.speed = 200;
+            member.time = member.speed;
+            member.attack = 500;
+            member.defence = 800;
+
+            team.push(member);
+            return team;
+        };
+
+        var teamUp2 = function(data) {
+            var team = [];
+            var member = {};
+
+            member.id = data.id;
+            member.imageId = data.image_id;
+            member.level = data.level;
+            member.name = data.name;
+            member.equip = [];
+            member.skill = [];
+            member.hp = 8000;
+            member.hurt = member.hp;
+            member.speed = 150;
+            member.time = member.speed;
+            member.attack = 800;
+            member.defence = 1000;
+
+            team.push(member);
+            return team;
+        };
+
 
         if (info) {
             //receive input parameter
-            var chapterId = parseInt(info.meta.in.monster_id);
             var uuid = parseInt(info.header.token);
+            var actor = require("../Actors").getActorFromCache(uuid);
 
-            //to do something
+            // test code, 组装成队伍战斗
+            var monsterId = parseInt(info.meta.in.monsterId);
+            var monster = require("../Monster").getMonster(monsterId);
+
+            var team = [];
+            team.push(teamUp1(actor);
+            team.push(teamUp2(monster);
+            fight(team);
         } else {
             next();
         }
