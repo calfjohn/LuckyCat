@@ -46,6 +46,10 @@ Actors = {
         callback(new Actor(data));
     },
 
+    getActorFromCache: function(uuid) {
+        return Actors._cache[""+uuid];
+    },
+
     updateProgress: function(uuid, chapterId, pageId){
         var strUUID = "" + uuid;
         if(chapterId < Actors._cache[strUUID].chapter_id ||

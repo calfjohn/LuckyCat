@@ -43,6 +43,10 @@ app.initInstance = function (srvConfig, callback) {
         }
     }
 
+    require("./Monster").initInstance(cfg.db_actors, function(err) {
+        cb(err);
+    });
+
     require("./Level").initInstance(cfg.db_actors, function(err) {
         cb(err);
     });
@@ -70,6 +74,6 @@ app.initHandlers = function (aExpress) {
     aExpress.post("/game/actor/getEquipmentInfo", require("./handler/actor.getEquipmentInfo.js"));
     aExpress.post("/game/task/openBox", require("./handler/task.openBox"));
     aExpress.post("/game/battle/fight1", require("./handler/battle.fight1"));
-    aExpress.post("/game/battle/fight2", require("./handler/battle.fight2"));
+    //aExpress.post("/game/battle/fight2", require("./handler/battle.fight2"));
 };
 module.exports = app;

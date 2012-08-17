@@ -71,7 +71,8 @@ module.exports = function (req, res, next) {
             var pageId = parseInt(info.meta.in.pageId);
             var uuid = parseInt(info.header.token);
 
-            require("../Level").getLevel(uuid, chapterId, pageId, getBattelResult);
+            var data = require("../Level").getLevel(chapterId, pageId);
+            getBattelResult(uuid, data);
         } else {
             next();
         }

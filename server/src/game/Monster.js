@@ -6,38 +6,38 @@
  * To change this template use File | Settings | File Templates.
  */
 /**
- * Level controller for cache、 sync with database.
+ * Monster controller for cache、 sync with database.
  */
 
-if (global.Level) {
-    module.exports = Level;
+if (global.Monster) {
+    module.exports = Monster;
     return;
 }
 
 require("../system/DBAgent");
 require("../system/Log");
 
-var log = new Log("Level")
+var log = new Log("Monster")
     , util = require("util");
 
-Level = {
+Monster = {
     _dbAgent : null,
     initInstance : function(dbConfig, callback) {
-        Level._dbAgent = new DBAgent(dbConfig);
-        Level._dbAgent.connect(true);
+        Monster._dbAgent = new DBAgent(dbConfig);
+        Monster._dbAgent.connect(true);
         // Cache all dict_page data on server start
-        Level._dbAgent.query("SELECT * FROM `dict_page`", function (err, rows) {
+        Monster._dbAgent.query("SELECT * FROM `dict_monster`", function (err, rows) {
             if (err) {
                 throw err;
                 return;
             }
-            Level._cache = {};
+            Monster._cache = {};
             for(var i = 0; i < rows.length; ++i){
                 var data = rows[i];
-                var strID = "" + data.id + "-" + data.chapter_id;
-                //log.d("datas:",datas);
-                Level._cache[strID] = data;
-                //log.d("cache:", Level._cache);
+                var strID = "" + data.id;
+                log.d("datas:",data);
+                Monster._cache[strID] = data;
+                log.d("cache:", Monster._cache);
             }
         });
         process.nextTick(function() {
@@ -45,10 +45,10 @@ Level = {
         });
     },
 
-    getLevel: function(chapterId, pageId) {
-        var strID = "" + pageId + "-" + chapterId;
-        return Level._cache[strID];
+    getMonster: function(monsterId) {
+        var strID = "" + monsterId;
+        return Monster._cache[strID];
     }
 };
 
-module.exports = Level;
+module.exports = Monster;
