@@ -82,6 +82,10 @@ Actors = {
         callback(new Actor(actorDB, equipDB));
     },
 
+    getActorFromCache: function(uuid) {
+        return Actors._cache[""+uuid];
+    },
+
     updateProgress: function(id, chapterId, pageId){
         var strUUID = "" + id;
         if(chapterId < Actors._cacheActors[strUUID].chapter_id ||

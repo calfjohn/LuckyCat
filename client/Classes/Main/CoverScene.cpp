@@ -10,6 +10,7 @@
 #include "ChapterScene.h"
 #include "LevelDataManager.h"
 #include "LuckySprite.h"
+#include "NetManager.h"
 
 USING_NS_CC;
 
@@ -71,6 +72,7 @@ bool Cover::init()
 
 void Cover::menuDaggerCallback(CCObject* pSender)
 {
+    NetManager::shareNetManager()->sendEx(kModeBattle, kDoFight2, NULL, NULL, "\"monsterId\": %d", 5);
 }
 
 void Cover::menuMagicCallback(CCObject* pSender)
