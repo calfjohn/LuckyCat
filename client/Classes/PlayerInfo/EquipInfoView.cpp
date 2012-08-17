@@ -107,7 +107,7 @@ void EquipInfoView::responsePlayerEquipInfoRequest(CCNode *pNode, void* data){
     Json::Value root;
     Json::Reader reader;
     
-    if(reader.parse(NetManager::shareNetManager()->response(data), root)){
+    if(reader.parse(NetManager::shareNetManager()->processResponse(data), root)){
         Json::Value out = root["meta"]["out"];
         for(int i = 0;i<out.size();i++){
             //std::cout << "i = " << i << " " << out[i]["equip_id"].asInt() << std::endl;

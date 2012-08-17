@@ -129,24 +129,7 @@ void Page::showBattleView(CCObject *pSender)
 
 void Page::fightCallback(CCNode* pNode, void* data)
 {   
-    //NetManager::shareNetManager()->sendEx(kModeBattle, kDoFight1, callfuncND_selector(Page::nextPageCallback), this, "\"chapterId\": %d, \"pageId\": %d", m_nChapterId, m_pPage->id);
-    
-    LevelDataManager::shareLevelDataManager()->changePageState(m_nChapterId, m_pPage->id);
-    
-    const stPage *newPage = LevelDataManager::shareLevelDataManager()->getNewPage(m_nChapterId);
-    
-    if (m_pPage->id == newPage->id) 
-    {
-        CCScene *pScene = Chapter::scene();   
-        CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
-        CCDirector::sharedDirector()->replaceScene(pTp);
-    }
-    else {
-        CCScene *pScene = Page::scene(m_nChapterId, newPage);
-        CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
-        CCDirector::sharedDirector()->replaceScene(pTp);
-    }
-
+    NetManager::shareNetManager()->sendEx(kModeBattle, kDoFight1, callfuncND_selector(Page::nextPageCallback), this, "\"chapterId\": %d, \"pageId\": %d", m_nChapterId, m_pPage->id);
 }
 
 void Page::nextPageCallback(CCNode* pNode, void* data)
@@ -166,6 +149,9 @@ void Page::nextPageCallback(CCNode* pNode, void* data)
     const stPage *pPage = LevelDataManager::shareLevelDataManager()->getNewPage(m_nChapterId);
     if (m_pPage == pPage) 
     {
+        CCScene *pScene = Chapter::scene();   
+        CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
+        CCDirector::sharedDirector()->replaceScene(pTp);
         return;
     }
     
