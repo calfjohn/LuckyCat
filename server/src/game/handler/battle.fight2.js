@@ -134,6 +134,8 @@ module.exports = function (req, res, next) {
                 {
                     break;
                 }
+
+                updateTime()
             }
 
             responseResult(undefined);
