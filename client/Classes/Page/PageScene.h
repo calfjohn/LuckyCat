@@ -11,11 +11,14 @@
 
 #include "cocos2d.h"
 #include "LevelDataManager.h"
+#include "extensions/CCBReader/CCNodeLoader.h"
+#include "extensions/CCBReader/CCLayerLoader.h"
 
 class Page : public cocos2d::CCLayer
 {
 public:
-    // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
+    static Page *create(cocos2d::CCObject * pOwner);
+    
     virtual bool init();  
 
     // there's no 'id' in cpp, so we recommand to return the exactly class pointer
@@ -44,14 +47,28 @@ protected:
     
     cocos2d::CCLabelTTF *m_title;
     cocos2d::CCLabelTTF *m_content;
-    cocos2d::CCLabelTTF *m_monster;
-    cocos2d::CCLabelTTF *m_state;
-    cocos2d::CCLabelTTF *m_tips;
+    
+    cocos2d::CCSprite *m_SpriteMonster;
+    cocos2d::CCSprite *m_SpriteBg;
+    
+//    cocos2d::CCLabelTTF *m_monster;
+//    cocos2d::CCLabelTTF *m_state;
+//    cocos2d::CCLabelTTF *m_tips;
     int m_nChapterId;
     const stPage *m_pPage;
     
     cocos2d::CCPoint pBeginPoint;
     
+};
+
+class CCBReader;
+
+class PageLoader : public cocos2d::extension::CCLayerLoader {
+public:
+    CCB_STATIC_NEW_AUTORELEASE_OBJECT_METHOD(PageLoader, loader);
+    
+protected:
+    CCB_VIRTUAL_NEW_AUTORELEASE_CREATECCNODE_METHOD(Page);
 };
 
 #endif  // __PAGE_SCENE_H__

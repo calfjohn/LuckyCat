@@ -11,16 +11,39 @@
 #include "DictDataManager.h"
 #include "LuckySprite.h"
 #include "EventDataManager.h"
-#include "PlayerInfoBar.h"
+#include "PlayerInfoView.h"
 #include "NetManager.h"
 #include "EventListView.h"
 #include "ChapterScene.h"
+#include "extensions/CCBReader/CCBReader.h"
+#include "extensions/CCBReader/CCNodeLoaderLibrary.h"
 
 USING_NS_CC;
 
 #define TAG_MENU 1000
 #define TAG_NEXT 1001
 #define TAG_ATTACK 1002
+
+#define TAG_Lab_Title       11
+#define TAG_Lab_Content     12
+#define TAG_Sprite_Bg       21
+#define TAG_Sprite_Monster  22
+
+Page *Page::create(cocos2d::CCObject * pOwner)
+{
+    cocos2d::extension::CCNodeLoaderLibrary * ccNodeLoaderLibrary = cocos2d::extension::CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
+    
+    ccNodeLoaderLibrary->registerCCNodeLoader("Page", PageLoader::loader());
+    
+    cocos2d::extension::CCBReader * ccbReader = new cocos2d::extension::CCBReader(ccNodeLoaderLibrary);
+    ccbReader->autorelease();
+    
+    CCNode * pNode = ccbReader->readNodeGraphFromFile("pub/", "ccb/page.ccbi", pOwner);
+    
+    Page *pPage = static_cast<Page *>(pNode);
+    return pPage;
+}
+
 
 CCScene* Page::scene(int chapterId, const stPage *pPage)
 {
@@ -64,7 +87,7 @@ void Page::turnToPage(int chapterId, const stPage *pPage)
     }
     m_nChapterId = chapterId;
     m_pPage = pPage;
-    
+    /*
     CCSize size = CCDirector::sharedDirector()->getWinSize();
     
     LuckySprite* pSprite = LuckySprite::create(1);
@@ -115,6 +138,16 @@ void Page::turnToPage(int chapterId, const stPage *pPage)
 
 	PlayerInfoBar* playerInfoBar = PlayerInfoBar::create();
 	this->addChild(playerInfoBar);
+     */
+    
+    m_title = (CCLabelTTF *)this->getChildByTag(TAG_Lab_Title);
+    m_content = (CCLabelTTF *)this->getChildByTag(TAG_Lab_Content);
+    
+    m_SpriteMonster = (CCSprite *)this->getChildByTag(TAG_Sprite_Monster);
+    m_SpriteBg = (CCSprite *)this->getChildByTag(TAG_Sprite_Bg);
+    
+    m_title->setString(m_pPage->name.c_str());
+    m_content->setString(m_pPage->content.c_str());
 }
 
 void Page::showBattleView(CCObject *pSender)
@@ -144,18 +177,21 @@ void Page::nextPageCallback(CCNode* pNode, void* data)
     }
     
     LevelDataManager::shareLevelDataManager()->changePageState(m_nChapterId, m_pPage->id);
-    m_tips->setString(m_pPage->state && m_pPage->end ? "End of Chapter" : "");
+    //todo marcus m_tips->setString(m_pPage->state && m_pPage->end ? "End of Chapter" : "");
     
     const stPage *pPage = LevelDataManager::shareLevelDataManager()->getNewPage(m_nChapterId);
     if (m_pPage == pPage) 
     {
-        CCScene *pScene = Chapter::scene();   
-        CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
-        CCDirector::sharedDirector()->replaceScene(pTp);
+        CCDirector::sharedDirector()->popScene();
         return;
     }
     
-    CCScene *pScene = Page::scene(m_nChapterId, pPage);
+    //CCScene *pScene = Page::scene(m_nChapterId, pPage);
+    CCScene *pScene = CCScene::create();
+    Page *pPageLayer = Page::create(pScene);
+    pPageLayer->turnToPage(m_nChapterId,pPage);
+    pScene->addChild(pPageLayer);
+    
     CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
     CCDirector::sharedDirector()->replaceScene(pTp);
 }

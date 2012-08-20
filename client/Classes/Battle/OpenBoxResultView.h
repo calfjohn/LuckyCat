@@ -1,13 +1,13 @@
 //
-//  BattleResultView.h
+//  OpenBoxResultView.h
 //  HelloWorld
 //
 //  Created by XiaoZhong Zhu on 12-7-30.
 //  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
 //
 
-#ifndef HelloWorld_BattleResultView_h
-#define HelloWorld_BattleResultView_h
+#ifndef HelloWorld_OpenBoxResultView_h
+#define HelloWorld_OpenBoxResultView_h
 
 #include "cocos2d.h"
 #include "extensions/CCBReader/CCNodeLoader.h"
@@ -19,15 +19,13 @@
 
 
 
-class BattleResultView : public cocos2d::CCLayer 
+class OpenBoxResultView : public cocos2d::CCLayer 
 {
 public:
     
-    static BattleResultView *create(cocos2d::CCObject * pOwner);
+    static OpenBoxResultView *create(cocos2d::CCObject * pOwner);
     
-    CCB_STATIC_NEW_AUTORELEASE_OBJECT_WITH_INIT_METHOD(BattleResultView, create);
-    
-    void initView(stEvent *tEvent);
+    CCB_STATIC_NEW_AUTORELEASE_OBJECT_WITH_INIT_METHOD(OpenBoxResultView, create);
     
     void initView(std::vector<stGood> tGoodsList);
     
@@ -43,11 +41,11 @@ private:
 
 class CCBReader;
 
-class BattleResultViewLoader : public cocos2d::extension::CCLayerLoader {
+class OpenBoxResultViewLoader : public cocos2d::extension::CCLayerLoader {
 public:
-    CCB_STATIC_NEW_AUTORELEASE_OBJECT_METHOD(BattleResultViewLoader, loader);
+    CCB_STATIC_NEW_AUTORELEASE_OBJECT_METHOD(OpenBoxResultViewLoader, loader);
 protected:
-    CCB_VIRTUAL_NEW_AUTORELEASE_CREATECCNODE_METHOD(BattleResultView);
+    CCB_VIRTUAL_NEW_AUTORELEASE_CREATECCNODE_METHOD(OpenBoxResultView);
 };
 
 #endif
