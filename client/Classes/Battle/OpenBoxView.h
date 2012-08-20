@@ -15,7 +15,7 @@
 #include "extensions/CCBReader/CCBMemberVariableAssigner.h"
 #include "extensions/CCBReader/CCLayerLoader.h"
 
-#include "TaskBasic.h"
+#include "EventBasic.h"
 
 class OpenBoxView 
 : public cocos2d::CCLayer
@@ -38,13 +38,11 @@ public:
     
     void onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent);
     
-    void setTask(stTask *t);
-    
-    void showResultView();
+    void setEvent(stEvent *t);
     
     void netCallBack(CCNode* pNode, void* data);
 private:
-    stTask *p_CurTask;
+    stEvent *p_CurEvent;
     
     bool m_bIsOpen;
 };

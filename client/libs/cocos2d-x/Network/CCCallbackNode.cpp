@@ -59,6 +59,8 @@ void CCCallbackNode::performedCallback(float dt)
     }
     
     this->pauseSchedulerAndActions();
+    
+    this->release();
 }
 
 NS_CC_NETWORK_END

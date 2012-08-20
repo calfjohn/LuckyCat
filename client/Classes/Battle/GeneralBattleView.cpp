@@ -10,10 +10,12 @@
 #include "extensions/CCBReader/CCBReader.h"
 #include "extensions/CCBReader/CCNodeLoaderLibrary.h"
 
-#include "TaskDataManager.h"
+#include "EventDataManager.h"
 #include "BattleResultView.h"
 #include "LuckySprite.h"
 #include "FuzzyBgView.h"
+
+#include "PlayerInfoView.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -66,6 +68,13 @@ void GeneralBattleView::onMenuItemClicked(cocos2d::CCObject *pTarget)
 {
     cocos2d::CCNode *p = static_cast<cocos2d::CCNode *>(pTarget);
     printf("tag %d\n",p->getTag());
+    
+    //Test player info view start;
+    if(p->getTag() == 1){
+        PlayerInfoView *pPlayerInfo = PlayerInfoView::create(this);
+        this->addChild(pPlayerInfo);
+    }
+    //Test end;
 }
 
 void GeneralBattleView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent) {
@@ -104,9 +113,9 @@ void GeneralBattleView::registerWithTouchDispatcher(void)
     CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority , true);
 }
 
-void GeneralBattleView::setData(stTask *tTask, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector)
+void GeneralBattleView::setData(stEvent *tEvent, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector)
 {
-    p_CurTask = tTask;
+    p_CurEvent = tEvent;
     m_target = target;
     m_pfnSelector = pfnSelector;
     
@@ -132,7 +141,7 @@ void GeneralBattleView::removeAndCleanSelf(float dt)
 {
     ((m_target)->*(m_pfnSelector))(this, NULL);
     
-//    CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_TASK_LIST_LAYER));
+//    CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_EVENT_LIST_LAYER));
 //    if ( pLayer )
 //    {
 //        pLayer->removeFromParentAndCleanup(true);
@@ -147,7 +156,7 @@ void GeneralBattleView::menuBackCallback(CCObject* pSender)
 void GeneralBattleView::showBattleResultView()
 {
     BattleResultView *retView = BattleResultView::create(this);
-    retView->initView(p_CurTask);
+    retView->initView(p_CurEvent);
     this->addChild(retView,88);
 }
 

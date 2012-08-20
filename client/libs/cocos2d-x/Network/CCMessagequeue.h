@@ -61,7 +61,7 @@ public:
 		return m_pInstance; 
 	}    
        
-    CCCallbackNode *getCallbackNode(){return m_pCallbackNode;}
+    CCCallbackNode *getCallbackNode();
     
 protected:
     /* push request on request queue, First Input First Output */

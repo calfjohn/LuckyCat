@@ -28,7 +28,7 @@ bool NetManager::init(void)
 
 bool NetManager::send(ModeRequestType modEnum, DoRequestType doEnum, cocos2d::SEL_CallFuncND selector, cocos2d::CCObject *rec, const char* requestData)
 {
-    CCNetwork::sharedNetwork()->sendNetPackage(GenerateUrl(doEnum), 1, GeneratePost(modEnum, doEnum, requestData).c_str(), selector, rec);
+    CCNetwork::sharedNetwork()->sendNetPackage(GenerateUrl(modEnum, doEnum), 1, GeneratePost(modEnum, doEnum, requestData).c_str(), selector, rec);
     
     return true;
 }
@@ -62,9 +62,9 @@ string NetManager::GeneratePost(ModeRequestType modEnum, DoRequestType doEnum,co
 	return string(temp);
 }
 
-string NetManager::GenerateUrl(DoRequestType doEnum)
+string NetManager::GenerateUrl(ModeRequestType modEnum, DoRequestType doEnum)
 {
-    return m_strUrl + g_url[doEnum];
+    return m_strUrl + g_modNames[modEnum] + "/" + g_doNames[doEnum] + "/";
 }
 
 string NetManager::GetErrorInfo(int errorCode)
@@ -79,7 +79,7 @@ string NetManager::GetErrorInfo(int errorCode)
 	return "无效的错误代码：" + ConvertToString(errorCode);
 }
 
-const char* NetManager::response(void *data)
+const char* NetManager::processResponse(void *data)
 {
     CCAssert(data != NULL, "");
     RequestInfo *info = (RequestInfo *)data;

@@ -308,8 +308,13 @@ void* CCMessageQueue::responseThread(void* data)
             {
                 break;
             }   
-                        
-            CCMessageQueue::sharedMessagequeue()->getCallbackNode()->callback(pRequestInfo);
+                
+            CCCallbackNode* pCallbackNode = CCMessageQueue::sharedMessagequeue()->getCallbackNode();
+            if(pCallbackNode)
+            {
+                pCallbackNode->callback(pRequestInfo);
+            }
+            
         }
     }
     
@@ -325,6 +330,14 @@ void* CCMessageQueue::responseThread(void* data)
     }
     
     return 0;
+}
+
+CCCallbackNode *CCMessageQueue::getCallbackNode()
+{
+    CCCallbackNode* pCallbackNode = CCCallbackNode::node();
+    CC_SAFE_RETAIN(pCallbackNode);
+    
+    return pCallbackNode;
 }
 
 NS_CC_NETWORK_END

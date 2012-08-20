@@ -5,17 +5,28 @@
 require("../system/Class");
 require("../system/Log");
 
+var util = require("util");
+var log = new Log("Actor.changeEquipment");
+var PartType = {
+    partHead : 0,
+    partBody : 1,
+    partHand : 2,
+    partFoot : 3
+};
+var PartEmpty = -1;
+
 
 Actor = Class.extend({
     _dbBasic: {},                // basic data from table actor
     _dbEquipment: {},           // equipment data from table actor_equipment
+    _dbSkill: {},
     _tdb: {},               // actor temporary database, will not sync to database
-    _log: new Log("getBasicInfo"),
 
-    init: function(basicDB, equipDB) {
+    init: function(basicDB, equipDB, skillDB) {
         if (basicDB && equipDB) {
             this._dbBasic = basicDB;
             this._dbEquipment = equipDB;
+            this._dbSkill = skillDB;
         } else {
             this.initDefaultData();
         }
@@ -47,6 +58,7 @@ Actor = Class.extend({
         for(var key in db){
             var equipment = {};
             var value = db[key];
+            equipment.id = value.id;
             equipment.equip_id = value.equip_id;
             equipment.level = value.level;
             equipment.rank = value.rank;
@@ -72,31 +84,62 @@ Actor = Class.extend({
         return ret;
     },
 
-    changeEquipment: function(part, equipID, callback){
+    changeEquipment: function(part, id, callback){
         var basicDB = this._dbBasic;
         var equipDB = this._dbEquipment;
 
-        var ret = {};
-        // check equipID is valid
-        if(undefined != equipDB[equipID]){
-            if(0 == part){
-                basicDB.eq_hand_id = equipID;
-            }
-            else if( 1 == part){ // body
-                basicDB.eq_body_id = equipID;
-            }
-            else if( 2 == part){ // hand
-                basicDB.eq_hand_id = equipID;
-            }
-            else if( 3 == part){ // foot
-                basicDB.eq_foot_id = equipID;
+        var ret = {
+            result: 0,
+            out: {}
+        };
+        do {
+            //卸下装备
+            if (PartEmpty == id) {
+                if (PartType.partHead == part) {
+                    basicDB.eq_hand_id = id;
+                }
+                else if (PartType.partBody == part) { // body
+                    basicDB.eq_body_id = id;
+                }
+                else if (PartType.partHand == part) { // hand
+                    basicDB.eq_hand_id = id;
+                }
+                else if (PartType.partFoot == part) { // foot
+                    basicDB.eq_foot_id = id;
+                }
+                break;
             }
 
-        }else{
-            _log.d("invalid equipID, this actor don't have this quipment %d.",equipID);
-        }
+            // 更换装备
+            // check equipID is valid
+            require("./DictManager").getEquipmentByID(id, function (eq) {
+                var equipType = eq.class;
+                if ((equipType == part) && (undefined != equipDB[id])) {
+                    if (PartType.partHead == part) {
+                        basicDB.eq_hand_id = id;
+                    }
+                    else if (PartType.partBody == part) { // body
+                        basicDB.eq_body_id = id;
+                    }
+                    else if (PartType.partHand == part) { // hand
+                        basicDB.eq_hand_id = id;
+                    }
+                    else if (PartType.partFoot == part) { // foot
+                        basicDB.eq_foot_id = id;
+                    }
+                } else {
+                    ret.result = 1;
+                    ret.out.msg = "invalid equipID, this actor don't have this quipment";
+                    log.d(util.format("invalid equipID, this actor don't have this quipment %d.", equipID));
+                }
 
+            });
+        } while (0);
         callback(ret);
+    },
+
+    getSkills: function(){
+        return this._dbSkill;
     }
 
 });

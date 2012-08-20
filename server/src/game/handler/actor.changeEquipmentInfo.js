@@ -23,13 +23,14 @@ module.exports = function (req, res, next) {
 
         var responseResult = function (ret) {
             var respData={};
-            var out = ret;
+            var result = ret.result;
+            var out = ret.out;
             var header = info.header;
             var meta = info.meta;
             respData.heard = header;
             respData.meta = meta;
             respData.meta.out = out;
-            respData.meta.result = 0;
+            respData.meta.result = result;
             log.d("responseResult", respData);
             res.write(JSON.stringify(respData));
             res.end();
@@ -40,8 +41,8 @@ module.exports = function (req, res, next) {
             require("../Actors").getActor(uuid, function(actor){
                 if (actor != null){
                     var part = parseInt(info.meta.in.part);
-                    var equipID = parseInt(info.meta.in.equipID);
-                    actor.changeEquipment(part, equipID, responseResult);
+                    var id = parseInt(info.meta.in.id);
+                    actor.changeEquipment(part, id, responseResult);
                 }
             });
         } else {

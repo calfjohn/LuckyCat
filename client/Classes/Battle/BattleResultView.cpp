@@ -31,23 +31,7 @@ BattleResultView *BattleResultView::create(cocos2d::CCObject * pOwner)
     return pBattleResultView;
 }
 
-BattleResultView *BattleResultView::createBoxResultView(cocos2d::CCObject * pOwner)
-{
-    cocos2d::extension::CCNodeLoaderLibrary * ccNodeLoaderLibrary = cocos2d::extension::CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
-    
-    ccNodeLoaderLibrary->registerCCNodeLoader("BattleResultView", BattleResultViewLoader::loader());
-    
-    cocos2d::extension::CCBReader * ccbReader = new cocos2d::extension::CCBReader(ccNodeLoaderLibrary);
-    ccbReader->autorelease();
-    
-    CCNode * pNode = ccbReader->readNodeGraphFromFile("", "ccb/box_tips.ccbi", pOwner);
-    
-    BattleResultView *pBattleResultView = static_cast<BattleResultView *>(pNode);
-    return pBattleResultView;
-}
-
-
-void BattleResultView::initView(stTask *tTask)
+void BattleResultView::initView(stEvent *tEvent)
 {
     CCSize screanSize = CCDirector::sharedDirector()->getWinSize();
     
@@ -63,7 +47,7 @@ void BattleResultView::initView(stTask *tTask)
     CCPoint labtip_pos = labtip->getPosition();
     
     int i = 0;
-    for (std::vector<stGood>::iterator _iter = tTask->bonus.begin(); _iter < tTask->bonus.end(); _iter++,i++) {
+    for (std::vector<stGood>::iterator _iter = tEvent->bonus.begin(); _iter < tEvent->bonus.end(); _iter++,i++) {
         stGood _goods = *_iter;
         
         char strChar[512];
@@ -109,7 +93,7 @@ void BattleResultView::initView(std::vector<stGood> tGoodsList)
 
 bool BattleResultView::haveBox()
 {
-    if ( p_CurTask->box_id == -1  )
+    if ( p_CurEvent->box_id == -1  )
     {
         return false;
     }
@@ -121,7 +105,7 @@ bool BattleResultView::haveBox()
 void BattleResultView::showBoxView()
 {
     OpenBoxView *pOpenBoxView = OpenBoxView::create(this);
-    pOpenBoxView->setTask(p_CurTask);
+    pOpenBoxView->setEvent(p_CurEvent);
     this->addChild(pOpenBoxView);
 }
 

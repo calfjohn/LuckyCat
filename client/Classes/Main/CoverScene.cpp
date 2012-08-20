@@ -10,8 +10,64 @@
 #include "ChapterScene.h"
 #include "LevelDataManager.h"
 #include "LuckySprite.h"
+#include "NetManager.h"
+#include "PageScene.h"
+#include "extensions/CCBReader/CCBReader.h"
+#include "extensions/CCBReader/CCNodeLoaderLibrary.h"
+
+#define TAG_BUTTON_BOOK 1
 
 USING_NS_CC;
+USING_NS_CC_EXT;
+
+Cover *Cover::create(cocos2d::CCObject * pOwner)
+{
+    cocos2d::extension::CCNodeLoaderLibrary * ccNodeLoaderLibrary = cocos2d::extension::CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
+    
+    ccNodeLoaderLibrary->registerCCNodeLoader("Cover", CoverLoader::loader());
+    
+    cocos2d::extension::CCBReader * ccbReader = new cocos2d::extension::CCBReader(ccNodeLoaderLibrary);
+    ccbReader->autorelease();
+    
+    CCNode * pNode = ccbReader->readNodeGraphFromFile("pub/", "ccb/cover.ccbi", pOwner);
+    
+    Cover *pCover = static_cast<Cover *>(pNode);
+    return pCover;
+}
+
+cocos2d::SEL_MenuHandler Cover::onResolveCCBCCMenuItemSelector(cocos2d::CCObject * pTarget, cocos2d::CCString * pSelectorName)
+{
+    CCB_SELECTORRESOLVER_CCMENUITEM_GLUE(this, "onMenuItemClicked", Cover::onMenuItemClicked);
+    
+    return NULL;
+}
+cocos2d::extension::SEL_CCControlHandler Cover::onResolveCCBCCControlSelector(cocos2d::CCObject * pTarget, cocos2d::CCString * pSelectorName)
+{
+    CCB_SELECTORRESOLVER_CCCONTROL_GLUE(this, "onCCControlButtonClicked", Cover::onCCControlButtonClicked );
+    return NULL;
+}
+bool Cover::onAssignCCBMemberVariable(cocos2d::CCObject * pTarget, cocos2d::CCString * pMemberVariableName, cocos2d::CCNode * pNode)
+{
+    return false;
+}
+
+void Cover::onMenuItemClicked(cocos2d::CCObject *pTarget)
+{
+    cocos2d::CCNode *p = static_cast<cocos2d::CCNode *>(pTarget);
+    printf("tag %d\n",p->getTag());
+}
+
+void Cover::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent) {
+    cocos2d::CCNode *p = static_cast<cocos2d::CCNode *>(pSender);
+    printf("tag %d\n",p->getTag());
+    
+    unsigned int tag = p->getTag();
+    
+    if ( tag == TAG_BUTTON_BOOK )
+    {
+        this->menuBookCallback(NULL);
+    }
+}
 
 CCScene* Cover::scene()
 {
@@ -23,7 +79,7 @@ CCScene* Cover::scene()
         CC_BREAK_IF(! scene);
 
         // 'layer' is an autorelease object
-        Cover *layer = Cover::create();
+        Cover *layer = Cover::create(scene);
         CC_BREAK_IF(! layer);
 
         // add layer as a child to scene
@@ -39,6 +95,7 @@ bool Cover::init()
 {
     CCTouchPageTurn::init();
 
+    /*
     CCSize size = CCDirector::sharedDirector()->getWinSize();
 
     CCMenuItemSprite *pDaggerItem = CCMenuItemSprite::create(LuckySprite::create(4), LuckySprite::create(4, 1.1), LuckySprite::create(6), this, menu_selector(Cover::menuDaggerCallback));
@@ -65,6 +122,9 @@ bool Cover::init()
     this->addChild(pSprite, 0);
     
     this->setTouchEnabled(true);
+    
+    //this->addChild(Page::create(this),99);
+     */
 
     return true;
 }

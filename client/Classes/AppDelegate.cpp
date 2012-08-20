@@ -5,7 +5,7 @@
 #include "LevelDataManager.h"
 #include "DictDataManager.h"
 #include "CoverScene.h"
-#include "TaskDataManager.h"
+#include "EventDataManager.h"
 #include "Basic.h"
 
 using namespace CocosDenshion;
@@ -40,7 +40,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     LevelDataManager::shareLevelDataManager();
     DictDataManager::shareDictDataManager();
-    TaskDataManager::getShareInstance();
+    EventDataManager::getShareInstance();
     
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("image/chapter/chapter.plist");
     CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("image/common/common.plist");

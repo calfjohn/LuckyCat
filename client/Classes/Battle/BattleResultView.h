@@ -13,7 +13,7 @@
 #include "extensions/CCBReader/CCNodeLoader.h"
 #include "extensions/CCBReader/CCLayerLoader.h"
 #include "Basic.h"
-#include "TaskBasic.h"
+#include "EventBasic.h"
 #include "BattleDefine.h"
 #include "LuckySprite.h"
 
@@ -25,11 +25,9 @@ public:
     
     static BattleResultView *create(cocos2d::CCObject * pOwner);
     
-    static BattleResultView *createBoxResultView(cocos2d::CCObject *pOwner);
-    
     CCB_STATIC_NEW_AUTORELEASE_OBJECT_WITH_INIT_METHOD(BattleResultView, create);
     
-    void initView(stTask *tTask);
+    void initView(stEvent *tEvent);
     
     void initView(std::vector<stGood> tGoodsList);
     
@@ -40,7 +38,7 @@ public:
     void showBoxView();
     
 private:
-    stTask *p_CurTask;
+    stEvent *p_CurEvent;
 };
 
 class CCBReader;

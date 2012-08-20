@@ -45,10 +45,9 @@ Level = {
         });
     },
 
-    getLevel: function(uuid, chapterId, pageId, callback) {
+    getLevel: function(chapterId, pageId) {
         var strID = "" + pageId + "-" + chapterId;
-        var data = Level._cache[strID];
-        callback(uuid, data);
+        return Level._cache[strID];
     }
 };
 

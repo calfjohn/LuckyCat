@@ -10,10 +10,13 @@
 #include "BattleDefine.h"
 #include "DictDataManager.h"
 #include "LuckySprite.h"
-#include "TaskDataManager.h"
-#include "PlayerInfoBar.h"
+#include "EventDataManager.h"
+#include "PlayerInfoView.h"
 #include "NetManager.h"
-#include "TaskListView.h"
+#include "EventListView.h"
+#include "ChapterScene.h"
+#include "extensions/CCBReader/CCBReader.h"
+#include "extensions/CCBReader/CCNodeLoaderLibrary.h"
 
 USING_NS_CC;
 
@@ -21,30 +24,46 @@ USING_NS_CC;
 #define TAG_NEXT 1001
 #define TAG_ATTACK 1002
 
+#define TAG_Lab_Title       11
+#define TAG_Lab_Content     12
+#define TAG_Sprite_Bg       21
+#define TAG_Sprite_Monster  22
+
+Page *Page::create(cocos2d::CCObject * pOwner)
+{
+    cocos2d::extension::CCNodeLoaderLibrary * ccNodeLoaderLibrary = cocos2d::extension::CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
+    
+    ccNodeLoaderLibrary->registerCCNodeLoader("Page", PageLoader::loader());
+    
+    cocos2d::extension::CCBReader * ccbReader = new cocos2d::extension::CCBReader(ccNodeLoaderLibrary);
+    ccbReader->autorelease();
+    
+    CCNode * pNode = ccbReader->readNodeGraphFromFile("pub/", "ccb/page.ccbi", pOwner);
+    
+    Page *pPage = static_cast<Page *>(pNode);
+    return pPage;
+}
+
+
 CCScene* Page::scene(int chapterId, const stPage *pPage)
 {
     CCScene * scene = NULL;
     do 
     {
-        // 'scene' is an autorelease object
         scene = CCScene::create();
         CC_BREAK_IF(! scene);
 
-        // 'layer' is an autorelease object
         Page *layer = Page::create();
         CC_BREAK_IF(! layer);
 
-        // add layer as a child to scene
         scene->addChild(layer);
         
         layer->turnToPage(chapterId, pPage);
     } while (0);
 
-    // return the scene
     return scene;
 }
 
-// on "init" you need to initialize your instance
 bool Page::init()
 {
     CCLayer::init();
@@ -68,7 +87,7 @@ void Page::turnToPage(int chapterId, const stPage *pPage)
     }
     m_nChapterId = chapterId;
     m_pPage = pPage;
-    
+    /*
     CCSize size = CCDirector::sharedDirector()->getWinSize();
     
     LuckySprite* pSprite = LuckySprite::create(1);
@@ -99,11 +118,11 @@ void Page::turnToPage(int chapterId, const stPage *pPage)
     m_content->setColor(ccBLACK);
     this->addChild(m_content, 1);
 
-    CCMenuItemSprite *pAttackItem  = CCMenuItemSprite::create(LuckySprite::create(29), LuckySprite::create(30), LuckySprite::create(31), this, menu_selector(Page::menuAttackCallback));
+    CCMenuItemSprite *pAttackItem  = CCMenuItemSprite::create(LuckySprite::create(29), LuckySprite::create(30), LuckySprite::create(31), this, menu_selector(Page::showBattleView));
     pAttackItem->setPosition(ccp(size.width - 50, 50));
     pMenu->addChild(pAttackItem, 0, TAG_ATTACK);
     
-    const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(m_pPage->taskId);
+    const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(m_pPage->eventId);
     if (pMonster) 
     {
         LuckySprite *tempSprite = LuckySprite::create(pMonster->imageId);
@@ -117,31 +136,25 @@ void Page::turnToPage(int chapterId, const stPage *pPage)
         this->addChild(m_monster, 1);
     }
 
-	PlayerInfoBar* playerInfoBar = PlayerInfoBar::create();
-	this->addChild(playerInfoBar);
-}
-
-void Page::menuAttackCallback(CCObject* pSender)
-{    
-    showBattleView(pSender);
-
-    LevelDataManager::shareLevelDataManager()->changePageState(m_nChapterId, m_pPage->id);
-    m_tips->setString(m_pPage->state && m_pPage->end ? "End of Chapter" : "");
+     */
+    
+    m_title = (CCLabelTTF *)this->getChildByTag(TAG_Lab_Title);
+    m_content = (CCLabelTTF *)this->getChildByTag(TAG_Lab_Content);
+    
+    m_SpriteMonster = (CCSprite *)this->getChildByTag(TAG_Sprite_Monster);
+    m_SpriteBg = (CCSprite *)this->getChildByTag(TAG_Sprite_Bg);
+    
+    m_title->setString(m_pPage->name.c_str());
+    m_content->setString(m_pPage->content.c_str());
 }
 
 void Page::showBattleView(CCObject *pSender)
 {
-//    if ( MonsterBattleView::getIsInBattle() == false )
-//    {
-//        MonsterBattleView *pMonter = MonsterBattleView::create();
-//        pMonter->initLayer(m_pPage, this, callfuncND_selector(Page::fightCallback));
-//        CCDirector::sharedDirector()->getRunningScene()->addChild(pMonter, 0, TAG_BATTLE_LAYER);
-//    }
-    if ( TaskListView::getIsInTask() == false )
+    if ( EventListView::getIsInEvent() == false )
     {
-        TaskListView *pTaskListView = TaskListView::create();
-        pTaskListView->initLayer(m_pPage, this, callfuncND_selector(Page::fightCallback));
-        CCDirector::sharedDirector()->getRunningScene()->addChild(pTaskListView, 0, TAG_TASK_LIST_LAYER);
+        EventListView *pEventListView = EventListView::create();
+        pEventListView->initLayer(m_pPage, this, callfuncND_selector(Page::fightCallback));
+        CCDirector::sharedDirector()->getRunningScene()->addChild(pEventListView, 0, TAG_EVENT_LIST_LAYER);
     }
 }
 
@@ -150,26 +163,33 @@ void Page::fightCallback(CCNode* pNode, void* data)
     NetManager::shareNetManager()->sendEx(kModeBattle, kDoFight1, callfuncND_selector(Page::nextPageCallback), this, "\"chapterId\": %d, \"pageId\": %d", m_nChapterId, m_pPage->id);
 }
 
-
 void Page::nextPageCallback(CCNode* pNode, void* data)
 {       
     Json::Value root;
     Json::Reader reader;
     
-    if(!reader.parse(NetManager::shareNetManager()->response(data), root) 
+    if(!reader.parse(NetManager::shareNetManager()->processResponse(data), root) 
        && !root["meta"]["out"]["result"]["state"].asInt())
     {
         return;
     }
     
+    LevelDataManager::shareLevelDataManager()->changePageState(m_nChapterId, m_pPage->id);
+    //todo marcus m_tips->setString(m_pPage->state && m_pPage->end ? "End of Chapter" : "");
+    
     const stPage *pPage = LevelDataManager::shareLevelDataManager()->getNewPage(m_nChapterId);
     if (m_pPage == pPage) 
     {
+        CCDirector::sharedDirector()->popScene();
         return;
     }
     
-    // turnToPage(m_nChapterId, pPage);
-    CCScene *pScene = Page::scene(m_nChapterId, pPage);
+    //CCScene *pScene = Page::scene(m_nChapterId, pPage);
+    CCScene *pScene = CCScene::create();
+    Page *pPageLayer = Page::create(pScene);
+    pPageLayer->turnToPage(m_nChapterId,pPage);
+    pScene->addChild(pPageLayer);
+    
     CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
     CCDirector::sharedDirector()->replaceScene(pTp);
 }
@@ -198,7 +218,7 @@ void Page::ccTouchEnded(cocos2d::CCTouch* touch, cocos2d::CCEvent *pEvent)
     if (distance_ > 2.0f)
     {
         //触发随机事件
-        this->menuAttackCallback(NULL);
+        this->showBattleView(NULL);
     }
 }
 

@@ -32,7 +32,7 @@ typedef struct
     string name;        //page's title
     string content;     //page's content
     int imageId;        //page's image
-    int taskId;         //page's task
+    int eventId;         //page's event
     cocos2d::CCPoint position;   //position on page map
     int state;          //fight result 0:new 1:success 2: failed
     std::string image;  //the background of page
@@ -130,9 +130,20 @@ typedef struct {
     int             career_id;
     int             chapter_id;
     int             page_id;
-}stActorUerInfo;
+}stActorUserInfo;
 
-static stActorUerInfo* UserInfo;
+typedef struct{
+    std::string                 equipName;
+    std::string                 equipIconName;
+    std::vector<std::string>    equipProprety;
+}stActorEquipInfo;
+
+typedef struct{
+    int                 userEquipId;
+    std::string         userEquipName;
+    std::string         userEquipType;
+    stActorEquipInfo    *equipInfo;
+}stActorUserEquipInfo;
 
 #endif
 
