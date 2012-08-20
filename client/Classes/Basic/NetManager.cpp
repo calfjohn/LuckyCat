@@ -21,7 +21,7 @@ bool NetManager::init(void)
 //	m_mapError[-1] = "通讯错误或者返回的json数据内容错误";
 
     m_strToken = "1";
-    m_strUrl = "http://192.168.0.51:22222/game/";
+    m_strUrl = "http://localhost:22222/game/";
     m_nIndex = 1;
 	return true;
 }

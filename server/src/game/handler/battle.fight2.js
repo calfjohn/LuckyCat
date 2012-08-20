@@ -35,39 +35,45 @@ module.exports = function (req, res, next) {
         };
 
         var whoIsFast = function(team){
-            var teamId = -1;
-            var tempMember = {};
-            tempMember.time = -1;
+            var teamX = [];
+            var attacker = {};
+            attacker.time = -1;
 
-            for(var i = 0; i < team.length; i++){
-                var tempTeam = team[i];
-                for(var j = 0; j < tempTeam.length; j++){
-                    if(tempTeam[j].time < tempMember.time)
-                    {
-                        tempMember = tempTeam[j].;
-                        teamId = i;
+            for(var i = 0; i < team.A.length; i++){
+                if(team.A[i].time < attacker.time || attacker.time == -1){
+                    attacker = team.A[i];
+                    teamX = team.A;
                     }
+            }
+
+            for(var i = 0; i < team.B.length; i++){
+                if(team.B[i].time < attacker.time || attacker.time == -1){
+                    attacker = team.B[i];
+                    teamX = team.B;
                 }
             }
 
-            return tempMember, teamId;
+            var ret = {};
+            ret.attacker = attacker;
+            ret.teamX = teamX;
+            return ret;
         };
 
-        var whoIsDefender = function(teamId){
+        var whoIsDefender = function(teamX){
             var tempMember= {};
-            tempMember.hurt = 0;
+            tempMember.hurt = -1;
             //选择生命力最弱的
-            for(var i = 0; i < team[teamId].length; i++){
-                if(team[i].hurt < tempMember.hurt)
+            for(var i = 0; i < teamX.length; i++){
+                if(teamX[i].hurt < tempMember.hurt || tempMember.hurt == -1)
                 {
-                    tempMember = team[i];
+                    tempMember = teamX[i];
                 }
             }
 
             return tempMember;
         };
 
-        var contructResult = function(team1, team2){
+        var contructResult = function(team){
             var battleResult = {};
             battleResult.awardArray = {};
             battleResult.awardArray.gold = 0;
@@ -85,10 +91,16 @@ module.exports = function (req, res, next) {
             battleResult.result = {};
             battleResult.result.type = 0;
             battleResult.result.state = 0;
+
+            return battleResult;
         };
 
         var versus = function(attacker, defender){
-            defender.hurt = defender.hurt - (attacker.attack - defender.defence);
+            var tempHurt = attacker.attack - defender.defence;
+            if(tempHurt <= 0){
+                tempHurt = 1;
+            }
+            defender.hurt = defender.hurt - tempHurt;
             if(defender.hurt < 0)
             {
                 defender.hurt = 0;
@@ -97,18 +109,22 @@ module.exports = function (req, res, next) {
             return defender.hurt == 0;//死没？
         };
 
-        var updateTime = function(time){
-            for(var i = 0; i < team1[i]; i++){
-                if()
-                team1[i].time -= time;
+        var updateTime = function(team, attacker, teamX){
+            var time = attacker.time;
+            for(var i = 0; i < teamX.length; i++){
+                if(teamX[i].id == attacker.id)
+                {
+                    teamX[i].time = 1/teamX[i].speed;
+                }
+                else
+                {
+                    teamX[i].time -= time;
+                }
             }
 
-            for(var i = 0; i < team2[i]; i++){
-                if(team2[i].time < tempMember.time)
-                {
-                    tempMember = team[i];
-                    team = team1;
-                }
+            teamX = (teamX == team.A)? team.B: team.A;
+            for(var i = 0; i < teamX.length; i++){
+                    team.B[i].time -= time;
             }
         }
 
@@ -128,15 +144,18 @@ module.exports = function (req, res, next) {
             //否则下一个
             var battleResult;
             while(true){
-                var attacker, teamId = whoIsFast(team);
-                var defender = whoIsDefender(!teamId);//only two team, one is 0, the orther is 1
+                var ret = whoIsFast(team);
+                var attacker = ret.attacker;
+                var defender = whoIsDefender((ret.teamX == team.A)? team.B: team.A);
                 if(versus(attacker, defender))
                 {
                     break;
                 }
+
+                updateTime(team, attacker, ret.teamX);
             }
 
-            responseResult(undefined);
+            responseResult(contructResult(team));
         };
 
         var teamUp1 = function(data) {
@@ -152,9 +171,9 @@ module.exports = function (req, res, next) {
             member.hp = data.hp;
             member.hurt = member.hp;
             member.speed = 200;
-            member.time = member.speed;
-            member.attack = 500;
-            member.defence = 800;
+            member.time = 1/member.speed;
+            member.attack = 5000;
+            member.defence = 3000;
 
             team.push(member);
             return team;
@@ -173,9 +192,9 @@ module.exports = function (req, res, next) {
             member.hp = 8000;
             member.hurt = member.hp;
             member.speed = 150;
-            member.time = member.speed;
-            member.attack = 800;
-            member.defence = 1000;
+            member.time = 1/member.speed;
+            member.attack = 6500;
+            member.defence = 4000;
 
             team.push(member);
             return team;
@@ -191,9 +210,9 @@ module.exports = function (req, res, next) {
             var monsterId = parseInt(info.meta.in.monsterId);
             var monster = require("../Monster").getMonster(monsterId);
 
-            var team = [];
-            team.push(teamUp1(actor);
-            team.push(teamUp2(monster);
+            var team = {};
+            team.A = teamUp1(actor);
+            team.B = teamUp2(monster);
             fight(team);
         } else {
             next();
