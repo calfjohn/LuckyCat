@@ -53,10 +53,8 @@ module.exports = function (req, res, next) {
                 }
             }
 
-            var ret = {};
-            ret.attacker = attacker;
-            ret.teamX = teamX;
-            return ret;
+            //返回攻击者以及所属队伍
+            return attacker;
         };
 
         var whoIsDefender = function(teamX){
@@ -82,11 +80,9 @@ module.exports = function (req, res, next) {
 
             battleResult.battleArray = {};
             battleResult.battleArray.playlist = [];
-            battleResult.battleArray.team1Final = [];
-            battleResult.battleArray.team1Fina2 = [];
+            battleResult.battleArray.team = team;
 
-            battleResult.team1 = [];
-            battleResult.team2 = [];
+            battleResult.team = team;
 
             battleResult.result = {};
             battleResult.result.type = 0;
@@ -95,7 +91,7 @@ module.exports = function (req, res, next) {
             return battleResult;
         };
 
-        var versus = function(attacker, defender){
+        var versus = function(attacker, defender, battleResult){
             var tempHurt = attacker.attack - defender.defence;
             if(tempHurt <= 0){
                 tempHurt = 1;
@@ -106,31 +102,53 @@ module.exports = function (req, res, next) {
                 defender.hurt = 0;
             }
 
+            var tempPlayA = {};
+            tempPlayA.type = 1;  //攻击
+            tempPlayA.teamId = attacker.teamId;
+            tempPlayA.actId = attacker.id;
+            tempPlayA.skillId = -1;
+            tempPlayA.hurt = 0;
+            tempPlayA.fx = -1;
+            battleResult.battleArray.playlist.push(tempPlayA);
+
+            var tempPlayB = {};
+            tempPlayB.type = 2;  //防守
+            tempPlayB.teamId = defender.teamId;
+            tempPlayB.actId = defender.id;
+            tempPlayB.skillId = -1;
+            tempPlayB.hurt = tempHurt;
+            tempPlayB.fx = -1;
+            battleResult.battleArray.playlist.push(tempPlayB);
+
             return defender.hurt == 0;//死没？
         };
 
-        var updateTime = function(team, attacker, teamX){
+        //设置队伍中每个角色的倒计时时间
+        var updateTime = function(team, attacker){
             var time = attacker.time;
-            for(var i = 0; i < teamX.length; i++){
-                if(teamX[i].id == attacker.id)
+            var team1 = (attacker.teamId == "A")? team.A: team.B;
+
+            for(var i = 0; i < team1.length; i++){
+                if(team1[i].id == attacker.id)
                 {
-                    teamX[i].time = 1/teamX[i].speed;
+                    team1[i].time = 1/team1[i].speed;
                 }
                 else
                 {
-                    teamX[i].time -= time;
+                    team1[i].time -= time;
                 }
             }
 
-            teamX = (teamX == team.A)? team.B: team.A;
-            for(var i = 0; i < teamX.length; i++){
-                    team.B[i].time -= time;
+            var team2 = (attacker.teamId == "A")? team.B: team.A;
+            //the other team
+            for(var i = 0; i < team2.length; i++){
+                team2[i].time -= time;
             }
         }
 
         var fight  = function(team) {
-            //team1 The attacking side
-            //team2 The defence side
+            //team.A The attacking side
+            //team.B The defence side
 
             //遍历计算每个角色属性加成
             //遍历每个角色的速度，定出优先顺序
@@ -142,20 +160,20 @@ module.exports = function (req, res, next) {
             //更新相关角色属性
             //直到有一队全部死亡
             //否则下一个
-            var battleResult;
+            var battleResult = contructResult(team);
             while(true){
-                var ret = whoIsFast(team);
-                var attacker = ret.attacker;
-                var defender = whoIsDefender((ret.teamX == team.A)? team.B: team.A);
-                if(versus(attacker, defender))
+                var attacker = whoIsFast(team);
+                var defender = whoIsDefender((attacker.teamId == "A")? team.B: team.A);
+                if(versus(attacker, defender, battleResult))
                 {
+
                     break;
                 }
 
-                updateTime(team, attacker, ret.teamX);
+                updateTime(team, attacker);
             }
 
-            responseResult(contructResult(team));
+            responseResult(battleResult);
         };
 
         var teamUp1 = function(data) {
@@ -174,6 +192,7 @@ module.exports = function (req, res, next) {
             member.time = 1/member.speed;
             member.attack = 5000;
             member.defence = 3000;
+            member.teamId = "A";
 
             team.push(member);
             return team;
@@ -195,6 +214,7 @@ module.exports = function (req, res, next) {
             member.time = 1/member.speed;
             member.attack = 6500;
             member.defence = 4000;
+            member.teamId = "B";
 
             team.push(member);
             return team;
