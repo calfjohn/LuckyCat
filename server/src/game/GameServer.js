@@ -43,7 +43,7 @@ app.initInstance = function (srvConfig, callback) {
     }
 
     // init modules
-    var dbs = 2;
+    var dbs = 3;
     var cbCalled = false;
     var dbCallback = function(err) {
         if (cbCalled) return;
@@ -68,6 +68,7 @@ app.initInstance = function (srvConfig, callback) {
 
     require("./Actors").initInstance(cfg.db_actors, dbCallback);
     require("./Box").initInstance(cfg.db_actors, dbCallback);
+    require("./Events").initInstance(cfg.db_actors, dbCallback);
 
     return this;
 };
