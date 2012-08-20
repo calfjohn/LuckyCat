@@ -15,6 +15,8 @@
 #include "LuckySprite.h"
 #include "FuzzyBgView.h"
 
+#include "PlayerInfoView.h"
+
 USING_NS_CC;
 USING_NS_CC_EXT;
 using namespace std;
@@ -66,6 +68,13 @@ void GeneralBattleView::onMenuItemClicked(cocos2d::CCObject *pTarget)
 {
     cocos2d::CCNode *p = static_cast<cocos2d::CCNode *>(pTarget);
     printf("tag %d\n",p->getTag());
+    
+    //Test player info view start;
+    if(p->getTag() == 1){
+        PlayerInfoView *pPlayerInfo = PlayerInfoView::create(this);
+        this->addChild(pPlayerInfo);
+    }
+    //Test end;
 }
 
 void GeneralBattleView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent) {

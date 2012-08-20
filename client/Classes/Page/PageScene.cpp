@@ -136,8 +136,6 @@ void Page::turnToPage(int chapterId, const stPage *pPage)
         this->addChild(m_monster, 1);
     }
 
-	PlayerInfoBar* playerInfoBar = PlayerInfoBar::create();
-	this->addChild(playerInfoBar);
      */
     
     m_title = (CCLabelTTF *)this->getChildByTag(TAG_Lab_Title);
