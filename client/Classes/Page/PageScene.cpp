@@ -11,7 +11,7 @@
 #include "DictDataManager.h"
 #include "LuckySprite.h"
 #include "EventDataManager.h"
-#include "PlayerInfoBar.h"
+#include "PlayerInfoView.h"
 #include "NetManager.h"
 #include "EventListView.h"
 #include "ChapterScene.h"
@@ -113,8 +113,8 @@ void Page::turnToPage(int chapterId, const stPage *pPage)
         this->addChild(m_monster, 1);
     }
 
-	PlayerInfoBar* playerInfoBar = PlayerInfoBar::create();
-	this->addChild(playerInfoBar);
+	PlayerInfoView* pPlayerInfoView = PlayerInfoView::create(this);
+	this->addChild(pPlayerInfoView);
 }
 
 void Page::showBattleView(CCObject *pSender)

@@ -1,3 +1,4 @@
+ccb/basic.ccbi
 ccb/battle.ccbi
 ccb/battle_special.ccbi
 ccb/box_tips.ccbi
@@ -9,11 +10,10 @@ ccb/equip.ccbi
 ccb/equip_scroll.ccbi
 ccb/fullscreen_tips.ccbi
 ccb/fuzzy.ccbi
-ccb/info.ccbi
 ccb/openbox.ccbi
 ccb/page.ccbi
+ccb/playerinfo.ccbi
 ccb/test_ccb.ccbi
-ccb/toolbar.ccbi
 image/fullscreen/full_1001.png
 image/fullscreen/fuzzy.png
 image/fullscreen/page_1001.png

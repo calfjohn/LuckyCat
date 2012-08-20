@@ -36,13 +36,13 @@ public:
     
     CCB_STATIC_NEW_AUTORELEASE_OBJECT_WITH_INIT_METHOD(EquipInfoView, create);
     
-    static EquipInfoView *create(cocos2d::CCObject * pOwner);
+    //static EquipInfoView *create(cocos2d::CCObject * pOwner);
     
     virtual cocos2d::SEL_MenuHandler onResolveCCBCCMenuItemSelector(cocos2d::CCObject * pTarget, cocos2d::CCString * pSelectorName);
     virtual cocos2d::extension::SEL_CCControlHandler onResolveCCBCCControlSelector(cocos2d::CCObject * pTarget, cocos2d::CCString * pSelectorName);
     virtual bool onAssignCCBMemberVariable(cocos2d::CCObject * pTarget, cocos2d::CCString * pMemberVariableName, cocos2d::CCNode * pNode);
     
-    void onMenuItemClicked(cocos2d::CCObject *pTarget);
+    void EquipViewBtnCallback(cocos2d::CCObject *pTarget);
     
     void onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent);
     
