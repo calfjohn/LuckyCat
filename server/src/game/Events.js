@@ -14,18 +14,57 @@ require("../system/Log");
 
 require("../system/Class");
 
-stEvent = function (id, type, target, next_event_id, bonus, bonusRepeat,box_id) {
-    var that = new Object();
-    that.id = id;
-    that.type = type;
-    that.target = target;
-    that.nextEventId = next_event_id;
-    that.bonus = bonus;
-    that.bonusRepeat = bonusRepeat;
-    that.box_id;
+stEvent = Class.extend({
+    id : null,
+    type : null,
+    targetArray : null,
+    nextEventId : null,
+    bonusArray : null,
+    bonusRepeat : null,
+    box_id : null,
+    curTarget : null,
+    ctor : function ()
+    {
 
-    return that;
-};
+    },
+    init : function ()
+    {
+
+    },
+    setData : function (id, type, target, next_event_id, bonus, bonusRepeat,box_id) {
+        this.id = id;
+        this.type = type;
+        this.targetArray = target;
+        this.nextEventId = next_event_id;
+        this.bonusArray = bonus;
+        this.bonusRepeat = bonusRepeat;
+        this.box_id = box_id;
+    },
+    randomTarget : function ()
+    {
+        if ( this.targetArray )
+        {
+            if ( this.targetArray.length > 0 )
+            {
+                var index = parseInt((Math.random() * 100)) % (this.targetArray.length);
+                if (index >= 0 && index < this.targetArray.length)
+                {
+                    this.curTarget = this.targetArray[index];
+                    return;
+                }
+            }
+        }
+        curTarget = null;
+    },
+    getTarget : function ()
+    {
+        return this.curTarget;
+    },
+    getBonus : function ()
+    {
+        return this.bonusArray;
+    }
+});
 
 stGood = function ( type , id , num )
 {
@@ -87,8 +126,9 @@ Events = {
                 var strTarget = tmpData.target;
                 var targetStrAry = strTarget.split(",");
                 var target = new Array();
-                for( var item in targetStrAry )
+                for (var ti = 0; ti < targetStrAry.length; ti++)
                 {
+                    var item = targetStrAry[ti];
                     var targetId = parseInt(item);
                     target.push(targetId);
                 }
@@ -117,7 +157,14 @@ Events = {
                 var tBoxId = tmpData.box_id;
                 tBoxId = parseInt(tBoxId);
 
-                var tEvent = stEvent(tId,tType,target,tNextEventId,bonusAry,tBoxId);
+                var tEvent = new stEvent();
+
+                tEvent.id = tId;
+                tEvent.type = tType;
+                tEvent.targetArray = target;
+                tEvent.nextEventId = tNextEventId;
+                tEvent.bonusArray = bonusAry;
+                tEvent.box_id = tBoxId;
 
                 that._mMapEvent[tEvent.id] = tEvent;
             }
@@ -150,16 +197,6 @@ Events = {
             }
         }
         return tEventList;
-    },
-    getTargetByEvent :function (tEvent)
-    {
-        if ( tEvent )
-        {
-            if ( tEvent.target.length == 1 )
-            {
-                tEvent.target[0];
-            }
-        }
     }
 };
 
