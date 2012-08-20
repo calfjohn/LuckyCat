@@ -13,6 +13,7 @@
 #include "BattleResultView.h"
 #include "LuckySprite.h"
 #include "FuzzyBgView.h"
+#include "NetManager.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -69,7 +70,56 @@ void SpecialBattleView::onMenuItemClicked(cocos2d::CCObject *pTarget)
 void SpecialBattleView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent) {
     cocos2d::CCNode *p = static_cast<cocos2d::CCNode *>(pSender);
     printf("tag %d\n",p->getTag());
+    
+    NetManager::shareNetManager()->sendEx(kModeBattle, kDoFight2, callfuncND_selector(SpecialBattleView::responseFight), this, "\"monsterId\": %d", p_CurEvent->targetId[0]);
 }
+                                          
+void SpecialBattleView::responseFight(CCNode *pNode, void* data)
+{
+     Json::Value root;
+     Json::Reader reader;
+    
+    if(reader.parse(NetManager::shareNetManager()->processResponse(data), root))
+    {
+        battleResult = root["meta"]["out"];
+        
+        CreateTeam(battleResult["team"]);
+        m_nIndexList = 0;
+        CallBackHeroAction();
+    }
+}
+
+void SpecialBattleView::CreateTeam(Json::Value &data)
+{        
+    int i = 0;
+//    m_mapTeam.clear();
+//    m_mapTeam["A"][data["A"][i]["id"].asInt()] = this->getChildByTag(4)->getChildByTag(1);
+//    m_mapTeam["B"][data["B"][i]["id"].asInt()] = this->getChildByTag(4)->getChildByTag(5);
+}
+
+
+void SpecialBattleView::CallBackHeroAction()
+{
+    Json::Value playList = battleResult["battleArray"]["playlist"];
+    if (playList[m_nIndexList].isNull())
+    {
+        if ( m_target && m_pfnSelector )
+            ((m_target)->*(m_pfnSelector))(this, NULL);
+        return;
+    }
+                 
+    Json::FastWriter jasonWrite;
+    CCLOG("%s", jasonWrite.write(playList[m_nIndexList++]).c_str());
+    
+    //do it and waiting for callback
+    CCAction* action = CCSequence::actions(
+                                    CCDelayTime::actionWithDuration(0.05),
+                                    CCCallFunc::create(this, callfunc_selector(SpecialBattleView::CallBackHeroAction)),
+                                    NULL);
+    this->runAction(action);
+}
+
+
 
 bool SpecialBattleView::ccTouchBegan(CCTouch* touch, CCEvent *pEvent)
 {
@@ -92,8 +142,8 @@ void SpecialBattleView::ccTouchEnded(CCTouch* touch, CCEvent *pEvent)
     
     if ( pBeginPoint.x != 0 && pBeginPoint.y != 0 )
     {
-        if ( m_target && m_pfnSelector )
-            ((m_target)->*(m_pfnSelector))(this, NULL);
+//        if ( m_target && m_pfnSelector )
+//            ((m_target)->*(m_pfnSelector))(this, NULL);
     }
     pBeginPoint = CCPointZero;
 }

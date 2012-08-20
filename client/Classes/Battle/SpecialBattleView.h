@@ -14,8 +14,20 @@
 #include "extensions/CCBReader/CCBSelectorResolver.h"
 #include "extensions/CCBReader/CCBMemberVariableAssigner.h"
 #include "extensions/CCBReader/CCLayerLoader.h"
-
+#include "json.h"
 #include "EventBasic.h"
+
+
+typedef struct
+{
+	int type;
+	int teamId;
+	int dTid;
+	int dPos;
+	int hurt;
+	int point;
+	int talentId;
+}stAction;
 
 class SpecialBattleView 
 : public cocos2d::CCLayer
@@ -50,6 +62,16 @@ public:
     
     void menuBackCallback(CCObject* pSender);
 private:
+    void CallBackHeroAction();//战斗表现回调寒暑
+ 
+    void responseFight(CCNode *pNode, void* data);//服务器数据回调
+    
+    void CreateTeam(Json::Value &data);//创建战斗组，关联数据对象
+    
+    int m_nIndexList;               //战斗数据索引
+    
+    Json::Value battleResult;       //战斗数据
+    
     cocos2d::CCPoint         pBeginPoint;
     
     stEvent *p_CurEvent;
@@ -59,6 +81,8 @@ private:
     cocos2d::SEL_CallFuncND  m_pfnSelector;    //callback selector
     
     void showBattleResultView();
+    
+    map<string, map<int, CCNode*> > m_mapTeam;    //team id assiated with CCSprite
 };
 
 class CCBReader;

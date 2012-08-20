@@ -216,7 +216,7 @@ void EventListView::showSpecialBattleView()
         
         this->addChild(p_CurLayer);
         
-        this->showOpenBoxView();
+        //this->showOpenBoxView();
     }
 }
 
