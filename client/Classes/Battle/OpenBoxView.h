@@ -40,8 +40,6 @@ public:
     
     void setEvent(stEvent *t);
     
-    void showResultView();
-    
     void netCallBack(CCNode* pNode, void* data);
 private:
     stEvent *p_CurEvent;

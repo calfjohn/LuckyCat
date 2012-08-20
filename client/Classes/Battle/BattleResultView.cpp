@@ -31,22 +31,6 @@ BattleResultView *BattleResultView::create(cocos2d::CCObject * pOwner)
     return pBattleResultView;
 }
 
-BattleResultView *BattleResultView::createBoxResultView(cocos2d::CCObject * pOwner)
-{
-    cocos2d::extension::CCNodeLoaderLibrary * ccNodeLoaderLibrary = cocos2d::extension::CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
-    
-    ccNodeLoaderLibrary->registerCCNodeLoader("BattleResultView", BattleResultViewLoader::loader());
-    
-    cocos2d::extension::CCBReader * ccbReader = new cocos2d::extension::CCBReader(ccNodeLoaderLibrary);
-    ccbReader->autorelease();
-    
-    CCNode * pNode = ccbReader->readNodeGraphFromFile("", "ccb/box_tips.ccbi", pOwner);
-    
-    BattleResultView *pBattleResultView = static_cast<BattleResultView *>(pNode);
-    return pBattleResultView;
-}
-
-
 void BattleResultView::initView(stEvent *tEvent)
 {
     CCSize screanSize = CCDirector::sharedDirector()->getWinSize();

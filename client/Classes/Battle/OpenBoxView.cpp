@@ -12,7 +12,7 @@
 #include "EventDataManager.h"
 #include "EventBasic.h"
 #include "LuckySprite.h"
-#include "BattleResultView.h"
+#include "OpenBoxResultView.h"
 #include "NetManager.h"
 #include "CCMessageQueue.h"
 #include "json.h"
@@ -73,7 +73,7 @@ void OpenBoxView::onMenuItemClicked(cocos2d::CCObject *pTarget)
 }
 
 void OpenBoxView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent) {
-    //if ( m_bIsOpen == false && p_CurEvent && p_CurEvent->box_id != -1)
+    if ( m_bIsOpen == false && p_CurEvent && p_CurEvent->box_id != -1)
     {
         m_bIsOpen = true;
         
@@ -86,18 +86,6 @@ void OpenBoxView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::
 void OpenBoxView::setEvent(stEvent *t)
 {
     p_CurEvent = t;
-}
-
-void OpenBoxView::showResultView()
-{
-    vector<stGood> tGoodsList;
-    for (int i = 0; i < 3; i++) {
-        stGood good_;
-        good_.id = 100 + i;
-        good_.num = 1000 * i;
-    }
-    BattleResultView *pOpenBoxResult = BattleResultView::create(this);
-    pOpenBoxResult->initView(tGoodsList);
 }
 
 void OpenBoxView::netCallBack(CCNode* pNode, void* data)
@@ -151,7 +139,7 @@ void OpenBoxView::netCallBack(CCNode* pNode, void* data)
             tGoodsList.push_back(tmpGoods);
         }
         
-        BattleResultView *pOpenBoxResult = BattleResultView::create(this);
+        OpenBoxResultView *pOpenBoxResult = OpenBoxResultView::create(this);
         pOpenBoxResult->initView(tGoodsList);
         this->addChild(pOpenBoxResult,99);
     }

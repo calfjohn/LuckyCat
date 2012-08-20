@@ -389,7 +389,7 @@
 						<key>type</key>
 						<string>Integer</string>
 						<key>value</key>
-						<integer>-1</integer>
+						<integer>11</integer>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -559,7 +559,7 @@
 						<key>type</key>
 						<string>Integer</string>
 						<key>value</key>
-						<integer>-1</integer>
+						<integer>12</integer>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -732,7 +732,7 @@
 						<key>type</key>
 						<string>Integer</string>
 						<key>value</key>
-						<integer>-1</integer>
+						<integer>21</integer>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -880,7 +880,7 @@
 						<key>type</key>
 						<string>Integer</string>
 						<key>value</key>
-						<integer>-1</integer>
+						<integer>22</integer>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -955,7 +955,7 @@
 			</dict>
 		</array>
 		<key>customClass</key>
-		<string></string>
+		<string>Page</string>
 		<key>memberVarAssignmentName</key>
 		<string></string>
 		<key>memberVarAssignmentType</key>
