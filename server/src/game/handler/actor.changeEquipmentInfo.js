@@ -41,8 +41,8 @@ module.exports = function (req, res, next) {
             require("../Actors").getActor(uuid, function(actor){
                 if (actor != null){
                     var part = parseInt(info.meta.in.part);
-                    var equipID = parseInt(info.meta.in.equipID);
-                    actor.changeEquipment(part, equipID, responseResult);
+                    var id = parseInt(info.meta.in.id);
+                    actor.changeEquipment(part, id, responseResult);
                 }
             });
         } else {

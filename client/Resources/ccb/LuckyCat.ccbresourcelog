@@ -1,6 +1,7 @@
 ccb/battle.ccbi
 ccb/battle_special.ccbi
 ccb/box_tips.ccbi
+ccb/confirm.ccbi
 ccb/console.ccbi
 ccb/cover.ccbi
 ccb/dialog.ccbi
@@ -37,9 +38,9 @@ image/mainui/button_1004_n.png
 image/mainui/button_1005_d.png
 image/mainui/button_1005_h.png
 image/mainui/button_1005_n.png
-image/mainui/button_common_box02_001.png
-image/mainui/button_common_box02_002.png
-image/mainui/button_common_box02_003.png
+image/mainui/button_control_001_d.png
+image/mainui/button_control_001_h.png
+image/mainui/button_control_001_n.png
 image/mainui/button_scoll_1001_h.png
 image/mainui/button_scoll_1001_n.png
 image/mainui/button_scoll_1002_h.png
