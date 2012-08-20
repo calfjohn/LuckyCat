@@ -13,6 +13,7 @@ var PartType = {
     partHand : 2,
     partFoot : 3
 };
+var PartEmpty = -1;
 
 
 Actor = Class.extend({
@@ -89,30 +90,50 @@ Actor = Class.extend({
             result: 0,
             out: {}
         };
-        // check equipID is valid
-        require("./DictManager").getEquipmentByID(id, function(eq){
-            var equipType = eq.class;
-            if((equipType == part) && (undefined != equipDB[id]) ){
-                if(PartType.partHead == part){
+        do {
+            //卸下装备
+            if (PartEmpty == id) {
+                if (PartType.partHead == part) {
                     basicDB.eq_hand_id = id;
                 }
-                else if( PartType.partBody == part){ // body
+                else if (PartType.partBody == part) { // body
                     basicDB.eq_body_id = id;
                 }
-                else if( PartType.partHand == part){ // hand
+                else if (PartType.partHand == part) { // hand
                     basicDB.eq_hand_id = id;
                 }
-                else if( PartType.partFoot == part){ // foot
+                else if (PartType.partFoot == part) { // foot
                     basicDB.eq_foot_id = id;
                 }
-            }else{
-                ret.result = 1;
-                ret.out.msg = "invalid equipID, this actor don't have this quipment";
-                log.d(util.format("invalid equipID, this actor don't have this quipment %d.",equipID));
+                break;
             }
-            callback(ret);
-        });
 
+            // 更换装备
+            // check equipID is valid
+            require("./DictManager").getEquipmentByID(id, function (eq) {
+                var equipType = eq.class;
+                if ((equipType == part) && (undefined != equipDB[id])) {
+                    if (PartType.partHead == part) {
+                        basicDB.eq_hand_id = id;
+                    }
+                    else if (PartType.partBody == part) { // body
+                        basicDB.eq_body_id = id;
+                    }
+                    else if (PartType.partHand == part) { // hand
+                        basicDB.eq_hand_id = id;
+                    }
+                    else if (PartType.partFoot == part) { // foot
+                        basicDB.eq_foot_id = id;
+                    }
+                } else {
+                    ret.result = 1;
+                    ret.out.msg = "invalid equipID, this actor don't have this quipment";
+                    log.d(util.format("invalid equipID, this actor don't have this quipment %d.", equipID));
+                }
+
+            });
+        } while (0);
+        callback(ret);
     }
 
 });
