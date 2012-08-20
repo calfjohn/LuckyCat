@@ -55,7 +55,7 @@ bool EquipInfoView::onAssignCCBMemberVariable(cocos2d::CCObject * pTarget, cocos
 
 void EquipInfoView::EquipViewBtnCallback(cocos2d::CCObject *pTarget){
     CCNode* node = (CCNode*)pTarget;
-    //cout << node->getTag() << endl;
+    cout << node->getTag() << endl;
 }
 
 void EquipInfoView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent){
