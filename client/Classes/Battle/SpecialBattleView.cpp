@@ -92,9 +92,9 @@ void SpecialBattleView::responseFight(CCNode *pNode, void* data)
 void SpecialBattleView::CreateTeam(Json::Value &data)
 {        
     int i = 0;
-//    m_mapTeam.clear();
-//    m_mapTeam["A"][data["A"][i]["id"].asInt()] = this->getChildByTag(4)->getChildByTag(1);
-//    m_mapTeam["B"][data["B"][i]["id"].asInt()] = this->getChildByTag(4)->getChildByTag(5);
+    m_mapTeam.clear();
+    m_mapTeam["A"][data["A"][i]["id"].asInt()] = this->getChildByTag(4)->getChildByTag(1);
+    m_mapTeam["B"][data["B"][i]["id"].asInt()] = this->getChildByTag(5);
 }
 
 
@@ -109,14 +109,18 @@ void SpecialBattleView::CallBackHeroAction()
     }
                  
     Json::FastWriter jasonWrite;
-    CCLOG("%s", jasonWrite.write(playList[m_nIndexList++]).c_str());
+    CCLOG("%s", jasonWrite.write(playList[m_nIndexList]).c_str());
     
-    //do it and waiting for callback
+    Json::Value tempMember = playList[m_nIndexList];
+    
+    CCNode* pNode = m_mapTeam[tempMember["teamId"].asString()][tempMember["actId"].asInt()];
     CCAction* action = CCSequence::actions(
-                                    CCDelayTime::actionWithDuration(0.05),
+                                    CCBlink::actionWithDuration(0.6, 3),
                                     CCCallFunc::create(this, callfunc_selector(SpecialBattleView::CallBackHeroAction)),
                                     NULL);
-    this->runAction(action);
+    pNode->runAction(action);
+    
+    m_nIndexList++;
 }
 
 
