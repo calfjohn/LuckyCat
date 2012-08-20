@@ -1,16 +1,18 @@
 
-//定义获取数据消息key
-var ROLE_LOGIN = "login";
-var ROLE_LOGOUT = "logout";
+require("../../system/Log");
 
-module.exports = function(client) {
-    console.log('A socket with sessionID ' + client.handshake.sessionID + ' connected!');
+var msg = require("../../config/ws.Messages")
+    ,log = new Log("RoleAgent");
 
-    client.on(ROLE_LOGIN, function() {
-        client.emit(ROLE_LOGIN, "some data as result." + new Date().toLocaleString());
+
+module.exports.handler = function(client) {
+    console.log('A socket with session id(' + client.handshake.session.id + ') connected!');
+
+    client.on(msg.role.LOGIN, function() {
+        client.emit(msg.role.LOGIN, "some data as result." + new Date().toLocaleString());
     });
 
-    client.on(ROLE_LOGOUT, function() {
-        client.emit(ROLE_LOGOUT);
+    client.on(msg.role.LOGOUT, function() {
+        client.emit(msg.role.LOGOUT);
     });
 };

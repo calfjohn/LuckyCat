@@ -9,11 +9,7 @@ process.on("uncaughtException", function(err) {
 
 // start admin server
 if (1) {
-    var adminServer = require("./admin/AdminServer").initInstance(function(err) {
-        if (err) {
-            console.log(err);
-            return;
-        }
+    var adminServer = require("./admin/AdminServer").initInstance(function() {
         console.log("admin server begin listen...");
         adminServer.start();
     });
@@ -21,11 +17,7 @@ if (1) {
 
 // start user server
 if (1) {
-    var userServer = require("./user/UserServer").initInstance(function(err) {
-        if (err) {
-            console.log(err);
-            return;
-        }
+    var userServer = require("./user/UserServer").initInstance(function() {
         console.log("user server begin listen...");
         userServer.start();
     });

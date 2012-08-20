@@ -4,17 +4,25 @@
  *  -   gm:  game master
  */
 
+var wsBrowserHandlers = [
+    "./socket/RoleAgent"
+];
+
+var wsServerHandlers = [
+    "./socket/AdminServerAgent"
+];
+
 require("../system/Log");
 
 var http = require("http")
     ,express = require("express")
-    , adminServerCfg = require("../config/admin.AdminServer")
+    ,adminServerCfg = require("../config/admin.AdminServer")
     ,sessionStore = new express.session.MemoryStore
-    , sessionSecret = "LuckyCatAdmin"
+    ,sessionSecret = "LuckyCatAdmin"
     ,parseCookie = express.cookieParser(sessionSecret)
     ,app = express()
     ,server = http.createServer(app)
-    ,io = require("socket.io")
+    ,sio = require("socket.io")
     ,utils = require("util")
     ,log = new Log("AdminServer");
 
@@ -38,7 +46,7 @@ app.configure(function() {
 });
 
 // init server, init modules here
-app.initInstance = function (srvConfig, callback) {
+app.initInstance = function (srvConfig, done) {
     var cfg = require("../config/admin.AdminServer");
     var cb = function() {log.d(arguments);};
     for (var i = 0; i < arguments.length; ++i) {
@@ -50,7 +58,8 @@ app.initInstance = function (srvConfig, callback) {
         }
     }
     process.nextTick(function() {
-        app.initHandlers(app);
+        app.initSockets();
+        app.initHandlers();
         cb(null);
     });
     /*/ init modules
@@ -61,25 +70,31 @@ app.initInstance = function (srvConfig, callback) {
     return this;
 };
 
-// start server, begin listening
-app.start = function() {
-    server.listen(require("../config/admin.AdminServer").service.port);
+app.initSockets = function() {
+    // init socket handlers
+    var socket = sio.listen(server, {log:false});
+    socket.set("authorization", app.checkSocketAuthorization);
+
+    // for browser
+    var browserSocket = socket.of("/browsers");
+    for (var i = 0; i < wsBrowserHandlers.length; ++i) {
+        browserSocket.on("connection", require(wsBrowserHandlers[i]).handler);
+    }
+
+    // for server
+    var serverSocket = socket.of("/user_servers");
+    for (var i = 0; i < wsServerHandlers.length; ++i) {
+        serverSocket.on("connection", require(wsServerHandlers[i]).handler);
+    }
 };
 
-app.initHandlers = function (aExpress) {
-    aExpress.post("/login", require("./handler/login"));
-    aExpress.get("/js/adminServer", function(req, res, next) {
+app.initHandlers = function () {
+    app.post("/login", require("./handler/login").handler);
+    app.get("/js/adminServer", function(req, res, next) {
         res.setHeader("Content-Type", "text/javascript");
-        res.end(utils.format("var adminServer='%s';", req.headers.host));
+        res.end(utils.format("var adminServer='%s/browsers';", req.headers.host));
     });
-    aExpress.get("/*", aExpress.checkHttpAuthorization);
-
-    // init socket handlers
-    var sio = io.listen(server, {log:false});
-    sio.set("authorization", aExpress.checkSocketAuthorization);
-    sio.sockets.on("connection", require("./socket/RoleAgent"));
-
-    aExpress.sio = sio;
+    app.get("/*", app.checkHttpAuthorization);
 };
 
 // 检查网页连接的授权，否则转到login.html页面
@@ -133,6 +148,11 @@ app.checkSocketAuthorization = function (req, accept) {
         // 连接失败
         accept(null, false);
     }
+};
+
+// start server, begin listening
+app.start = function() {
+    server.listen(require("../config/admin.AdminServer").service.port);
 };
 
 module.exports = app;
