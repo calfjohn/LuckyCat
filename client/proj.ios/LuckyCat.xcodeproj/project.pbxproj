@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		150B347D15C244B10051DB06 /* LuckySprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 150B347B15C244B10051DB06 /* LuckySprite.cpp */; };
+		15585B0015E33DC300833CC1 /* PageEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15585AFE15E33DC300833CC1 /* PageEx.cpp */; };
 		155CC53215B92C2E00CE449D /* DictDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155CC53115B92C2E00CE449D /* DictDataManager.cpp */; };
 		15AAE32A15B6894100F0CF5E /* json_internalarray.inl in Resources */ = {isa = PBXBuildFile; fileRef = 15AAE32315B6894100F0CF5E /* json_internalarray.inl */; };
 		15AAE32B15B6894100F0CF5E /* json_internalmap.inl in Resources */ = {isa = PBXBuildFile; fileRef = 15AAE32415B6894100F0CF5E /* json_internalmap.inl */; };
@@ -109,6 +110,8 @@
 /* Begin PBXFileReference section */
 		150B347B15C244B10051DB06 /* LuckySprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuckySprite.cpp; sourceTree = "<group>"; };
 		150B347C15C244B10051DB06 /* LuckySprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuckySprite.h; sourceTree = "<group>"; };
+		15585AFE15E33DC300833CC1 /* PageEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PageEx.cpp; sourceTree = "<group>"; };
+		15585AFF15E33DC300833CC1 /* PageEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageEx.h; sourceTree = "<group>"; };
 		155CC53015B92C2E00CE449D /* DictDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DictDataManager.h; sourceTree = "<group>"; };
 		155CC53115B92C2E00CE449D /* DictDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DictDataManager.cpp; sourceTree = "<group>"; };
 		15AAE31815B6894100F0CF5E /* autolink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = autolink.h; sourceTree = "<group>"; };
@@ -344,6 +347,8 @@
 			children = (
 				15AAE35715B6C1D200F0CF5E /* PageScene.cpp */,
 				15AAE35815B6C1D200F0CF5E /* PageScene.h */,
+				15585AFE15E33DC300833CC1 /* PageEx.cpp */,
+				15585AFF15E33DC300833CC1 /* PageEx.h */,
 				15EC314D15B7F45100EA9631 /* PageMapScene.h */,
 				15EC314E15B7F46000EA9631 /* PageMapScene.cpp */,
 			);
@@ -741,6 +746,7 @@
 				FA5A00EE15DE187F00C1A9B9 /* EquipInfoView.cpp in Sources */,
 				18BAFC3F15E210D5000D5191 /* OpenBoxResultView.cpp in Sources */,
 				FA20060715E242C500FC6B88 /* PlayerInfoDataManager.cpp in Sources */,
+				15585B0015E33DC300833CC1 /* PageEx.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
