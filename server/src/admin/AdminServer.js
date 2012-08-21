@@ -8,21 +8,23 @@ var wsBrowserHandlers = [
     "./socket/RoleAgent"
 ];
 
-var wsServerHandlers = [
+var wsUserServerHandlers = [
+    "./socket/AdminServerAgent"
+];
+
+var wsGameServerHandlers = [
     "./socket/AdminServerAgent"
 ];
 
 require("../system/Log");
 
-var http = require("http")
-    ,express = require("express")
+var express = require("express")
     ,adminServerCfg = require("../config/admin.AdminServer")
     ,sessionStore = new express.session.MemoryStore
     ,sessionSecret = "LuckyCatAdmin"
     ,parseCookie = express.cookieParser(sessionSecret)
     ,app = express()
-    ,server = http.createServer(app)
-    ,sio = require("socket.io")
+    ,server = require("http").createServer(app)
     ,utils = require("util")
     ,log = new Log("AdminServer");
 
@@ -72,7 +74,7 @@ app.initInstance = function (srvConfig, done) {
 
 app.initSockets = function() {
     // init socket handlers
-    var socket = sio.listen(server, {log:false});
+    var socket = require("socket.io").listen(server, {log:false});
     socket.set("authorization", app.checkSocketAuthorization);
 
     // for browser
@@ -81,10 +83,16 @@ app.initSockets = function() {
         browserSocket.on("connection", require(wsBrowserHandlers[i]).handler);
     }
 
-    // for server
-    var serverSocket = socket.of("/user_servers");
-    for (var i = 0; i < wsServerHandlers.length; ++i) {
-        serverSocket.on("connection", require(wsServerHandlers[i]).handler);
+    // for user server
+    var userServerSocket = socket.of("/user_servers");
+    for (var i = 0; i < wsUserServerHandlers.length; ++i) {
+        userServerSocket.on("connection", require(wsUserServerHandlers[i]).handler);
+    }
+
+    // for game server
+    var gameServerSocket = socket.of("/game_servers");
+    for (var i = 0; i < wsGameServerHandlers.length; ++i) {
+        gameServerSocket.on("connection", require(wsGameServerHandlers[i]).handler);
     }
 };
 

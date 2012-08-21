@@ -16,7 +16,6 @@
 #include "extensions/CCBReader/CCBMemberVariableAssigner.h"
 #include "extensions/CCBReader/CCLayerLoader.h"
 
-class EquipInfoView;
 
 class BasicInfoView
 : public cocos2d::CCLayer
@@ -44,9 +43,9 @@ public:
     
     void hideBasicView();
     
-    void sendPlayerInfo();
-    void responesPlayerInfo(CCNode *pNode, void* data);
-    void setPlayerInfoLabelForTag(const int tag, cocos2d::CCString *infomation);
+    void sendBasicInfo();
+    void responesBasicInfo(CCNode *pNode, void* data);
+    void setBasicInfoLabelForTag(const int tag, cocos2d::CCString *infomation);
 private:
     cocos2d::CCLabelTTF *m_labNickName;
     cocos2d::CCLabelTTF *m_labLevel;
@@ -56,8 +55,7 @@ private:
     cocos2d::CCLabelTTF *m_labSpeed;
     cocos2d::CCLabelTTF *m_labTitle;
     cocos2d::CCLabelTTF *m_labScore;
-    
-    EquipInfoView *m_pPlayerEquipInfoView;
+
 };
 
 class CCBReader;

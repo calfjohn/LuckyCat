@@ -27,21 +27,17 @@ Level = {
         Level._dbAgent.connect(true);
         // Cache all dict_page data on server start
         Level._dbAgent.query("SELECT * FROM `dict_page`", function (err, rows) {
-            if (err) {
-                throw err;
-                return;
+            if (!err) {
+                Level._cache = {};
+                for(var i = 0; i < rows.length; ++i){
+                    var data = rows[i];
+                    var strID = "" + data.id + "-" + data.chapter_id;
+                    //log.d("datas:",datas);
+                    Level._cache[strID] = data;
+                    //log.d("cache:", Level._cache);
+                }
             }
-            Level._cache = {};
-            for(var i = 0; i < rows.length; ++i){
-                var data = rows[i];
-                var strID = "" + data.id + "-" + data.chapter_id;
-                //log.d("datas:",datas);
-                Level._cache[strID] = data;
-                //log.d("cache:", Level._cache);
-            }
-        });
-        process.nextTick(function() {
-            callback(null);
+            callback(err);
         });
     },
 

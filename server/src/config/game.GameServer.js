@@ -28,5 +28,13 @@ module.exports = {
         , password : "123456"
         , database : "db_luckycat_game"
         , recreate  : false              // recreate the database on database server
+    },
+
+    // admin server web socket url for user server
+    ws_admin_server: {
+        host: "127.0.0.1/game_servers?server_secret=aXoqIwP",
+        options: {
+            "max reconnection attempts" : 99999999
+        }
     }
 }

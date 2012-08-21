@@ -7,7 +7,6 @@
 //
 
 #include "BasicInfoView.h"
-#include "EquipInfoView.h"
 #include "FuzzyBgView.h"
 #include "PlayerInfoView.h"
 #include "NetManager.h"
@@ -101,51 +100,51 @@ void BasicInfoView::hideBasicView(){
     this->setVisible(false);
 }
 
-void BasicInfoView::setPlayerInfoLabelForTag(const int tag, cocos2d::CCString *infomation){
-//    switch (tag) {
-//        case kNickNameInfo:
-//            m_labNickName = (cocos2d::CCLabelTTF*)this->getChildByTag(kNickNameInfo);
-//            m_labNickName->setString(infomation->getCString());
-//            break;
-//        case kLevelInfo:
-//            m_labLevel = (cocos2d::CCLabelTTF*)this->getChildByTag(kLevelInfo);
-//            m_labLevel->setString(infomation->getCString());
-//            break;
-//        case kHpInfo:
-//            m_labHP = (cocos2d::CCLabelTTF*)this->getChildByTag(kHpInfo);
-//            m_labHP->setString(infomation->getCString());
-//            break;
-//        case kAttackInfo:
-//            m_labAttack = (cocos2d::CCLabelTTF*)this->getChildByTag(kAttackInfo);
-//            m_labAttack->setString(infomation->getCString());
-//            break;
-//        case kRefenshInfo:
-//            m_labRefensh = (cocos2d::CCLabelTTF*)this->getChildByTag(kRefenshInfo);
-//            m_labRefensh->setString(infomation->getCString());
-//            break;
-//        case kSpeedInfo:
-//            m_labSpeed = (cocos2d::CCLabelTTF*)this->getChildByTag(kSpeedInfo);
-//            m_labSpeed->setString(infomation->getCString());
-//            break;
-//        case kTitleInfo:
-//            m_labTitle = (cocos2d::CCLabelTTF*)this->getChildByTag(kTitleInfo);
-//            m_labTitle->setString(infomation->getCString());
-//            break;
-//        case kScoreInfo:
-//            m_labScore = (cocos2d::CCLabelTTF*)this->getChildByTag(kScoreInfo);
-//            m_labScore->setString(infomation->getCString());
-//            break;
-//        default:
-//            break;
-//    }
+void BasicInfoView::setBasicInfoLabelForTag(const int tag, cocos2d::CCString *infomation){
+    switch (tag) {
+        case kNickNameInfo:
+            m_labNickName = (cocos2d::CCLabelTTF*)this->getChildByTag(kNickNameInfo);
+            m_labNickName->setString(infomation->getCString());
+            break;
+        case kLevelInfo:
+            m_labLevel = (cocos2d::CCLabelTTF*)this->getChildByTag(kLevelInfo);
+            m_labLevel->setString(infomation->getCString());
+            break;
+        case kHpInfo:
+            m_labHP = (cocos2d::CCLabelTTF*)this->getChildByTag(kHpInfo);
+            m_labHP->setString(infomation->getCString());
+            break;
+        case kAttackInfo:
+            m_labAttack = (cocos2d::CCLabelTTF*)this->getChildByTag(kAttackInfo);
+            m_labAttack->setString(infomation->getCString());
+            break;
+        case kRefenshInfo:
+            m_labRefensh = (cocos2d::CCLabelTTF*)this->getChildByTag(kRefenshInfo);
+            m_labRefensh->setString(infomation->getCString());
+            break;
+        case kSpeedInfo:
+            m_labSpeed = (cocos2d::CCLabelTTF*)this->getChildByTag(kSpeedInfo);
+            m_labSpeed->setString(infomation->getCString());
+            break;
+        case kTitleInfo:
+            m_labTitle = (cocos2d::CCLabelTTF*)this->getChildByTag(kTitleInfo);
+            m_labTitle->setString(infomation->getCString());
+            break;
+        case kScoreInfo:
+            m_labScore = (cocos2d::CCLabelTTF*)this->getChildByTag(kScoreInfo);
+            m_labScore->setString(infomation->getCString());
+            break;
+        default:
+            break;
+    }
 }
 
 //Send basic player information request
-void BasicInfoView::sendPlayerInfo(){
-    NetManager::shareNetManager()->sendEx(kModeActor, kDoGetBasicInfo, callfuncND_selector(BasicInfoView::responesPlayerInfo), this, "");
+void BasicInfoView::sendBasicInfo(){
+    NetManager::shareNetManager()->sendEx(kModeActor, kDoGetBasicInfo, callfuncND_selector(BasicInfoView::responesBasicInfo), this, "");
 }
 
-void BasicInfoView::responesPlayerInfo(CCNode *pNode, void* data){
+void BasicInfoView::responesBasicInfo(CCNode *pNode, void* data){
     if (data != NULL) {
         Json::Value root;
         Json::Reader reader;
@@ -153,15 +152,15 @@ void BasicInfoView::responesPlayerInfo(CCNode *pNode, void* data){
         if(reader.parse(NetManager::shareNetManager()->processResponse(data), root)){
             std::string nickname = root["meta"]["out"]["nickname"].asCString();
             cocos2d::CCString* strNickname = cocos2d::CCString::createWithFormat("名称：%s",nickname.c_str());
-            setPlayerInfoLabelForTag(kNickNameInfo,strNickname);
+            setBasicInfoLabelForTag(kNickNameInfo,strNickname);
             int level = root["meta"]["out"]["level"].asInt();
             cocos2d::CCString* strLevel = cocos2d::CCString::createWithFormat("等级：%d",level);
-            setPlayerInfoLabelForTag(kLevelInfo, strLevel);
+            setBasicInfoLabelForTag(kLevelInfo, strLevel);
             //int exp = root["meta"]["out"]["exp"].asInt();
             //setPlayerInfoLabelForTag(kLevelInfo, cocos2d::CCString::createWithFormat("%d",exp));
             int hp = root["meta"]["out"]["hp"].asInt();
             cocos2d::CCString* strHp = cocos2d::CCString::createWithFormat("H  P：%d",hp);
-            setPlayerInfoLabelForTag(kHpInfo, strHp);
+            setBasicInfoLabelForTag(kHpInfo, strHp);
         }
     }
 }

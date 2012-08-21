@@ -23,16 +23,11 @@ Actors = {
     initInstance:function (dbConfig, callback) {
         Actors._dbAgent = new DBAgent(dbConfig);
         Actors._dbAgent.connect(true);
-        // Cache all actors data on server start
-        Actors._dbAgent.query("SELECT * FROM `actor`", function (err, rows) {
-            if (err) {
-                throw err;
-                return;
-            }
+        // first, define some helper function to parse data from db results
+        var getActorData = function(err, rows) {
             /**
              *   Actors._cacheActors struct:
-             *     |--UUID:key
-             *          |--data:value
+             *     |--UUID:data
              */
             Actors._cacheActors = {};
             for (var i = 0; i < rows.length; ++i) {
@@ -40,13 +35,8 @@ Actors = {
                 var strUUID = "" + data.uuid;
                 Actors._cacheActors[strUUID] = data;
             }
-        });
-
-        Actors._dbAgent.query("SELECT * FROM `actor_equipment`", function (err, rows) {
-            if (err) {
-                throw err;
-                return;
-            }
+        };
+        var getActorEquipmentData = function(err, rows) {
             /**
              *   Actors._cacheEquipments struct:
              *     |--actorID:key
@@ -64,13 +54,8 @@ Actors = {
                 datas["" + data.id] = data;
                 Actors._cacheEquipments[strActorID] = datas;
             }
-        });
-
-        Actors._dbAgent.query("SELECT * FROM `actor_skill`", function (err, rows) {
-            if (err) {
-                throw err;
-                return;
-            }
+        };
+        var getActorSkillData = function(err, rows) {
             /**
              *   Actors._cacheSkills struct:
              *     |--actorID:key
@@ -88,10 +73,26 @@ Actors = {
                 datas.push(data);
                 Actors._cacheSkills[strActorID] = datas;
             }
-        });
+        };
 
-        process.nextTick(function () {
-            callback(null);
+        // second, do query operation for get data from db, thus cache all actors data on server start
+        // step 1, query actor data
+        Actors._dbAgent.query("SELECT * FROM `actor`", function (err, rows) {
+            // step 1 done, cache actor data
+            getActorData(err, rows);
+            // step 2, query actor_equipment data
+            Actors._dbAgent.query("SELECT * FROM `actor_equipment`", function (err, rows) {
+                // step 2 done, cache actor_equipment data
+                getActorEquipmentData(err, rows);
+                // step 3, query actor_skill data
+                Actors._dbAgent.query("SELECT * FROM `actor_skill`", function (err, rows) {
+                    // step 3 done, cache actor_skill data
+                    getActorSkillData(err, rows);
+
+                    // all data cached, call callback
+                    callback(err);
+                });
+            });
         });
     },
 

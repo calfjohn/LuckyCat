@@ -36,25 +36,61 @@ PlayerInfoView::~PlayerInfoView(){
 
 }
 
+CCNode* PlayerInfoView::CreateNodeForCCBI(const char *pCCBFileName , const char *pCCNodeName , cocos2d::extension::CCNodeLoader *pCCNodeLoader){
+    /* Create an autorelease CCNodeLoaderLibrary. */
+    CCNodeLoaderLibrary * ccNodeLoaderLibrary = CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
+    
+    ccNodeLoaderLibrary->registerCCNodeLoader("PlayerInfoView", PlayerInfoViewLoader::loader());
+    if(pCCNodeName != NULL && pCCNodeLoader != NULL) {
+        ccNodeLoaderLibrary->registerCCNodeLoader(pCCNodeName, pCCNodeLoader);
+    }
+    
+    /* Create an autorelease CCBReader. */
+    cocos2d::extension::CCBReader * ccbReader = new cocos2d::extension::CCBReader(ccNodeLoaderLibrary);
+    ccbReader->autorelease();
+    
+    /* Read a ccbi file. */
+    // Load the scene from the ccbi-file, setting this class as
+    // the owner will cause lblTestTitle to be set by the CCBReader.
+    // lblTestTitle is in the TestHeader.ccbi, which is referenced
+    // from each of the test scenes.
+    CCNode * node = ccbReader->readNodeGraphFromFile("pub/", pCCBFileName, this);
+    return node;
+}
+
 PlayerInfoView * PlayerInfoView::create(cocos2d::CCObject * pOwner){
     cocos2d::extension::CCNodeLoaderLibrary * ccNodeLoaderLibrary = cocos2d::extension::CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
     
     ccNodeLoaderLibrary->registerCCNodeLoader("PlayerInfoView", PlayerInfoViewLoader::loader());
     ccNodeLoaderLibrary->registerCCNodeLoader("FuzzyBgView", FuzzyBgViewLoader::loader());
-    ccNodeLoaderLibrary->registerCCNodeLoader("EquipInfoView", EquipInfoViewLoader::loader());
-    ccNodeLoaderLibrary->registerCCNodeLoader("BasicInfoView", BasicInfoViewLoader::loader());
+    
     cocos2d::extension::CCBReader * ccbReader = new cocos2d::extension::CCBReader(ccNodeLoaderLibrary);
     ccbReader->autorelease();
     
     CCNode * pNode = ccbReader->readNodeGraphFromFile("pub/", "ccb/playerinfo.ccbi", pOwner);
     
     PlayerInfoView *pPlayerInfoView = static_cast<PlayerInfoView *>(pNode);
-    pPlayerInfoView->m_pBasicInfoView = (BasicInfoView*)pPlayerInfoView->getChildByTag(kPlayerInfoTagBasicLayer);
-    pPlayerInfoView->m_pEquipInfoView = (EquipInfoView*)pPlayerInfoView->getChildByTag(kPlayerInfoTagEquipLayer);
-    pPlayerInfoView->m_iType = kPlayerInfoTagPlayerBtn;
-    pPlayerInfoView->showViewForType();
+    
+    pPlayerInfoView->m_pBasicInfoView = (BasicInfoView*)pPlayerInfoView->CreateNodeForCCBI("ccb/basic.ccbi", "BasicInfoView", BasicInfoViewLoader::loader());
+    if (pPlayerInfoView->m_pBasicInfoView != NULL) {
+        pPlayerInfoView->m_pBasicInfoView->setTag(kPlayerInfoTagBasicLayer);
+        pPlayerInfoView->addChild(pPlayerInfoView->m_pBasicInfoView);
+        pPlayerInfoView->m_pBasicInfoView->sendBasicInfo();
+    }
+    pPlayerInfoView->m_pEquipInfoView = (EquipInfoView*)pPlayerInfoView->CreateNodeForCCBI("ccb/equip.ccbi", "EquipInfoView", EquipInfoViewLoader::loader());
+    if (pPlayerInfoView->m_pEquipInfoView != NULL) {
+        pPlayerInfoView->m_pEquipInfoView->setTag(kPlayerInfoTagEquipLayer);
+        pPlayerInfoView->addChild(pPlayerInfoView->m_pEquipInfoView);
+        pPlayerInfoView->m_pEquipInfoView->sendPlayerEquipInfo();
+    }
+    if (pPlayerInfoView->m_pBasicInfoView != NULL && pPlayerInfoView->m_pEquipInfoView != NULL) {
+        pPlayerInfoView->m_iType = kPlayerInfoTagPlayerBtn;
+        pPlayerInfoView->showViewForType();
+    }
     return pPlayerInfoView;
 }
+
+
 
 cocos2d::SEL_MenuHandler PlayerInfoView::onResolveCCBCCMenuItemSelector(cocos2d::CCObject * pTarget, cocos2d::CCString * pSelectorName){
     //CCB_SELECTORRESOLVER_CCMENUITEM_GLUE(this, "onMenuItemClicked", PlayerInfoView::onMenuItemClicked);
