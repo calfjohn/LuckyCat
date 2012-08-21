@@ -21,7 +21,6 @@
 #include "Basic.h"
 
 
-#define TAG_EVENT_LIST_LAYER        100
 
 enum LEventType {
     kLEventTypeGeneralBattle          =   0,   //general battle

@@ -110,7 +110,8 @@ void Page::showBattleView(CCObject *pSender)
     {
         EventListView *pEventListView = EventListView::create();
         pEventListView->initLayer(m_nChapterId,m_pPage, this, callfuncND_selector(Page::fightCallback));
-        CCDirector::sharedDirector()->getRunningScene()->addChild(pEventListView, 0, TAG_EVENT_LIST_LAYER);
+        //CCDirector::sharedDirector()->getRunningScene()->addChild(pEventListView, 0, TAG_EVENT_LIST_LAYER);
+        this->addChild(pEventListView,1);
         
         if (p_HeroHeadView)
         {
@@ -196,6 +197,6 @@ void Page::showHeroHeadView()
     }
     else {
         p_HeroHeadView = HeroHeadView::create(this);
-        this->addChild(p_HeroHeadView);
+        this->addChild(p_HeroHeadView,2);
     }
 }
