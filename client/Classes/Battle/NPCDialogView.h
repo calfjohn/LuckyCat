@@ -49,7 +49,7 @@ public:
     
     void setDialog(stTalk *talk);
     
-    void setData(stEvent *tEvent, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector);
+    void setData(LEventData *tEvent, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector);
     
     void showDialog();
     
@@ -62,7 +62,7 @@ private:
     cocos2d::CCLabelTTF *mLabelDialogContent;
     cocos2d::CCSprite *mSpriteNpc;
     
-    stEvent *p_CurEvent;
+    LEventData *p_CurEvent;
     
     std::vector<stTalk *> mTalkList;
     

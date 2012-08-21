@@ -126,7 +126,7 @@ void NPCDialogView::setDialog(stTalk *tTalk)
     mLabelDialogContent->setString(dialog.c_str());
 }
 
-void NPCDialogView::setData(stEvent *tEvent, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector)
+void NPCDialogView::setData(LEventData *tEvent, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector)
 {
     p_CurEvent = tEvent;
     m_target = target;

@@ -17,7 +17,7 @@
 #include "BattleResultView.h"
 #include "NPCDialogView.h"
 
-
+class HeroHeadView;
 
 class EventListView : public cocos2d::CCLayer 
 {
@@ -28,7 +28,7 @@ public:
     
     virtual void onEnter();
     
-    void initLayer(const stPage *p_page, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector);
+    void initLayer(const int tChapterId,const stPage *p_page, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector);
     
     /*
      * this function will callback, when current Event was finished.
@@ -45,7 +45,7 @@ private:
     /*
      *@brief get current Event
      */
-    stEvent * getCurEvent();
+    LEventData * getCurEvent();
     
     /*
      *@brief pop current Event
@@ -71,8 +71,25 @@ private:
     
     void showOpenBoxView();
     
+    void showHeroHeadView();
+    
+    void showBattleResultView();
+    
     void removeAndCleanSelf(float dt);
     
+    void removeAllChildLayer();
+    
+private:
+    /*
+     * get all EventData in one page.
+     */
+    void getEventDataList();
+    
+public:
+    /*
+     * net work will callback this fuction. init mEventDataList.
+     */
+    void netCallBackEventList(CCNode* pNode, void* data);
 private:
     
     cocos2d::CCPoint pBeginPoint;
@@ -83,14 +100,17 @@ private:
     
     const stPage *p_pPage;      //Point of page
     
+    int mChapterId;
+    
     LEventType mLEventType;       //Current Event's event type
     
-    stEvent *p_CurEvent;          //Current Event
+    LEventData *p_CurEvent;          //Current Event
     
-    std::vector<stEvent *> mEventList;        //All Event in this page
+    std::vector<LEventData *> mEventDataList;        //All Event in this page
     
     cocos2d::CCLayer *p_CurLayer;       //Current Show Layer
     
+    HeroHeadView *p_HeroHeadView;
 };
 
 
