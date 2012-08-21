@@ -27,18 +27,28 @@ public:
     
     CCB_STATIC_NEW_AUTORELEASE_OBJECT_WITH_INIT_METHOD(BattleResultView, create);
     
-    void initView(stEvent *tEvent);
+    virtual bool ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
+    virtual void ccTouchMoved(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
+    virtual void ccTouchEnded(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
+    
+    virtual void registerWithTouchDispatcher(void);
+    
+    void initView(LEventData *tEvent);
     
     void initView(std::vector<stGood> tGoodsList);
     
+    void setSelector(cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector);
+    
     void netCallBack(CCNode* pNode, void* data);
     
-    bool haveBox();
-    
-    void showBoxView();
-    
 private:
-    stEvent *p_CurEvent;
+    LEventData *p_CurEvent;
+    
+    cocos2d::CCObject*       m_target;         //callback listener
+    
+    cocos2d::SEL_CallFuncND  m_pfnSelector;    //callback selector
+    
+    cocos2d::CCPoint        pBeginPoint;
 };
 
 class CCBReader;

@@ -56,7 +56,7 @@ public:
     
     virtual void registerWithTouchDispatcher(void);
     
-    void setData(stEvent *tEvent, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector);
+    void setData(LEventData *tEvent, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector);
     
     void removeAndCleanSelf(float dt);
     
@@ -74,7 +74,7 @@ private:
     
     cocos2d::CCPoint         pBeginPoint;
     
-    stEvent *p_CurEvent;
+    LEventData *p_CurEvent;
     
     cocos2d::CCObject*       m_target;         //callback listener
     

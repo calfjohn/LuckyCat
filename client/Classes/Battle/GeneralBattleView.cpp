@@ -68,13 +68,6 @@ void GeneralBattleView::onMenuItemClicked(cocos2d::CCObject *pTarget)
 {
     cocos2d::CCNode *p = static_cast<cocos2d::CCNode *>(pTarget);
     printf("tag %d\n",p->getTag());
-    
-    //Test player info view start;
-    if(p->getTag() == 1){
-        PlayerInfoView *pPlayerInfo = PlayerInfoView::create(this);
-        this->addChild(pPlayerInfo);
-    }
-    //Test end;
 }
 
 void GeneralBattleView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent) {
@@ -113,7 +106,7 @@ void GeneralBattleView::registerWithTouchDispatcher(void)
     CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority , true);
 }
 
-void GeneralBattleView::setData(stEvent *tEvent, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector)
+void GeneralBattleView::setData(LEventData *tEvent, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector)
 {
     p_CurEvent = tEvent;
     m_target = target;

@@ -38,13 +38,25 @@ public:
     
     void onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent);
     
-    void setEvent(stEvent *t);
+    void setSelector(cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector);
+    
+    void setEvent(LEventData *t);
     
     void netCallBack(CCNode* pNode, void* data);
+    
+    virtual bool ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
+    virtual void ccTouchMoved(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
+    virtual void ccTouchEnded(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
+    
+    virtual void registerWithTouchDispatcher(void);
 private:
-    stEvent *p_CurEvent;
+    LEventData *p_CurEvent;
     
     bool m_bIsOpen;
+    
+    cocos2d::CCObject*       m_target;         //callback listener
+    
+    cocos2d::SEL_CallFuncND  m_pfnSelector;    //callback selector
 };
 
 class CCBReader;

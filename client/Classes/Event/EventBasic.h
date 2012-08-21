@@ -43,7 +43,7 @@ typedef struct
 typedef struct
 {
 	int	id;				//id of event.
-	LEventType type;			//type of event. 0 main event, 1 side event.
+	LEventType type;			//type of event. 
     std::vector<int> targetId;		//id of target.
 	std::vector<stGood> bonus;		//bonus of event.
 	int nextEventId;		//next event follow this event.
@@ -104,6 +104,73 @@ public:
     bool operator > (const stTalk *m)const {
         return id > m->id;
     }
+};
+
+typedef int BattleProcess;  //Temporary data of battle. It's will be replace by Lijun.
+
+typedef  struct LEventData
+{
+    LEventData()
+    :m_bBoxIsOpened(false),
+    m_bBattleResultIsShowed(false),
+    id(0),
+    pBattle(NULL),
+    pStEvent(NULL)
+    {
+        
+    }
+    ~LEventData()
+    {
+        targetId.clear();
+        bonus.clear();
+    }
+    int getTarget()
+    {
+        if ( this->targetId.empty() == false )return this->targetId[0];
+        else {
+            return 0;
+        }
+    }
+    std::vector<stGood> getBouns()
+    {
+        return this->bonus;
+    }
+    bool getBattleResultIsShowed()
+    {
+        if (this->m_bBattleResultIsShowed == false && ( this->type == kLEventTypeGeneralBattle ||  this->type == kLEventTypeSpecialBattle ) )
+        {
+            return false;
+        }
+        else return true;
+    }
+    void setBattleResultIsShowed()
+    {
+        this->m_bBattleResultIsShowed = true;
+    }
+    
+    stEvent *pStEvent;                //Dict Event Struct
+    
+	int	id;                   //id of event.
+	LEventType type;                //type of event.
+    std::vector<int> targetId;		//id of target.
+	std::vector<stGood> bonus;		//bonus of event.
+    int box_id;
+    
+    BattleProcess *pBattle;         //Battle process struct. GeneralBattleView. 
+    
+    bool m_bBoxIsOpened;              //The box is opened.
+    bool m_bBattleResultIsShowed;
+}LEventData;
+
+enum EventLayerTag
+{
+    kTagLayerBattle = 1,
+    kTagLayerHeroHead,
+    kTagLayerHeroInfo,
+    kTagLayerDialog,
+    kTagLayerOpenBox,
+    kTagLayerOpenBoxResult,
+    kTagLayerBattleResult
 };
 
 

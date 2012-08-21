@@ -17,6 +17,7 @@
 #include "ChapterScene.h"
 #include "extensions/CCBReader/CCBReader.h"
 #include "extensions/CCBReader/CCNodeLoaderLibrary.h"
+#include "HeroHeadView.h"
 
 USING_NS_CC;
 
@@ -146,6 +147,8 @@ void Page::turnToPage(int chapterId, const stPage *pPage)
     
     m_title->setString(m_pPage->name.c_str());
     m_content->setString(m_pPage->content.c_str());
+    
+    this->showHeroHeadView();
 }
 
 void Page::showBattleView(CCObject *pSender)
@@ -153,8 +156,14 @@ void Page::showBattleView(CCObject *pSender)
     if ( EventListView::getIsInEvent() == false )
     {
         EventListView *pEventListView = EventListView::create();
-        pEventListView->initLayer(m_pPage, this, callfuncND_selector(Page::fightCallback));
+        pEventListView->initLayer(m_nChapterId,m_pPage, this, callfuncND_selector(Page::fightCallback));
         CCDirector::sharedDirector()->getRunningScene()->addChild(pEventListView, 0, TAG_EVENT_LIST_LAYER);
+        
+        if (p_HeroHeadView)
+        {
+            p_HeroHeadView->removeFromParentAndCleanup(true);
+            p_HeroHeadView= NULL;
+        }
     }
 }
 
@@ -225,4 +234,17 @@ void Page::ccTouchEnded(cocos2d::CCTouch* touch, cocos2d::CCEvent *pEvent)
 void Page::registerWithTouchDispatcher(void)
 {
     CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority, true);
+}
+
+void Page::showHeroHeadView()
+{
+    if (p_HeroHeadView)
+    {
+        p_HeroHeadView->removeFromParentAndCleanup(true);
+        p_HeroHeadView = NULL;
+    }
+    else {
+        p_HeroHeadView = HeroHeadView::create(this);
+        this->addChild(p_HeroHeadView);
+    }
 }

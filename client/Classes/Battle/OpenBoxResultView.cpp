@@ -53,26 +53,6 @@ void OpenBoxResultView::initView(std::vector<stGood> tGoodsList)
     }
 }
 
-bool OpenBoxResultView::haveBox()
-{
-    if ( p_CurEvent->box_id == -1  )
-    {
-        return false;
-    }
-    else {
-        return true;
-    }
-}
-
-void OpenBoxResultView::showBoxView()
-{
-    OpenBoxView *pOpenBoxView = OpenBoxView::create(this);
-    pOpenBoxView->setEvent(p_CurEvent);
-    this->addChild(pOpenBoxView);
-}
-
-
-
 void OpenBoxResultView::netCallBack(CCNode* pNode, void* data)
 {    
     
