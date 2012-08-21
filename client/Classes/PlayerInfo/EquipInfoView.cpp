@@ -103,7 +103,7 @@ void EquipInfoView::setPlayerEquipInfoForType(EquipType type){
 }
 
 void EquipInfoView::sendPlayerEquipInfo(){
-    NetManager::shareNetManager()->sendEx(kModeActor, kDoGetEquipmentInfo, callfuncND_selector(EquipInfoView::responsePlayerEquipInfo), this, "\"part\":%d",1);
+    NetManager::shareNetManager()->sendEx(kModeActor, kDoGetEquipmentInfo, callfuncND_selector(EquipInfoView::responsePlayerEquipInfo), this, "\"part\":%d",0);
 }
 
 void EquipInfoView::responsePlayerEquipInfo(CCNode *pNode, void* data){

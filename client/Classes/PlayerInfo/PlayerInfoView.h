@@ -59,11 +59,11 @@ class PlayerInfoView
         virtual cocos2d::extension::SEL_CCControlHandler onResolveCCBCCControlSelector(cocos2d::CCObject * pTarget, cocos2d::CCString * pSelectorName);
         virtual bool onAssignCCBMemberVariable(cocos2d::CCObject * pTarget, cocos2d::CCString * pMemberVariableName, cocos2d::CCNode * pNode);
     
-        CCNode* CreateNodeForCCBI(const char *pCCBFileName , const char *pCCNodeName , cocos2d::extension::CCNodeLoader *pCCNodeLoader);
+        CCNode* createNodeForCCBI(const char *pCCBFileName , const char *pCCNodeName , cocos2d::extension::CCNodeLoader *pCCNodeLoader);
     
         void onMenuItemClicked(cocos2d::CCObject *pTarget);
     
-        void PlayerInfoBarBtnCallback(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent);
+        void playerInfoBarBtnCallback(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent);
         
         void showViewForType();
 
