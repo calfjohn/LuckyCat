@@ -58,14 +58,14 @@ const std::string g_doNames[DO_COUNT] = {
 };
 
 const std::string g_url[DO_COUNT] = {
-	"login/",
     "actor/getActorInfo/",
     "box/openBox/",
     "getUserInfo/",
     "battle/fight1/",
+    "battle/fight2/",
     "actor/getBasicInfo/",
-    "actor/getEquipmentInfo",
-    "event/getEventList",
+    "actor/getEquipmentInfo/",
+    "event/getEventList/",
 };
 
 
