@@ -14,11 +14,9 @@ var wsHandlers = [
 
 require("../system/Log");
 
-var http = require("http")
-    ,express = require("express")
+var express = require("express")
     ,app = express()
-    ,server = http.createServer(app)
-    ,io = require("socket.io-client")
+    ,server = require("http").createServer(app)
     ,log = new Log("UserServer");
 
 app.configure(function() {
@@ -67,7 +65,7 @@ app.initUsers = function (db_users, done) {
 };
 
 app.initSockets = function (ws_admin_server) {
-    var wsToAS = io.connect(ws_admin_server.host, ws_admin_server.options);
+    var wsToAS = require("socket.io-client").connect(ws_admin_server.host, ws_admin_server.options);
     for(var i = 0; i < wsHandlers.length; ++i) {
         var handler = require(wsHandlers[i]);
         handler.socket = wsToAS;

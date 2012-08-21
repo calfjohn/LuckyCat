@@ -51,58 +51,54 @@ Box = {
         that._dbAgent = new DBAgent(dbConfig);
         that._dbAgent.connect(true);
 
-        that.queryDBBox(callback);
-        that.queryDBBoxReward(callback);
+        that.queryDBBox(function () {
+            that.queryDBBoxReward(callback);
+        });
     },
     queryDBBox:function (callback)
     {
         var that = this;
         that._dbAgent.query("SELECT * FROM `dict_box`",function (err,rows)
         {
-            if (err)
+            if (! err)
             {
-                throw err;
-                return;
-            }
-
-            if ( that._mMapBox )
-            {
-                that._mMapBox.length = 0;
-            }
-            else
-            {
-                that._mMapBox = new Array();
-            }
-
-            for ( var i = 0; i < rows.length; i++)
-            {
-                var tmpData = rows[i];
-
-                var tBoxId = tmpData.id;
-                tBoxId = parseInt(tBoxId);
-                var tMin = tmpData.reward_min;
-                tMin = parseInt(tMin);
-                var tMax = tmpData.reward_max;
-                tMax = parseInt(tMax);
-                var tStrRange = tmpData.range;
-                var tStrArray = tStrRange.split(",");
-
-                var tRange = new Array();
-                for (var j = 0; j < tStrArray.length; j++)
+                if ( that._mMapBox )
                 {
-                    var t = tStrArray[j];
-                    t = parseInt(t);
-                    tRange.push(t);
+                    that._mMapBox.length = 0;
+                }
+                else
+                {
+                    that._mMapBox = new Array();
                 }
 
-                var tmpBox = stBox(tBoxId,tMin,tMax,tRange);
+                for ( var i = 0; i < rows.length; i++)
+                {
+                    var tmpData = rows[i];
 
-                //that._mMapBox.push(tmpBox);
-                that._mMapBox[tBoxId] = tmpBox;
+                    var tBoxId = tmpData.id;
+                    tBoxId = parseInt(tBoxId);
+                    var tMin = tmpData.reward_min;
+                    tMin = parseInt(tMin);
+                    var tMax = tmpData.reward_max;
+                    tMax = parseInt(tMax);
+                    var tStrRange = tmpData.range;
+                    var tStrArray = tStrRange.split(",");
+
+                    var tRange = new Array();
+                    for (var j = 0; j < tStrArray.length; j++)
+                    {
+                        var t = tStrArray[j];
+                        t = parseInt(t);
+                        tRange.push(t);
+                    }
+
+                    var tmpBox = stBox(tBoxId,tMin,tMax,tRange);
+
+                    //that._mMapBox.push(tmpBox);
+                    that._mMapBox[tBoxId] = tmpBox;
+                }
+                callback(err);
             }
-            process.nextTick(function() {
-                callback(null);
-            });
         });
     },
     queryDBBoxReward:function (callback)
@@ -110,44 +106,40 @@ Box = {
         var that = this;
         that._dbAgent.query("SELECT * FROM `dict_box_reward`",function (err,rows)
         {
-            if (err)
+            if (! err)
             {
-                throw err;
-                return;
+                if ( that._mMapBoxReward )
+                {
+                    that._mMapBoxReward.length = 0;
+                }
+                else
+                {
+                    that._mMapBoxReward = new Array();
+                }
+
+
+                for ( var i = 0; i < rows.length; i++)
+                {
+                    var tmpData = rows[i];
+
+                    var tId = tmpData.id;
+                    tId = parseInt(tId);
+                    var tType = tmpData.reward_type;
+                    tType = parseInt(tType);
+                    var tRewardId = tmpData.reward_id;
+                    tId = parseInt(tId);
+                    var tNum = tmpData.reward_num;
+                    tNum = parseInt(tNum);
+                    var tProbability = tmpData.probability;
+                    tProbability = parseFloat(tProbability);
+
+                    var tmpBoxReward = stBoxReward(tId,tType,tRewardId,tNum,tProbability);
+
+                    //that._mMapBoxReward.push(tmpBoxReward);
+                    that._mMapBoxReward[tId] = tmpBoxReward;
+                }
+                callback(err);
             }
-            if ( that._mMapBoxReward )
-            {
-                that._mMapBoxReward.length = 0;
-            }
-            else
-            {
-                that._mMapBoxReward = new Array();
-            }
-
-
-            for ( var i = 0; i < rows.length; i++)
-            {
-                var tmpData = rows[i];
-
-                var tId = tmpData.id;
-                tId = parseInt(tId);
-                var tType = tmpData.reward_type;
-                tType = parseInt(tType);
-                var tRewardId = tmpData.reward_id;
-                tId = parseInt(tId);
-                var tNum = tmpData.reward_num;
-                tNum = parseInt(tNum);
-                var tProbability = tmpData.probability;
-                tProbability = parseFloat(tProbability);
-
-                var tmpBoxReward = stBoxReward(tId,tType,tRewardId,tNum,tProbability);
-
-                //that._mMapBoxReward.push(tmpBoxReward);
-                that._mMapBoxReward[tId] = tmpBoxReward;
-            }
-            process.nextTick(function() {
-                callback(null);
-            });
         });
     },
     getBox:function (boxId)

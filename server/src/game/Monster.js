@@ -27,21 +27,17 @@ Monster = {
         Monster._dbAgent.connect(true);
         // Cache all dict_page data on server start
         Monster._dbAgent.query("SELECT * FROM `dict_monster`", function (err, rows) {
-            if (err) {
-                throw err;
-                return;
+            if (! err) {
+                Monster._cache = {};
+                for(var i = 0; i < rows.length; ++i){
+                    var data = rows[i];
+                    var strID = "" + data.id;
+                    //log.d("datas:",data);
+                    Monster._cache[strID] = data;
+                    //log.d("cache:", Monster._cache);
+                }
             }
-            Monster._cache = {};
-            for(var i = 0; i < rows.length; ++i){
-                var data = rows[i];
-                var strID = "" + data.id;
-                //log.d("datas:",data);
-                Monster._cache[strID] = data;
-                //log.d("cache:", Monster._cache);
-            }
-        });
-        process.nextTick(function() {
-            callback(null);
+            callback(err);
         });
     },
 

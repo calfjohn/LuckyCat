@@ -54,9 +54,9 @@ public:
     
     void setPlayerEquipInfoForType(EquipType type);
 
-    void sendPlayerEquipInfoRequest();
+    void sendPlayerEquipInfo();
 
-    void responsePlayerEquipInfoRequest(CCNode *pNode, void* data);
+    void responsePlayerEquipInfo(CCNode *pNode, void* data);
 private:
     cocos2d::CCLabelTTF *m_labEquipName;
     cocos2d::CCSprite *m_sprEquipIcon;
