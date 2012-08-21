@@ -111,9 +111,11 @@ typedef int BattleProcess;  //Temporary data of battle. It's will be replace by 
 typedef  struct LEventData
 {
     LEventData()
-    :mBoxIsOpened(false),
+    :m_bBoxIsOpened(false),
+    m_bBattleResultIsShowed(false),
     id(0),
-    pBattle(NULL)
+    pBattle(NULL),
+    pStEvent(NULL)
     {
         
     }
@@ -124,14 +126,26 @@ typedef  struct LEventData
     }
     int getTarget()
     {
-        if ( targetId.empty() == false )return targetId[0];
+        if ( this->targetId.empty() == false )return this->targetId[0];
         else {
             return 0;
         }
     }
     std::vector<stGood> getBouns()
     {
-        return bonus;
+        return this->bonus;
+    }
+    bool getBattleResultIsShowed()
+    {
+        if (this->m_bBattleResultIsShowed == false && ( this->type == kLEventTypeGeneralBattle ||  this->type == kLEventTypeSpecialBattle ) )
+        {
+            return false;
+        }
+        else return true;
+    }
+    void setBattleResultIsShowed()
+    {
+        this->m_bBattleResultIsShowed = true;
     }
     
     stEvent *pStEvent;                //Dict Event Struct
@@ -144,7 +158,8 @@ typedef  struct LEventData
     
     BattleProcess *pBattle;         //Battle process struct. GeneralBattleView. 
     
-    bool mBoxIsOpened;              //The box is opened.
+    bool m_bBoxIsOpened;              //The box is opened.
+    bool m_bBattleResultIsShowed;
 }LEventData;
 
 enum EventLayerTag

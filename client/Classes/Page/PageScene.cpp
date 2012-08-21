@@ -11,7 +11,7 @@
 #include "DictDataManager.h"
 #include "LuckySprite.h"
 #include "EventDataManager.h"
-#include "PlayerInfoBar.h"
+#include "PlayerInfoView.h"
 #include "NetManager.h"
 #include "EventListView.h"
 #include "ChapterScene.h"
@@ -137,8 +137,6 @@ void Page::turnToPage(int chapterId, const stPage *pPage)
         this->addChild(m_monster, 1);
     }
 
-	PlayerInfoBar* playerInfoBar = PlayerInfoBar::create();
-	this->addChild(playerInfoBar);
      */
     
     m_title = (CCLabelTTF *)this->getChildByTag(TAG_Lab_Title);
@@ -158,7 +156,7 @@ void Page::showBattleView(CCObject *pSender)
     if ( EventListView::getIsInEvent() == false )
     {
         EventListView *pEventListView = EventListView::create();
-        pEventListView->initLayer(m_pPage, this, callfuncND_selector(Page::fightCallback));
+        pEventListView->initLayer(m_nChapterId,m_pPage, this, callfuncND_selector(Page::fightCallback));
         CCDirector::sharedDirector()->getRunningScene()->addChild(pEventListView, 0, TAG_EVENT_LIST_LAYER);
         
         if (p_HeroHeadView)

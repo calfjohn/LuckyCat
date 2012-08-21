@@ -9,6 +9,7 @@
 #include "EquipInfoView.h"
 #include "FuzzyBgView.h"
 #include "NetManager.h"
+#include "PlayerInfoView.h"
 #include "extensions/CCBReader/CCBSelectorResolver.h"
 #include "extensions/CCBReader/CCBReader.h"
 #include "extensions/CCBReader/CCNodeLoaderLibrary.h"
@@ -22,11 +23,12 @@ EquipInfoView::~EquipInfoView(){
 
 }
 
-EquipInfoView * EquipInfoView::create(cocos2d::CCObject * pOwner){
+/*EquipInfoView * EquipInfoView::create(cocos2d::CCObject * pOwner){
     cocos2d::extension::CCNodeLoaderLibrary * ccNodeLoaderLibrary = cocos2d::extension::CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
     
     ccNodeLoaderLibrary->registerCCNodeLoader("EquipInfoView", EquipInfoViewLoader::loader());
     ccNodeLoaderLibrary->registerCCNodeLoader("FuzzyBgView", FuzzyBgViewLoader::loader());
+    ccNodeLoaderLibrary->registerCCNodeLoader("PlayerInfoView", PlayerInfoViewLoader::loader());
     cocos2d::extension::CCBReader * ccbReader = new cocos2d::extension::CCBReader(ccNodeLoaderLibrary);
     ccbReader->autorelease();
     
@@ -34,10 +36,10 @@ EquipInfoView * EquipInfoView::create(cocos2d::CCObject * pOwner){
     
     EquipInfoView *pEquipView = static_cast<EquipInfoView *>(pNode);
     return pEquipView;
-}
+}*/
 
 cocos2d::SEL_MenuHandler EquipInfoView::onResolveCCBCCMenuItemSelector(cocos2d::CCObject * pTarget, cocos2d::CCString * pSelectorName){
-    CCB_SELECTORRESOLVER_CCMENUITEM_GLUE(this, "onMenuItemClicked", EquipInfoView::onMenuItemClicked);
+    CCB_SELECTORRESOLVER_CCMENUITEM_GLUE(this, "EquipViewBtnCallback", EquipInfoView::EquipViewBtnCallback);
     return NULL;
 }
 
@@ -51,8 +53,9 @@ bool EquipInfoView::onAssignCCBMemberVariable(cocos2d::CCObject * pTarget, cocos
     return false;
 }
 
-void EquipInfoView::onMenuItemClicked(cocos2d::CCObject *pTarget){
-    
+void EquipInfoView::EquipViewBtnCallback(cocos2d::CCObject *pTarget){
+    CCNode* node = (CCNode*)pTarget;
+    cout << node->getTag() << endl;
 }
 
 void EquipInfoView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent){

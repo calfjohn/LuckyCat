@@ -9,7 +9,7 @@
 #include "HeroHeadView.h"
 #include "extensions/CCBReader/CCBReader.h"
 #include "extensions/CCBReader/CCNodeLoaderLibrary.h"
-
+#include "PlayerInfoView.h"
 
 #define TAG_BUTTON_OPEN_BOX 11
 
@@ -17,7 +17,7 @@ USING_NS_CC;
 USING_NS_CC_EXT;
 using namespace std;
 
-HeroHeadView::HeroHeadView()
+HeroHeadView::HeroHeadView():p_PlayerInfoView(NULL)
 {
     
 }
@@ -62,6 +62,18 @@ void HeroHeadView::onMenuItemClicked(cocos2d::CCObject *pTarget)
 {
     cocos2d::CCNode *p = static_cast<cocos2d::CCNode *>(pTarget);
     printf("tag %d\n",p->getTag());
+    
+    if(p->getTag() == 1){
+        if (p_PlayerInfoView)
+        {
+            p_PlayerInfoView->removeFromParentAndCleanup(true);
+            p_PlayerInfoView = NULL;
+        }
+        else {
+            p_PlayerInfoView = PlayerInfoView::create(this);
+            this->addChild(p_PlayerInfoView);
+        }
+    }
 }
 
 void HeroHeadView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent) {

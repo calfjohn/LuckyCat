@@ -19,6 +19,7 @@ Actors = {
     _dbAgent:null,
     _cacheActors:null,
     _cacheEquipments:null,
+    _cacheSkills: null,
     initInstance:function (dbConfig, callback) {
         Actors._dbAgent = new DBAgent(dbConfig);
         Actors._dbAgent.connect(true);
@@ -65,6 +66,30 @@ Actors = {
             }
         });
 
+        Actors._dbAgent.query("SELECT * FROM `actor_skill`", function (err, rows) {
+            if (err) {
+                throw err;
+                return;
+            }
+            /**
+             *   Actors._cacheSkills struct:
+             *     |--actorID:key
+             *          |--equipment_id:key
+             *             |--data:value
+             */
+            Actors._cacheSkills = {};
+            for (var i = 0; i < rows.length; ++i) {
+                var data = rows[i];
+                var strActorID = "" + data.actor_id;
+                var datas = Actors._cacheSkills[strActorID];
+                if (undefined == datas) {
+                    datas = [];
+                }
+                datas.push(data);
+                Actors._cacheSkills[strActorID] = datas;
+            }
+        });
+
         process.nextTick(function () {
             callback(null);
         });
@@ -74,13 +99,15 @@ Actors = {
         //get a actor basic info by uuid
         var actorDB = Actors._cacheActors["" + uuid];
         var equipDB = null;
+        var skillDB = null;
         if (undefined != actorDB) {
             // get the equipmnets by actor's actor_id
             equipDB = Actors._cacheEquipments["" + actorDB.id];
+            skillDB = Actors._cacheSkills["" + actorDB.id];
         } else {
             actorDB = null;
         }
-        callback(new Actor(actorDB, equipDB));
+        callback(new Actor(actorDB, equipDB, skillDB));
     },
 
     getActorFromCache: function(uuid) {

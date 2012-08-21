@@ -69,6 +69,8 @@ app.initInstance = function (srvConfig, callback) {
     require("./Actors").initInstance(cfg.db_actors, dbCallback);
     require("./Box").initInstance(cfg.db_actors, dbCallback);
     require("./Events").initInstance(cfg.db_actors, dbCallback);
+    require("./Level").initInstance(cfg.db_actors, dbCallback);
+    require("./Monster").initInstance(cfg.db_actors, dbCallback);
 
     return this;
 };
@@ -84,8 +86,10 @@ app.initHandlers = function (aExpress) {
     aExpress.post("/game/actor/getBasicInfo", require("./handler/actor.getBasicInfo.js"));
     aExpress.post("/game/actor/getEquipmentInfo", require("./handler/actor.getEquipmentInfo.js"));
     aExpress.post("/game/actor/changeEquipmentInfo", require("./handler/actor.changeEquipmentInfo.js"));
+    aExpress.post("/game/actor/getSkillInfo", require("./handler/actor.getSkillInfo.js"));
     aExpress.post("/game/battle/fight1", require("./handler/battle.fight1"));
     aExpress.post("/game/battle/fight2", require("./handler/battle.fight2"));
+    aExpress.post("/game/event/getEventList", require("./handler/event.getEventList"));
 };
 
 module.exports = app;

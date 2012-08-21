@@ -73,7 +73,7 @@ void OpenBoxView::onMenuItemClicked(cocos2d::CCObject *pTarget)
 }
 
 void OpenBoxView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent) {
-    if ( m_bIsOpen == false && p_CurEvent->mBoxIsOpened == false && p_CurEvent && p_CurEvent->box_id != -1)
+    if ( m_bIsOpen == false && p_CurEvent->m_bBoxIsOpened == false && p_CurEvent && p_CurEvent->box_id != -1)
     {
         m_bIsOpen = true;
         
@@ -144,7 +144,7 @@ void OpenBoxView::netCallBack(CCNode* pNode, void* data)
         
         if (p_CurEvent)
         {
-            p_CurEvent->mBoxIsOpened = true;
+            p_CurEvent->m_bBoxIsOpened = true;
         }
     }
 }

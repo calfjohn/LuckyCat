@@ -15,6 +15,8 @@
 #include "extensions/CCBReader/CCBMemberVariableAssigner.h"
 #include "extensions/CCBReader/CCLayerLoader.h"
 
+class PlayerInfoView;
+
 class HeroHeadView 
 : public cocos2d::CCLayer
 , public cocos2d::extension::CCBMemberVariableAssigner
@@ -35,6 +37,9 @@ public:
     void onMenuItemClicked(cocos2d::CCObject *pTarget);
     
     void onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent);
+    
+private:
+    PlayerInfoView *p_PlayerInfoView;
     
 };
 

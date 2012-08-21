@@ -3,12 +3,22 @@
  * Responsibility:
  *  -   login:  authorize valid user, create new account for new user
  */
+
+var httpHandlers = {
+    "/user/login": "./handler/login"
+};
+
+var wsHandlers = [
+    "./socket/UserServerAgent"
+];
+
 require("../system/Log");
 
 var http = require("http")
     ,express = require("express")
     ,app = express()
     ,server = http.createServer(app)
+    ,io = require("socket.io-client")
     ,log = new Log("UserServer");
 
 app.configure(function() {
@@ -31,32 +41,55 @@ app.configure(function() {
 // init server, connect database here
 app.initInstance = function (srvConfig, callback) {
     var cfg = require("../config/user.UserServer");
-    var cb = function() {log.d(arguments);};
+    var done = function() {log.d(arguments);};
     for (var i = 0; i < arguments.length; ++i) {
         var arg = arguments[i];
         switch (typeof arg) {
-            case "function":    cb = arg; break;
+            case "function":    done = arg; break;
             case "object":      cfg = arg; break;
             default: throw new Error("Invalid argument");
         }
     }
 
-    require("./Users").initInstance(cfg.db_users, function(err) {
-        if (! err) {
-            app.initHandlers(app);
-        }
-        cb(err);
+    app.initUsers(cfg.db_users, function() {
+        app.initSockets(cfg.ws_admin_server);
+        app.initHandlers();
+        done();
     });
     return this;
+};
+
+app.initUsers = function (db_users, done) {
+    require("./Users").initInstance(db_users, function(err) {
+        if (err) throw err;
+        done();
+    });
+};
+
+app.initSockets = function (ws_admin_server) {
+    var wsToAS = io.connect(ws_admin_server.host, ws_admin_server.options);
+    for(var i = 0; i < wsHandlers.length; ++i) {
+        var handler = require(wsHandlers[i]);
+        handler.socket = wsToAS;
+        wsToAS.on("connect", handler.handler);
+    }
+    wsToAS.on("error", function(err) {
+        throw err;
+    });
+};
+
+app.initHandlers = function () {
+    for (var key in httpHandlers) {
+        var value = httpHandlers[key];
+        var handler = require(value);
+
+        app.post(key, handler.handler);
+    }
 };
 
 // start server, begin listening
 app.start = function() {
     server.listen(require("../config/user.UserServer").service.port);
-};
-
-app.initHandlers = function (aExpress) {
-    aExpress.post("/user/login", require("./handler/login"));
 };
 
 module.exports = app;

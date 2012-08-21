@@ -62,6 +62,15 @@ void BattleResultView::initView(LEventData *tEvent)
 //    NetManager::shareNetManager()->send(kModeGame, kDoGetUserInfo, "\"category\": \"basic\"",                                      callfuncND_selector(BattleResultView::netCallBack), this);
 }
 
+void BattleResultView::setSelector(cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector)
+{
+    pBeginPoint = CCPointZero;
+    this->setTouchEnabled(true);
+    
+    m_target = target;
+    m_pfnSelector = pfnSelector;
+}
+
 void BattleResultView::initView(std::vector<stGood> tGoodsList)
 {
     CCSize screanSize = CCDirector::sharedDirector()->getWinSize();
@@ -94,4 +103,36 @@ void BattleResultView::initView(std::vector<stGood> tGoodsList)
 void BattleResultView::netCallBack(CCNode* pNode, void* data)
 {    
     
+}
+
+bool BattleResultView::ccTouchBegan(CCTouch* touch, CCEvent *pEvent)
+{
+    if ( !touch ) return false;
+    
+    pBeginPoint = this->convertTouchToNodeSpace(touch);
+    
+    return true;
+}
+
+void BattleResultView::ccTouchMoved(CCTouch* touch, CCEvent *pEvent)
+{
+    
+}
+
+void BattleResultView::ccTouchEnded(CCTouch* touch, CCEvent *pEvent)
+{
+    if ( !touch ) return;
+    CCPoint endPoint = this->convertTouchToNodeSpace(touch);
+    
+    if ( pBeginPoint.x != 0 && pBeginPoint.y != 0 )
+    {
+        if ( m_target && m_pfnSelector )
+            ((m_target)->*(m_pfnSelector))(this, NULL);
+    }
+    pBeginPoint = CCPointZero;
+}
+
+void BattleResultView::registerWithTouchDispatcher(void)
+{
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority , true);
 }

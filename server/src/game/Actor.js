@@ -19,12 +19,14 @@ var PartEmpty = -1;
 Actor = Class.extend({
     _dbBasic: {},                // basic data from table actor
     _dbEquipment: {},           // equipment data from table actor_equipment
+    _dbSkill: {},
     _tdb: {},               // actor temporary database, will not sync to database
 
-    init: function(basicDB, equipDB) {
+    init: function(basicDB, equipDB, skillDB) {
         if (basicDB && equipDB) {
             this._dbBasic = basicDB;
             this._dbEquipment = equipDB;
+            this._dbSkill = skillDB;
         } else {
             this.initDefaultData();
         }
@@ -134,6 +136,10 @@ Actor = Class.extend({
             });
         } while (0);
         callback(ret);
+    },
+
+    getSkills: function(){
+        return this._dbSkill;
     }
 
 });

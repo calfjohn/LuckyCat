@@ -22,7 +22,6 @@
 		15AAE35915B6C1D200F0CF5E /* PageScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15AAE35715B6C1D200F0CF5E /* PageScene.cpp */; };
 		15BEAF9115B65AB600D5940D /* LevelDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15BEAF8F15B65AB600D5940D /* LevelDataManager.cpp */; };
 		15D0D34F15D363AF00F53819 /* NetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15D0D34D15D363AF00F53819 /* NetManager.cpp */; };
-		15D5107115CA14DC00FE43A8 /* PlayerInfoBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15D5106F15CA14DC00FE43A8 /* PlayerInfoBar.cpp */; };
 		15DD6D7A156DD120003E7567 /* fps_images.png in Resources */ = {isa = PBXBuildFile; fileRef = 15DD6D78156DD120003E7567 /* fps_images.png */; };
 		15EC314F15B7F46000EA9631 /* PageMapScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15EC314E15B7F46000EA9631 /* PageMapScene.cpp */; };
 		15EC315F15B7FE4000EA9631 /* CppSQLite3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15EC315A15B7FE4000EA9631 /* CppSQLite3.cpp */; };
@@ -60,6 +59,7 @@
 		1898E1FA15B3F94700A274B3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		18BAFC3F15E210D5000D5191 /* OpenBoxResultView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18BAFC3E15E210D5000D5191 /* OpenBoxResultView.cpp */; };
 		18BAFC4215E25FC2000D5191 /* HeroHeadView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18BAFC4115E25FC1000D5191 /* HeroHeadView.cpp */; };
+		18C1935415E32BFC005A1D0E /* BasicInfoView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18C1935215E32BFC005A1D0E /* BasicInfoView.cpp */; };
 		18CE8E9F15C7762600C48686 /* BasicFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18CE8E9E15C7762600C48686 /* BasicFunction.cpp */; };
 		18DA5EB715D9FCAC000B7831 /* pub in Resources */ = {isa = PBXBuildFile; fileRef = 18DA5EB615D9FCAC000B7831 /* pub */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -140,8 +140,6 @@
 		15D0D34D15D363AF00F53819 /* NetManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetManager.cpp; sourceTree = "<group>"; };
 		15D0D34E15D363AF00F53819 /* NetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetManager.h; sourceTree = "<group>"; };
 		15D0D35915D36C3600F53819 /* Netbasic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Netbasic.h; sourceTree = "<group>"; };
-		15D5106F15CA14DC00FE43A8 /* PlayerInfoBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerInfoBar.cpp; sourceTree = "<group>"; };
-		15D5107015CA14DC00FE43A8 /* PlayerInfoBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerInfoBar.h; sourceTree = "<group>"; };
 		15DD6D78156DD120003E7567 /* fps_images.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fps_images.png; sourceTree = "<group>"; };
 		15EC314D15B7F45100EA9631 /* PageMapScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageMapScene.h; sourceTree = "<group>"; };
 		15EC314E15B7F46000EA9631 /* PageMapScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PageMapScene.cpp; sourceTree = "<group>"; };
@@ -190,6 +188,8 @@
 		18BAFC3E15E210D5000D5191 /* OpenBoxResultView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenBoxResultView.cpp; sourceTree = "<group>"; };
 		18BAFC4015E25F9B000D5191 /* HeroHeadView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HeroHeadView.h; sourceTree = "<group>"; };
 		18BAFC4115E25FC1000D5191 /* HeroHeadView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HeroHeadView.cpp; sourceTree = "<group>"; };
+		18C1935215E32BFC005A1D0E /* BasicInfoView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BasicInfoView.cpp; sourceTree = "<group>"; };
+		18C1935315E32BFC005A1D0E /* BasicInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicInfoView.h; sourceTree = "<group>"; };
 		18CE8E9D15C7760A00C48686 /* BasicFunction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BasicFunction.h; sourceTree = "<group>"; };
 		18CE8E9E15C7762600C48686 /* BasicFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BasicFunction.cpp; sourceTree = "<group>"; };
 		18DA5EB615D9FCAC000B7831 /* pub */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pub; sourceTree = "<group>"; };
@@ -353,12 +353,12 @@
 		15D5106E15CA14DC00FE43A8 /* PlayerInfo */ = {
 			isa = PBXGroup;
 			children = (
+				18C1935215E32BFC005A1D0E /* BasicInfoView.cpp */,
+				18C1935315E32BFC005A1D0E /* BasicInfoView.h */,
 				FA5A00EC15DE187F00C1A9B9 /* EquipInfoView.cpp */,
 				FA5A00ED15DE187F00C1A9B9 /* EquipInfoView.h */,
 				FA8C106B15DA585000FF3FA4 /* PlayerInfoView.cpp */,
 				FA8C106C15DA585000FF3FA4 /* PlayerInfoView.h */,
-				15D5106F15CA14DC00FE43A8 /* PlayerInfoBar.cpp */,
-				15D5107015CA14DC00FE43A8 /* PlayerInfoBar.h */,
 			);
 			path = PlayerInfo;
 			sourceTree = "<group>";
@@ -728,7 +728,6 @@
 				150B347D15C244B10051DB06 /* LuckySprite.cpp in Sources */,
 				187E0D4B15C679D500DB85F3 /* BattleResultView.cpp in Sources */,
 				18CE8E9F15C7762600C48686 /* BasicFunction.cpp in Sources */,
-				15D5107115CA14DC00FE43A8 /* PlayerInfoBar.cpp in Sources */,
 				1881484B15D36EBB0058DE29 /* GeneralBattleView.cpp in Sources */,
 				1881484C15D36EBB0058DE29 /* NPCDialogView.cpp in Sources */,
 				1881484D15D36EBB0058DE29 /* SpecialBattleView.cpp in Sources */,
@@ -741,6 +740,7 @@
 				FA5A00EE15DE187F00C1A9B9 /* EquipInfoView.cpp in Sources */,
 				18BAFC3F15E210D5000D5191 /* OpenBoxResultView.cpp in Sources */,
 				18BAFC4215E25FC2000D5191 /* HeroHeadView.cpp in Sources */,
+				18C1935415E32BFC005A1D0E /* BasicInfoView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

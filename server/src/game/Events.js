@@ -143,9 +143,9 @@ Events = {
                 {
                     for ( var g = 1; g+1 < intList.length; g+=2 )
                     {
-                        var goodId = intList[g];
-                        var goodNum = intList[g+1];
-                        var goodType = 0;
+                        var goodId = parseInt(intList[g]);
+                        var goodNum = parseInt(intList[g+1]);
+                        var goodType = parseInt(0);
 
                         var tmpGood = stGood(goodType,goodId,goodNum);
                         bonusAry.push(tmpGood);
@@ -196,7 +196,10 @@ Events = {
                 tEventId = tEvent.nextEventId;
             }
         }
-        return tEventList;
+        if (tEventList.length != 0)return tEventList;
+
+        return null;
+
     }
 };
 

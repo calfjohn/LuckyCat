@@ -18,7 +18,6 @@
 #include "NPCDialogView.h"
 
 class HeroHeadView;
-class OpenBoxView;
 
 class EventListView : public cocos2d::CCLayer 
 {
@@ -29,7 +28,7 @@ public:
     
     virtual void onEnter();
     
-    void initLayer(const stPage *p_page, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector);
+    void initLayer(const int tChapterId,const stPage *p_page, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector);
     
     /*
      * this function will callback, when current Event was finished.
@@ -74,9 +73,11 @@ private:
     
     void showHeroHeadView();
     
+    void showBattleResultView();
+    
     void removeAndCleanSelf(float dt);
     
-    
+    void removeAllChildLayer();
     
 private:
     /*
@@ -99,6 +100,8 @@ private:
     
     const stPage *p_pPage;      //Point of page
     
+    int mChapterId;
+    
     LEventType mLEventType;       //Current Event's event type
     
     LEventData *p_CurEvent;          //Current Event
@@ -108,7 +111,6 @@ private:
     cocos2d::CCLayer *p_CurLayer;       //Current Show Layer
     
     HeroHeadView *p_HeroHeadView;
-    OpenBoxView *p_OpenBoxView;
 };
 
 
