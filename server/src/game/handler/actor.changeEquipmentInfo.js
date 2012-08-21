@@ -9,7 +9,7 @@
 
 require("../../system/Log");
 
-module.exports = function (req, res, next) {
+module.exports.handler = function (req, res, next) {
     var log = new Log("actor.changeEquipmentInfo");
 
     var chunks = [];

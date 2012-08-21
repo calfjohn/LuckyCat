@@ -48,7 +48,7 @@ Log._outputLog = function(level, tag, msgArr, doTrace) {
         case LogLevelError: level = "error";        outputStringFunc = Log._outputErrorString;      break;
     }
     // output log header
-    outputStringFunc(util.format("{\n    level: %s\n    time: %s\n    tag: %s\n    message: ", level, new Date().toLocaleTimeString(), tag));
+    outputStringFunc(util.format("{\n    level:          %s,    time:           %s,    tag:            %s,\n    msg:    ", level, new Date().toLocaleTimeString(), tag));
 
     // output log message
     for (var i = 0; i < msgArr.length; ++i) {
