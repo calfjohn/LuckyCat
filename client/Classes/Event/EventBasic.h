@@ -43,7 +43,7 @@ typedef struct
 typedef struct
 {
 	int	id;				//id of event.
-	LEventType type;			//type of event. 0 main event, 1 side event.
+	LEventType type;			//type of event. 
     std::vector<int> targetId;		//id of target.
 	std::vector<stGood> bonus;		//bonus of event.
 	int nextEventId;		//next event follow this event.
@@ -104,6 +104,58 @@ public:
     bool operator > (const stTalk *m)const {
         return id > m->id;
     }
+};
+
+typedef int BattleProcess;  //Temporary data of battle. It's will be replace by Lijun.
+
+typedef  struct LEventData
+{
+    LEventData()
+    :mBoxIsOpened(false),
+    id(0),
+    pBattle(NULL)
+    {
+        
+    }
+    ~LEventData()
+    {
+        targetId.clear();
+        bonus.clear();
+    }
+    int getTarget()
+    {
+        if ( targetId.empty() == false )return targetId[0];
+        else {
+            return 0;
+        }
+    }
+    std::vector<stGood> getBouns()
+    {
+        return bonus;
+    }
+    
+    stEvent *pStEvent;                //Dict Event Struct
+    
+	int	id;                   //id of event.
+	LEventType type;                //type of event.
+    std::vector<int> targetId;		//id of target.
+	std::vector<stGood> bonus;		//bonus of event.
+    int box_id;
+    
+    BattleProcess *pBattle;         //Battle process struct. GeneralBattleView. 
+    
+    bool mBoxIsOpened;              //The box is opened.
+}LEventData;
+
+enum EventLayerTag
+{
+    kTagLayerBattle = 1,
+    kTagLayerHeroHead,
+    kTagLayerHeroInfo,
+    kTagLayerDialog,
+    kTagLayerOpenBox,
+    kTagLayerOpenBoxResult,
+    kTagLayerBattleResult
 };
 
 

@@ -17,7 +17,8 @@
 #include "BattleResultView.h"
 #include "NPCDialogView.h"
 
-
+class HeroHeadView;
+class OpenBoxView;
 
 class EventListView : public cocos2d::CCLayer 
 {
@@ -45,7 +46,7 @@ private:
     /*
      *@brief get current Event
      */
-    stEvent * getCurEvent();
+    LEventData * getCurEvent();
     
     /*
      *@brief pop current Event
@@ -71,8 +72,23 @@ private:
     
     void showOpenBoxView();
     
+    void showHeroHeadView();
+    
     void removeAndCleanSelf(float dt);
     
+    
+    
+private:
+    /*
+     * get all EventData in one page.
+     */
+    void getEventDataList();
+    
+public:
+    /*
+     * net work will callback this fuction. init mEventDataList.
+     */
+    void netCallBackEventList(CCNode* pNode, void* data);
 private:
     
     cocos2d::CCPoint pBeginPoint;
@@ -85,12 +101,14 @@ private:
     
     LEventType mLEventType;       //Current Event's event type
     
-    stEvent *p_CurEvent;          //Current Event
+    LEventData *p_CurEvent;          //Current Event
     
-    std::vector<stEvent *> mEventList;        //All Event in this page
+    std::vector<LEventData *> mEventDataList;        //All Event in this page
     
     cocos2d::CCLayer *p_CurLayer;       //Current Show Layer
     
+    HeroHeadView *p_HeroHeadView;
+    OpenBoxView *p_OpenBoxView;
 };
 
 

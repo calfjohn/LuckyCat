@@ -31,7 +31,7 @@ BattleResultView *BattleResultView::create(cocos2d::CCObject * pOwner)
     return pBattleResultView;
 }
 
-void BattleResultView::initView(stEvent *tEvent)
+void BattleResultView::initView(LEventData *tEvent)
 {
     CCSize screanSize = CCDirector::sharedDirector()->getWinSize();
     
@@ -90,26 +90,6 @@ void BattleResultView::initView(std::vector<stGood> tGoodsList)
         this->addChild(bonusLabel);
     }
 }
-
-bool BattleResultView::haveBox()
-{
-    if ( p_CurEvent->box_id == -1  )
-    {
-        return false;
-    }
-    else {
-        return true;
-    }
-}
-
-void BattleResultView::showBoxView()
-{
-    OpenBoxView *pOpenBoxView = OpenBoxView::create(this);
-    pOpenBoxView->setEvent(p_CurEvent);
-    this->addChild(pOpenBoxView);
-}
-
-
 
 void BattleResultView::netCallBack(CCNode* pNode, void* data)
 {    

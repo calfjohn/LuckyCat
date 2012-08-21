@@ -16,6 +16,7 @@
 #include "SpecialBattleView.h"
 #include "OpenBoxView.h"
 #include "ChapterScene.h"
+#include "HeroHeadView.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -42,21 +43,55 @@ void EventListView::initLayer(const stPage *p_page, CCObject *target, SEL_CallFu
     
     p_pPage = p_page;
     
+    p_HeroHeadView = NULL;
+    p_OpenBoxView = NULL;
+    
     if ( p_pPage == NULL )return;
     
-    mEventList.clear();
-    mEventList = EventDataManager::getShareInstance()->getASeriesOfEvent(p_pPage->eventId);
-    
-    p_CurEvent = getCurEvent();
+    this->getEventDataList();
     
     this->showCurEvent();
+    
+    this->showHeroHeadView();
 };
 
-stEvent * EventListView::getCurEvent()
+void EventListView::getEventDataList()
 {
-    if ( mEventList.empty() == false )
+    this->netCallBackEventList(NULL,NULL);
+}
+
+void EventListView::netCallBackEventList(CCNode* pNode, void* data)
+{
+    mEventDataList.clear();
+    std::vector<stEvent *> tStEventList = EventDataManager::getShareInstance()->getASeriesOfEvent(p_pPage->eventId);
+    
+    for (std::vector<stEvent *>::iterator _iter = tStEventList.begin(); _iter != tStEventList.end(); _iter++) {
+        stEvent *tStEvent = *_iter;
+        
+        if (tStEvent)
+        {
+            LEventData *tEventData = new LEventData();
+            
+            tEventData->id = tStEvent->id;
+            tEventData->type = tStEvent->type;
+            tEventData->pStEvent = tStEvent;
+            tEventData->targetId = tStEvent->targetId;
+            tEventData->bonus = tStEvent->bonus;
+            tEventData->pBattle = NULL;
+            tEventData->box_id = tStEvent->box_id;
+            
+            mEventDataList.push_back(tEventData);
+        }
+    }
+    
+    p_CurEvent = getCurEvent();
+}
+
+LEventData * EventListView::getCurEvent()
+{
+    if ( mEventDataList.empty() == false )
     {
-        p_CurEvent = mEventList[0];
+        p_CurEvent = mEventDataList[0];
         
         switch (p_CurEvent->type) {
             case kLEventTypeGeneralBattle:
@@ -87,14 +122,14 @@ stEvent * EventListView::getCurEvent()
 
 void EventListView::popEvent()
 {
-    if ( mEventList.empty() == false )
+    if ( mEventDataList.empty() == false )
     {
-        std::vector<stEvent *>::iterator _iter = mEventList.begin();
-        mEventList.erase(_iter);
+        std::vector<LEventData *>::iterator _iter = mEventDataList.begin();
+        mEventDataList.erase(_iter);
         
-        if ( mEventList.empty() == false )
+        if ( mEventDataList.empty() == false )
         {
-            p_CurEvent = mEventList[0];
+            p_CurEvent = mEventDataList[0];
             
             switch (p_CurEvent->type) {
                 case kLEventTypeGeneralBattle:
@@ -186,7 +221,7 @@ void EventListView::showDialogView()
         
         p_CurLayer = static_cast<cocos2d::CCLayer *>(tDialog);
         
-        this->addChild(p_CurLayer);
+        this->addChild(p_CurLayer,kTagLayerDialog);
     }
 }
 
@@ -199,9 +234,7 @@ void EventListView::showGeneralBattleView()
         
         p_CurLayer = static_cast<cocos2d::CCLayer *>(tGeneralBattle);
         
-        this->addChild(p_CurLayer);
-        
-        this->showOpenBoxView();
+        this->addChild(p_CurLayer,kTagLayerBattle);
     }
 }
 
@@ -214,32 +247,59 @@ void EventListView::showSpecialBattleView()
         
         p_CurLayer = static_cast<cocos2d::CCLayer *>(tSpecialBattle);
         
-        this->addChild(p_CurLayer);
-        
-        this->showOpenBoxView();
+        this->addChild(p_CurLayer,kTagLayerBattle);
     }
 }
 
 void EventListView::showOpenBoxView()
 {
-    if ( p_CurEvent && p_CurEvent->box_id != -1 )
+    if ( p_CurEvent && p_CurEvent->mBoxIsOpened == false && p_CurEvent->box_id != -1 )
     {
-        OpenBoxView *p = OpenBoxView::create(this);
-        p->setEvent(p_CurEvent);
-        p_CurLayer->addChild(p,99);
+        p_OpenBoxView = OpenBoxView::create(this);
+        p_OpenBoxView->setSelector(this, callfuncND_selector(EventListView::callbackEventWasFinished));
+        p_OpenBoxView->setEvent(p_CurEvent);
+        this->addChild(p_OpenBoxView,kTagLayerOpenBox);
+    }
+}
+
+void EventListView::showHeroHeadView()
+{
+    if (p_HeroHeadView)
+    {
+        p_HeroHeadView->removeFromParentAndCleanup(true);
+        p_HeroHeadView = NULL;
+    }
+    else {
+        p_HeroHeadView = HeroHeadView::create(this);
+        this->addChild(p_HeroHeadView,kTagLayerHeroHead);
     }
 }
 
 void EventListView::showNextEvent(float dt)
 {
-    if ( p_CurLayer )
-    {
-        p_CurLayer->removeFromParentAndCleanup(true);
-        
-        p_CurLayer = NULL;
+    if ( p_CurEvent && p_CurEvent->mBoxIsOpened == false && p_CurEvent->box_id != -1 ) {
+        this->showOpenBoxView();
     }
-    
-    popEvent();
-    
-    showCurEvent();
+    else {
+        if ( p_CurLayer )
+        {
+            p_CurLayer->removeFromParentAndCleanup(true);
+            
+            p_CurLayer = NULL;
+        }
+        if (p_HeroHeadView)
+        {
+            p_HeroHeadView->removeFromParentAndCleanup(true);
+            p_HeroHeadView = NULL;
+        }
+        if (p_OpenBoxView)
+        {
+            p_OpenBoxView->removeFromParentAndCleanup(true);
+            p_OpenBoxView = NULL;
+        }
+        
+        popEvent();
+        
+        showCurEvent();
+    }
 }

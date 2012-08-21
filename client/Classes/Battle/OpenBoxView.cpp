@@ -73,7 +73,7 @@ void OpenBoxView::onMenuItemClicked(cocos2d::CCObject *pTarget)
 }
 
 void OpenBoxView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent) {
-    if ( m_bIsOpen == false && p_CurEvent && p_CurEvent->box_id != -1)
+    if ( m_bIsOpen == false && p_CurEvent->mBoxIsOpened == false && p_CurEvent && p_CurEvent->box_id != -1)
     {
         m_bIsOpen = true;
         
@@ -81,9 +81,19 @@ void OpenBoxView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::
         sprintf(strChar,"\"EventId\": %d,\"boxId\": %d" ,p_CurEvent->id, p_CurEvent->box_id);
         NetManager::shareNetManager()->send(kModeBox, kDoOpenBox,                                      callfuncND_selector(OpenBoxView::netCallBack), this, strChar);
     }
+    else {
+        if ( m_target && m_pfnSelector )
+            ((m_target)->*(m_pfnSelector))(this, NULL);
+    }
 }
 
-void OpenBoxView::setEvent(stEvent *t)
+void OpenBoxView::setSelector(cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector)
+{
+    m_target = target;
+    m_pfnSelector = pfnSelector;
+}
+
+void OpenBoxView::setEvent(LEventData *t)
 {
     p_CurEvent = t;
 }
@@ -99,17 +109,6 @@ void OpenBoxView::netCallBack(CCNode* pNode, void* data)
         }
         ccnetwork::RequestInfo *tempInfo = static_cast<ccnetwork::RequestInfo *>(data);
         
-        CCLog("--------> 测试返回 url : %s\n>> ReuestInfo: %s,\n>> ResponseData %s",tempInfo->strUrl.c_str(),tempInfo->strRequestData.c_str(),tempInfo->strResponseData.c_str());
-        
-        if (tempInfo->stateCode == CURLE_COULDNT_CONNECT )
-        {
-            CCLog("----> This Requst Was Time Out CURLE_COULDNT_CONNECT...");
-        }
-        if ( tempInfo->stateCode == CURLE_OPERATION_TIMEDOUT )
-        {
-            CCLog("----> This Requst Was Time Out CURLE_OPERATION_TIMEDOUT...");
-        }
-        
         vector<stGood> tGoodsList;
         
         Json::Reader reader;
@@ -124,7 +123,7 @@ void OpenBoxView::netCallBack(CCNode* pNode, void* data)
         if ( ret != 0 )
         {
             //open box failed. the box id is not exit. alert player.
-            
+            m_bIsOpen = false;
             return;
         }
         Json::Value json_goodsArray = json_out["goodsArray"];
@@ -142,5 +141,34 @@ void OpenBoxView::netCallBack(CCNode* pNode, void* data)
         OpenBoxResultView *pOpenBoxResult = OpenBoxResultView::create(this);
         pOpenBoxResult->initView(tGoodsList);
         this->addChild(pOpenBoxResult,99);
+        
+        if (p_CurEvent)
+        {
+            p_CurEvent->mBoxIsOpened = true;
+        }
     }
+}
+
+bool OpenBoxView::ccTouchBegan(CCTouch* touch, CCEvent *pEvent)
+{
+    if ( !touch ) return false;
+    
+    return true;
+}
+
+void OpenBoxView::ccTouchMoved(CCTouch* touch, CCEvent *pEvent)
+{
+    
+}
+
+void OpenBoxView::ccTouchEnded(CCTouch* touch, CCEvent *pEvent)
+{
+    if ( !touch ) return;
+    
+    this->onCCControlButtonClicked(NULL,NULL);
+}
+
+void OpenBoxView::registerWithTouchDispatcher(void)
+{
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority , true);
 }

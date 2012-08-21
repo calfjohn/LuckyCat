@@ -104,7 +104,7 @@ void GeneralBattleView::registerWithTouchDispatcher(void)
     CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority , true);
 }
 
-void GeneralBattleView::setData(stEvent *tEvent, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector)
+void GeneralBattleView::setData(LEventData *tEvent, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector)
 {
     p_CurEvent = tEvent;
     m_target = target;

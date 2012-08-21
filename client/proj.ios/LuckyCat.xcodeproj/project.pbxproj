@@ -59,6 +59,7 @@
 		1898E1DC15B3F83900A274B3 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1898E1DB15B3F83900A274B3 /* libcurl.a */; };
 		1898E1FA15B3F94700A274B3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		18BAFC3F15E210D5000D5191 /* OpenBoxResultView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18BAFC3E15E210D5000D5191 /* OpenBoxResultView.cpp */; };
+		18BAFC4215E25FC2000D5191 /* HeroHeadView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18BAFC4115E25FC1000D5191 /* HeroHeadView.cpp */; };
 		18CE8E9F15C7762600C48686 /* BasicFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18CE8E9E15C7762600C48686 /* BasicFunction.cpp */; };
 		18DA5EB715D9FCAC000B7831 /* pub in Resources */ = {isa = PBXBuildFile; fileRef = 18DA5EB615D9FCAC000B7831 /* pub */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -187,6 +188,8 @@
 		1898E1F915B3F94700A274B3 /* libCocosDension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCocosDension.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		18BAFC3D15E210B2000D5191 /* OpenBoxResultView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenBoxResultView.h; sourceTree = "<group>"; };
 		18BAFC3E15E210D5000D5191 /* OpenBoxResultView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenBoxResultView.cpp; sourceTree = "<group>"; };
+		18BAFC4015E25F9B000D5191 /* HeroHeadView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HeroHeadView.h; sourceTree = "<group>"; };
+		18BAFC4115E25FC1000D5191 /* HeroHeadView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HeroHeadView.cpp; sourceTree = "<group>"; };
 		18CE8E9D15C7760A00C48686 /* BasicFunction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BasicFunction.h; sourceTree = "<group>"; };
 		18CE8E9E15C7762600C48686 /* BasicFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BasicFunction.cpp; sourceTree = "<group>"; };
 		18DA5EB615D9FCAC000B7831 /* pub */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pub; sourceTree = "<group>"; };
@@ -458,6 +461,8 @@
 				18EED36815D90B43002EC7B9 /* FuzzyBgView.h */,
 				18BAFC3D15E210B2000D5191 /* OpenBoxResultView.h */,
 				18BAFC3E15E210D5000D5191 /* OpenBoxResultView.cpp */,
+				18BAFC4015E25F9B000D5191 /* HeroHeadView.h */,
+				18BAFC4115E25FC1000D5191 /* HeroHeadView.cpp */,
 			);
 			path = Battle;
 			sourceTree = "<group>";
@@ -735,6 +740,7 @@
 				184FEDCF15DDE0E1006A8373 /* EventListView.cpp in Sources */,
 				FA5A00EE15DE187F00C1A9B9 /* EquipInfoView.cpp in Sources */,
 				18BAFC3F15E210D5000D5191 /* OpenBoxResultView.cpp in Sources */,
+				18BAFC4215E25FC2000D5191 /* HeroHeadView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

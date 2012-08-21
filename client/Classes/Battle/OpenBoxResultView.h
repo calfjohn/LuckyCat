@@ -31,12 +31,8 @@ public:
     
     void netCallBack(CCNode* pNode, void* data);
     
-    bool haveBox();
-    
-    void showBoxView();
-    
 private:
-    stEvent *p_CurEvent;
+    LEventData *p_CurEvent;
 };
 
 class CCBReader;
