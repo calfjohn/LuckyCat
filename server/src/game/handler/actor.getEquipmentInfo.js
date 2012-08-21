@@ -10,7 +10,7 @@ require("../../system/Log");
 var partAll = 0;
 var partEquipped = 1;
 
-module.exports = function (req, res, next) {
+module.exports.handler = function (req, res, next) {
     var log = new Log("actor.getEquipmentInfo");
 
     var chunks = [];

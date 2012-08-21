@@ -8,7 +8,7 @@
 
 require("../../system/Log");
 
-module.exports = function (req, res, next) {
+module.exports.handler = function (req, res, next) {
     var log = new Log("battle.fight2");
 
     var chunks = [];
