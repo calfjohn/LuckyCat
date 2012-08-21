@@ -4,12 +4,26 @@
  *  -   combat:  actor combat with
  */
 
+var httpHandlers = { "/game/combat":      "./handler/combat"
+    , "/game/box/openBox":                "./handler/box.openBox"
+    , "/game/actor/getBasicInfo":         "./handler/actor.getBasicInfo"
+    , "/game/actor/getEquipmentInfo":     "./handler/actor.getEquipmentInfo"
+    , "/game/actor/changeEquipmentInfo":  "./handler/actor.changeEquipmentInfo"
+    , "/game/actor/getSkillInfo":         "./handler/actor.getSkillInfo"
+    , "/game/battle/fight1":              "./handler/battle.fight1"
+    , "/game/battle/fight2":              "./handler/battle.fight2"
+    , "/game/event/getEventList":         "./handler/event.getEventList"
+};
+
+var wsHandlers = [
+    "./socket/GameServerAgent"
+];
+
 require("../system/Log");
 
-var http = require("http")
-    ,express = require("express")
+var express = require("express")
     ,app = express()
-    ,server = http.createServer(app)
+    ,server = require("http").createServer(app)
     ,log = new Log("GameServer");
 
 app.configure(function() {
@@ -32,64 +46,69 @@ app.configure(function() {
 // init server, init modules here
 app.initInstance = function (srvConfig, callback) {
     var cfg = require("../config/game.GameServer");
-    var cb = function() {log.d(arguments);};
+    var done = function() {log.d(arguments);};
     for (var i = 0; i < arguments.length; ++i) {
         var arg = arguments[i];
         switch (typeof arg) {
-            case "function":    cb = arg; break;
+            case "function":    done = arg; break;
             case "object":      cfg = arg; break;
             default: throw new Error("Invalid argument");
         }
     }
 
-    // init modules
-    var dbs = 2;
-    var cbCalled = false;
-    var dbCallback = function(err) {
-        if (cbCalled) return;
-
-        if (err) {
-            cbCalled = true;
-            cb(err);
-            return;
-        }
-        else
-        {
-            app.initHandlers(app);
-            cbCalled = true;
-            cb(null);
-        }
-        --dbs;
-        if (dbs <= 0) {
-            cbCalled = true;
-            cb(null);
-        }
+    var afterInitModules = function() {
+        // init sync part here
+        app.initSockets(cfg.ws_admin_server);
+        app.initHandlers();
+        done();
     };
 
-    require("./Actors").initInstance(cfg.db_actors, dbCallback);
-    require("./Box").initInstance(cfg.db_actors, dbCallback);
-    require("./Events").initInstance(cfg.db_actors, dbCallback);
-    require("./Level").initInstance(cfg.db_actors, dbCallback);
-    require("./Monster").initInstance(cfg.db_actors, dbCallback);
+    // init modules
+    // init async part here
+    require("./Actors").initInstance(cfg.db_actors, function(err) {
+        if (err) throw err;
+        require("./Box").initInstance(cfg.db_actors, function(err) {
+            if (err) throw err;
+            require("./Events").initInstance(cfg.db_actors, function(err) {
+                if (err) throw err;
+                require("./Level").initInstance(cfg.db_actors, function(err) {
+                    if (err) throw err;
+                    require("./Monster").initInstance(cfg.db_actors, function(err) {
+                        if (err) throw err;
+                        afterInitModules();
+                    });
+                });
+            });
+        });
+    });
 
     return this;
+};
+
+app.initSockets = function (ws_admin_server) {
+    var wsToAS = require("socket.io-client").connect(ws_admin_server.host, ws_admin_server.options);
+    for(var i = 0; i < wsHandlers.length; ++i) {
+        var handler = require(wsHandlers[i]);
+        handler.socket = wsToAS;
+        wsToAS.on("connect", handler.handler);
+    }
+    wsToAS.on("error", function(err) {
+        throw err;
+    });
+};
+
+app.initHandlers = function (aExpress) {
+    for (var key in httpHandlers) {
+        var value = httpHandlers[key];
+        var handler = require(value);
+
+        app.post(key, handler.handler);
+    }
 };
 
 // start server, begin listening
 app.start = function() {
     server.listen(require("../config/game.GameServer").service.port);
-};
-
-app.initHandlers = function (aExpress) {
-    aExpress.post("/game/combat", require("./handler/combat"));
-    aExpress.post("/game/box/openBox", require("./handler/box.openBox.js"));
-    aExpress.post("/game/actor/getBasicInfo", require("./handler/actor.getBasicInfo.js"));
-    aExpress.post("/game/actor/getEquipmentInfo", require("./handler/actor.getEquipmentInfo.js"));
-    aExpress.post("/game/actor/changeEquipmentInfo", require("./handler/actor.changeEquipmentInfo.js"));
-    aExpress.post("/game/actor/getSkillInfo", require("./handler/actor.getSkillInfo.js"));
-    aExpress.post("/game/battle/fight1", require("./handler/battle.fight1"));
-    aExpress.post("/game/battle/fight2", require("./handler/battle.fight2"));
-    aExpress.post("/game/event/getEventList", require("./handler/event.getEventList.js"));
 };
 
 module.exports = app;
