@@ -25,11 +25,7 @@ if (1) {
 
 // start game server
 if (1) {
-    var gameServer = require("./game/GameServer").initInstance(function(err) {
-        if (err) {
-           console.log(err);
-           return;
-        }
+    var gameServer = require("./game/GameServer").initInstance(function() {
         console.log("game server begin listen...");
         gameServer.start();
     });

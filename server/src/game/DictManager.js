@@ -26,25 +26,20 @@ DictManager = {
         DictManager._dbAgent.connect(true);
         // Cache all equipment data on server start
         DictManager._dbAgent.query("SELECT * FROM `dict_equipment`", function (err, rows) {
-            if (err) {
-                throw err;
-                return;
+            if (! err) {
+                /**
+                 *   DictManager._cacheDictEquipment struct:
+                 *     |--id:key
+                 *          |--data:value
+                 */
+                DictManager._cacheDictEquipment = {};
+                for(var i = 0; i < rows.length; ++i){
+                    var data = rows[i];
+                    var id= "" + data.id;
+                    DictManager._cacheDictEquipment[id] = data;
+                }
             }
-            /**
-             *   DictManager._cacheDictEquipment struct:
-             *     |--id:key
-             *          |--data:value
-             */
-            DictManager._cacheDictEquipment = {};
-            for(var i = 0; i < rows.length; ++i){
-                var data = rows[i];
-                var id= "" + data.id;
-                DictManager._cacheDictEquipment[id] = data;
-            }
-        });
-
-        process.nextTick(function () {
-            callback(null);
+            callback(err);
         });
     },
 

@@ -97,80 +97,75 @@ Events = {
         var that = this;
         that._dbAgent.query("SELECT * FROM `dict_event`",function (err,rows)
         {
-            if (err)
+            if (! err)
             {
-                throw err;
-                return;
-            }
-
-            if ( that._mMapEvent )
-            {
-                that._mMapEvent.length = 0;
-            }
-            else
-            {
-                that._mMapEvent = new Array();
-            }
-
-            for ( var i = 0; i < rows.length; i++)
-            {
-                var tmpData = rows[i];
-
-                var tBoxId = tmpData.id;
-                tBoxId = parseInt(tBoxId);
-
-                var tId = tmpData.id;
-                tId = parseInt(tId);
-                var tType = tmpData.type;
-                tType = parseInt(tType);
-                var strTarget = tmpData.target;
-                var targetStrAry = strTarget.split(",");
-                var target = new Array();
-                for (var ti = 0; ti < targetStrAry.length; ti++)
+                if ( that._mMapEvent )
                 {
-                    var item = targetStrAry[ti];
-                    var targetId = parseInt(item);
-                    target.push(targetId);
+                    that._mMapEvent.length = 0;
+                }
+                else
+                {
+                    that._mMapEvent = new Array();
                 }
 
-                var tNextEventId = tmpData.next_event_id;
-                tNextEventId = parseInt(tNextEventId);
-                var strBonus = tmpData.bonus;
-                var intList = strBonus.split(",");
-                var bonusAry = new Array();
-
-                if ( intList.length > 0 && intList[0] != 0 )
+                for ( var i = 0; i < rows.length; i++)
                 {
-                    for ( var g = 1; g+1 < intList.length; g+=2 )
+                    var tmpData = rows[i];
+
+                    var tBoxId = tmpData.id;
+                    tBoxId = parseInt(tBoxId);
+
+                    var tId = tmpData.id;
+                    tId = parseInt(tId);
+                    var tType = tmpData.type;
+                    tType = parseInt(tType);
+                    var strTarget = tmpData.target;
+                    var targetStrAry = strTarget.split(",");
+                    var target = new Array();
+                    for (var ti = 0; ti < targetStrAry.length; ti++)
                     {
-                        var goodId = intList[g];
-                        var goodNum = intList[g+1];
-                        var goodType = 0;
-
-                        var tmpGood = stGood(goodType,goodId,goodNum);
-                        bonusAry.push(tmpGood);
+                        var item = targetStrAry[ti];
+                        var targetId = parseInt(item);
+                        target.push(targetId);
                     }
+
+                    var tNextEventId = tmpData.next_event_id;
+                    tNextEventId = parseInt(tNextEventId);
+                    var strBonus = tmpData.bonus;
+                    var intList = strBonus.split(",");
+                    var bonusAry = new Array();
+
+                    if ( intList.length > 0 && intList[0] != 0 )
+                    {
+                        for ( var g = 1; g+1 < intList.length; g+=2 )
+                        {
+                            var goodId = intList[g];
+                            var goodNum = intList[g+1];
+                            var goodType = 0;
+
+                            var tmpGood = stGood(goodType,goodId,goodNum);
+                            bonusAry.push(tmpGood);
+                        }
+                    }
+
+                    var tRepeat = tmpData.bonus_repeat;
+                    tRepeat = parseInt(tRepeat);
+                    var tBoxId = tmpData.box_id;
+                    tBoxId = parseInt(tBoxId);
+
+                    var tEvent = new stEvent();
+
+                    tEvent.id = tId;
+                    tEvent.type = tType;
+                    tEvent.targetArray = target;
+                    tEvent.nextEventId = tNextEventId;
+                    tEvent.bonusArray = bonusAry;
+                    tEvent.box_id = tBoxId;
+
+                    that._mMapEvent[tEvent.id] = tEvent;
                 }
-
-                var tRepeat = tmpData.bonus_repeat;
-                tRepeat = parseInt(tRepeat);
-                var tBoxId = tmpData.box_id;
-                tBoxId = parseInt(tBoxId);
-
-                var tEvent = new stEvent();
-
-                tEvent.id = tId;
-                tEvent.type = tType;
-                tEvent.targetArray = target;
-                tEvent.nextEventId = tNextEventId;
-                tEvent.bonusArray = bonusAry;
-                tEvent.box_id = tBoxId;
-
-                that._mMapEvent[tEvent.id] = tEvent;
+                callback(err);
             }
-            process.nextTick(function() {
-                callback(null);
-            });
         });
     },
     getEvent : function (eventId)
