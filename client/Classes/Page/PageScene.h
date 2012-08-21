@@ -14,6 +14,8 @@
 #include "extensions/CCBReader/CCNodeLoader.h"
 #include "extensions/CCBReader/CCLayerLoader.h"
 
+class HeroHeadView;
+
 class Page : public cocos2d::CCLayer
 {
 public:
@@ -45,6 +47,8 @@ protected:
     
     void showBattleView(CCObject *pSender);
     
+    void showHeroHeadView();
+    
     cocos2d::CCLabelTTF *m_title;
     cocos2d::CCLabelTTF *m_content;
     
@@ -59,6 +63,7 @@ protected:
     
     cocos2d::CCPoint pBeginPoint;
     
+    HeroHeadView *p_HeroHeadView;
 };
 
 class CCBReader;
