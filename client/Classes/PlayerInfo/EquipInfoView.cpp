@@ -71,7 +71,7 @@ void EquipInfoView::hideEquipView(){
 }
 
 void EquipInfoView::setEquipInfoForType(EquipType type){
-    if(type <= 0 ){
+    if(type < 0 ){
         return;
     }
     switch (type) {
@@ -102,11 +102,11 @@ void EquipInfoView::setPlayerEquipInfoForType(EquipType type){
     
 }
 
-void EquipInfoView::sendPlayerEquipInfoRequest(){
-    NetManager::shareNetManager()->sendEx(kModeActor, kDoGetEquipmentInfo, callfuncND_selector(EquipInfoView::responsePlayerEquipInfoRequest), this, "\"part\":%d",0);
+void EquipInfoView::sendPlayerEquipInfo(){
+    NetManager::shareNetManager()->sendEx(kModeActor, kDoGetEquipmentInfo, callfuncND_selector(EquipInfoView::responsePlayerEquipInfo), this, "\"part\":%d",1);
 }
 
-void EquipInfoView::responsePlayerEquipInfoRequest(CCNode *pNode, void* data){
+void EquipInfoView::responsePlayerEquipInfo(CCNode *pNode, void* data){
     Json::Value root;
     Json::Reader reader;
     
