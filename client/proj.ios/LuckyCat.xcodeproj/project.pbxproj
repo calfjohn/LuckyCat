@@ -80,6 +80,7 @@
 		D4ABB4B313B4395300552E6E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D4ABB4B213B4395300552E6E /* main.m */; };
 		FA5A00EE15DE187F00C1A9B9 /* EquipInfoView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA5A00EC15DE187F00C1A9B9 /* EquipInfoView.cpp */; };
 		FA8C106D15DA585000FF3FA4 /* PlayerInfoView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA8C106B15DA585000FF3FA4 /* PlayerInfoView.cpp */; };
+		FAC9A8D115E3954E00A5DC8C /* PlayerInfoDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FAC9A8CF15E3954E00A5DC8C /* PlayerInfoDataManager.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -221,6 +222,8 @@
 		FA5A00ED15DE187F00C1A9B9 /* EquipInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EquipInfoView.h; sourceTree = "<group>"; };
 		FA8C106B15DA585000FF3FA4 /* PlayerInfoView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerInfoView.cpp; sourceTree = "<group>"; };
 		FA8C106C15DA585000FF3FA4 /* PlayerInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerInfoView.h; sourceTree = "<group>"; };
+		FAC9A8CF15E3954E00A5DC8C /* PlayerInfoDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerInfoDataManager.cpp; sourceTree = "<group>"; };
+		FAC9A8D015E3954E00A5DC8C /* PlayerInfoDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerInfoDataManager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -366,6 +369,8 @@
 		15DE3DB815B56D1C001B8372 /* Basic */ = {
 			isa = PBXGroup;
 			children = (
+				FAC9A8CF15E3954E00A5DC8C /* PlayerInfoDataManager.cpp */,
+				FAC9A8D015E3954E00A5DC8C /* PlayerInfoDataManager.h */,
 				15D0D34D15D363AF00F53819 /* NetManager.cpp */,
 				15D0D34E15D363AF00F53819 /* NetManager.h */,
 				15D0D35915D36C3600F53819 /* Netbasic.h */,
@@ -741,6 +746,7 @@
 				18BAFC3F15E210D5000D5191 /* OpenBoxResultView.cpp in Sources */,
 				18BAFC4215E25FC2000D5191 /* HeroHeadView.cpp in Sources */,
 				18C1935415E32BFC005A1D0E /* BasicInfoView.cpp in Sources */,
+				FAC9A8D115E3954E00A5DC8C /* PlayerInfoDataManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,6 +14,9 @@ using namespace std;
 
 class PlayerInfoDataManager{
 public:
+    PlayerInfoDataManager();
+    virtual ~PlayerInfoDataManager();
+    
     static PlayerInfoDataManager* sharedPlayerInfoDataManager(){
         if (m_pInstance == NULL) {
             m_pInstance = new PlayerInfoDataManager();

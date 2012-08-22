@@ -87,11 +87,6 @@ PlayerInfoView * PlayerInfoView::create(cocos2d::CCObject * pOwner){
         pPlayerInfoView->m_iType = kPlayerInfoTagPlayerBtn;
         pPlayerInfoView->showViewForType();
     }
-    for (unsigned int i = 100; i>0; i--) {
-        for (unsigned int j = 100; j>0; j--) {
-            std::cout << j << std::endl;
-        }
-    }
     return pPlayerInfoView;
 }
 

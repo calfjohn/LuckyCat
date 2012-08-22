@@ -131,17 +131,16 @@ typedef struct {
     int             chapter_id;
     int             page_id;
 }stActorUserInfo;
-
+cocos2d::CCSprite
 typedef struct{
     std::string                 equipName;
-    std::string                 equipIconName;
-    std::vector<std::string>    equipProprety;
+    int                         equipImageId;
+    
 }stActorEquipInfo;
 
 typedef struct{
     int                 userEquipId;
-    std::string         userEquipName;
-    std::string         userEquipType;
+    int                 userEquipType;
     stActorEquipInfo    *equipInfo;
 }stActorUserEquipInfo;
 
