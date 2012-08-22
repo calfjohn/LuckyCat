@@ -145,17 +145,6 @@ void NPCDialogView::setData(LEventData *tEvent, cocos2d::CCObject *target, cocos
     
     this->setTouchEnabled(true);
     
-    CCSize screanSize = CCDirector::sharedDirector()->getWinSize();
-    
-    CCMenu* pMenu = CCMenu::create();
-    pMenu->setPosition(CCPointZero);
-    this->addChild(pMenu, 100, 1000);
-    
-    CCMenuItemSprite *pBackItem = CCMenuItemSprite::create(LuckySprite::create(2), LuckySprite::create(3), LuckySprite::create(3), this, menu_selector(NPCDialogView::menuBackCallback)); 
-    pBackItem->setScale(0.5);
-    pBackItem->setPosition(ccp(screanSize.width - 30, screanSize.height - 20));
-    pMenu->addChild(pBackItem,5);
-    
     showDialog();
     
 }
