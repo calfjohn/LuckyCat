@@ -15,6 +15,7 @@
 #include "NetManager.h"
 #include "EventListView.h"
 #include "ChapterScene.h"
+#include "PageEx.h"
 #include "extensions/CCBReader/CCBReader.h"
 #include "extensions/CCBReader/CCNodeLoaderLibrary.h"
 #include "HeroHeadView.h"
@@ -42,9 +43,9 @@ Page *Page::create(cocos2d::CCObject * pOwner)
     CCNode * pNode = ccbReader->readNodeGraphFromFile("pub/", "ccb/page.ccbi", pOwner);
     
     Page *pPage = static_cast<Page *>(pNode);
+    
     return pPage;
 }
-
 
 CCScene* Page::scene(int chapterId, const stPage *pPage)
 {
@@ -53,13 +54,16 @@ CCScene* Page::scene(int chapterId, const stPage *pPage)
     {
         scene = CCScene::create();
         CC_BREAK_IF(! scene);
-
-        Page *layer = Page::create();
-        CC_BREAK_IF(! layer);
-
-        scene->addChild(layer);
         
+        PageEx *layer2 = PageEx::create(scene);
+        CC_BREAK_IF(! layer2);
+        scene->addChild(layer2, -1000);
+        
+        Page *layer = Page::create(scene);
+        CC_BREAK_IF(! layer);
+        scene->addChild(layer);
         layer->turnToPage(chapterId, pPage);
+
     } while (0);
 
     return scene;
@@ -67,11 +71,10 @@ CCScene* Page::scene(int chapterId, const stPage *pPage)
 
 bool Page::init()
 {
-    CCLayer::init();
-
-    this->setTouchEnabled(true);
+    CCTouchPageTurn::init();
     
     m_pPage = NULL;
+
     return true;
 }
 
@@ -88,56 +91,6 @@ void Page::turnToPage(int chapterId, const stPage *pPage)
     }
     m_nChapterId = chapterId;
     m_pPage = pPage;
-    /*
-    CCSize size = CCDirector::sharedDirector()->getWinSize();
-    
-    LuckySprite* pSprite = LuckySprite::create(1);
-    pSprite->setPosition(ccp(size.width/2, size.height/2));
-    this->addChild(pSprite, 0);
-    
-    CCMenu* pMenu = CCMenu::create();
-    pMenu->setPosition(CCPointZero);
-    this->addChild(pMenu, 1, TAG_MENU);
-    
-    CCMenuItemSprite *pBackItem = CCMenuItemSprite::create(LuckySprite::create(2), LuckySprite::create(3), LuckySprite::create(3), this, menu_selector(Page::menuBackCallback)); 
-    pBackItem->setScale(0.5);
-    pBackItem->setPosition(ccp(size.width - 30, size.height - 20));
-    pMenu->addChild(pBackItem);
-    
-    m_tips = CCLabelTTF::create(m_pPage->state && m_pPage->end ? "End of Chapter" : "", "Arial", 28);
-    m_tips->setPosition(ccp(size.width/2, size.height/2 + 150));
-    m_tips->setColor(ccRED);
-    this->addChild(m_tips, 1);
-    
-    m_title = CCLabelTTF::create(pPage->name.c_str(), "Arial", 28);
-    m_title->setPosition(ccp(size.width/2, size.height - 100));
-    m_title->setColor(ccBLACK);
-    this->addChild(m_title, 1);
-    
-    m_content = CCLabelTTF::create(pPage->content.c_str(), "Arial", 28);
-    m_content->setPosition(ccp(size.width/2, size.height/2));
-    m_content->setColor(ccBLACK);
-    this->addChild(m_content, 1);
-
-    CCMenuItemSprite *pAttackItem  = CCMenuItemSprite::create(LuckySprite::create(29), LuckySprite::create(30), LuckySprite::create(31), this, menu_selector(Page::showBattleView));
-    pAttackItem->setPosition(ccp(size.width - 50, 50));
-    pMenu->addChild(pAttackItem, 0, TAG_ATTACK);
-    
-    const stMonster* pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(m_pPage->eventId);
-    if (pMonster) 
-    {
-        LuckySprite *tempSprite = LuckySprite::create(pMonster->imageId);
-        tempSprite->setPosition(ccp(size.width/2, size.height/2 - 150));
-        tempSprite->setScale(0.35f);
-        this->addChild(tempSprite, 1);
-        
-        m_monster = CCLabelTTF::create(pMonster->name.c_str(), "Arial", 28);
-        m_monster->setColor(ccBLACK);
-        m_monster->setPosition(ccp(size.width/2, 50));
-        this->addChild(m_monster, 1);
-    }
-
-     */
     
     m_title = (CCLabelTTF *)this->getChildByTag(TAG_Lab_Title);
     m_content = (CCLabelTTF *)this->getChildByTag(TAG_Lab_Content);
@@ -157,7 +110,8 @@ void Page::showBattleView(CCObject *pSender)
     {
         EventListView *pEventListView = EventListView::create();
         pEventListView->initLayer(m_nChapterId,m_pPage, this, callfuncND_selector(Page::fightCallback));
-        CCDirector::sharedDirector()->getRunningScene()->addChild(pEventListView, 0, TAG_EVENT_LIST_LAYER);
+        //CCDirector::sharedDirector()->getRunningScene()->addChild(pEventListView, 0, TAG_EVENT_LIST_LAYER);
+        this->addChild(pEventListView,1);
         
         if (p_HeroHeadView)
         {
@@ -193,14 +147,12 @@ void Page::nextPageCallback(CCNode* pNode, void* data)
         return;
     }
     
-    //CCScene *pScene = Page::scene(m_nChapterId, pPage);
-    CCScene *pScene = CCScene::create();
+    CCScene *pScene = CCDirector::sharedDirector()->getRunningScene();
     Page *pPageLayer = Page::create(pScene);
     pPageLayer->turnToPage(m_nChapterId,pPage);
-    pScene->addChild(pPageLayer);
-    
-    CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
-    CCDirector::sharedDirector()->replaceScene(pTp);
+    pScene->addChild(pPageLayer, this->getZOrder()-1);
+  
+    this->autoTurnPage();
 }
 
 bool Page::ccTouchBegan(cocos2d::CCTouch* touch, cocos2d::CCEvent *pEvent)
@@ -245,6 +197,6 @@ void Page::showHeroHeadView()
     }
     else {
         p_HeroHeadView = HeroHeadView::create(this);
-        this->addChild(p_HeroHeadView);
+        this->addChild(p_HeroHeadView,2);
     }
 }

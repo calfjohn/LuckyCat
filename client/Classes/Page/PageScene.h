@@ -13,10 +13,10 @@
 #include "LevelDataManager.h"
 #include "extensions/CCBReader/CCNodeLoader.h"
 #include "extensions/CCBReader/CCLayerLoader.h"
+#include "extensions/CCTouchPageTurn/CCTouchPageTurn.h"
 
 class HeroHeadView;
-
-class Page : public cocos2d::CCLayer
+class Page : public cocos2d::extension::CCTouchPageTurn
 {
 public:
     static Page *create(cocos2d::CCObject * pOwner);

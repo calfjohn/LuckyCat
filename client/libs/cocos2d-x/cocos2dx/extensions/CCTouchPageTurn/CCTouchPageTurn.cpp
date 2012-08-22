@@ -33,6 +33,8 @@ bool CCTouchPageTurn::init()
     m_action->setUpdate(0);
     this->runAction(CCRepeatForever::actionWithAction(m_action));
 
+    this->setTouchEnabled(true);
+
     return true;
 }
 
@@ -73,6 +75,24 @@ void CCTouchPageTurn::ccTouchCancelled(CCTouch *touch, CCEvent *event)
     CC_UNUSED_PARAM(touch);
     CC_UNUSED_PARAM(event);
     ccTouchEnded(touch, event);
+}
+
+void CCTouchPageTurn::autoTurnPage()
+{
+    m_fTime = 0;
+    this->setTouchEnabled(false);
+    schedule(schedule_selector(CCTouchPageTurn::scheduleTimer), 0.1);
+}
+
+void CCTouchPageTurn::scheduleTimer(float dt)
+{
+    m_action->setUpdate(m_fTime);
+    m_fTime += 0.1;
+    if (m_fTime >= 1) 
+    {
+        unscheduleAllSelectors();
+        removeFromParentAndCleanup(true);
+    }
 }
 
 NS_CC_EXT_END

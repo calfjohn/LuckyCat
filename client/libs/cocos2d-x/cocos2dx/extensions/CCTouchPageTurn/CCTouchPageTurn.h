@@ -19,6 +19,8 @@ class CC_DLL CCTouchPageTurn : public cocos2d::CCLayer
 public:
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
     virtual bool init();  
+    
+    void autoTurnPage();
 
     // implement the "static node()" method manually
     LAYER_CREATE_FUNC(CCTouchPageTurn);
@@ -30,6 +32,8 @@ public:
     virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
     virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent);
 private:
+    void scheduleTimer(float dt);
+
     CCPoint                m_ptTouchBegan;
     CCPoint                m_ptTouchEnd;
     float                  m_fTime;
