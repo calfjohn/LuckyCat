@@ -22,6 +22,7 @@
 #include "EquipInfoView.h"
 #include "LuckySprite.h"
 #include "FuzzyBgView.h"
+#include "PlayerInfoDataManager.h"
 #include "extensions/CCBReader/CCBReader.h"
 #include "extensions/CCBReader/CCNodeLoaderLibrary.h"
 
@@ -36,7 +37,7 @@ PlayerInfoView::~PlayerInfoView(){
 
 }
 
-CCNode* PlayerInfoView::CreateNodeForCCBI(const char *pCCBFileName , const char *pCCNodeName , cocos2d::extension::CCNodeLoader *pCCNodeLoader){
+CCNode* PlayerInfoView::createNodeForCCBI(const char *pCCBFileName , const char *pCCNodeName , cocos2d::extension::CCNodeLoader *pCCNodeLoader){
     /* Create an autorelease CCNodeLoaderLibrary. */
     CCNodeLoaderLibrary * ccNodeLoaderLibrary = CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
     
@@ -71,17 +72,20 @@ PlayerInfoView * PlayerInfoView::create(cocos2d::CCObject * pOwner){
     
     PlayerInfoView *pPlayerInfoView = static_cast<PlayerInfoView *>(pNode);
     
-    pPlayerInfoView->m_pBasicInfoView = (BasicInfoView*)pPlayerInfoView->CreateNodeForCCBI("ccb/basic.ccbi", "BasicInfoView", BasicInfoViewLoader::loader());
+    PlayerInfoDataManager *info = PlayerInfoDataManager::sharedPlayerInfoDataManager();
+    
+    pPlayerInfoView->m_pBasicInfoView = (BasicInfoView*)pPlayerInfoView->createNodeForCCBI("ccb/basic.ccbi", "BasicInfoView", BasicInfoViewLoader::loader());
     if (pPlayerInfoView->m_pBasicInfoView != NULL) {
         pPlayerInfoView->m_pBasicInfoView->setTag(kPlayerInfoTagBasicLayer);
         pPlayerInfoView->addChild(pPlayerInfoView->m_pBasicInfoView);
         pPlayerInfoView->m_pBasicInfoView->sendBasicInfo();
     }
-    pPlayerInfoView->m_pEquipInfoView = (EquipInfoView*)pPlayerInfoView->CreateNodeForCCBI("ccb/equip.ccbi", "EquipInfoView", EquipInfoViewLoader::loader());
+    pPlayerInfoView->m_pEquipInfoView = (EquipInfoView*)pPlayerInfoView->createNodeForCCBI("ccb/equip.ccbi", "EquipInfoView", EquipInfoViewLoader::loader());
     if (pPlayerInfoView->m_pEquipInfoView != NULL) {
         pPlayerInfoView->m_pEquipInfoView->setTag(kPlayerInfoTagEquipLayer);
         pPlayerInfoView->addChild(pPlayerInfoView->m_pEquipInfoView);
         pPlayerInfoView->m_pEquipInfoView->sendPlayerEquipInfo();
+        pPlayerInfoView->m_pEquipInfoView->initEquipListView();
     }
     if (pPlayerInfoView->m_pBasicInfoView != NULL && pPlayerInfoView->m_pEquipInfoView != NULL) {
         pPlayerInfoView->m_iType = kPlayerInfoTagPlayerBtn;
@@ -98,7 +102,7 @@ cocos2d::SEL_MenuHandler PlayerInfoView::onResolveCCBCCMenuItemSelector(cocos2d:
 }
 
 cocos2d::extension::SEL_CCControlHandler PlayerInfoView::onResolveCCBCCControlSelector(cocos2d::CCObject * pTarget, cocos2d::CCString * pSelectorName){
-    CCB_SELECTORRESOLVER_CCCONTROL_GLUE(this, "PlayerInfoBarBtnCallback", PlayerInfoView::PlayerInfoBarBtnCallback);
+    CCB_SELECTORRESOLVER_CCCONTROL_GLUE(this, "PlayerInfoBarBtnCallback", PlayerInfoView::playerInfoBarBtnCallback);
     return NULL;
 }
 
@@ -115,7 +119,7 @@ void PlayerInfoView::onMenuItemClicked(cocos2d::CCObject *pTarget){
 }
 
 
-void PlayerInfoView::PlayerInfoBarBtnCallback(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent){
+void PlayerInfoView::playerInfoBarBtnCallback(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent){
     CCNode* btn = (CCNode*)pSender;
     //cout << btn->getTag() << endl;
     switch (btn->getTag()) {
