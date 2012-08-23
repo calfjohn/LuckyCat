@@ -11,13 +11,14 @@
 USING_NS_CC;
 
 TouchLayer::TouchLayer():m_bTouchForbidden(false)
+,m_bTouchAreaEnabled(false)
 {
-    
+    m_TouchNodeList.clear();
 }
 
 TouchLayer::~TouchLayer()
 {
-    
+    m_TouchNodeList.clear();
 }
 
 bool TouchLayer::init()
@@ -41,7 +42,19 @@ bool TouchLayer::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent
 {
     if ( !pTouch ) return false;
     
-    if ( getIsTouchForbidden() )
+    if ( getIsTouchAreaEnabled() ) {
+        CCPoint tPoint = this->convertTouchToNodeSpace(pTouch);
+        if ( this->TouchAreaContainsPoint(tPoint) == false )
+        {
+            this->notificationTouchEvent(kLTouchEventOutsideTouchArea);
+            
+            return false;
+        }
+        else {
+            this->notificationTouchEvent(kLTouchEventInsideTouchArea);
+        }
+    }
+    else if ( getIsTouchForbidden() )
     {
         pBeginPoint = CCPointZero;
         return false;
@@ -72,4 +85,73 @@ void TouchLayer::ccTouchEnded(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent
 void TouchLayer::registerWithTouchDispatcher(void)
 {
     CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority , true);
+}
+
+bool TouchLayer::registerTouchNode(cocos2d::CCNode * pNode)
+{
+    if ( pNode )
+    {
+        std::vector<cocos2d::CCNode *>::iterator _iter = m_TouchNodeList.begin();
+        for (; _iter != m_TouchNodeList.end(); _iter++) {
+            CCNode *pN = *_iter;
+            if ( pN == pNode )
+            {
+                return false;
+            }
+        }
+        m_TouchNodeList.push_back(pNode);
+        return true;
+    }
+    return false;
+}
+
+bool TouchLayer::removeTouchNode(cocos2d::CCNode * pNode)
+{
+    if ( pNode )
+    {
+        std::vector<cocos2d::CCNode *>::iterator _iter = m_TouchNodeList.begin();
+        for (; _iter != m_TouchNodeList.end(); _iter++) {
+            CCNode *pN = *_iter;
+            if ( pN == pNode )
+            {
+                m_TouchNodeList.erase(_iter);
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool TouchLayer::TouchAreaContainsPoint(cocos2d::CCPoint _point)
+{
+    std::vector<cocos2d::CCNode *>::iterator _iter = m_TouchNodeList.begin();
+    for (; _iter != m_TouchNodeList.end(); _iter++) {
+        CCNode *pN = *_iter;
+        if ( pN )
+        {
+            CCRect tRect = getRect(pN);
+            
+            if ( CCRect::CCRectContainsPoint(tRect, _point) )
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+cocos2d::CCRect TouchLayer::getRect(cocos2d::CCNode * pNode)
+{
+    CCRect rc;
+    rc.origin = pNode->getPosition();
+    rc.size = pNode->getContentSize();
+    
+    if (pNode->isIgnoreAnchorPointForPosition() == false)
+    {
+        CCPoint tPoint = pNode->getAnchorPoint();
+        
+        rc.origin.x -= rc.size.width * tPoint.x;
+        rc.origin.y -= rc.size.height * tPoint.y;
+    }
+    return rc;
 }

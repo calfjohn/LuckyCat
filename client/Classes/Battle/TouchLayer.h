@@ -15,6 +15,8 @@ enum LTouchEvent {
     kLTouchEventSingleClick             =   1,          //Single click
     kLTouchEventDoubleClick             =   2,          //Double click
     kLTouchEventSliding                 =   3,          //Finger sliding
+    kLTouchEventOutsideTouchArea        =   4,          //touch point is outside the scope of touch area.
+    kLTouchEventInsideTouchArea         =   5,          //touch point is inside the scope of touch area.
 };
 
 class TouchLayer : public cocos2d::CCLayer 
@@ -43,9 +45,21 @@ public:
      *@brief if m_bTouchForbidden is false, It cannot receive touch event.
      */
     CC_SYNTHESIZE(bool, m_bTouchForbidden, IsTouchForbidden);
+    
+    CC_SYNTHESIZE(bool, m_bTouchAreaEnabled, IsTouchAreaEnabled)
+    
+public:
+    bool registerTouchNode(cocos2d::CCNode * pNode);
+    
+    bool removeTouchNode(cocos2d::CCNode * pNode);
+    
+    bool TouchAreaContainsPoint(cocos2d::CCPoint _point);
+private:
+    cocos2d::CCRect getRect(cocos2d::CCNode * pNode);
 private:
     cocos2d::CCPoint pBeginPoint;
 
+    std::vector<cocos2d::CCNode *> m_TouchNodeList;
 };
 
 #endif

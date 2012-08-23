@@ -93,6 +93,13 @@ void OpenBoxView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::
         
         m_bIsOpen = true;
         
+        CCControlButton *pControlButton = static_cast<CCControlButton *>(this->getChildByTag(TAG_BUTTON_OPEN_BOX));
+        if (pControlButton)
+        {
+            pControlButton->setEnabled(false);
+        }
+        
+        
         if (p_CurEvent)
         {
             p_CurEvent->m_bBoxIsOpened = true;

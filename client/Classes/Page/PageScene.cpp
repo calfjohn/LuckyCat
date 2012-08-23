@@ -112,7 +112,7 @@ void Page::turnToPage(int chapterId, const stPage *pPage)
     
     stEvent *tStEvent = EventDataManager::getShareInstance()->getEvent(m_pPage->eventId);
     memset(strChar, 0, 100);
-    sprintf(strChar, "pub/image/hero/monster_100%d.png",tStEvent->targetId[0]%3 +1);
+    sprintf(strChar, "pub/image/hero/monster_100%d.png",tStEvent->targetId[0]);
     m_SpriteMonster->setTexture(LuckySprite::getTextrue2D(strChar));
     
     this->showHeroHeadView();

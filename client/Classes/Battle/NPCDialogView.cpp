@@ -18,6 +18,8 @@ USING_NS_CC;
 USING_NS_CC_EXT;
 using namespace std;
 
+#define TAG_MONSTER 91
+
 NPCDialogView::NPCDialogView():
 mLabelNpcName(NULL),
 mLabelDialogContent(NULL),
@@ -111,7 +113,7 @@ void NPCDialogView::setData(LEventData *tEvent, cocos2d::CCObject *target, cocos
     
     mLabelNpcName = static_cast<CCLabelTTF *>(this->getChildByTag(10));
     mLabelDialogContent = static_cast<CCLabelTTF *>(this->getChildByTag(11));
-    mSpriteNpc = static_cast<CCSprite *>(this->getChildByTag(12));
+    mSpriteNpc = static_cast<CCSprite *>(this->getChildByTag(TAG_MONSTER));
     
     mTalkList.clear();
     
@@ -119,6 +121,16 @@ void NPCDialogView::setData(LEventData *tEvent, cocos2d::CCObject *target, cocos
     
     
     pBeginPoint = CCPointZero;
+    
+    CCSprite *pMonster = static_cast<CCSprite *>(this->getChildByTag(TAG_MONSTER));
+    if (pMonster)
+    {
+        stEvent *tStEvent = tEvent->pStEvent;
+        char strChar[100];
+        memset(strChar, 0, 100);
+        sprintf(strChar, "pub/image/hero/monster_100%d.png",tStEvent->targetId[0]);
+        pMonster->setTexture(LuckySprite::getTextrue2D(strChar));
+    }
     
     showDialog();
     

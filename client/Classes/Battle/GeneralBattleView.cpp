@@ -18,6 +18,7 @@
 #include "PlayerInfoView.h"
 
 #define TAG_EFFECT_NODE 3
+#define TAG_MONSTER 91
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -82,40 +83,19 @@ void GeneralBattleView::onCCControlButtonClicked(cocos2d::CCObject *pSender, coc
     
 }
 
-bool GeneralBattleView::ccTouchBegan(CCTouch* touch, CCEvent *pEvent)
+void GeneralBattleView::notificationTouchEvent(LTouchEvent tLTouchEvent)
 {
-    if ( !touch ) return false;
-    
-    pBeginPoint = this->convertTouchToNodeSpace(touch);
-    
-    return true;
-}
-
-void GeneralBattleView::ccTouchMoved(CCTouch* touch, CCEvent *pEvent)
-{
-    
-}
-
-void GeneralBattleView::ccTouchEnded(CCTouch* touch, CCEvent *pEvent)
-{
-    if ( !touch ) return;
-    CCPoint endPoint = this->convertTouchToNodeSpace(touch);
-    
-    if ( pBeginPoint.x != 0 && pBeginPoint.y != 0 )
+    if (tLTouchEvent == kLTouchEventSingleClick)
     {
         getChildByTag(TAG_EFFECT_NODE)->runAction(CCSequence::create(
-                                            CCShow::action(),
-                                            m_action,
-                                            CCHide::action(),
-                                            CCCallFuncND::create(m_target, m_pfnSelector, NULL),
-                                            NULL));
+                                                                     CCShow::create(),
+                                                                     m_action,
+                                                                     CCHide::create(),
+                                                                     CCCallFuncND::create(m_target, m_pfnSelector, NULL),
+                                                                     NULL));
+        
+        this->setIsTouchForbidden(true);
     }
-    pBeginPoint = CCPointZero;
-}
-
-void GeneralBattleView::registerWithTouchDispatcher(void)
-{
-    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority , true);
 }
 
 void GeneralBattleView::setData(LEventData *tEvent, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector)
@@ -137,9 +117,17 @@ void GeneralBattleView::setData(LEventData *tEvent, cocos2d::CCObject *target, c
     pBackItem->setPosition(ccp(screanSize.width - 30, screanSize.height - 20));
     pMenu->addChild(pBackItem,5);
     
-    this->setTouchEnabled(true);
+    CCSprite *pMonster = static_cast<CCSprite *>(this->getChildByTag(TAG_MONSTER));
+    if (pMonster)
+    {
+        stEvent *tStEvent = tEvent->pStEvent;
+        char strChar[100];
+        memset(strChar, 0, 100);
+        sprintf(strChar, "pub/image/hero/monster_100%d.png",tStEvent->targetId[0]);
+        pMonster->setTexture(LuckySprite::getTextrue2D(strChar));
+    }
     
-    //this->showBattleResultView();
+    this->setTouchEnabled(true);
 }
 
 void GeneralBattleView::removeAndCleanSelf(float dt)
@@ -150,13 +138,6 @@ void GeneralBattleView::removeAndCleanSelf(float dt)
 void GeneralBattleView::menuBackCallback(CCObject* pSender)
 {
     this->removeAndCleanSelf(0);
-}
-
-void GeneralBattleView::showBattleResultView()
-{
-    BattleResultView *retView = BattleResultView::create(this);
-    retView->initView(p_CurEvent);
-    this->addChild(retView,88);
 }
 
 

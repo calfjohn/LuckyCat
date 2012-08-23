@@ -17,7 +17,7 @@ USING_NS_CC;
 USING_NS_CC_EXT;
 using namespace std;
 
-HeroHeadView::HeroHeadView():p_PlayerInfoView(NULL)
+HeroHeadView::HeroHeadView()
 {
     
 }
@@ -64,15 +64,8 @@ void HeroHeadView::onMenuItemClicked(cocos2d::CCObject *pTarget)
     printf("tag %d\n",p->getTag());
     
     if(p->getTag() == 1){
-        if (p_PlayerInfoView)
-        {
-            p_PlayerInfoView->removeFromParentAndCleanup(true);
-            p_PlayerInfoView = NULL;
-        }
-        else {
-            p_PlayerInfoView = PlayerInfoView::create(this);
-            this->addChild(p_PlayerInfoView);
-        }
+        PlayerInfoView *pInfo = PlayerInfoView::create(this);
+        this->addChild(pInfo);
     }
 }
 

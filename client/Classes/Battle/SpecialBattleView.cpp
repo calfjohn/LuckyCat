@@ -17,7 +17,7 @@
 
 #define TAG_EFFECT_MONSTER_NODE 6
 #define TAG_EFFECT_ACTOR_NODE 7
-
+#define TAG_MONSTER 91
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -125,17 +125,22 @@ void SpecialBattleView::CreateTeam(Json::Value &data)
 
 void SpecialBattleView::CallBackHeroAction()
 {
+    if(m_nRound == 0)
+    {
+        this->setIsTouchForbidden(true);
+    }
+    
     //播放一回合的动作
     Json::Value playList = battleResult["battleArray"]["playlist"];
     if (playList[m_nIndexList].isNull())
     {
-        if ( m_target && m_pfnSelector )
-            ((m_target)->*(m_pfnSelector))(this, NULL);
+        removeAndCleanSelf(0);
         return;
     }
     
     if (m_nRound == 2) 
     {
+        this->setIsTouchForbidden(false);
         m_nRound = 0;
         return;
     }
@@ -146,9 +151,9 @@ void SpecialBattleView::CallBackHeroAction()
     float tempRandom = CCRANDOM_0_1();
     int indexTemp = tempRandom < 0.3 ?  1 : (tempRandom < 0.6 ? 2: (tempRandom < 0.9 ? 3 :0));
     pNode->runAction(CCSequence::create(
-                                    CCShow::action(),
+                                    CCShow::create(),
                                     animationEffect[indexTemp],
-                                    CCHide::action(),
+                                    CCHide::create(),
                                     CCCallFunc::create(this, callfunc_selector(SpecialBattleView::CallBackHeroAction)),
                                     NULL));
 
@@ -158,48 +163,23 @@ void SpecialBattleView::CallBackHeroAction()
     m_nRound++;
 }
 
-
-
-bool SpecialBattleView::ccTouchBegan(CCTouch* touch, CCEvent *pEvent)
+void SpecialBattleView::notificationTouchEvent(LTouchEvent tLTouchEvent)
 {
-    if ( !touch ) return false;
-    
-    pBeginPoint = this->convertTouchToNodeSpace(touch);
-    
-    return true;
-}
-
-void SpecialBattleView::ccTouchMoved(CCTouch* touch, CCEvent *pEvent)
-{
-    
-}
-
-void SpecialBattleView::ccTouchEnded(CCTouch* touch, CCEvent *pEvent)
-{
-    if ( !touch ) return;
-    CCPoint endPoint = this->convertTouchToNodeSpace(touch);
-    
-    if ( pBeginPoint.x != 0 && pBeginPoint.y != 0 )
+    if (tLTouchEvent == kLTouchEventSingleClick)
     {
-//        if ( m_target && m_pfnSelector )
-//            ((m_target)->*(m_pfnSelector))(this, NULL);
+        CallBackHeroAction();
     }
-    pBeginPoint = CCPointZero;
 }
 
 void SpecialBattleView::removeAndCleanSelf(float dt)
 {
-    ((m_target)->*(m_pfnSelector))(this, NULL);
+    if ( m_target && m_pfnSelector )
+        ((m_target)->*(m_pfnSelector))(this, NULL);
 }
 
 void SpecialBattleView::menuBackCallback(CCObject* pSender)
 {
     this->removeAndCleanSelf(0);
-}
-
-void SpecialBattleView::registerWithTouchDispatcher(void)
-{
-    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority , true);
 }
 
 void SpecialBattleView::setData(LEventData *tEvent, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector)
@@ -221,16 +201,19 @@ void SpecialBattleView::setData(LEventData *tEvent, cocos2d::CCObject *target, c
     pBackItem->setPosition(ccp(screanSize.width - 30, screanSize.height - 20));
     pMenu->addChild(pBackItem,5);
     
+    CCSprite *pMonster = static_cast<CCSprite *>(this->getChildByTag(TAG_MONSTER));
+    if (pMonster)
+    {
+        stEvent *tStEvent = tEvent->pStEvent;
+        char strChar[100];
+        memset(strChar, 0, 100);
+        sprintf(strChar, "pub/image/hero/monster_100%d.png",tStEvent->targetId[0]);
+        pMonster->setTexture(LuckySprite::getTextrue2D(strChar));
+    }
+    
     this->setTouchEnabled(true);
     
     NetManager::shareNetManager()->sendEx(kModeBattle, kDoFight2, callfuncND_selector(SpecialBattleView::responseFight), this, "\"monsterId\": %d", p_CurEvent->targetId[0]);
-}
-
-void SpecialBattleView::showBattleResultView()
-{
-    BattleResultView *retView = BattleResultView::create(this);
-    retView->initView(p_CurEvent);
-    this->addChild(retView,88);
 }
 
 
