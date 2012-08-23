@@ -73,15 +73,31 @@ void OpenBoxView::onMenuItemClicked(cocos2d::CCObject *pTarget)
 }
 
 void OpenBoxView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent) {
+//    if ( m_bIsOpen == false && p_CurEvent->m_bBoxIsOpened == false && p_CurEvent && p_CurEvent->box_id != -1)
+//    {
+//        m_bIsOpen = true;
+//        
+//        char strChar[100];
+//        sprintf(strChar,"\"EventId\": %d,\"boxId\": %d" ,p_CurEvent->id, p_CurEvent->box_id);
+//        NetManager::shareNetManager()->send(kModeBox, kDoOpenBox,                                      callfuncND_selector(OpenBoxView::netCallBack), this, strChar);
+//    }
+//    else {
+//        if ( m_target && m_pfnSelector )
+//            ((m_target)->*(m_pfnSelector))(this, NULL);
+//    }
     if ( m_bIsOpen == false && p_CurEvent->m_bBoxIsOpened == false && p_CurEvent && p_CurEvent->box_id != -1)
     {
+        OpenBoxResultView *pOpenBoxResult = OpenBoxResultView::create(this);
+        pOpenBoxResult->initView(p_CurEvent->boxAward);
+        this->addChild(pOpenBoxResult,99);
+        
         m_bIsOpen = true;
         
-        char strChar[100];
-        sprintf(strChar,"\"EventId\": %d,\"boxId\": %d" ,p_CurEvent->id, p_CurEvent->box_id);
-        NetManager::shareNetManager()->send(kModeBox, kDoOpenBox,                                      callfuncND_selector(OpenBoxView::netCallBack), this, strChar);
-    }
-    else {
+        if (p_CurEvent)
+        {
+            p_CurEvent->m_bBoxIsOpened = true;
+        }
+    }else {
         if ( m_target && m_pfnSelector )
             ((m_target)->*(m_pfnSelector))(this, NULL);
     }
@@ -152,32 +168,10 @@ void OpenBoxView::netCallBack(CCNode* pNode, void* data)
     }
 }
 
-bool OpenBoxView::ccTouchBegan(CCTouch* touch, CCEvent *pEvent)
+void OpenBoxView::notificationTouchEvent(LTouchEvent tLTouchEvent)
 {
-    if ( !touch ) return false;
-    
-    pBeginPoint = this->convertTouchToNodeSpace(touch);
-    
-    return true;
-}
-
-void OpenBoxView::ccTouchMoved(CCTouch* touch, CCEvent *pEvent)
-{
-    
-}
-
-void OpenBoxView::ccTouchEnded(CCTouch* touch, CCEvent *pEvent)
-{
-    if ( !touch ) return;
-    
-    if ( pBeginPoint.x != 0 && pBeginPoint.y != 0 )
+    if (tLTouchEvent == kLTouchEventSingleClick)
     {
         this->onCCControlButtonClicked(NULL,NULL);
     }
-    pBeginPoint = CCPointZero;
-}
-
-void OpenBoxView::registerWithTouchDispatcher(void)
-{
-    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority , true);
 }

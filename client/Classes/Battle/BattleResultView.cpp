@@ -38,7 +38,7 @@ void BattleResultView::initView(LEventData *tEvent)
     
     if (resultOfBattle)
     {
-        resultOfBattle->setString("战斗失败");
+        resultOfBattle->setString("战斗胜利");
     }
     
     CCLabelTTF *labtip = static_cast<CCLabelTTF *>(this->getChildByTag(11));
@@ -50,7 +50,17 @@ void BattleResultView::initView(LEventData *tEvent)
         stGood _goods = *_iter;
         
         char strChar[512];
-        sprintf(strChar, "获得%d ：%d",_goods.id,_goods.num);
+        
+        if (_goods.id == 888) {
+            sprintf(strChar, "获得金币 ：%d",_goods.num);
+        }
+        else if (_goods.id == 999) 
+        {
+            sprintf(strChar, "获得经验 ：%d",_goods.num);
+        }
+        else {
+            sprintf(strChar, "获得%d ：%d",_goods.id,_goods.num);
+        }
         CCLabelTTF *bonusLabel = CCLabelTTF::create(strChar, CCSizeMake(screanSize.width * 0.8f, screanSize.height * 0.15f ), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter,"Arial", 18);
         bonusLabel->setColor(ccWHITE);
         bonusLabel->setAnchorPoint(CCPointZero);
@@ -104,34 +114,11 @@ void BattleResultView::netCallBack(CCNode* pNode, void* data)
     
 }
 
-bool BattleResultView::ccTouchBegan(CCTouch* touch, CCEvent *pEvent)
+void BattleResultView::notificationTouchEvent(LTouchEvent tLTouchEvent)
 {
-    if ( !touch ) return false;
-    
-    pBeginPoint = this->convertTouchToNodeSpace(touch);
-    
-    return true;
-}
-
-void BattleResultView::ccTouchMoved(CCTouch* touch, CCEvent *pEvent)
-{
-    
-}
-
-void BattleResultView::ccTouchEnded(CCTouch* touch, CCEvent *pEvent)
-{
-    if ( !touch ) return;
-    CCPoint endPoint = this->convertTouchToNodeSpace(touch);
-    
-    if ( pBeginPoint.x != 0 && pBeginPoint.y != 0 )
+    if (tLTouchEvent == kLTouchEventSingleClick)
     {
         if ( m_target && m_pfnSelector )
             ((m_target)->*(m_pfnSelector))(this, NULL);
     }
-    pBeginPoint = CCPointZero;
-}
-
-void BattleResultView::registerWithTouchDispatcher(void)
-{
-    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority , true);
 }

@@ -155,12 +155,6 @@ void SpecialBattleView::ccTouchEnded(CCTouch* touch, CCEvent *pEvent)
 void SpecialBattleView::removeAndCleanSelf(float dt)
 {
     ((m_target)->*(m_pfnSelector))(this, NULL);
-    
-//    CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_EVENT_LIST_LAYER));
-//    if ( pLayer )
-//    {
-//        pLayer->removeFromParentAndCleanup(true);
-//    }
 }
 
 void SpecialBattleView::menuBackCallback(CCObject* pSender)

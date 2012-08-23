@@ -133,12 +133,6 @@ void GeneralBattleView::setData(LEventData *tEvent, cocos2d::CCObject *target, c
 void GeneralBattleView::removeAndCleanSelf(float dt)
 {
     ((m_target)->*(m_pfnSelector))(this, NULL);
-    
-//    CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_EVENT_LIST_LAYER));
-//    if ( pLayer )
-//    {
-//        pLayer->removeFromParentAndCleanup(true);
-//    }
 }
 
 void GeneralBattleView::menuBackCallback(CCObject* pSender)
