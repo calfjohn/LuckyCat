@@ -91,6 +91,9 @@ void OpenBoxView::setSelector(cocos2d::CCObject *target, cocos2d::SEL_CallFuncND
 {
     m_target = target;
     m_pfnSelector = pfnSelector;
+    
+    pBeginPoint = CCPointZero;
+    this->setTouchEnabled(true);
 }
 
 void OpenBoxView::setEvent(LEventData *t)
@@ -153,6 +156,8 @@ bool OpenBoxView::ccTouchBegan(CCTouch* touch, CCEvent *pEvent)
 {
     if ( !touch ) return false;
     
+    pBeginPoint = this->convertTouchToNodeSpace(touch);
+    
     return true;
 }
 
@@ -165,7 +170,11 @@ void OpenBoxView::ccTouchEnded(CCTouch* touch, CCEvent *pEvent)
 {
     if ( !touch ) return;
     
-    this->onCCControlButtonClicked(NULL,NULL);
+    if ( pBeginPoint.x != 0 && pBeginPoint.y != 0 )
+    {
+        this->onCCControlButtonClicked(NULL,NULL);
+    }
+    pBeginPoint = CCPointZero;
 }
 
 void OpenBoxView::registerWithTouchDispatcher(void)

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		150B347D15C244B10051DB06 /* LuckySprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 150B347B15C244B10051DB06 /* LuckySprite.cpp */; };
+		15585B0015E33DC300833CC1 /* PageEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15585AFE15E33DC300833CC1 /* PageEx.cpp */; };
 		155CC53215B92C2E00CE449D /* DictDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155CC53115B92C2E00CE449D /* DictDataManager.cpp */; };
 		15AAE32A15B6894100F0CF5E /* json_internalarray.inl in Resources */ = {isa = PBXBuildFile; fileRef = 15AAE32315B6894100F0CF5E /* json_internalarray.inl */; };
 		15AAE32B15B6894100F0CF5E /* json_internalmap.inl in Resources */ = {isa = PBXBuildFile; fileRef = 15AAE32415B6894100F0CF5E /* json_internalmap.inl */; };
@@ -80,6 +81,7 @@
 		D4ABB4B313B4395300552E6E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D4ABB4B213B4395300552E6E /* main.m */; };
 		FA5A00EE15DE187F00C1A9B9 /* EquipInfoView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA5A00EC15DE187F00C1A9B9 /* EquipInfoView.cpp */; };
 		FA8C106D15DA585000FF3FA4 /* PlayerInfoView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA8C106B15DA585000FF3FA4 /* PlayerInfoView.cpp */; };
+		FAC9A8D115E3954E00A5DC8C /* PlayerInfoDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FAC9A8CF15E3954E00A5DC8C /* PlayerInfoDataManager.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +111,8 @@
 /* Begin PBXFileReference section */
 		150B347B15C244B10051DB06 /* LuckySprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuckySprite.cpp; sourceTree = "<group>"; };
 		150B347C15C244B10051DB06 /* LuckySprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuckySprite.h; sourceTree = "<group>"; };
+		15585AFE15E33DC300833CC1 /* PageEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PageEx.cpp; sourceTree = "<group>"; };
+		15585AFF15E33DC300833CC1 /* PageEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageEx.h; sourceTree = "<group>"; };
 		155CC53015B92C2E00CE449D /* DictDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DictDataManager.h; sourceTree = "<group>"; };
 		155CC53115B92C2E00CE449D /* DictDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DictDataManager.cpp; sourceTree = "<group>"; };
 		15AAE31815B6894100F0CF5E /* autolink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = autolink.h; sourceTree = "<group>"; };
@@ -221,6 +225,8 @@
 		FA5A00ED15DE187F00C1A9B9 /* EquipInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EquipInfoView.h; sourceTree = "<group>"; };
 		FA8C106B15DA585000FF3FA4 /* PlayerInfoView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerInfoView.cpp; sourceTree = "<group>"; };
 		FA8C106C15DA585000FF3FA4 /* PlayerInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerInfoView.h; sourceTree = "<group>"; };
+		FAC9A8CF15E3954E00A5DC8C /* PlayerInfoDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerInfoDataManager.cpp; sourceTree = "<group>"; };
+		FAC9A8D015E3954E00A5DC8C /* PlayerInfoDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerInfoDataManager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -344,6 +350,8 @@
 			children = (
 				15AAE35715B6C1D200F0CF5E /* PageScene.cpp */,
 				15AAE35815B6C1D200F0CF5E /* PageScene.h */,
+				15585AFE15E33DC300833CC1 /* PageEx.cpp */,
+				15585AFF15E33DC300833CC1 /* PageEx.h */,
 				15EC314D15B7F45100EA9631 /* PageMapScene.h */,
 				15EC314E15B7F46000EA9631 /* PageMapScene.cpp */,
 			);
@@ -366,6 +374,8 @@
 		15DE3DB815B56D1C001B8372 /* Basic */ = {
 			isa = PBXGroup;
 			children = (
+				FAC9A8CF15E3954E00A5DC8C /* PlayerInfoDataManager.cpp */,
+				FAC9A8D015E3954E00A5DC8C /* PlayerInfoDataManager.h */,
 				15D0D34D15D363AF00F53819 /* NetManager.cpp */,
 				15D0D34E15D363AF00F53819 /* NetManager.h */,
 				15D0D35915D36C3600F53819 /* Netbasic.h */,
@@ -739,8 +749,10 @@
 				184FEDCF15DDE0E1006A8373 /* EventListView.cpp in Sources */,
 				FA5A00EE15DE187F00C1A9B9 /* EquipInfoView.cpp in Sources */,
 				18BAFC3F15E210D5000D5191 /* OpenBoxResultView.cpp in Sources */,
+				15585B0015E33DC300833CC1 /* PageEx.cpp in Sources */,
 				18BAFC4215E25FC2000D5191 /* HeroHeadView.cpp in Sources */,
 				18C1935415E32BFC005A1D0E /* BasicInfoView.cpp in Sources */,
+				FAC9A8D115E3954E00A5DC8C /* PlayerInfoDataManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

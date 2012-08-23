@@ -168,11 +168,7 @@ void PageMap::callback(CCNode* sender, void* data)
 {
     const stPage *pPage = (stPage *)data;
     
-    CCScene *pScene = CCScene::create();
-    Page *pPageView = Page::create(pScene);
-    pPageView->turnToPage(m_nChapterId, pPage);
-    pScene->addChild(pPageView);
-    
+    CCScene *pScene = Page::scene(m_nChapterId, pPage);
     CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
     CCDirector::sharedDirector()->replaceScene(pTp);
 }
