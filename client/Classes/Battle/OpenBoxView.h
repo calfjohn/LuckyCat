@@ -9,7 +9,7 @@
 #ifndef LuckyCat_OpenBoxView_h
 #define LuckyCat_OpenBoxView_h
 
-#include "cocos2d.h"
+#include "TouchLayer.h"
 #include "extensions/CCBReader/CCNodeLoader.h"
 #include "extensions/CCBReader/CCBSelectorResolver.h"
 #include "extensions/CCBReader/CCBMemberVariableAssigner.h"
@@ -18,7 +18,7 @@
 #include "EventBasic.h"
 
 class OpenBoxView 
-: public cocos2d::CCLayer
+: public TouchLayer
 , public cocos2d::extension::CCBMemberVariableAssigner
 , public cocos2d::extension::CCBSelectorResolver
 {
@@ -44,11 +44,7 @@ public:
     
     void netCallBack(CCNode* pNode, void* data);
     
-    virtual bool ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
-    virtual void ccTouchMoved(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
-    virtual void ccTouchEnded(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
-    
-    virtual void registerWithTouchDispatcher(void);
+    virtual void notificationTouchEvent(LTouchEvent tLTouchEvent);
 private:
     LEventData *p_CurEvent;
     

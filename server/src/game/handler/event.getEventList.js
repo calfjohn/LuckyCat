@@ -54,7 +54,7 @@ module.exports.handler = function (req, res, next) {
 
         var getEventList = function() {
             var argIn = info.meta.in;
-            var ary = require("../Events").getASeriesOfEvent(argIn.eventId);
+            var ary = require("../Events").getEventList(argIn.eventId);
 
             responseResult(ary);
         };

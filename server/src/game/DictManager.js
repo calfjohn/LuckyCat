@@ -25,12 +25,7 @@ DictManager = {
         DictManager._dbAgent = new DBAgent(dbConfig);
         DictManager._dbAgent.connect(true);
 
-        var getEquipData=function(err, rows){
-            /**
-             *   DictManager._cacheDictEquipment struct:
-             *     |--id:key
-             *          |--data:value
-             */
+        var getEquipData = function(err, rows){
             if (! err) {
                 DictManager._cacheDictEquipment = {};
                 for(var i = 0; i < rows.length; ++i){
@@ -41,13 +36,24 @@ DictManager = {
             }
         };
 
-        var getCareerData=function(err, rows){
+        var getCareerData = function(err, rows){
             if (! err) {
                 DictManager._cacheDictCareer = {};
                 for(var i = 0; i < rows.length; ++i){
                     var data = rows[i];
                     var id= "" + data.id;
                     DictManager._cacheDictCareer[id] = data;
+                }
+            }
+        };
+
+        var getMonsterData = function(err, rows){
+            if (! err) {
+                DictManager._cacheDictMonster = {};
+                for(var i = 0; i < rows.length; ++i){
+                    var data = rows[i];
+                    var id= "" + data.id;
+                    DictManager._cacheDictMonster[id] = data;
                 }
             }
         };
@@ -62,9 +68,12 @@ DictManager = {
             DictManager._dbAgent.query("SELECT * FROM `dict_career`", function (err, rows) {
                     // step 2 done, cache actor_equipment data
                     getCareerData(err, rows);
-                    // all data cached, call callback
-                    callback(err);
-                });
+                DictManager._dbAgent.query("SELECT * FROM `dict_monster`", function (err, rows) {
+                        getMonsterData(err, rows);
+                        // all data cached, call callback
+                        callback(err);
+                        });
+                  });
             });
     },
 
@@ -77,6 +86,18 @@ DictManager = {
         callback(equipment);
     },
 
+    getMonsterById: function(id) {
+        var monster = DictManager._cacheDictMonster["" + id];
+        if (monster)
+        {
+            return monster;
+        }
+        else
+        {
+            return null;
+        }
+    },
+
     getCareerByID: function(id) {
         //get a actor basic info by uuid
         var career = DictManager._cacheDictCareer[""+id];
@@ -86,7 +107,6 @@ DictManager = {
 
         return career;
     }
-
 };
 
 module.exports = DictManager;

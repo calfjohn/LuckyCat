@@ -1,0 +1,56 @@
+html
+    head
+    body
+        table
+            for content,ver in api_content
+                tr
+                    td
+                        ol
+                            li
+                                p version=#{ver}
+                            li
+                                p !{content.desc}
+                            li
+                                p 输入参数(in)
+                                ul
+                                    if (content.in.desc)
+                                        li: p 说明： !{content.out.desc}
+                                    if (content.in.type)
+                                        li: p 类型： !{content.out.type}
+                                if (content.in.field)
+                                    table(border=1)
+                                        tbody
+                                            for field_desc, field in content.in.field
+                                                tr
+                                                    td
+                                                        !{field}
+                                                    td
+                                                        !{field_desc}
+
+                            li
+                                p 输出参数(out)
+                                ul
+                                    if (content.out.desc)
+                                        li: p 说明： !{content.out.desc}
+                                    if (content.out.type)
+                                        li: p 类型： !{content.out.type}
+                                if (content.out.field)
+                                    table(border=1)
+                                        tbody
+                                            for field_desc, field in content.out.field
+                                                tr
+                                                    td
+                                                        !{field}
+                                                    td
+                                                        !{field_desc}
+
+                            li
+                                p 返回结果(result)
+                                table(border=1)
+                                    tbody
+                                        for field_desc, field in content.result
+                                            tr
+                                                td
+                                                    !{field}
+                                                td
+                                                    !{field_desc}

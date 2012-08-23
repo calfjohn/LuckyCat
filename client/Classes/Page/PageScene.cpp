@@ -19,6 +19,7 @@
 #include "extensions/CCBReader/CCBReader.h"
 #include "extensions/CCBReader/CCNodeLoaderLibrary.h"
 #include "HeroHeadView.h"
+#include "LuckySprite.h"
 
 USING_NS_CC;
 
@@ -63,9 +64,9 @@ CCScene* Page::scene(int chapterId, const stPage *pPage)
         CC_BREAK_IF(! layer);
         scene->addChild(layer);
         layer->turnToPage(chapterId, pPage);
-
+        
     } while (0);
-
+    
     return scene;
 }
 
@@ -74,7 +75,7 @@ bool Page::init()
     CCTouchPageTurn::init();
     
     m_pPage = NULL;
-
+    
     return true;
 }
 
@@ -101,9 +102,18 @@ void Page::turnToPage(int chapterId, const stPage *pPage)
     m_title->setString(m_pPage->name.c_str());
     m_content->setString(m_pPage->content.c_str());
     
-//    m_SpriteBg->setDisplayFrame(CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("monster_1.png"));
-//    
-//    m_SpriteMonster->setTexture(CCTextureCache::sharedTextureCache()->addImage("pub/image/hero/monster_1002.png"));
+    //    m_SpriteBg->setDisplayFrame(CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("monster_1.png"));
+    //    
+    //    m_SpriteMonster->setTexture(CCTextureCache::sharedTextureCache()->addImage("pub/image/hero/monster_1002.png"));
+    char strChar[100];
+    memset(strChar, 0, 100);
+    sprintf(strChar, "scene_100%d.png",m_pPage->id);
+    m_SpriteBg->setDisplayFrame(LuckySprite::getSpriteFrame(strChar));
+    
+    stEvent *tStEvent = EventDataManager::getShareInstance()->getEvent(m_pPage->eventId);
+    memset(strChar, 0, 100);
+    sprintf(strChar, "pub/image/hero/monster_100%d.png",tStEvent->targetId[0]);
+    m_SpriteMonster->setTexture(LuckySprite::getTextrue2D(strChar));
     
     this->showHeroHeadView();
 }
@@ -118,7 +128,6 @@ void Page::showBattleView(CCObject *pSender)
     {
         EventListView *pEventListView = EventListView::create();
         pEventListView->initLayer(m_nChapterId,m_pPage, this, callfuncND_selector(Page::fightCallback));
-        //CCDirector::sharedDirector()->getRunningScene()->addChild(pEventListView, 0, TAG_EVENT_LIST_LAYER);
         this->addChild(pEventListView,1);
         
         if (p_HeroHeadView)
@@ -154,11 +163,10 @@ void Page::nextPageCallback(CCNode* pNode, void* data)
         CCDirector::sharedDirector()->popScene();
         return;
     }
-  
-    CCScene *pScene = CCDirector::sharedDirector()->getRunningScene();
-    Page *pPageLayer = Page::create(pScene);
-    pPageLayer->turnToPage(m_nChapterId,pPage);
-    pScene->addChild(pPageLayer, this->getZOrder()-1);
+    
+    CCScene *pScene = Page::scene(m_nChapterId, pPage);
+    CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
+    CCDirector::sharedDirector()->replaceScene(pTp);
     
     this->autoTurnPage();
 }
@@ -187,7 +195,7 @@ void Page::ccTouchEnded(cocos2d::CCTouch* touch, cocos2d::CCEvent *pEvent)
         this->showBattleView(NULL);
     }
     pBeginPoint = CCPointZero;
-
+    
 }
 
 void Page::registerWithTouchDispatcher(void)

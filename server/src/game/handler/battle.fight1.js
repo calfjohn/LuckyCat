@@ -66,8 +66,6 @@ module.exports.handler = function (req, res, next) {
         };
 
         if (info) {
-            require("../Actors").calculateCapablity(1);
-
             //receive input parameter
             var chapterId = parseInt(info.meta.in.chapterId);
             var pageId = parseInt(info.meta.in.pageId);

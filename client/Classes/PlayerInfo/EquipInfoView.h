@@ -21,17 +21,22 @@ USING_NS_CC;
 USING_NS_CC_EXT;
 
 typedef enum{
-    kEquipHelmet      = 0,  //equip head;
-    kEquipArms,             //equip arms;
-    kEquipArmor,            //equip armor;
-    kEquipShoes,            //equip shoes;
+    kEquipHead      = 0,  //equip head;
+    kEquipHand,             //equip arms;
+    kEquipBody,            //equip armor;
+    kEquipFoot,            //equip shoes;
 }EquipType;
 
 typedef enum{
     kEquipTakeOff = 1,
-    kEquipFontTakeOff = 13,
-    kEquipPutOn = 11,
-    kEquipFontPutOn = 12,
+    kEquipPutOn = 2,
+    kEquipUp = 5,
+    kEquipDown = 6,
+    
+    kEquipFontTakeOff = 16,
+    kEquipFontPutOn = 17,
+    
+    kEquipMenu = 20,
 }EquipItemType;
 
 class PlayerInfoDataManager;
@@ -44,6 +49,8 @@ class EquipInfoView
 , public cocos2d::CCTextFieldDelegate
 {
 public:
+    EquipType m_curEquipType;
+    
     EquipInfoView();
     ~EquipInfoView();
     
@@ -70,8 +77,9 @@ public:
     virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
     
     virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent);
+    bool initEquipListData();
     
-    bool initEquipListView();
+    bool initEquipListView(EquipType type);
     
     void EquipViewBtnCallback(cocos2d::CCObject *pTarget);
     
@@ -81,10 +89,6 @@ public:
     
     void hideEquipView();
     
-    void setEquipInfoForType(EquipType type);
-    
-    void setPlayerEquipInfoForType(EquipType type);
-
     void sendPlayerEquipInfo();
 
     void responsePlayerEquipInfo(CCNode *pNode, void* data);
@@ -93,6 +97,10 @@ public:
     
     void responsePutOnCurEquip(CCNode *pNode, void* data);
     void responseTakeOffCurEquip(CCNode *pNode, void* data);
+    
+    void sendPlayerCurEquipInfo();
+    
+    void responsePlayerCurEquipInfo(CCNode *pNode, void* data);
 private:
     cocos2d::CCSprite   *m_sprEquipIcon;
     cocos2d::CCLabelTTF *m_labEquipName;
@@ -102,11 +110,22 @@ private:
     cocos2d::CCLabelTTF *m_labEquipLife;
     
     CCScrollView* m_EquipListView;
-
-    std::vector<cocos2d::CCLabelTTF> m_labsEquipProprety;
-    std::vector<cocos2d::CCLabelTTF> m_labsPlayerEquipInfo;
+    
+    std::vector<int> m_vecEquipIds;
+    int m_iEquipCurHeadId;
+    int m_iEquipCurHandId;
+    int m_iEquipCurBodyId;
+    int m_iEquipCurFootId;
+    
+    std::vector<stActorUserEquipInfo> m_EquipHeadInfos;
+    std::vector<stActorUserEquipInfo> m_EquipHandInfos;
+    std::vector<stActorUserEquipInfo> m_EquipBodyInfos;
+    std::vector<stActorUserEquipInfo> m_EquipFootInfos;
 
     stActorUserEquipInfo *m_selectedEquipData;
+    CCMenuItemLabel *m_selectedEquipListLabel;
+    
+    bool m_bIsPutOn;
 
     //void setEquipInfo(cocos2d::CCSprite *equipIcon, cocos2d::CCLabelTTF *equipName, std::vector<cocos2d::CCLabelTTF> &equipProprety);
     

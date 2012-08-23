@@ -70,3 +70,11 @@ stActorUserEquipInfo* PlayerInfoDataManager::getUserEquipInfo(int index){
         return NULL;
     return &m_vecUserEquipInfos[index];
 }
+
+stActorUserEquipInfo* PlayerInfoDataManager::getUserEquipInfoForId(int equipid){
+    for (int i = 0; i < m_vecUserEquipInfos.size() ; i++) {
+        if(equipid == m_vecUserEquipInfos[i].userEquipId)
+            return &m_vecUserEquipInfos[i];
+    }
+    return NULL;
+}
