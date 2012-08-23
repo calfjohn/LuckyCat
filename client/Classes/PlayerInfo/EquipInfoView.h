@@ -123,8 +123,9 @@ private:
     std::vector<stActorUserEquipInfo> m_EquipFootInfos;
 
     stActorUserEquipInfo *m_selectedEquipData;
+    CCMenuItemLabel *m_selectedEquipListLabel;
     
-    
+    bool m_bIsPutOn;
 
     //void setEquipInfo(cocos2d::CCSprite *equipIcon, cocos2d::CCLabelTTF *equipName, std::vector<cocos2d::CCLabelTTF> &equipProprety);
     

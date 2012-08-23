@@ -124,51 +124,98 @@ bool EquipInfoView::initEquipListView(EquipType type){
     switch (type) {
         case kEquipHead:
             for (int i = 0; i<m_EquipHeadInfos.size(); i++) {
-                stActorUserEquipInfo info = m_EquipHeadInfos[i];
-                CCLabelTTF* label = CCLabelTTF::create(info.equipInfo->equipName.c_str(), "Arial", 15);
+                stActorUserEquipInfo *info = &(m_EquipHeadInfos[i]);
+                CCLabelTTF* label;
+                if (info->userEquipId == m_iEquipCurHeadId) {
+                    info->userPutOn = true;
+                    CCString *name = CCString::createWithFormat("%s(当前)",info->equipInfo->equipName.c_str());
+                    label = CCLabelTTF::create(name->getCString(), "Arial", 15);
+                }else{
+                    label = CCLabelTTF::create(info->equipInfo->equipName.c_str(), "Arial", 15);
+                }
                 CCMenuItemLabel *item = CCMenuItemLabel::create(label, this, menu_selector(EquipInfoView::equipListMenuItemCallBack));
                 float x = 150.0f / 2.0f;
                 float y = i * 15.0f;
                 item->setPosition(CCPointMake(x, y));
                 item->setTag(i);
                 items->addObject(item);
+                if(i == 0){
+                    m_selectedEquipData = info;
+                    m_selectedEquipListLabel = item;
+                    setEquipInfo(info->equipInfo);
+                }
             }
             break;
         case kEquipHand:
             for (int i = 0; i<m_EquipHandInfos.size(); i++) {
-                stActorUserEquipInfo info = m_EquipHandInfos[i];
-                cout << "name = " << info.equipInfo->equipName << endl;
-                CCLabelTTF* label = CCLabelTTF::create(info.equipInfo->equipName.c_str(), "Arial", 15);
+                stActorUserEquipInfo *info = &(m_EquipHandInfos[i]);
+                CCLabelTTF* label;
+                if (info->userEquipId == m_iEquipCurHeadId) {
+                    info->userPutOn = true;
+                    CCString *name = CCString::createWithFormat("%s(当前)",info->equipInfo->equipName.c_str());
+                    label = CCLabelTTF::create(name->getCString(), "Arial", 15);
+                }else{
+                    label = CCLabelTTF::create(info->equipInfo->equipName.c_str(), "Arial", 15);
+                }
                 CCMenuItemLabel *item = CCMenuItemLabel::create(label, this, menu_selector(EquipInfoView::equipListMenuItemCallBack));
                 float x = 150.0f / 2.0f;
                 float y = i * 15.0f;
                 item->setPosition(CCPointMake(x, y));
                 item->setTag(i);
                 items->addObject(item);
+                if(i == 0){
+                    m_selectedEquipData = info;
+                    m_selectedEquipListLabel = item;
+                    setEquipInfo(info->equipInfo);
+                }
             }
             break;
         case kEquipBody:
             for (int i = 0; i<m_EquipBodyInfos.size(); i++) {
-                stActorUserEquipInfo info = m_EquipBodyInfos[i];
-                CCLabelTTF* label = CCLabelTTF::create(info.equipInfo->equipName.c_str(), "Arial", 15);
+                stActorUserEquipInfo *info = &(m_EquipBodyInfos[i]);
+                CCLabelTTF* label;
+                if (info->userEquipId == m_iEquipCurHeadId) {
+                    info->userPutOn = true;
+                    CCString *name = CCString::createWithFormat("%s(当前)",info->equipInfo->equipName.c_str());
+                    label = CCLabelTTF::create(name->getCString(), "Arial", 15);
+                }else{
+                    label = CCLabelTTF::create(info->equipInfo->equipName.c_str(), "Arial", 15);
+                }
                 CCMenuItemLabel *item = CCMenuItemLabel::create(label, this, menu_selector(EquipInfoView::equipListMenuItemCallBack));
                 float x = 150.0f / 2.0f;
                 float y = i * 15.0f;
                 item->setPosition(CCPointMake(x, y));
                 item->setTag(i);
                 items->addObject(item);
+                if(i == 0){
+                    m_selectedEquipData = info;
+                    m_selectedEquipListLabel = item;
+                    setEquipInfo(info->equipInfo);
+                }
             }
             break;
         case kEquipFoot:
             for (int i = 0; i<m_EquipFootInfos.size(); i++) {
-                stActorUserEquipInfo info = m_EquipFootInfos[i];
-                CCLabelTTF* label = CCLabelTTF::create(info.equipInfo->equipName.c_str(), "Arial", 15);
+                stActorUserEquipInfo *info = &(m_EquipFootInfos[i]);
+                CCLabelTTF* label;
+                if (info->userEquipId == m_iEquipCurHeadId) {
+                    info->userPutOn = true;
+                    CCString *name = CCString::createWithFormat("%s(当前)",info->equipInfo->equipName.c_str());
+                    label = CCLabelTTF::create(name->getCString(), "Arial", 15);
+                }else{
+                    label = CCLabelTTF::create(info->equipInfo->equipName.c_str(), "Arial", 15);
+                }
                 CCMenuItemLabel *item = CCMenuItemLabel::create(label, this, menu_selector(EquipInfoView::equipListMenuItemCallBack));
                 float x = 150.0f / 2.0f;
                 float y = i * 15.0f;
                 item->setPosition(CCPointMake(x, y));
                 item->setTag(i);
                 items->addObject(item);
+                if(i == 0){
+                    m_selectedEquipData = info;
+                    m_selectedEquipListLabel = item;
+                    setEquipInfo(info->equipInfo);
+                }
             }
             break;
         default:
@@ -230,6 +277,7 @@ void EquipInfoView::equipListMenuItemCallBack(CCNode *pSender){
     
     stActorUserEquipInfo *info;
     int index = pSender->getTag();
+    m_selectedEquipListLabel = (CCMenuItemLabel*)pSender;
     switch (m_curEquipType) {
         case kEquipHead:
             info = &(m_EquipHeadInfos[index]);
@@ -246,9 +294,7 @@ void EquipInfoView::equipListMenuItemCallBack(CCNode *pSender){
         default:
             break;
     }
-    cout << info->equipInfo->equipName << endl;
     m_selectedEquipData = info;
-    cout << m_selectedEquipData->userEquipType << endl;
     setEquipInfo(info->equipInfo);
 }
 
@@ -331,12 +377,11 @@ void EquipInfoView::responsePlayerEquipInfo(CCNode *pNode, void* data){
     if(reader.parse(NetManager::shareNetManager()->processResponse(data), root)){
         Json::Value out = root["meta"]["out"];
         for(int i = 0;i<out.size();i++){
-            std::cout << "i = " << i << " " << out[i]["equip_id"].asInt() << std::endl;
+            //std::cout << "i = " << i << " " << out[i]["equip_id"].asInt() << std::endl;
             m_vecEquipIds.push_back(out[i]["equip_id"].asInt());
         }
     }
     initEquipListData();
-    initEquipListView(kEquipHead);
     sendPlayerCurEquipInfo();
 }
 
@@ -355,6 +400,7 @@ void EquipInfoView::responsePlayerCurEquipInfo(CCNode *pNode, void* data){
         m_iEquipCurHandId = out["eq_hand_id"].asInt();
         m_iEquipCurFootId = out["eq_foot_id"].asInt();
     }
+    initEquipListView(kEquipHead);
 }
 
 void EquipInfoView::sendResetCurEquip(){
@@ -382,6 +428,11 @@ void EquipInfoView::responsePutOnCurEquip(CCNode *pNode, void* data){
     takeoff->setEnabled(true);
     CCLabelTTF *tstring = (CCLabelTTF*)this->getChildByTag(kEquipFontTakeOff);
     tstring->setVisible(true);
+    
+    
+    CCLabelTTF *label = (CCLabelTTF*)m_selectedEquipListLabel->getLabel();
+    CCString *name = CCString::createWithFormat("%s(当前)",label->getString());
+    m_selectedEquipListLabel->setString(name->getCString());
 }
 
 void EquipInfoView::responseTakeOffCurEquip(CCNode *pNode, void* data){
@@ -398,6 +449,10 @@ void EquipInfoView::responseTakeOffCurEquip(CCNode *pNode, void* data){
     takeoff->setEnabled(false);
     CCLabelTTF *tstring = (CCLabelTTF*)this->getChildByTag(kEquipFontTakeOff);
     tstring->setVisible(false);
+    
+    //CCString *name =
+    CCLabelTTF *label = CCLabelTTF::create(m_selectedEquipData->equipInfo->equipName.c_str(), "Arial", 15);
+    m_selectedEquipListLabel->setLabel(label);
 }
 
 
