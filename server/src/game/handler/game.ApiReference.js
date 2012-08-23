@@ -13,30 +13,29 @@ var reference_1 = {
         "</ul>",
 
     in: {
-        field_1:
-            "<p>第一个输入参数，用来示例</p>" +
-                "<ul>" +
-                "<li>整数</li>" +
-                "<li>取值为1~3</li>" +
-                "</ul>",
-        field_2:
-            "<p>第二个参数，用来示例</p>" +
-                "<ul>" +
-                "<li>字符串</li>" +
-                "<li>不为空串</li>" +
-                "</ul>"
+        desc: "这里说明输入的参数",
+        type: "输入的类型或什么类型的数组， eg. Null/Int/LongLong/Float/String/Map or Array(Int/...)",
+        field:{ // 如果返回的是Map或Map的数组，此处用来说明对象或数组的key-value对
+            field_1:
+                "第一个输入参数，用来示例",
+            field_2:
+                "第二个参数，用来示例"
+        }
     },
 
     out: {
-        field_3:
-            "<p>第一个输出参数</p>"
+        desc: "这里说明返回的结果",
+        type: "返回什么类型，如果不是对象或对象数组，可以没有field字段",
+        field: {
+            field_1:
+                "<p>第一个输出参数</p>"
+        }
     },
     result: {
         0:
-            "<p>操作成功</p>" +
-                "可能还需要一个专门定义返回值的地方。",
+            "操作成功",
         1:
-            "<p>某个错误标识</p>"
+            "某个错误标识"
     }
 };
 
@@ -58,13 +57,24 @@ module.exports.handler = function (req, res, next) {
     var path = req._parsedUrl.pathname;
     var nodes = reference.locate(path);
     var dirs = nodes[path];
-    var mods = nodes[dirs[0]];
-    var api = nodes[dirs[dirs.length - 1]];
-    log.d(JSON.stringify(api));
-    res.render("./views/api_reference", {
-        "namespace":dirs[0],
-        "mod": dirs[1],
-        "action": dirs[2],
-        "mods": mods,
-        "api":api});
+
+    var data = {
+        namespace: dirs[0],
+        mod: dirs[1],
+        mod_do: dirs[2]
+    };
+    switch (dirs.length) {
+        case 3: // dirs包含 namespace module action
+            data.api_content = nodes[dirs[2]];
+            res.render("./views/api_content", data);
+            break;
+        case 2: // dirs包含 namespace module
+            data.module_content = nodes[dirs[1]];
+            res.render("./views/module_content", data);
+            break;
+        default:
+            data.namespace_content = nodes[dirs[0]];
+            res.render("./views/api_reference", data);
+            break;
+    }
 };
