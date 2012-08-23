@@ -9,6 +9,32 @@
 
 require("../../system/Log");
 
+var reference_1 = {
+    desc:
+        "更新玩家装备信息",
+
+    in: {
+        part:
+            "1 head, 2 hand, 3 body, 4 foot",
+        id:
+            "装备的ID,从getEquipmentInfo中获得。-1表示卸下该部位装备。"
+    },
+
+    out: "",
+    result: {
+        0:
+            "操作成功",
+        1:
+            "非法id"
+    }
+};
+
+module.exports.initReference = function(ref) {
+    // 当前是版本1 所以填写文档到ref[1]
+    ref[1] = reference_1;
+};
+
+
 module.exports.handler = function (req, res, next) {
     var log = new Log("actor.changeEquipmentInfo");
 
