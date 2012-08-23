@@ -22,6 +22,7 @@
 #include "EquipInfoView.h"
 #include "LuckySprite.h"
 #include "FuzzyBgView.h"
+#include "PlayerInfoDataManager.h"
 #include "extensions/CCBReader/CCBReader.h"
 #include "extensions/CCBReader/CCNodeLoaderLibrary.h"
 
@@ -71,6 +72,8 @@ PlayerInfoView * PlayerInfoView::create(cocos2d::CCObject * pOwner){
     
     PlayerInfoView *pPlayerInfoView = static_cast<PlayerInfoView *>(pNode);
     
+    PlayerInfoDataManager *info = PlayerInfoDataManager::sharedPlayerInfoDataManager();
+    
     pPlayerInfoView->m_pBasicInfoView = (BasicInfoView*)pPlayerInfoView->createNodeForCCBI("ccb/basic.ccbi", "BasicInfoView", BasicInfoViewLoader::loader());
     if (pPlayerInfoView->m_pBasicInfoView != NULL) {
         pPlayerInfoView->m_pBasicInfoView->setTag(kPlayerInfoTagBasicLayer);
@@ -82,6 +85,7 @@ PlayerInfoView * PlayerInfoView::create(cocos2d::CCObject * pOwner){
         pPlayerInfoView->m_pEquipInfoView->setTag(kPlayerInfoTagEquipLayer);
         pPlayerInfoView->addChild(pPlayerInfoView->m_pEquipInfoView);
         pPlayerInfoView->m_pEquipInfoView->sendPlayerEquipInfo();
+        pPlayerInfoView->m_pEquipInfoView->initEquipListView();
     }
     if (pPlayerInfoView->m_pBasicInfoView != NULL && pPlayerInfoView->m_pEquipInfoView != NULL) {
         pPlayerInfoView->m_iType = kPlayerInfoTagPlayerBtn;

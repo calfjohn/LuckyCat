@@ -135,10 +135,16 @@ typedef struct {
 typedef struct{
     std::string                 equipName;
     int                         equipImageId;
-    
+    int                         equipLife;
+    int                         equipLevelLimit;
+    int                         equipAttack;
+    int                         equipDefence;
+    int                         equipSpeed;
+    std::string                 equipDescription;
 }stActorEquipInfo;
 
 typedef struct{
+    bool                userPutOn;
     int                 userEquipId;
     int                 userEquipType;
     stActorEquipInfo    *equipInfo;
