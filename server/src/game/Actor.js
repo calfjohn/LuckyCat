@@ -58,16 +58,8 @@ Actor = Class.extend({
         for(var key in db){
             var equipment = {};
             var value = db[key];
-            equipment.id = value.id;
-            equipment.equip_id = value.equip_id;
-            equipment.level = value.level;
-            equipment.rank = value.rank;
-            equipment.color = value.color;
-            equipment.item1_id = value.item1_id;
-            equipment.item2_id = value.item2_id;
-            equipment.item3_id = value.item3_id;
-            equipment.item4_id = value.item4_id;
-            equipment.item5_id = value.item5_id;
+            equipment = value;
+            delete equipment["actor_id"];
             ret.push(equipment);
         }
         return ret;
@@ -77,10 +69,30 @@ Actor = Class.extend({
         var basicDB = this._dbBasic;
         var equipDB = this._dbEquipment;
         var ret = {};
-        ret.eq_head_id = basicDB.eq_head_id;
-        ret.eq_body_id = basicDB.eq_body_id;
-        ret.eq_hand_id = basicDB.eq_hand_id;
-        ret.eq_foot_id = basicDB.eq_foot_id;
+        var equipment = {};
+        equipment.eq_head_id = basicDB.eq_head_id;
+        equipment.eq_body_id = basicDB.eq_body_id;
+        equipment.eq_hand_id = basicDB.eq_hand_id;
+        equipment.eq_foot_id = basicDB.eq_foot_id;
+        for(var key in equipment){
+            if(PartEmpty == equipment[key]){
+                var value = {};
+                value.id = PartEmpty
+                value.equip_id = 0;
+                value.level = 0;
+                value.rank = 0;
+                value.color = 0;
+                value.item1_id = 0;
+                value.item2_id = 0;
+                value.item3_id = 0;
+                value.item4_id = 0;
+                value.item5_id = 0;
+                ret[key] = value;
+            }else{
+                ret[key] = equipDB["" + equipment[key]];
+                delete  (ret[key])["actor_id"];
+            }
+        }
         return ret;
     },
 
@@ -107,6 +119,7 @@ Actor = Class.extend({
                 else if (PartType.partFoot == part) { // foot
                     basicDB.eq_foot_id = PartEmpty;
                 }
+                require("./Actors").writeBackActorById(this._dbBasic.uuid, null);
                 break;
             }
 
@@ -127,6 +140,7 @@ Actor = Class.extend({
                     else if (PartType.partFoot == part) { // foot
                         basicDB.eq_foot_id = id;
                     }
+                    require("./Actors").writeBackActorById(this._dbBasic.uuid, null);
                 } else {
                     ret.result = 1;
                     ret.out.msg = "invalid equipID, this actor don't have this quipment";

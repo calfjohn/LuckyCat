@@ -75,6 +75,7 @@ Actors = {
             }
         };
 
+
         // second, do query operation for get data from db, thus cache all actors data on server start
         // step 1, query actor data
         Actors._dbAgent.query("SELECT * FROM `actor`", function (err, rows) {
@@ -124,7 +125,20 @@ Actors = {
 
         Actors._cacheActors[strUUID].chapter_id = chapterId;
         Actors._cacheActors[strUUID].page_id = pageId;
+    },
+
+    writeBackActorById: function(uuid, callback){
+        var actor = Actors._cacheActors["" + uuid];
+        if(undefined!=actor){
+            Actors._dbAgent.query("UPDATE `actor` SET ? WHERE `actor`.`id` = ?", [actor, actor.id], function(err, result){
+                if (err) throw err;
+                log.d("---++++-------");
+                log.d(result);
+            });
+        }
     }
+
+
 };
 
 
