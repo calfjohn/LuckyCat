@@ -83,6 +83,10 @@ private:
     void showBattleResultView();
     
     map<string, map<int, CCNode*> > m_mapTeam;    //team id assiated with CCSprite
+    
+    CCAnimate *animationEffect[4];
+    
+    int m_nRound;           //current battle round
 };
 
 class CCBReader;

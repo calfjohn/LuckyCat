@@ -61,6 +61,8 @@ private:
     cocos2d::SEL_CallFuncND  m_pfnSelector;    //callback selector
     
     void showBattleResultView();
+
+    CCAnimate* m_action;
 };
 
 class CCBReader;

@@ -28,6 +28,7 @@ module.exports = {
         , password : "123456"
         , database : "db_luckycat_game"
         , recreate  : false              // recreate the database on database server
+        , multipleStatements: true
     },
 
     // admin server web socket url for user server
