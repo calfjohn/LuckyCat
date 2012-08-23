@@ -226,18 +226,9 @@ void EventListView::removeAndCleanSelf(float dt)
 {
     m_bIsInEvent = false;
     
-    ((m_target)->*(m_pfnSelector))(this, NULL);
+    this->removeAllChildLayer();
     
-    CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_BATTLE_LAYER));
-    if ( pLayer )
-    {
-        pLayer->removeFromParentAndCleanup(true);
-    }
-//    CCScene *pScene = Chapter::scene();
-//    
-//    CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
-//    
-//    CCDirector::sharedDirector()->replaceScene(pTp);
+    ((m_target)->*(m_pfnSelector))(this, NULL);
 }
 
 void EventListView::callbackEventWasFinished(CCNode* node, void* data)
@@ -268,6 +259,8 @@ void EventListView::showDialogView()
     NPCDialogView *tDialog = NPCDialogView::create(this);
     if (tDialog)
     {
+        this->removeAllChildLayer();
+        
         tDialog->setData(p_CurEvent, this, callfuncND_selector(EventListView::callbackEventWasFinished));
         
         p_CurLayer = static_cast<cocos2d::CCLayer *>(tDialog);
@@ -281,6 +274,8 @@ void EventListView::showGeneralBattleView()
     GeneralBattleView *tGeneralBattle = GeneralBattleView::create(this);
     if (tGeneralBattle)
     {
+        this->removeAllChildLayer();
+        
         tGeneralBattle->setData(p_CurEvent, this, callfuncND_selector(EventListView::callbackEventWasFinished));
         
         p_CurLayer = static_cast<cocos2d::CCLayer *>(tGeneralBattle);
@@ -294,6 +289,8 @@ void EventListView::showSpecialBattleView()
     SpecialBattleView *tSpecialBattle = SpecialBattleView::create(this);
     if (tSpecialBattle)
     {
+        this->removeAllChildLayer();
+        
         tSpecialBattle->setData(p_CurEvent, this, callfuncND_selector(EventListView::callbackEventWasFinished));
         
         p_CurLayer = static_cast<cocos2d::CCLayer *>(tSpecialBattle);
@@ -306,6 +303,8 @@ void EventListView::showOpenBoxView()
 {
     if ( p_CurEvent && p_CurEvent->m_bBoxIsOpened == false && p_CurEvent->box_id != -1 )
     {
+        this->removeAllChildLayer();
+        
         OpenBoxView *pLayer = OpenBoxView::create(this);
         pLayer->setSelector(this, callfuncND_selector(EventListView::callbackEventWasFinished));
         pLayer->setEvent(p_CurEvent);
@@ -330,6 +329,8 @@ void EventListView::showHeroHeadView()
 
 void EventListView::showBattleResultView()
 {
+    this->removeAllChildLayer();
+    
     BattleResultView *pLayer = BattleResultView::create(this);
     pLayer->setSelector(this, callfuncND_selector(EventListView::callbackEventWasFinished));
     p_CurEvent->setBattleResultIsShowed();
@@ -344,16 +345,12 @@ void EventListView::showNextEvent(float dt)
 {
     if ( p_CurEvent && p_CurEvent->getBattleResultIsShowed() == false )
     {
-        removeAllChildLayer();
         this->showBattleResultView(); 
     }
     else if ( p_CurEvent && p_CurEvent->m_bBoxIsOpened == false && p_CurEvent->box_id != -1 ) {
-        removeAllChildLayer();
         this->showOpenBoxView();
     }
     else {
-        
-        removeAllChildLayer();
         popEvent();
         
         showCurEvent();
