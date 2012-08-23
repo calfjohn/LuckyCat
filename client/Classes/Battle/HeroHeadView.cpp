@@ -64,8 +64,16 @@ void HeroHeadView::onMenuItemClicked(cocos2d::CCObject *pTarget)
     printf("tag %d\n",p->getTag());
     
     if(p->getTag() == 1){
-        PlayerInfoView *pInfo = PlayerInfoView::create(this);
-        this->addChild(pInfo);
+        CCNode *pNode = this->getChildByTag(TAG_PLAYER_INFO);
+        if (!pNode)
+        {
+            PlayerInfoView *pInfo = PlayerInfoView::create(this);
+            this->addChild(pInfo);
+            pInfo->setTag(TAG_PLAYER_INFO);
+        }
+        else {
+            pNode->removeFromParentAndCleanup(true);
+        }
     }
 }
 

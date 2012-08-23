@@ -216,5 +216,5 @@ void PlayerInfoView::notificationTouchEvent(LTouchEvent tLTouchEvent)
 
 void PlayerInfoView::registerWithTouchDispatcher(void)
 {
-    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority - 10 , true);
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority + 1 , true);
 }

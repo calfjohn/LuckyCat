@@ -14,6 +14,7 @@
 #include "LuckySprite.h"
 #include "FuzzyBgView.h"
 #include "NetManager.h"
+#include "PlayerInfoView.h"
 
 #define TAG_EFFECT_MONSTER_NODE 6
 #define TAG_EFFECT_ACTOR_NODE 7
@@ -91,6 +92,19 @@ void SpecialBattleView::onMenuItemClicked(cocos2d::CCObject *pTarget)
 {
     cocos2d::CCNode *p = static_cast<cocos2d::CCNode *>(pTarget);
     printf("tag %d\n",p->getTag());
+    
+    if(p->getTag() == 1){
+        CCNode *pNode = this->getChildByTag(TAG_PLAYER_INFO);
+        if (!pNode)
+        {
+            PlayerInfoView *pInfo = PlayerInfoView::create(this);
+            this->addChild(pInfo);
+            pInfo->setTag(TAG_PLAYER_INFO);
+        }
+        else {
+            pNode->removeFromParentAndCleanup(true);
+        }
+    }
 }
 
 void SpecialBattleView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent) {

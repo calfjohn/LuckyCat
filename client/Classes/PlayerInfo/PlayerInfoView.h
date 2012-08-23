@@ -26,6 +26,7 @@
 #include "extensions/CCBReader/CCBMemberVariableAssigner.h"
 #include "extensions/CCBReader/CCLayerLoader.h"
 
+#define TAG_PLAYER_INFO     129
 
 enum PlayerInfoTag {
 	kPlayerInfoTagPlayerBtn = 0,
