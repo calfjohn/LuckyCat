@@ -54,6 +54,8 @@ private:
     
     bool m_bIsOpen;
     
+    cocos2d::CCPoint pBeginPoint;
+    
     cocos2d::CCObject*       m_target;         //callback listener
     
     cocos2d::SEL_CallFuncND  m_pfnSelector;    //callback selector

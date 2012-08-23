@@ -17,6 +17,7 @@
 #include "extensions/CCBReader/CCLayerLoader.h"
 
 
+
 class BasicInfoView
 : public cocos2d::CCLayer
 , public cocos2d::extension::CCBMemberVariableAssigner

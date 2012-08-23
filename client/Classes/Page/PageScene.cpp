@@ -101,11 +101,19 @@ void Page::turnToPage(int chapterId, const stPage *pPage)
     m_title->setString(m_pPage->name.c_str());
     m_content->setString(m_pPage->content.c_str());
     
+//    m_SpriteBg->setDisplayFrame(CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("monster_1.png"));
+//    
+//    m_SpriteMonster->setTexture(CCTextureCache::sharedTextureCache()->addImage("pub/image/hero/monster_1002.png"));
+    
     this->showHeroHeadView();
 }
 
 void Page::showBattleView(CCObject *pSender)
 {
+    //load battle animation first
+    CCAnimationCache *cache = CCAnimationCache::sharedAnimationCache();
+    cache->addAnimationsWithFile("image/battle/animationsBomb.plist");
+    
     if ( EventListView::getIsInEvent() == false )
     {
         EventListView *pEventListView = EventListView::create();
@@ -146,12 +154,12 @@ void Page::nextPageCallback(CCNode* pNode, void* data)
         CCDirector::sharedDirector()->popScene();
         return;
     }
-    
+  
     CCScene *pScene = CCDirector::sharedDirector()->getRunningScene();
     Page *pPageLayer = Page::create(pScene);
     pPageLayer->turnToPage(m_nChapterId,pPage);
     pScene->addChild(pPageLayer, this->getZOrder()-1);
-  
+    
     this->autoTurnPage();
 }
 
@@ -174,13 +182,12 @@ void Page::ccTouchEnded(cocos2d::CCTouch* touch, cocos2d::CCEvent *pEvent)
     if ( !touch ) return;
     CCPoint endPoint = this->convertTouchToNodeSpace(touch);
     
-    CCFloat distance_ = ccpDistanceSQ(endPoint, pBeginPoint);
-    
-    if (distance_ > 2.0f)
+    if ( pBeginPoint.x != 0 && pBeginPoint.y != 0 )
     {
-        //触发随机事件
         this->showBattleView(NULL);
     }
+    pBeginPoint = CCPointZero;
+
 }
 
 void Page::registerWithTouchDispatcher(void)

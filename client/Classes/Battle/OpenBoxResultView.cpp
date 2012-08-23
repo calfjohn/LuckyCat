@@ -10,7 +10,6 @@
 #include "extensions/CCBReader/CCBReader.h"
 #include "extensions/CCBReader/CCNodeLoaderLibrary.h"
 #include "NetManager.h"
-#include "OpenBoxView.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;

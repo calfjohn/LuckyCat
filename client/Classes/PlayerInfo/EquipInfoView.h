@@ -17,6 +17,9 @@
 #include "extensions/CCBReader/CCBMemberVariableAssigner.h"
 #include "extensions/CCBReader/CCLayerLoader.h"
 
+USING_NS_CC;
+USING_NS_CC_EXT;
+
 typedef enum{
     kEquipHelmet      = 0,  //equip head;
     kEquipArms,             //equip arms;
@@ -24,10 +27,20 @@ typedef enum{
     kEquipShoes,            //equip shoes;
 }EquipType;
 
+typedef enum{
+    kEquipTakeOff = 1,
+    kEquipFontTakeOff = 13,
+    kEquipPutOn = 11,
+    kEquipFontPutOn = 12,
+}EquipItemType;
+
+class PlayerInfoDataManager;
+
 class EquipInfoView
 : public cocos2d::CCLayer
 , public cocos2d::extension::CCBMemberVariableAssigner
 , public cocos2d::extension::CCBSelectorResolver
+, public cocos2d::extension::CCScrollViewDelegate
 , public cocos2d::CCTextFieldDelegate
 {
 public:
@@ -41,6 +54,24 @@ public:
     virtual cocos2d::SEL_MenuHandler onResolveCCBCCMenuItemSelector(cocos2d::CCObject * pTarget, cocos2d::CCString * pSelectorName);
     virtual cocos2d::extension::SEL_CCControlHandler onResolveCCBCCControlSelector(cocos2d::CCObject * pTarget, cocos2d::CCString * pSelectorName);
     virtual bool onAssignCCBMemberVariable(cocos2d::CCObject * pTarget, cocos2d::CCString * pMemberVariableName, cocos2d::CCNode * pNode);
+    
+    virtual void scrollViewDidScroll(CCScrollView* view);
+    
+    virtual void scrollViewDidZoom(CCScrollView* view);
+    
+    virtual void onEnter();
+    
+    virtual void onExit();
+    
+    virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
+    
+    virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
+    
+    virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
+    
+    virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent);
+    
+    bool initEquipListView();
     
     void EquipViewBtnCallback(cocos2d::CCObject *pTarget);
     
@@ -57,17 +88,33 @@ public:
     void sendPlayerEquipInfo();
 
     void responsePlayerEquipInfo(CCNode *pNode, void* data);
+    
+    void sendResetCurEquip();
+    
+    void responsePutOnCurEquip(CCNode *pNode, void* data);
+    void responseTakeOffCurEquip(CCNode *pNode, void* data);
 private:
+    cocos2d::CCSprite   *m_sprEquipIcon;
     cocos2d::CCLabelTTF *m_labEquipName;
-    cocos2d::CCSprite *m_sprEquipIcon;
+    cocos2d::CCLabelTTF *m_labEquipAttack;
+    cocos2d::CCLabelTTF *m_labEquipDefence;
+    cocos2d::CCLabelTTF *m_labEquipSpeed;
+    cocos2d::CCLabelTTF *m_labEquipLife;
+    
+    CCScrollView* m_EquipListView;
+
     std::vector<cocos2d::CCLabelTTF> m_labsEquipProprety;
     std::vector<cocos2d::CCLabelTTF> m_labsPlayerEquipInfo;
 
-    std::vector<stActorUserEquipInfo> m_EquipData;
+    stActorUserEquipInfo *m_selectedEquipData;
 
     //void setEquipInfo(cocos2d::CCSprite *equipIcon, cocos2d::CCLabelTTF *equipName, std::vector<cocos2d::CCLabelTTF> &equipProprety);
     
     void setPlayerEquipInfo();
+    
+    void setEquipInfo(const stActorEquipInfo *info);
+    
+    void equipListMenuItemCallBack(CCNode *pSender);
 
 };
 
