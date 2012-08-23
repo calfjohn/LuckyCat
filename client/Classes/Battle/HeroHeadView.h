@@ -39,7 +39,6 @@ public:
     void onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent);
     
 private:
-    PlayerInfoView *p_PlayerInfoView;
     
 };
 

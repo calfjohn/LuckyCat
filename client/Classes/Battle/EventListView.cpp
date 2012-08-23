@@ -40,6 +40,8 @@ void EventListView::onEnter()
 
 void EventListView::initLayer(const int tChapterId,const stPage *p_page, CCObject *target, SEL_CallFuncND pfnSelector)
 {
+    m_bIsInEvent = true;
+    
     mLEventType = kLEventTypeOneEventWasFinished;
     
     m_target = target;
@@ -122,6 +124,24 @@ void EventListView::netCallBackEventList(CCNode* pNode, void* data)
             
             tEventData->pBattle = NULL;
             tEventData->box_id = jEvent["box_id"].asInt();
+            
+            if ( tEventData->box_id != -1 )
+            {
+                Json::Value jBonusArray = jEvent["boxAward"];
+                std::vector<stGood> tVectorGood;
+                for (int j = 0; j < jBonusArray.size(); j++) {
+                    Json::Value jBonus = jBonusArray[j];
+                    stGood tGoods;
+                    tGoods.id = jBonus["id"].asInt();
+                    tGoods.type = jBonus["type"].asInt();
+                    tGoods.num = jBonus["num"].asInt();
+                    
+                    tVectorGood.push_back(tGoods);
+                }
+                tEventData->boxAward = tVectorGood;
+            }else {
+                tEventData->boxAward.clear();
+            }
             
             if (tVectorGood.empty() == false) {
                 tEventData->m_bBattleResultIsShowed = false;
@@ -233,7 +253,7 @@ void EventListView::removeAndCleanSelf(float dt)
 
 void EventListView::callbackEventWasFinished(CCNode* node, void* data)
 {
-    this->scheduleOnce(schedule_selector(EventListView::showNextEvent), 0.1f);
+    this->scheduleOnce(schedule_selector(EventListView::showNextEvent), 0.01f);
 }
 
 void EventListView::showCurEvent()

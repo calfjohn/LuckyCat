@@ -91,6 +91,22 @@ PlayerInfoView * PlayerInfoView::create(cocos2d::CCObject * pOwner){
         pPlayerInfoView->m_iType = kPlayerInfoTagPlayerBtn;
         pPlayerInfoView->showViewForType();
     }
+    
+    if (pPlayerInfoView)
+    {
+        CCNode *pBgNode = pPlayerInfoView->getChildByTag(901);
+        pPlayerInfoView->registerTouchNode(pBgNode);
+        
+        if (pPlayerInfoView->m_pBasicInfoView)
+        {
+            CCNode *pBgNode = pPlayerInfoView->m_pBasicInfoView->getChildByTag(902);
+            CCNode *pBgTitleNode = pPlayerInfoView->m_pBasicInfoView->getChildByTag(903);
+            pPlayerInfoView->registerTouchNode(pBgNode);
+            pPlayerInfoView->registerTouchNode(pBgTitleNode);
+        }
+        
+        pPlayerInfoView->setIsTouchAreaEnabled(true);
+    }
     return pPlayerInfoView;
 }
 
@@ -183,6 +199,22 @@ void PlayerInfoView::showViewForType(){
     }
 }
 
+void PlayerInfoView::notificationTouchEvent(LTouchEvent tLTouchEvent)
+{
+    if (tLTouchEvent == kLTouchEventOutsideTouchArea) {
+        removeFromParentAndCleanup(true);
+        CCLog("kLTouchEvent OutsideTouchArea");
+    }
+    else if (tLTouchEvent == kLTouchEventInsideTouchArea)
+    {
+        CCLog("kLTouchEvent InsideTouchArea");
+    }
+    else {
+        CCLog("kLTouchEvent Other...");
+    }
+}
 
-
-
+void PlayerInfoView::registerWithTouchDispatcher(void)
+{
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority - 10 , true);
+}

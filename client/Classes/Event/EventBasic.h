@@ -153,7 +153,9 @@ typedef  struct LEventData
 	LEventType type;                //type of event.
     std::vector<int> targetId;		//id of target.
 	std::vector<stGood> bonus;		//bonus of event.
+    
     int box_id;
+    std::vector<stGood> boxAward;   //if box_id is not equal to -1. boxAward have some goods
     
     BattleProcess *pBattle;         //Battle process struct. GeneralBattleView. 
     

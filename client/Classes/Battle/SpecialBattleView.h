@@ -9,7 +9,7 @@
 #ifndef HelloWorld_SpecialBattleView_h
 #define HelloWorld_SpecialBattleView_h
 
-#include "cocos2d.h"
+#include "TouchLayer.h"
 #include "extensions/CCBReader/CCNodeLoader.h"
 #include "extensions/CCBReader/CCBSelectorResolver.h"
 #include "extensions/CCBReader/CCBMemberVariableAssigner.h"
@@ -30,7 +30,7 @@ typedef struct
 }stAction;
 
 class SpecialBattleView 
-: public cocos2d::CCLayer
+: public TouchLayer
 , public cocos2d::extension::CCBMemberVariableAssigner
 , public cocos2d::extension::CCBSelectorResolver
 {
@@ -50,11 +50,7 @@ public:
     
     void onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent);
     
-    virtual bool ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
-    virtual void ccTouchMoved(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
-    virtual void ccTouchEnded(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
-    
-    virtual void registerWithTouchDispatcher(void);
+    virtual void notificationTouchEvent(LTouchEvent tLTouchEvent);
     
     void setData(LEventData *tEvent, cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector);
     
@@ -63,7 +59,7 @@ public:
     void menuBackCallback(CCObject* pSender);
 private:
     void CallBackHeroAction();//战斗表现回调寒暑
- 
+    
     void responseFight(CCNode *pNode, void* data);//服务器数据回调
     
     void CreateTeam(Json::Value &data);//创建战斗组，关联数据对象
@@ -79,8 +75,6 @@ private:
     cocos2d::CCObject*       m_target;         //callback listener
     
     cocos2d::SEL_CallFuncND  m_pfnSelector;    //callback selector
-    
-    void showBattleResultView();
     
     map<string, map<int, CCNode*> > m_mapTeam;    //team id assiated with CCSprite
     

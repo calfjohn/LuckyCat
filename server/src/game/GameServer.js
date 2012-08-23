@@ -76,10 +76,10 @@ app.initInstance = function (srvConfig, callback) {
                     if (err) throw err;
                     require("./Monster").initInstance(cfg.db_actors, function(err) {
                         if (err) throw err;
-                        require("./DictManager").initInstance(cfg.db_actors, function(err) {
+                        require("./DictManager").initInstance(cfg.db_actors,function(err) {
                             if (err) throw err;
-                        afterInitModules();
-                        });
+                            afterInitModules();
+                        })
                     });
                 });
             });
@@ -102,14 +102,14 @@ app.initSockets = function (ws_admin_server) {
 };
 
 app.initHandlers = function () {
-    var handler = require("./handler/game.ApiReference")
+    var handler = require("./handler/game.ApiReference");
     handler.initReference(reference.getReference("/game/api_demo/doAction"));
     app.get("/game/*", handler.handler);
     app.get("/favicon.ico", function(req, res, next) {
         next();
     });
     app.get("/", function(req, res, next) {
-        res.redirect("/game/api_demo");
+        res.redirect("/game");
     })
 
     for (var key in httpHandlers) {
