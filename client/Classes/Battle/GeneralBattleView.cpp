@@ -17,18 +17,23 @@
 
 #include "PlayerInfoView.h"
 
+#define TAG_EFFECT_NODE 3
+
 USING_NS_CC;
 USING_NS_CC_EXT;
 using namespace std;
 
 GeneralBattleView::GeneralBattleView()
 {
-    
+    CCAnimationCache *cache = CCAnimationCache::sharedAnimationCache();
+    CCAnimation *animation= cache->animationByName("purpleBomb");
+    m_action = CCAnimate::create(animation);
+    CC_SAFE_RETAIN(m_action);
 }
 
 GeneralBattleView::~GeneralBattleView()
 {
-    
+    CC_SAFE_RELEASE(m_action);
 }
 
 GeneralBattleView *GeneralBattleView::create(cocos2d::CCObject * pOwner)
@@ -44,6 +49,9 @@ GeneralBattleView *GeneralBattleView::create(cocos2d::CCObject * pOwner)
     CCNode * pNode = ccbReader->readNodeGraphFromFile("pub/", "ccb/battle.ccbi", pOwner);
     
     GeneralBattleView *pGeneralBattleView = static_cast<GeneralBattleView *>(pNode);
+    
+    pGeneralBattleView->getChildByTag(3)->setVisible(false);
+    
     return pGeneralBattleView;
 }
 
@@ -95,8 +103,12 @@ void GeneralBattleView::ccTouchEnded(CCTouch* touch, CCEvent *pEvent)
     
     if ( pBeginPoint.x != 0 && pBeginPoint.y != 0 )
     {
-        if ( m_target && m_pfnSelector )
-            ((m_target)->*(m_pfnSelector))(this, NULL);
+        getChildByTag(TAG_EFFECT_NODE)->runAction(CCSequence::create(
+                                            CCShow::action(),
+                                            m_action,
+                                            CCHide::action(),
+                                            CCCallFuncND::create(m_target, m_pfnSelector, NULL),
+                                            NULL));
     }
     pBeginPoint = CCPointZero;
 }

@@ -106,6 +106,10 @@ void Page::turnToPage(int chapterId, const stPage *pPage)
 
 void Page::showBattleView(CCObject *pSender)
 {
+    //load battle animation first
+    CCAnimationCache *cache = CCAnimationCache::sharedAnimationCache();
+    cache->addAnimationsWithFile("image/battle/animationsBomb.plist");
+    
     if ( EventListView::getIsInEvent() == false )
     {
         EventListView *pEventListView = EventListView::create();

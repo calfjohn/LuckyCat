@@ -15,18 +15,40 @@
 #include "FuzzyBgView.h"
 #include "NetManager.h"
 
+#define TAG_EFFECT_MONSTER_NODE 6
+#define TAG_EFFECT_ACTOR_NODE 7
+
+
 USING_NS_CC;
 USING_NS_CC_EXT;
 using namespace std;
 
 SpecialBattleView::SpecialBattleView()
 {
+    CCAnimationCache *cache = CCAnimationCache::sharedAnimationCache();
+    CCAnimation *animation1 = cache->animationByName("yellowBomb");
+    CCAnimation *animation2 = cache->animationByName("purpleBomb");
+    CCAnimation *animation3 = cache->animationByName("orangeBomb");
+    CCAnimation *animation4 = cache->animationByName("greenBomb");
+    animationEffect[0] = CCAnimate::create(animation1);
+    animationEffect[1] = CCAnimate::create(animation2);
+    animationEffect[2] = CCAnimate::create(animation3);
+    animationEffect[3] = CCAnimate::create(animation4); 
     
+    CC_SAFE_RETAIN(animationEffect[0]);
+    CC_SAFE_RETAIN(animationEffect[1]);
+    CC_SAFE_RETAIN(animationEffect[2]);
+    CC_SAFE_RETAIN(animationEffect[3]);
+    
+    m_nRound = 0;
 }
 
 SpecialBattleView::~SpecialBattleView()
 {
-    
+    CC_SAFE_RELEASE(animationEffect[0]);
+    CC_SAFE_RELEASE(animationEffect[1]);
+    CC_SAFE_RELEASE(animationEffect[2]);
+    CC_SAFE_RELEASE(animationEffect[3]);
 }
 
 SpecialBattleView *SpecialBattleView::create(cocos2d::CCObject * pOwner)
@@ -42,6 +64,10 @@ SpecialBattleView *SpecialBattleView::create(cocos2d::CCObject * pOwner)
     CCNode * pNode = ccbReader->readNodeGraphFromFile("pub/", "ccb/battle_special.ccbi", pOwner);
     
     SpecialBattleView *pSpecialBattleView = static_cast<SpecialBattleView *>(pNode);
+    
+    pSpecialBattleView->getChildByTag(TAG_EFFECT_MONSTER_NODE)->setVisible(false);
+    pSpecialBattleView->getChildByTag(TAG_EFFECT_ACTOR_NODE)->setVisible(false);
+
     return pSpecialBattleView;
 }
 
@@ -71,7 +97,7 @@ void SpecialBattleView::onCCControlButtonClicked(cocos2d::CCObject *pSender, coc
     cocos2d::CCNode *p = static_cast<cocos2d::CCNode *>(pSender);
     printf("tag %d\n",p->getTag());
     
-    NetManager::shareNetManager()->sendEx(kModeBattle, kDoFight2, callfuncND_selector(SpecialBattleView::responseFight), this, "\"monsterId\": %d", p_CurEvent->targetId[0]);
+    CallBackHeroAction();
 }
                                           
 void SpecialBattleView::responseFight(CCNode *pNode, void* data)
@@ -85,7 +111,6 @@ void SpecialBattleView::responseFight(CCNode *pNode, void* data)
         
         CreateTeam(battleResult["team"]);
         m_nIndexList = 0;
-        CallBackHeroAction();
     }
 }
 
@@ -93,13 +118,14 @@ void SpecialBattleView::CreateTeam(Json::Value &data)
 {        
     int i = 0;
     m_mapTeam.clear();
-    m_mapTeam["A"][data["A"][i]["id"].asInt()] = this->getChildByTag(4)->getChildByTag(1);
-    m_mapTeam["B"][data["B"][i]["id"].asInt()] = this->getChildByTag(5);
+    m_mapTeam["A"][data["A"][i]["id"].asInt()] = (CCSprite *)getChildByTag(TAG_EFFECT_MONSTER_NODE);
+    m_mapTeam["B"][data["B"][i]["id"].asInt()] = (CCSprite *)getChildByTag(TAG_EFFECT_ACTOR_NODE);
 }
 
 
 void SpecialBattleView::CallBackHeroAction()
 {
+    //播放一回合的动作
     Json::Value playList = battleResult["battleArray"]["playlist"];
     if (playList[m_nIndexList].isNull())
     {
@@ -107,20 +133,29 @@ void SpecialBattleView::CallBackHeroAction()
             ((m_target)->*(m_pfnSelector))(this, NULL);
         return;
     }
-                 
+    
+    if (m_nRound == 2) 
+    {
+        m_nRound = 0;
+        return;
+    }
+    
+    Json::Value tempMember = playList[m_nIndexList++];
+    CCNode* pNode = m_mapTeam[tempMember["teamId"].asString()][tempMember["actId"].asInt()];
+    
+    float tempRandom = CCRANDOM_0_1();
+    int indexTemp = tempRandom < 0.3 ?  1 : (tempRandom < 0.6 ? 2: (tempRandom < 0.9 ? 3 :0));
+    pNode->runAction(CCSequence::create(
+                                    CCShow::action(),
+                                    animationEffect[indexTemp],
+                                    CCHide::action(),
+                                    CCCallFunc::create(this, callfunc_selector(SpecialBattleView::CallBackHeroAction)),
+                                    NULL));
+
     Json::FastWriter jasonWrite;
     CCLOG("%s", jasonWrite.write(playList[m_nIndexList]).c_str());
     
-    Json::Value tempMember = playList[m_nIndexList];
-    
-    CCNode* pNode = m_mapTeam[tempMember["teamId"].asString()][tempMember["actId"].asInt()];
-    CCAction* action = CCSequence::actions(
-                                    CCBlink::actionWithDuration(0.6, 3),
-                                    CCCallFunc::create(this, callfunc_selector(SpecialBattleView::CallBackHeroAction)),
-                                    NULL);
-    pNode->runAction(action);
-    
-    m_nIndexList++;
+    m_nRound++;
 }
 
 
@@ -155,12 +190,6 @@ void SpecialBattleView::ccTouchEnded(CCTouch* touch, CCEvent *pEvent)
 void SpecialBattleView::removeAndCleanSelf(float dt)
 {
     ((m_target)->*(m_pfnSelector))(this, NULL);
-    
-//    CCLayer *pLayer = (CCLayer *)(CCDirector::sharedDirector()->getRunningScene()->getChildByTag(TAG_EVENT_LIST_LAYER));
-//    if ( pLayer )
-//    {
-//        pLayer->removeFromParentAndCleanup(true);
-//    }
 }
 
 void SpecialBattleView::menuBackCallback(CCObject* pSender)
@@ -193,6 +222,8 @@ void SpecialBattleView::setData(LEventData *tEvent, cocos2d::CCObject *target, c
     pMenu->addChild(pBackItem,5);
     
     this->setTouchEnabled(true);
+    
+    NetManager::shareNetManager()->sendEx(kModeBattle, kDoFight2, callfuncND_selector(SpecialBattleView::responseFight), this, "\"monsterId\": %d", p_CurEvent->targetId[0]);
 }
 
 void SpecialBattleView::showBattleResultView()
