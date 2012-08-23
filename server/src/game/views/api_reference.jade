@@ -1,0 +1,63 @@
+html
+    head
+        title API Reference -- Lucky Cat
+
+    body
+        table
+            tbody
+                tr
+                    td
+                        ul
+                            for actions,mod in mods
+                                li
+                                    a(href="/"+namespace+"/"+mod) !{mod}
+                                    ul
+                                        for api, action in actions
+                                            if action!="desc"
+                                                li
+                                                    a(href="/"+namespace+"/"+mod+"/"+action) !{action}
+                    td
+                        table(border=1)
+                                if action
+                                    for content,ver in api
+                                        tr
+                                            td
+                                                ol
+                                                    li
+                                                        p version=#{ver}
+                                                    li
+                                                        p !{content.desc}
+                                                    li
+                                                        p 输入参数(in)
+                                                        table(border=1)
+                                                            tbody
+                                                                for field_desc, field in content.in
+                                                                    tr
+                                                                        td
+                                                                            !{field}
+                                                                        td
+                                                                            !{field_desc}
+
+                                                    li
+                                                        p 输出参数(out)
+                                                        table(border=1)
+                                                            tbody
+                                                                for field_desc, field in content.out
+                                                                    tr
+                                                                        td
+                                                                            !{field}
+                                                                        td
+                                                                            !{field_desc}
+
+                                                    li
+                                                        p 返回结果(result)
+                                                        table(border=1)
+                                                            tbody
+                                                                for field_desc, field in content.result
+                                                                    tr
+                                                                        td
+                                                                            !{field}
+                                                                        td
+                                                                            !{field_desc}
+                                else
+                                    !{api.desc}

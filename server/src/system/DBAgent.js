@@ -55,7 +55,7 @@ DBAgent = Class.extend({/** @lends DBAgent */
                 }
                 this._database = dbName;
             }
-            this._connection = require("mysql").createClient(this._config);
+            this._connection = require("mysql").createConnection(this._config);
         } while (false);
         return this;
     },

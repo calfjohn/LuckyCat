@@ -8,10 +8,10 @@ require("../system/Log");
 var util = require("util");
 var log = new Log("Actor.changeEquipment");
 var PartType = {
-    partHead : 0,
-    partBody : 1,
-    partHand : 2,
-    partFoot : 3
+    partHead : 1,
+    partBody : 2,
+    partHand : 3,
+    partFoot : 4
 };
 var PartEmpty = -1;
 
@@ -77,10 +77,10 @@ Actor = Class.extend({
         var basicDB = this._dbBasic;
         var equipDB = this._dbEquipment;
         var ret = {};
-        ret.eq_head_id = basicDB.eq_head_id
-        ret.eq_body_id = basicDB.eq_body_id
-        ret.eq_hand_id = basicDB.eq_hand_id
-        ret.eq_foot_id = basicDB.eq_foot_id
+        ret.eq_head_id = basicDB.eq_head_id;
+        ret.eq_body_id = basicDB.eq_body_id;
+        ret.eq_hand_id = basicDB.eq_hand_id;
+        ret.eq_foot_id = basicDB.eq_foot_id;
         return ret;
     },
 
@@ -96,16 +96,16 @@ Actor = Class.extend({
             //卸下装备
             if (PartEmpty == id) {
                 if (PartType.partHead == part) {
-                    basicDB.eq_hand_id = id;
+                    basicDB.eq_head_id = PartEmpty;
                 }
                 else if (PartType.partBody == part) { // body
-                    basicDB.eq_body_id = id;
+                    basicDB.eq_body_id = PartEmpty;
                 }
                 else if (PartType.partHand == part) { // hand
-                    basicDB.eq_hand_id = id;
+                    basicDB.eq_hand_id = PartEmpty;
                 }
                 else if (PartType.partFoot == part) { // foot
-                    basicDB.eq_foot_id = id;
+                    basicDB.eq_foot_id = PartEmpty;
                 }
                 break;
             }
@@ -116,7 +116,7 @@ Actor = Class.extend({
                 var equipType = eq.class;
                 if ((equipType == part) && (undefined != equipDB[id])) {
                     if (PartType.partHead == part) {
-                        basicDB.eq_hand_id = id;
+                        basicDB.eq_head_id = id;
                     }
                     else if (PartType.partBody == part) { // body
                         basicDB.eq_body_id = id;

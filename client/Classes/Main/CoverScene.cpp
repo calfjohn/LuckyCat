@@ -16,6 +16,9 @@
 #include "extensions/CCBReader/CCNodeLoaderLibrary.h"
 
 #define TAG_BUTTON_BOOK 1
+#define TAG_BUTTON_MAGIC 2
+#define TAG_BUTTON_DAGGER 3
+#define TAG_BUTTON_OPTION 4
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -61,12 +64,23 @@ void Cover::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extens
     cocos2d::CCNode *p = static_cast<cocos2d::CCNode *>(pSender);
     printf("tag %d\n",p->getTag());
     
-    unsigned int tag = p->getTag();
-    
-    if ( tag == TAG_BUTTON_BOOK )
+    switch (p->getTag()) 
     {
-        this->menuBookCallback(NULL);
-    }
+        case TAG_BUTTON_BOOK:
+            menuBookCallback(pSender);
+            break;
+        case TAG_BUTTON_MAGIC:
+            menuMagicCallback(pSender);
+            break;
+        case TAG_BUTTON_DAGGER:
+            menuDaggerCallback(pSender);
+            break;
+        case TAG_BUTTON_OPTION:
+            menuOptionCallback(pSender);
+            break;            
+        default:
+            break;
+    }    
 }
 
 CCScene* Cover::scene()
@@ -90,11 +104,7 @@ CCScene* Cover::scene()
 bool Cover::init()
 {
     CCTouchPageTurn::init();
-
-    CCSprite* pSprite = CCSprite::create("pub/image/fullscreen/fuzzy.png");
-    CCSize winsize = CCDirector::sharedDirector()->getWinSize();
-    pSprite->setPosition(ccp(winsize.width/2, winsize.height/2));
-    this->addChild(pSprite, -1);
+    
     return true;
 }
 

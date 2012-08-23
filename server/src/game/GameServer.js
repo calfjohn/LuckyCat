@@ -24,13 +24,14 @@ require("../system/Log");
 var express = require("express")
     ,app = express()
     ,server = require("http").createServer(app)
+    ,reference = require("../system/ApiReference")
     ,log = new Log("GameServer");
 
 app.configure(function() {
     //app.use(express.bodyParser());    // This cause handler' on data function doesn't be called.
     app.use(express.methodOverride());
     app.use(app.router);
-
+    app.use(express.static(__dirname + "/www"));  //设定静态网页服务目录
     app.set("views", __dirname + "/");
     app.set("view engine", "jade");
 
@@ -100,11 +101,22 @@ app.initSockets = function (ws_admin_server) {
     });
 };
 
-app.initHandlers = function (aExpress) {
-    for (var key in httpHandlers) {
-        var value = httpHandlers[key];
-        var handler = require(value);
+app.initHandlers = function () {
+    var handler = require("./handler/game.ApiReference")
+    handler.initReference(reference.getReference("/game/api_demo/doAction"));
+    app.get("/game/*", handler.handler);
+    app.get("/favicon.ico", function(req, res, next) {
+        next();
+    });
+    app.get("/", function(req, res, next) {
+        res.redirect("/game/api_demo");
+    })
 
+    for (var key in httpHandlers) {
+        handler = require(httpHandlers[key]);
+        if (handler.initReference) {
+            handler.initReference(reference.getReference(key));
+        }
         app.post(key, handler.handler);
     }
 };

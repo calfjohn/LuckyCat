@@ -14,6 +14,15 @@ ccb/openbox.ccbi
 ccb/page.ccbi
 ccb/pageEx.ccbi
 ccb/playerinfo.ccbi
+image/battle/animationsBomb.plist
+image/battle/greenBomb.plist
+image/battle/greenBomb.png
+image/battle/orangeBomb.plist
+image/battle/orangeBomb.png
+image/battle/purpleBomb.plist
+image/battle/purpleBomb.png
+image/battle/yellowBomb.plist
+image/battle/yellowBomb.png
 image/fullscreen/full_1001.png
 image/fullscreen/fuzzy.png
 image/fullscreen/page_1001.png
