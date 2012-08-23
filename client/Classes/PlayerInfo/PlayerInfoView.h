@@ -30,9 +30,9 @@
 enum PlayerInfoTag {
 	kPlayerInfoTagPlayerBtn = 0,
 	kPlayerInfoTagHeadBtn,
-    kPlayerInfoTagArmsBtn,
-    kPlayerInfoTagClothseBtn,
-    kPlayerInfoTagShoesBtn,
+    kPlayerInfoTagHandBtn,
+    kPlayerInfoTagBodyBtn,
+    kPlayerInfoTagFootBtn,
     kPlayerInfoTagBasicLayer,
     kPlayerInfoTagEquipLayer,
 };
