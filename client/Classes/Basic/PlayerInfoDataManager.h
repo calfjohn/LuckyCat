@@ -29,6 +29,7 @@ public:
     int getUserEquipInfoCount();
     
     stActorUserEquipInfo* getUserEquipInfo(int index);
+    stActorUserEquipInfo* getUserEquipInfoForId(int equipid);
     
 protected:
     PlayerInfoDataManager();
