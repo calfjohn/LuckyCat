@@ -59,8 +59,6 @@ CCMessageQueue::CCSingletonRelease CCMessageQueue::Garbo;
 
 CCMessageQueue::CCMessageQueue()
 {
-    m_pCallbackNode = CCCallbackNode::node();
-    
     m_requestQueue.clear();
     m_responseQueue.clear();
 }

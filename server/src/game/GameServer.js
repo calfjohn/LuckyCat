@@ -79,7 +79,7 @@ app.initInstance = function (srvConfig, callback) {
                         if (err) throw err;
                         require("./DictManager").initInstance(cfg.db_actors, function(err) {
                             if (err) throw err;
-                        afterInitModules();
+                            afterInitModules();
                         });
                     });
                 });
