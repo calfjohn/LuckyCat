@@ -8,43 +8,34 @@
 /**
  * Monster controller for cache、 sync with database.
  */
-
-if (global.Monster) {
+(function(){
+    if (global.Monster) {
     module.exports = Monster;
     return;
 }
 
-require("../system/DBAgent");
 require("../system/Log");
+require("./DictManager");
 
-var log = new Log("Monster")
-    , util = require("util");
+var log = new Log("Monster");
 
 Monster = {
-    _dbAgent : null,
-    initInstance : function(dbConfig, callback) {
-        Monster._dbAgent = new DBAgent(dbConfig);
-        Monster._dbAgent.connect(true);
-        // Cache all dict_page data on server start
-        Monster._dbAgent.query("SELECT * FROM `dict_monster`", function (err, rows) {
-            if (! err) {
-                Monster._cache = {};
-                for(var i = 0; i < rows.length; ++i){
-                    var data = rows[i];
-                    var strID = "" + data.id;
-                    //log.d("datas:",data);
-                    Monster._cache[strID] = data;
-                    //log.d("cache:", Monster._cache);
-                }
-            }
-            callback(err);
-        });
+    initInstance : function(callback) {
+        Monster.caculateCapability();
+        callback();
     },
 
-    getMonster: function(monsterId) {
-        var strID = "" + monsterId;
-        return Monster._cache[strID];
+    caculateCapability : function(){
+        var monster = DictManager._cacheDictMonster;
+        for (var key in monster) {
+            var career = DictManager.getCareerByID(monster[key].career_id);
+            monster[key].attack = career.attack*Math.pow(1 + career.attack_growth, monster[key].level) * monster[key].rank;
+            monster[key].defence = career.defence*Math.pow(1 + career.defence_growth, monster[key].level) * monster[key].rank;
+            monster[key].hp = career.life*Math.pow(1 + career.life_growth, monster[key].level) * monster[key].rank;
+            monster[key].speed = career.speed*Math.pow(1 + career.speed_growth, monster[key].level) * monster[key].rank;
+        }
     }
 };
 
 module.exports = Monster;
+})();

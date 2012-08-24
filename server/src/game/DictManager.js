@@ -21,6 +21,8 @@ DictManager = {
     _dbAgent : null,
     _cacheDictEquipment: null,
     _cacheDictCareer:null,
+    _cacheDictMonster:null,
+    _cacheDictLevel:null,
     initInstance:function (dbConfig, callback) {
         DictManager._dbAgent = new DBAgent(dbConfig);
         DictManager._dbAgent.connect(true);
@@ -54,6 +56,17 @@ DictManager = {
                     var data = rows[i];
                     var id= "" + data.id;
                     DictManager._cacheDictMonster[id] = data;
+                }
+            }
+        };
+
+        var getLevelData = function(err, rows){
+            if (!err) {
+                DictManager._cacheDictLevel = {};
+                for(var i = 0; i < rows.length; ++i){
+                    var data = rows[i];
+                    var strID = "" + data.id + "-" + data.chapter_id;
+                    DictManager._cacheDictLevel[strID] = data;
                 }
             }
         };
@@ -106,6 +119,16 @@ DictManager = {
         }
 
         return career;
+    },
+
+    getLevel: function(chapterId, pageId) {
+        var strID = "" + pageId + "-" + chapterId;
+        var level =  DictManager._cacheDictLevel[strID];
+        if(undefined == level){
+            level = null;
+        }
+
+        return level;
     }
 };
 

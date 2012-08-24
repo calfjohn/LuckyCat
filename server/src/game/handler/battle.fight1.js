@@ -71,7 +71,7 @@ module.exports.handler = function (req, res, next) {
             var pageId = parseInt(info.meta.in.pageId);
             var uuid = parseInt(info.header.token);
 
-            var data = require("../Level").getLevel(chapterId, pageId);
+            var data = require("../DictManager").getLevel(chapterId, pageId);
             getBattelResult(uuid, data);
         } else {
             next();
