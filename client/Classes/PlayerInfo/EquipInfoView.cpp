@@ -364,7 +364,7 @@ void EquipInfoView::setEquipInfo(cocos2d::CCSprite *equipIcon, cocos2d::CCLabelT
 */
 
 void EquipInfoView::sendPlayerEquipInfo(){
-    NetManager::shareNetManager()->sendEx(kModeActor, kDoGetEquipmentInfo, callfuncND_selector(EquipInfoView::responsePlayerEquipInfo), this, "\"part\":%d",0);
+    NetManager::shareNetManager()->sendEx(kModeActor, kDoGetAllEquipment, callfuncND_selector(EquipInfoView::responsePlayerEquipInfo), this, "");
 }
 
 void EquipInfoView::responsePlayerEquipInfo(CCNode *pNode, void* data){
@@ -386,7 +386,7 @@ void EquipInfoView::responsePlayerEquipInfo(CCNode *pNode, void* data){
 }
 
 void EquipInfoView::sendPlayerCurEquipInfo(){
-    NetManager::shareNetManager()->sendEx(kModeActor, kDoGetEquipmentInfo, callfuncND_selector(EquipInfoView::responsePlayerCurEquipInfo), this, "\"part\":%d",1);
+    NetManager::shareNetManager()->sendEx(kModeActor, kDoGetEquippedEquipment, callfuncND_selector(EquipInfoView::responsePlayerCurEquipInfo), this, "");
 }
 
 void EquipInfoView::responsePlayerCurEquipInfo(CCNode *pNode, void* data){
