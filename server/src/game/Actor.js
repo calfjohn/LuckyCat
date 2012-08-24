@@ -8,21 +8,21 @@ require("../system/Log");
 var util = require("util");
 var log = new Log("Actor.changeEquipment");
 var PartType = {
-    partHead : 1,
-    partBody : 2,
-    partHand : 3,
-    partFoot : 4
+    partHead:1,
+    partBody:2,
+    partHand:3,
+    partFoot:4
 };
 var PartEmpty = -1;
 
 
 Actor = Class.extend({
-    _dbBasic: {},                // basic data from table actor
-    _dbEquipment: {},           // equipment data from table actor_equipment
-    _dbSkill: {},
-    _tdb: {},               // actor temporary database, will not sync to database
+    _dbBasic:{}, // basic data from table actor
+    _dbEquipment:{}, // equipment data from table actor_equipment
+    _dbSkill:{},
+    _tdb:{}, // actor temporary database, will not sync to database
 
-    init: function(basicDB, equipDB, skillDB) {
+    init:function (basicDB, equipDB, skillDB) {
         if (basicDB && equipDB) {
             this._dbBasic = basicDB;
             this._dbEquipment = equipDB;
@@ -32,7 +32,7 @@ Actor = Class.extend({
         }
     },
 
-    initDefaultData: function(){
+    initDefaultData:function () {
         var db = this._dbBasic;
         db._dbBasic.exp = 0;
     },
@@ -52,10 +52,10 @@ Actor = Class.extend({
         return ret;
     },
 
-    getAllEquipments: function(){
+    getAllEquipments:function () {
         var db = this._dbEquipment;
         var ret = [];
-        for(var key in db){
+        for (var key in db) {
             var equipment = {};
             var value = db[key];
             equipment = value;
@@ -65,7 +65,7 @@ Actor = Class.extend({
         return ret;
     },
 
-    getEquippedEquipment: function(){
+    getEquippedEquipment:function () {
         var basicDB = this._dbBasic;
         var equipDB = this._dbEquipment;
         var ret = {};
@@ -74,8 +74,8 @@ Actor = Class.extend({
         equipment.eq_body_id = basicDB.eq_body_id;
         equipment.eq_hand_id = basicDB.eq_hand_id;
         equipment.eq_foot_id = basicDB.eq_foot_id;
-        for(var key in equipment){
-            if(PartEmpty == equipment[key]){
+        for (var key in equipment) {
+            if (PartEmpty == equipment[key]) {
                 var value = {};
                 value.id = PartEmpty
                 value.equip_id = 0;
@@ -88,7 +88,7 @@ Actor = Class.extend({
                 value.item4_id = 0;
                 value.item5_id = 0;
                 ret[key] = value;
-            }else{
+            } else {
                 ret[key] = equipDB["" + equipment[key]];
                 delete  (ret[key])["actor_id"];
             }
@@ -96,13 +96,13 @@ Actor = Class.extend({
         return ret;
     },
 
-    changeEquipment: function(part, id, callback){
+    changeEquipment:function (part, id, callback) {
         var basicDB = this._dbBasic;
         var equipDB = this._dbEquipment;
 
         var ret = {
-            result: 0,
-            out: {}
+            result:0,
+            out:{}
         };
             //卸下装备
             if (PartEmpty == id) {
@@ -176,7 +176,7 @@ Actor = Class.extend({
 
     },
 
-    getSkills: function(){
+    getSkills:function () {
         return this._dbSkill;
     }
 
