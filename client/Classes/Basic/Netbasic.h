@@ -40,7 +40,8 @@ enum DoRequestType
     kDoFight1,
     kDoFight2,
     kDoGetBasicInfo,
-    kDoGetEquipmentInfo,
+    kDoGetAllEquipment,
+    kDoGetEquippedEquipment,
     kDoGetEventList,
     kDoChangeEquipmentInfo,
     
@@ -54,7 +55,8 @@ const std::string g_doNames[DO_COUNT] = {
     "fight1",
     "fight2",
     "getBasicInfo",
-    "getEquipmentInfo",
+    "getAllEquipment",
+    "getEquippedEquipment",
     "getEventList",
     "changeEquipmentInfo",
 };
@@ -66,7 +68,8 @@ const std::string g_url[DO_COUNT] = {
     "battle/fight1/",
     "battle/fight2/",
     "actor/getBasicInfo/",
-    "actor/getEquipmentInfo/",
+    "actor/getAllEquipmentInfo",
+    "actor/getEquippedEquipment",
     "event/getEventList/",
     "actor/changeEquipmentInfo",
 };
@@ -74,6 +77,7 @@ const std::string g_url[DO_COUNT] = {
 
 const int g_doVersion[DO_COUNT] = {
 	1,
+    1,
     1,
     1,
     1,
