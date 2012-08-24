@@ -21,6 +21,8 @@ DictManager = {
     _dbAgent : null,
     _cacheEquipment: null,
     _cacheCareer:null,
+    _cacheDictMonster:null,
+    _cacheDictLevel:null,
     _cacheEquipmentLevelGrowth: null,
     _cacheEquipmentRankGrowth: null,
     initInstance:function (dbConfig, callback) {
@@ -60,6 +62,18 @@ DictManager = {
             }
         };
 
+        var getLevelData = function(err, rows){
+            if (!err) {
+                DictManager._cacheDictLevel = {};
+                for(var i = 0; i < rows.length; ++i){
+                    var data = rows[i];
+                    var strID = "" + data.id + "-" + data.chapter_id;
+                    DictManager._cacheDictLevel[strID] = data;
+                }
+            }
+        };
+
+
         var getEquipmentLevelGrowth = function(err, rows){
             if (! err) {
                 DictManager._cacheEquipmentLevelGrowth = {};
@@ -98,8 +112,12 @@ DictManager = {
                         getEquipmentLevelGrowth(err, rows);
                         DictManager._dbAgent.query("SELECT * FROM `dict_equipment_level_growth`", function (err, rows) {
                             getEquipmentRankGrowth(err, rows);
-                            // all data cached, call callback
-                            callback(err);
+                            DictManager._dbAgent.query("SELECT * FROM `dict_page`", function (err, rows) {
+                                getLevelData(err, rows);
+                                // all data cached, call callback
+                                callback(err);
+                            });
+
                         });
 
                     });
@@ -130,6 +148,7 @@ DictManager = {
         }
     },
 
+
     getCareerByID: function(id) {
         //get a Creer basic info by id
         var career = DictManager._cacheCareer[""+id];
@@ -138,6 +157,16 @@ DictManager = {
         }
 
         return career;
+    },
+
+    getLevel: function(chapterId, pageId) {
+        var strID = "" + pageId + "-" + chapterId;
+        var level =  DictManager._cacheDictLevel[strID];
+        if(undefined == level){
+            level = null;
+        }
+
+        return level;
     },
 
     getEquipLevelGrowthByLevel: function(level){
