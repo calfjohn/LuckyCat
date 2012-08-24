@@ -16,9 +16,10 @@
 #include "extensions/CCBReader/CCLayerLoader.h"
 
 #include "EventBasic.h"
+#include "TouchLayer.h"
 
 class NPCDialogView 
-: public cocos2d::CCLayer
+: public TouchLayer
 , public cocos2d::extension::CCBMemberVariableAssigner
 , public cocos2d::extension::CCBSelectorResolver
 {
@@ -38,14 +39,7 @@ public:
     
     void onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent);
     
-    
-    
-    virtual bool ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
-    virtual void ccTouchMoved(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
-    virtual void ccTouchEnded(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
-    
-    virtual void registerWithTouchDispatcher(void);
-    
+    virtual void notificationTouchEvent(LTouchEvent tLTouchEvent);
     
     void setDialog(stTalk *talk);
     

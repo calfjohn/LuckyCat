@@ -14,6 +14,21 @@ require("../system/Log");
 
 require("../system/Class");
 
+clone = function (obj) {
+    var newObj = (obj instanceof Array) ? [] : {};
+    for (var key in obj) {
+        var copy = obj[key];
+        if (copy instanceof Array) {
+            newObj[key] = arguments.callee(copy);
+        } else if ((typeof copy) == "object")  {
+            newObj[key] = arguments.callee(copy);
+        } else {
+            newObj[key] = copy;
+        }
+    }
+    return newObj;
+};
+
 stEvent = Class.extend({
     id : null,
     type : null,
@@ -66,15 +81,25 @@ stEvent = Class.extend({
     }
 });
 
-stGood = function ( type , id , num )
-{
-    var that = new Object();
-    that.type = type;
-    that.id = id;
-    that.num = num;
+stGood = Class.extend({
+    id : null,
+    type : null,
+    num : null,
+    ctor : function ()
+    {
 
-    return that;
-}
+    },
+    init : function ()
+    {
+
+    },
+    setData : function ( type , id , num )
+    {
+        this.type = type;
+        this.id = id;
+        this.num = num;
+    }
+});
 
 Events = {
     _dbAgent : null,
@@ -138,6 +163,8 @@ Events = {
                 var strBonus = tmpData.bonus;
                 var intList = strBonus.split(",");
                 var bonusAry = new Array();
+                var tBonus_repeat = tmpData.bonus_repeat;
+                tBonus_repeat = parseInt(tBonus_repeat);
 
                 if ( intList.length > 0 && intList[0] != 0 )
                 {
@@ -147,7 +174,9 @@ Events = {
                         var goodNum = parseInt(intList[g+1]);
                         var goodType = parseInt(0);
 
-                        var tmpGood = stGood(goodType,goodId,goodNum);
+                        var tmpGood = new stGood();
+                        tmpGood.setData(goodType,goodId,goodNum);
+
                         bonusAry.push(tmpGood);
                     }
                 }
@@ -165,6 +194,7 @@ Events = {
                 tEvent.nextEventId = tNextEventId;
                 tEvent.bonusArray = bonusAry;
                 tEvent.box_id = tBoxId;
+                tEvent.bonusRepeat = tBonus_repeat;
 
                 that._mMapEvent[tEvent.id] = tEvent;
             }
@@ -192,6 +222,61 @@ Events = {
             var tEvent = this.getEvent(tEventId);
             if ( tEvent )
             {
+                tEventList.push(tEvent);
+                tEventId = tEvent.nextEventId;
+            }
+        }
+        if (tEventList.length != 0)return tEventList;
+
+        return null;
+
+    },
+    getEventList : function (eventId)
+    {
+        var tEventId = eventId;
+        var tEventList = new Array();
+
+        while ( tEventId != -1 )
+        {
+            var tmpEvent = this.getEvent(tEventId);
+            var tEvent = clone(tmpEvent);
+            if ( tEvent )
+            {
+                if (tEvent.type != 1)
+                {
+                    var monster = require("./DictManager").getMonsterById(tEvent.targetArray[0]);
+                    if (monster)
+                    {
+                        var exp = ((60+monster.level*5)*monster.rank) | 0;
+                        var money = ((100+monster.level*6)*monster.rank) | 0;
+                        tEvent.Exp = exp;
+                        tEvent.Money = money;
+                        var oExp = {};
+                        oExp.type = 1;
+                        oExp.id = 999;//exp
+                        oExp.num = exp;
+
+                        var oMoney = {};
+                        oMoney.type = 2;
+                        oMoney.id = 888;
+                        oMoney.num = money;
+
+                        tEvent.bonusArray.push(oMoney);
+                        tEvent.bonusArray.push(oExp);
+
+                        tEvent.bonusArray.reverse();
+                    }
+                }
+                if ( tEvent.box_id != -1 )
+                {
+                    var ary = require("./Box").openBox(tEvent.box_id);
+                    tEvent.boxAward = ary;
+                }
+                else
+                {
+                    tEvent.boxAward = null;
+                }
+
                 tEventList.push(tEvent);
                 tEventId = tEvent.nextEventId;
             }

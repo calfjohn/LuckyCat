@@ -85,11 +85,27 @@ PlayerInfoView * PlayerInfoView::create(cocos2d::CCObject * pOwner){
         pPlayerInfoView->m_pEquipInfoView->setTag(kPlayerInfoTagEquipLayer);
         pPlayerInfoView->addChild(pPlayerInfoView->m_pEquipInfoView);
         pPlayerInfoView->m_pEquipInfoView->sendPlayerEquipInfo();
-        pPlayerInfoView->m_pEquipInfoView->initEquipListView();
+        //pPlayerInfoView->m_pEquipInfoView->initEquipListView(kEquipHead);
     }
     if (pPlayerInfoView->m_pBasicInfoView != NULL && pPlayerInfoView->m_pEquipInfoView != NULL) {
         pPlayerInfoView->m_iType = kPlayerInfoTagPlayerBtn;
         pPlayerInfoView->showViewForType();
+    }
+    
+    if (pPlayerInfoView)
+    {
+        CCNode *pBgNode = pPlayerInfoView->getChildByTag(901);
+        pPlayerInfoView->registerTouchNode(pBgNode);
+        
+        if (pPlayerInfoView->m_pBasicInfoView)
+        {
+            CCNode *pBgNode = pPlayerInfoView->m_pBasicInfoView->getChildByTag(902);
+            CCNode *pBgTitleNode = pPlayerInfoView->m_pBasicInfoView->getChildByTag(903);
+            pPlayerInfoView->registerTouchNode(pBgNode);
+            pPlayerInfoView->registerTouchNode(pBgTitleNode);
+        }
+        
+        pPlayerInfoView->setIsTouchAreaEnabled(true);
     }
     return pPlayerInfoView;
 }
@@ -121,7 +137,7 @@ void PlayerInfoView::onMenuItemClicked(cocos2d::CCObject *pTarget){
 
 void PlayerInfoView::playerInfoBarBtnCallback(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent){
     CCNode* btn = (CCNode*)pSender;
-    //cout << btn->getTag() << endl;
+    cout << btn->getTag() << endl;
     switch (btn->getTag()) {
         case kPlayerInfoTagPlayerBtn:
             m_iType = kPlayerInfoTagPlayerBtn;
@@ -129,18 +145,22 @@ void PlayerInfoView::playerInfoBarBtnCallback(cocos2d::CCObject *pSender, cocos2
             break;
         case kPlayerInfoTagHeadBtn:
             m_iType = kPlayerInfoTagHeadBtn;
+            this->m_pEquipInfoView->m_curEquipType = (EquipType)0;
             showViewForType();
             break;
-        case kPlayerInfoTagArmsBtn:
-            m_iType = kPlayerInfoTagArmsBtn;
+        case kPlayerInfoTagHandBtn:
+            m_iType = kPlayerInfoTagHandBtn;
+            this->m_pEquipInfoView->m_curEquipType = (EquipType)1;
             showViewForType();
             break;
-        case kPlayerInfoTagClothseBtn:
-            m_iType = kPlayerInfoTagClothseBtn;
+        case kPlayerInfoTagBodyBtn:
+            m_iType = kPlayerInfoTagBodyBtn;
+            this->m_pEquipInfoView->m_curEquipType = (EquipType)2;
             showViewForType();
             break;
-        case kPlayerInfoTagShoesBtn:
-            m_iType = kPlayerInfoTagShoesBtn;
+        case kPlayerInfoTagFootBtn:
+            m_iType = kPlayerInfoTagFootBtn;
+            this->m_pEquipInfoView->m_curEquipType = (EquipType)3;
             showViewForType();
             break;
         default:
@@ -157,12 +177,44 @@ void PlayerInfoView::showViewForType(){
     if(m_iType > kPlayerInfoTagPlayerBtn ){
         m_pBasicInfoView->hideBasicView();
         m_pEquipInfoView->showEquipView();
+        switch (m_iType) {
+            case kPlayerInfoTagHeadBtn:
+                this->m_pEquipInfoView->initEquipListView((EquipType)0);
+                break;
+            case kPlayerInfoTagHandBtn:
+                this->m_pEquipInfoView->initEquipListView((EquipType)1);
+                break;
+            case kPlayerInfoTagBodyBtn:
+                this->m_pEquipInfoView->initEquipListView((EquipType)2);
+                break;
+            case kPlayerInfoTagFootBtn:
+                this->m_pEquipInfoView->initEquipListView((EquipType)3);
+                break;
+            default:
+                break;
+        }
     }else{
         m_pBasicInfoView->showBasicView();
         m_pEquipInfoView->hideEquipView();
     }
 }
 
+void PlayerInfoView::notificationTouchEvent(LTouchEvent tLTouchEvent)
+{
+    if (tLTouchEvent == kLTouchEventOutsideTouchArea) {
+        removeFromParentAndCleanup(true);
+        CCLog("kLTouchEvent OutsideTouchArea");
+    }
+    else if (tLTouchEvent == kLTouchEventInsideTouchArea)
+    {
+        CCLog("kLTouchEvent InsideTouchArea");
+    }
+    else {
+        CCLog("kLTouchEvent Other...");
+    }
+}
 
-
-
+void PlayerInfoView::registerWithTouchDispatcher(void)
+{
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority + 1 , true);
+}

@@ -12,6 +12,10 @@ public:
 
 public:
     static LuckySprite* create(int imageId, float scale = 1);
+    
+    static cocos2d::CCTexture2D *getTextrue2D(const char *_name);
+    
+    static cocos2d::CCSpriteFrame *getSpriteFrame(const char *file_name);
 };
 
 #endif
