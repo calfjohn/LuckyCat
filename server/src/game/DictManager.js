@@ -79,15 +79,18 @@ DictManager = {
             getEquipData(err, rows);
             // step 2, query actor_equipment data
             DictManager._dbAgent.query("SELECT * FROM `dict_career`", function (err, rows) {
-                    // step 2 done, cache actor_equipment data
-                    getCareerData(err, rows);
+                // step 2 done, cache actor_equipment data
+                getCareerData(err, rows);
                 DictManager._dbAgent.query("SELECT * FROM `dict_monster`", function (err, rows) {
-                        getMonsterData(err, rows);
+                    getMonsterData(err, rows);
+                    DictManager._dbAgent.query("SELECT * FROM `dict_page`", function (err, rows) {
+                        getLevelData(err, rows);
                         // all data cached, call callback
                         callback(err);
                         });
                   });
             });
+        });
     },
 
     getEquipmentByID: function(id, callback) {
