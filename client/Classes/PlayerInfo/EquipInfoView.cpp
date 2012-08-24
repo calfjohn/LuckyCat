@@ -18,7 +18,9 @@
 
 
 EquipInfoView::EquipInfoView(){
-    
+    m_EquipListView = NULL;
+    m_selectedEquipData = NULL;
+    m_selectedEquipListLabel = NULL;
 }
 
 EquipInfoView::~EquipInfoView(){
@@ -232,7 +234,12 @@ bool EquipInfoView::initEquipListView(EquipType type){
     
     layer->addChild(menu);
     
-    m_EquipListView = CCScrollView::create(CCSizeMake(150, 100),layer);
+    if (m_EquipListView != NULL) {
+        m_EquipListView->removeAllChildrenWithCleanup(true);
+        m_EquipListView = CCScrollView::create(CCSizeMake(150, 100),layer);
+    }else{
+        m_EquipListView = CCScrollView::create(CCSizeMake(150, 100),layer);
+    }
     m_EquipListView->setPosition(CCPointMake(107, 137));
     //m_EquipListView->setContentOffset(CCPointMake(0, 137));
     
