@@ -289,7 +289,7 @@ void EventDataManager::readDB()
 		return;
 	}
     
-    CppSQLite3Query result = db.execQuery("select * from Task;");
+    CppSQLite3Query result = db.execQuery("select * from dict_event;");
     
     std::vector<stEvent *> tEventVector;
 	while(!result.eof())
@@ -297,9 +297,9 @@ void EventDataManager::readDB()
         stEvent *tEvent = new stEvent();
         tEvent->id = result.getIntField("id");
         tEvent->type = (LEventType)result.getIntField("type");
-        std::string strTarget = result.getStringField("target_id");
+        std::string strTarget = result.getStringField("target");
         tEvent->targetId = separateStringToNumberVector(strTarget, ",");
-        std::string strBonus = result.getStringField("bonus_id");
+        std::string strBonus = result.getStringField("bonus");
         std::vector<int> tmpBonusList = separateStringToNumberVector(strBonus, ",");
         
         if (tmpBonusList.size() > 0)
@@ -312,7 +312,7 @@ void EventDataManager::readDB()
         }
         
         tEvent->bonusRepeat = result.getIntField("bonus_repeat");
-        tEvent->nextEventId = result.getIntField("next_task_id");
+        tEvent->nextEventId = result.getIntField("next_event_id");
         tEvent->box_id = result.getIntField("box_id");
         
         tEventVector.push_back(tEvent);
@@ -322,14 +322,14 @@ void EventDataManager::readDB()
     
     this->setEventMap(tEventVector);
     
-    CppSQLite3Query result_1 = db.execQuery("select * from npc_talk;");
+    CppSQLite3Query result_1 = db.execQuery("select * from dict_npc_talk;");
     
     std::vector<stTalk *> tTalkVector;
 	while(!result_1.eof())
 	{
         stTalk *tTalk = new stTalk();
         tTalk->id = result_1.getIntField("id");
-        tTalk->eventId = result_1.getIntField("task_id");
+        tTalk->eventId = result_1.getIntField("event_id");
         std::string _dialog= result_1.getStringField("content");
         
         tTalk->dialogList = separateString(_dialog,"||");

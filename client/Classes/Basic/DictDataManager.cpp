@@ -36,7 +36,7 @@ bool DictDataManager::init( void )
 		return false;
 	}
 
-    CppSQLite3Query q = db.execQuery("select * from monster;");
+    CppSQLite3Query q = db.execQuery("select * from dict_monster;");
     while(!q.eof())
     {
         stMonster tempMonster;
@@ -50,7 +50,7 @@ bool DictDataManager::init( void )
         q.nextRow();
     }
     
-    q = db.execQuery("select * from image;");
+    q = db.execQuery("select * from dict_image;");
     while(!q.eof())
     {
         stImage tempImage;
