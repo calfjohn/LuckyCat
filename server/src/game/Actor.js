@@ -104,80 +104,83 @@ Actor = Class.extend({
             result:0,
             out:{}
         };
-            //卸下装备
-            if (PartEmpty == id) {
-                if (PartType.partHead == part) {
-                    basicDB.eq_head_id = PartEmpty;
-                }
-                else if (PartType.partBody == part) { // body
-                    basicDB.eq_body_id = PartEmpty;
-                }
-                else if (PartType.partHand == part) { // hand
-                    basicDB.eq_hand_id = PartEmpty;
-                }
-                else if (PartType.partFoot == part) { // foot
-                    basicDB.eq_foot_id = PartEmpty;
-                }
-                require("./Actors").writeBackActorById(this._dbBasic.uuid, null);
-                callback(ret);
-                return;
+        //卸下装备
+        if (PartEmpty == id) {
+            if (PartType.partHead == part) {
+                basicDB.eq_head_id = PartEmpty;
             }
-
-            // 更换装备
-            // 检查ACTOR是否拥有这件装备
-            if (undefined == equipDB[id]) {
-                log.d(util.format("This actor don't have this equipment!"));
-                ret.result = 3;
-                ret.out.msg = "This actor don't have this equipment!";
-                callback(ret);
-                return;
+            else if (PartType.partBody == part) { // body
+                basicDB.eq_body_id = PartEmpty;
             }
+            else if (PartType.partHand == part) { // hand
+                basicDB.eq_hand_id = PartEmpty;
+            }
+            else if (PartType.partFoot == part) { // foot
+                basicDB.eq_foot_id = PartEmpty;
+            }
+            require("./Actors").writeBackActorById(this._dbBasic.uuid, null);
+            callback(ret);
+            return;
+        }
 
-            // 获得这件装备的字典表ID
-            var equip_dict_id = equipDB["equip_id"];
+        // 更换装备
+        // 检查ACTOR是否拥有这件装备
+        if (undefined == equipDB[id]) {
+            log.d(util.format("This actor don't have this equipment!"));
+            ret.result = 3;
+            ret.out.msg = "This actor don't have this equipment!";
+            callback(ret);
+            return;
+        }
 
-            // 取到这件装备的字典信息
-            require("./DictManager").getEquipmentByID(equip_dict_id, function (eq) {
-                if (null == eq) {
-                    log.d(util.format("No this equipment in dict_equipment!"));
-                    ret.result = 1;
-                    ret.out.msg = "No this equipment in dict_equipment!";
-                    callback(ret);
-                    return;
-                }
+        // 获得这件装备的字典表ID
+        var equip_dict_id = equipDB["equip_id"];
 
-                // 开始尝试更换装备
-                var equipType = eq.class;
-                //戴错位置了
-                if (equipType != part) {
-                    log.d(util.format("Put equipment on wrong position!"));
-                    ret.result = 2;
-                    ret.out.msg = "Put equipment on wrong position!";
-                    callback(ret);
-                    return;
-                }
+        // 取到这件装备的字典信息
+        var eq = require("./DictManager").getEquipmentByID(equip_dict_id);
+        if (null == eq) {
+            log.d(util.format("No this equipment in dict_equipment!"));
+            ret.result = 1;
+            ret.out.msg = "No this equipment in dict_equipment!";
+            callback(ret);
+            return;
+        }
 
-                // 跟换装备
-                if (PartType.partHead == part) {
-                    basicDB.eq_head_id = id;
-                }
-                else if (PartType.partBody == part) { // body
-                    basicDB.eq_body_id = id;
-                }
-                else if (PartType.partHand == part) { // hand
-                    basicDB.eq_hand_id = id;
-                }
-                else if (PartType.partFoot == part) { // foot
-                    basicDB.eq_foot_id = id;
-                }
-                require("./Actors").writeBackActorById(this._dbBasic.uuid, null);
-                callback(ret);
-            });
+        // 开始尝试更换装备
+        var equipType = eq.class;
+        //戴错位置了
+        if (equipType != part) {
+            log.d(util.format("Put equipment on wrong position!"));
+            ret.result = 2;
+            ret.out.msg = "Put equipment on wrong position!";
+            callback(ret);
+            return;
+        }
+
+        // 跟换装备
+        if (PartType.partHead == part) {
+            basicDB.eq_head_id = id;
+        }
+        else if (PartType.partBody == part) { // body
+            basicDB.eq_body_id = id;
+        }
+        else if (PartType.partHand == part) { // hand
+            basicDB.eq_hand_id = id;
+        }
+        else if (PartType.partFoot == part) { // foot
+            basicDB.eq_foot_id = id;
+        }
+        require("./Actors").writeBackActorById(this._dbBasic.uuid, null);
+        callback(ret);
 
     },
 
     getSkills:function () {
         return this._dbSkill;
+    },
+
+    calculateBasicAttribute:function () {
+
     }
 
 });

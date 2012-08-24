@@ -19,43 +19,45 @@ var util = require("util");
 
 DictManager = {
     _dbAgent : null,
-    _cacheDictEquipment: null,
-    _cacheDictCareer:null,
+    _cacheEquipment: null,
+    _cacheCareer:null,
     _cacheDictMonster:null,
     _cacheDictLevel:null,
+    _cacheEquipmentLevelGrowth: null,
+    _cacheEquipmentRankGrowth: null,
     initInstance:function (dbConfig, callback) {
         DictManager._dbAgent = new DBAgent(dbConfig);
         DictManager._dbAgent.connect(true);
 
         var getEquipData = function(err, rows){
             if (! err) {
-                DictManager._cacheDictEquipment = {};
+                DictManager._cacheEquipment = {};
                 for(var i = 0; i < rows.length; ++i){
                     var data = rows[i];
                     var id= "" + data.id;
-                    DictManager._cacheDictEquipment[id] = data;
+                    DictManager._cacheEquipment[id] = data;
                 }
             }
         };
 
         var getCareerData = function(err, rows){
             if (! err) {
-                DictManager._cacheDictCareer = {};
+                DictManager._cacheCareer = {};
                 for(var i = 0; i < rows.length; ++i){
                     var data = rows[i];
                     var id= "" + data.id;
-                    DictManager._cacheDictCareer[id] = data;
+                    DictManager._cacheCareer[id] = data;
                 }
             }
         };
 
         var getMonsterData = function(err, rows){
             if (! err) {
-                DictManager._cacheDictMonster = {};
+                DictManager._cacheMonster = {};
                 for(var i = 0; i < rows.length; ++i){
                     var data = rows[i];
                     var id= "" + data.id;
-                    DictManager._cacheDictMonster[id] = data;
+                    DictManager._cacheMonster[id] = data;
                 }
             }
         };
@@ -71,6 +73,29 @@ DictManager = {
             }
         };
 
+
+        var getEquipmentLevelGrowth = function(err, rows){
+            if (! err) {
+                DictManager._cacheEquipmentLevelGrowth = {};
+                for(var i = 0; i < rows.length; ++i){
+                    var data = rows[i];
+                    var level= "" + data.level;
+                    DictManager._cacheEquipmentLevelGrowth[level] = data;
+                }
+            }
+        };
+
+        var getEquipmentRankGrowth = function(err, rows){
+            if (! err) {
+                DictManager._cacheEquipmentRankGrowth = {};
+                for(var i = 0; i < rows.length; ++i){
+                    var data = rows[i];
+                    var rank = "" + data.rank;
+                    DictManager._cacheEquipmentRankGrowth[rank] = data;
+                }
+            }
+        };
+
         // Cache all equipment data on server start
         // second, do query operation for get data from db, thus cache all actors data on server start
         // step 1, query actor data
@@ -79,28 +104,40 @@ DictManager = {
             getEquipData(err, rows);
             // step 2, query actor_equipment data
             DictManager._dbAgent.query("SELECT * FROM `dict_career`", function (err, rows) {
-                    // step 2 done, cache actor_equipment data
-                    getCareerData(err, rows);
+                // step 2 done, cache actor_equipment data
+                getCareerData(err, rows);
                 DictManager._dbAgent.query("SELECT * FROM `dict_monster`", function (err, rows) {
-                        getMonsterData(err, rows);
-                        // all data cached, call callback
-                        callback(err);
+                    getMonsterData(err, rows);
+                    DictManager._dbAgent.query("SELECT * FROM `dict_equipment_level_growth`", function (err, rows) {
+                        getEquipmentLevelGrowth(err, rows);
+                        DictManager._dbAgent.query("SELECT * FROM `dict_equipment_level_growth`", function (err, rows) {
+                            getEquipmentRankGrowth(err, rows);
+                            DictManager._dbAgent.query("SELECT * FROM `dict_page`", function (err, rows) {
+                                getLevelData(err, rows);
+                                // all data cached, call callback
+                                callback(err);
+                            });
+
                         });
-                  });
+
+                    });
+
+                });
             });
+        });
     },
 
-    getEquipmentByID: function(id, callback) {
+    getEquipmentByID: function(id) {
         //get a actor basic info by uuid
-        var equipment = DictManager._cacheDictEquipment[""+id];
+        var equipment = DictManager._cacheEquipment[""+id];
         if(undefined == equipment){
             equipment = null;
         }
-        callback(equipment);
+        return equipment;
     },
 
     getMonsterById: function(id) {
-        var monster = DictManager._cacheDictMonster["" + id];
+        var monster = DictManager._cacheMonster["" + id];
         if (monster)
         {
             return monster;
@@ -111,9 +148,10 @@ DictManager = {
         }
     },
 
+
     getCareerByID: function(id) {
-        //get a actor basic info by uuid
-        var career = DictManager._cacheDictCareer[""+id];
+        //get a Creer basic info by id
+        var career = DictManager._cacheCareer[""+id];
         if(undefined == career){
             career = null;
         }
@@ -129,7 +167,29 @@ DictManager = {
         }
 
         return level;
+    },
+
+    getEquipLevelGrowthByLevel: function(level){
+        //get a Growth  by level
+        var growth = DictManager._cacheEquipmentLevelGrowth[""+level];
+        if(undefined == growth){
+            growth = null;
+        }
+
+        return growth;
+    },
+
+    getEquipRankGrowthByRank: function(rank){
+        //get a Growth by rank
+        var growth = DictManager._cacheEquipmentRankGrowth[""+rank];
+        if(undefined == growth){
+            growth = null;
+        }
+
+        return growth;
     }
+
+
 };
 
 module.exports = DictManager;
