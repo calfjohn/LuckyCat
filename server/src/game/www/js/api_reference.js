@@ -1,6 +1,6 @@
 $(function(){
     $("#module_list").accordion({
-        header:"a.mod_name",
+        header: "h3",
         fillSpace: true
     });
 });

@@ -12,12 +12,12 @@ html
                     td(width=320, height=650)
                         #module_list
                             for dos,mod in namespace_content
-                                div
-                                    a.mod_name(href="/"+namespace+"/"+mod) !{mod}
-                                    ul
-                                        for api, action in dos
-                                            if action!="desc"
-                                                li
-                                                    a(href="/"+namespace+"/"+mod+"/"+action, target="content") !{action}
+                                h3
+                                    a(href="#") !{mod}
+                                ul
+                                    for api, action in dos
+                                        if action!="desc"
+                                            li
+                                                a(href="/"+namespace+"/"+mod+"/"+action, target="content") !{action}
                     td
                         iframe(name="content", src="http://www.baidu.com", width="100%", height="100%")
