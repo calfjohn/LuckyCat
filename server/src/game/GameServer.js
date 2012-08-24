@@ -7,7 +7,8 @@
 var httpHandlers = { "/game/combat":      "./handler/combat"
     , "/game/box/openBox":                "./handler/box.openBox"
     , "/game/actor/getBasicInfo":         "./handler/actor.getBasicInfo"
-    , "/game/actor/getEquipmentInfo":     "./handler/actor.getEquipmentInfo"
+    , "/game/actor/getAllEquipment":      "./handler/actor.getAllEquipment"
+    , "/game/actor/getEquippedEquipment": "./handler/actor.getEquippedEquipment"
     , "/game/actor/changeEquipmentInfo":  "./handler/actor.changeEquipmentInfo"
     , "/game/actor/getSkillInfo":         "./handler/actor.getSkillInfo"
     , "/game/battle/fight1":              "./handler/battle.fight1"
@@ -76,7 +77,10 @@ app.initInstance = function (srvConfig, callback) {
                     if (err) throw err;
                     require("./Monster").initInstance(cfg.db_actors, function(err) {
                         if (err) throw err;
-                        afterInitModules();
+                        require("./DictManager").initInstance(cfg.db_actors, function(err) {
+                            if (err) throw err;
+                            afterInitModules();
+                        });
                     });
                 });
             });
@@ -99,14 +103,14 @@ app.initSockets = function (ws_admin_server) {
 };
 
 app.initHandlers = function () {
-    var handler = require("./handler/game.ApiReference");
+    var handler = require("./handler/game.ApiReference")
     handler.initReference(reference.getReference("/game/api_demo/doAction"));
     app.get("/game/*", handler.handler);
     app.get("/favicon.ico", function(req, res, next) {
         next();
     });
     app.get("/", function(req, res, next) {
-        res.redirect("/game");
+        res.redirect("/game/api_demo");
     })
 
     for (var key in httpHandlers) {

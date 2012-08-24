@@ -9,7 +9,7 @@
 #ifndef HelloWorld_BattleResultView_h
 #define HelloWorld_BattleResultView_h
 
-#include "cocos2d.h"
+#include "TouchLayer.h"
 #include "extensions/CCBReader/CCNodeLoader.h"
 #include "extensions/CCBReader/CCLayerLoader.h"
 #include "Basic.h"
@@ -19,7 +19,7 @@
 
 
 
-class BattleResultView : public cocos2d::CCLayer 
+class BattleResultView : public TouchLayer 
 {
 public:
     
@@ -27,11 +27,7 @@ public:
     
     CCB_STATIC_NEW_AUTORELEASE_OBJECT_WITH_INIT_METHOD(BattleResultView, create);
     
-    virtual bool ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
-    virtual void ccTouchMoved(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
-    virtual void ccTouchEnded(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent);
-    
-    virtual void registerWithTouchDispatcher(void);
+    virtual void notificationTouchEvent(LTouchEvent tLTouchEvent);
     
     void initView(LEventData *tEvent);
     

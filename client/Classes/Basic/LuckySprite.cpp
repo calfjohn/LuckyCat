@@ -40,3 +40,13 @@ LuckySprite* LuckySprite::create(int imageId, float scale)
     CC_SAFE_DELETE(pobSprite);
     return NULL;
 }
+
+cocos2d::CCTexture2D *LuckySprite::getTextrue2D(const char *file_name)
+{
+    return cocos2d::CCTextureCache::sharedTextureCache()->addImage(file_name);
+}
+
+cocos2d::CCSpriteFrame *LuckySprite::getSpriteFrame(const char *_name)
+{
+    return cocos2d::CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(_name);
+}

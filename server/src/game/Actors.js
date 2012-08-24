@@ -1,8 +1,8 @@
 /**
  * Actors controller for cache、 sync with database.
  */
-
-if (global.Actors) {
+(function(){
+    if (global.Actors) {
     module.exports = Actors;
     return;
 }
@@ -10,6 +10,7 @@ if (global.Actors) {
 require("../system/DBAgent");
 require("../system/Log");
 require("./Actor");
+require("./DictManager")
 
 var log, util;
 log = new Log("Actors");
@@ -75,6 +76,7 @@ Actors = {
             }
         };
 
+
         // second, do query operation for get data from db, thus cache all actors data on server start
         // step 1, query actor data
         Actors._dbAgent.query("SELECT * FROM `actor`", function (err, rows) {
@@ -124,8 +126,30 @@ Actors = {
 
         Actors._cacheActors[strUUID].chapter_id = chapterId;
         Actors._cacheActors[strUUID].page_id = pageId;
+    },
+
+    calculateCapablity: function(id){
+        var actor = Actors.getActorFromCache(id);
+        var career  = DictManager.getCareerByID(actor.career_id);
+
+        actor.attack = career.attack*Math.pow(1 + career.attack_growth, actor.level);
+        actor.defence = career.defence*Math.pow(1 + career.defence_growth, actor.level);
+        actor.hp = career.life*Math.pow(1 + career.life_growth, actor.level);
+        actor.speed = career.speed*Math.pow(1 + career.speed_growth, actor.level);
+    },
+
+    writeBackActorById: function(uuid, callback){
+        var actor = Actors._cacheActors["" + uuid];
+        if(undefined!=actor){
+            Actors._dbAgent.query("UPDATE `actor` SET ? WHERE `actor`.`id` = ?", [actor, actor.id], function(err, result){
+                if (err) throw err;
+                log.d("---++++-------");
+                log.d(result);
+            });
+        }
     }
 };
 
 
 module.exports = Actors;
+})();

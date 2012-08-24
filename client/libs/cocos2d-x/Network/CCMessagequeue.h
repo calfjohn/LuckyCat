@@ -104,8 +104,6 @@ private:
     std::vector<RequestInfo *> m_responseQueue;
     
     static bool m_bQuit;
-    
-    CCCallbackNode *m_pCallbackNode;
 };
 
 NS_CC_NETWORK_END
