@@ -108,8 +108,10 @@ bool Cover::init()
     return true;
 }
 
+#include "NetManager.h"
 void Cover::menuDaggerCallback(CCObject* pSender)
 {
+    NetManager::shareNetManager()->sendEx(kModeBattle, kDoFight2, NULL, NULL, "\"monsterId\": %d", 5);
 }
 
 void Cover::menuMagicCallback(CCObject* pSender)

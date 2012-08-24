@@ -481,7 +481,7 @@
 		<array>
 			<string>image/battle/yellowBomb.plist</string>
 			<string>image/battle/greenBomb.plist</string>
-			<string>image/battle/yellowBomb.plist</string>
+			<string>image/battle/orangeBomb.plist</string>
 			<string>image/battle/purpleBomb.plist</string>
 		</array>
 		<key>format</key>
