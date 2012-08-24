@@ -77,6 +77,19 @@ void GeneralBattleView::onMenuItemClicked(cocos2d::CCObject *pTarget)
 {
     cocos2d::CCNode *p = static_cast<cocos2d::CCNode *>(pTarget);
     printf("tag %d\n",p->getTag());
+    
+    if(p->getTag() == 1){
+        CCNode *pNode = this->getChildByTag(TAG_PLAYER_INFO);
+        if (!pNode)
+        {
+            PlayerInfoView *pInfo = PlayerInfoView::create(this);
+            this->addChild(pInfo);
+            pInfo->setTag(TAG_PLAYER_INFO);
+        }
+        else {
+            pNode->removeFromParentAndCleanup(true);
+        }
+    }
 }
 
 void GeneralBattleView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent) {

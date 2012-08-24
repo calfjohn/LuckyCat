@@ -85,7 +85,7 @@ PlayerInfoView * PlayerInfoView::create(cocos2d::CCObject * pOwner){
         pPlayerInfoView->m_pEquipInfoView->setTag(kPlayerInfoTagEquipLayer);
         pPlayerInfoView->addChild(pPlayerInfoView->m_pEquipInfoView);
         pPlayerInfoView->m_pEquipInfoView->sendPlayerEquipInfo();
-        //pPlayerInfoView->m_pEquipInfoView->initEquipListView(kEquipHead);
+        pPlayerInfoView->m_pEquipInfoView->initEquipListView(kEquipHead);
     }
     if (pPlayerInfoView->m_pBasicInfoView != NULL && pPlayerInfoView->m_pEquipInfoView != NULL) {
         pPlayerInfoView->m_iType = kPlayerInfoTagPlayerBtn;
@@ -216,5 +216,5 @@ void PlayerInfoView::notificationTouchEvent(LTouchEvent tLTouchEvent)
 
 void PlayerInfoView::registerWithTouchDispatcher(void)
 {
-    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority - 10 , true);
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority + 1 , true);
 }

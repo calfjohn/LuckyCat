@@ -31,7 +31,7 @@ describe("======================================================================
     it("ChangeEquipment", function(done) {
         var info = {};
         var header = {
-            token: "1", //til now we use uuid instead
+            token: "2", //til now we use uuid instead
             index : 0
         };
         var meta = {

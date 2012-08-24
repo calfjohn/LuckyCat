@@ -26,9 +26,9 @@ var postDataTo = function (sPath, vData, fCallback) {
 
 
 describe("============================================================================\n" +
-    "    Test Actor GetEquipmentInfo", function() {
+    "    Test Actor getEquippedEquipment", function() {
 
-    it("GetEquipmentInfo", function(done) {
+    it("getEquippedEquipment", function(done) {
         var info = {};
         var header = {
             token: "1", //til now we use uuid instead
@@ -36,14 +36,42 @@ describe("======================================================================
         };
         var meta = {
             mod : "actor",
-            do: "getEquipmentInfo",
-            in:{"part": "0"},
+            do: "getEquippedEquipment",
+            in:{},
             out:{}
         };
 
         info.header = header;
         info.meta = meta;
-        postDataTo("/game/actor/getEquipmentInfo", info, function(res) {
+        postDataTo("/game/actor/getEquippedEquipment", info, function(res) {
+            res.on("data", function(chunk) {
+                console.log(chunk.toString());
+                done();
+            });
+        });
+    });
+});
+
+
+describe("============================================================================\n" +
+    "    Test Actor getAllEquipment", function() {
+
+    it("getAllEquipment", function(done) {
+        var info = {};
+        var header = {
+            token: "1", //til now we use uuid instead
+            index : 0
+        };
+        var meta = {
+            mod : "actor",
+            do: "getAllEquipment",
+            in:{},
+            out:{}
+        };
+
+        info.header = header;
+        info.meta = meta;
+        postDataTo("/game/actor/getAllEquipment", info, function(res) {
             res.on("data", function(chunk) {
                 console.log(chunk.toString());
                 done();

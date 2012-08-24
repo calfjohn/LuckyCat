@@ -47,8 +47,6 @@ bool TouchLayer::ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent
         if ( this->TouchAreaContainsPoint(tPoint) == false )
         {
             this->notificationTouchEvent(kLTouchEventOutsideTouchArea);
-            
-            return false;
         }
         else {
             this->notificationTouchEvent(kLTouchEventInsideTouchArea);
@@ -84,7 +82,7 @@ void TouchLayer::ccTouchEnded(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent
 
 void TouchLayer::registerWithTouchDispatcher(void)
 {
-    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority , true);
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority + 10, true);
 }
 
 bool TouchLayer::registerTouchNode(cocos2d::CCNode * pNode)

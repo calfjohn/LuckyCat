@@ -1,8 +1,8 @@
 /**
  * Actors controller for cache、 sync with database.
  */
-
-if (global.Actors) {
+(function(){
+    if (global.Actors) {
     module.exports = Actors;
     return;
 }
@@ -76,6 +76,7 @@ Actors = {
             }
         };
 
+
         // second, do query operation for get data from db, thus cache all actors data on server start
         // step 1, query actor data
         Actors._dbAgent.query("SELECT * FROM `actor`", function (err, rows) {
@@ -135,8 +136,20 @@ Actors = {
         actor.defence = career.defence*Math.pow(1 + career.defence_growth, actor.level);
         actor.hp = career.life*Math.pow(1 + career.life_growth, actor.level);
         actor.speed = career.speed*Math.pow(1 + career.speed_growth, actor.level);
+    },
+
+    writeBackActorById: function(uuid, callback){
+        var actor = Actors._cacheActors["" + uuid];
+        if(undefined!=actor){
+            Actors._dbAgent.query("UPDATE `actor` SET ? WHERE `actor`.`id` = ?", [actor, actor.id], function(err, result){
+                if (err) throw err;
+                log.d("---++++-------");
+                log.d(result);
+            });
+        }
     }
 };
 
 
 module.exports = Actors;
+})();
