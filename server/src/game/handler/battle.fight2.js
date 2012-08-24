@@ -153,8 +153,7 @@ module.exports.handler = function (req, res, next) {
             //遍历计算每个角色属性加成
             //遍历每个角色的速度，定出优先顺序
             //选择被攻击角色
-            //被攻击角色是否闪避
-            //被攻击角色是否反震
+            //被攻击角色是否闪避             //被攻击角色是否反震
             //攻击角色是否爆击
             //攻击，计算伤害值
             //更新相关角色属性
@@ -179,19 +178,19 @@ module.exports.handler = function (req, res, next) {
         var teamUp1 = function(data) {
             var team = [];
             var member = {};
-
-            member.id = data.id;
-            member.imageId = data.image_id;
-            member.level = data.level;
-            member.name = data.nickname;
-            member.equip = [];
-            member.skill = [];
-            member.hp = data.hp;
-            member.hurt = member.hp;
-            member.speed = 200;
+            member = data;
+//            member.id = data.id;
+//            member.imageId = data.image_id;
+//            member.level = data.level;
+//            member.name = data.nickname;
+//            member.equip = [];
+//            member.skill = [];
+//            member.hp = data.hp;
+              member.hurt = member.hp;
+//            member.speed = 200;
             member.time = 1/member.speed;
-            member.attack = 5000;
-            member.defence = 3000;
+//            member.attack = 5000;
+//            member.defence = 3000;
             member.teamId = "A";
 
             team.push(member);
@@ -201,19 +200,19 @@ module.exports.handler = function (req, res, next) {
         var teamUp2 = function(data) {
             var team = [];
             var member = {};
-
-            member.id = data.id;
-            member.imageId = data.image_id;
-            member.level = data.level;
-            member.name = data.name;
-            member.equip = [];
-            member.skill = [];
-            member.hp = 8000;
-            member.hurt = member.hp;
-            member.speed = 150;
+            member = data;
+//            member.id = data.id;
+//            member.imageId = data.image_id;
+//            member.level = data.level;
+//            member.name = data.name;
+//            member.equip = [];
+//            member.skill = [];
+//            member.hp = 8000;
+              member.hurt = member.hp;
+//            member.speed = 150;
             member.time = 1/member.speed;
-            member.attack = 6500;
-            member.defence = 4000;
+//            member.attack = 6500;
+//            member.defence = 4000;
             member.teamId = "B";
 
             team.push(member);
@@ -228,7 +227,7 @@ module.exports.handler = function (req, res, next) {
 
             // test code, 组装成队伍战斗
             var monsterId = parseInt(info.meta.in.monsterId);
-            var monster = require("../Monster").getMonster(monsterId);
+            var monster = require("../DictManager").getMonsterById(monsterId);
 
             var team = {};
             team.A = teamUp1(actor);
