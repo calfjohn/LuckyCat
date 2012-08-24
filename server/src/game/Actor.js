@@ -119,7 +119,7 @@ Actor = Class.extend({
                 else if (PartType.partFoot == part) { // foot
                     basicDB.eq_foot_id = PartEmpty;
                 }
-                require("./Actors").writeBackActorById(this._dbBasic.uuid, null);
+                //require("./Actors").writeBackActorById(this._dbBasic.uuid, null);
                 break;
             }
 
@@ -140,11 +140,11 @@ Actor = Class.extend({
                     else if (PartType.partFoot == part) { // foot
                         basicDB.eq_foot_id = id;
                     }
-                    require("./Actors").writeBackActorById(this._dbBasic.uuid, null);
+                   // require("./Actors").writeBackActorById(this._dbBasic.uuid, null);
                 } else {
                     ret.result = 1;
                     ret.out.msg = "invalid equipID, this actor don't have this quipment";
-                    log.d(util.format("invalid equipID, this actor don't have this quipment %d.", equipID));
+                    log.d(util.format("invalid equipID, this actor don't have this quipment %d.", id));
                 }
 
             });

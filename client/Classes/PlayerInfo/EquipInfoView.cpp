@@ -395,10 +395,22 @@ void EquipInfoView::responsePlayerCurEquipInfo(CCNode *pNode, void* data){
     
     if(reader.parse(NetManager::shareNetManager()->processResponse(data), root)){
         Json::Value out = root["meta"]["out"];
-        m_iEquipCurHeadId = out["eq_head_id"].asInt();
-        m_iEquipCurBodyId = out["eq_body_id"].asInt();
-        m_iEquipCurHandId = out["eq_hand_id"].asInt();
-        m_iEquipCurFootId = out["eq_foot_id"].asInt();
+        m_iEquipCurHeadId = out["eq_head_id"]["id"].asInt();
+        if (m_iEquipCurHeadId != -1) {
+            m_iEquipCurHeadId = out["eq_head_id"]["equip_id"].asInt();
+        }
+        m_iEquipCurBodyId = out["eq_body_id"]["id"].asInt();
+        if (m_iEquipCurBodyId != -1) {
+            m_iEquipCurBodyId = out["eq_head_id"]["equip_id"].asInt();
+        }
+        m_iEquipCurHandId = out["eq_hand_id"]["id"].asInt();
+        if (m_iEquipCurHandId != -1) {
+            m_iEquipCurHandId = out["eq_head_id"]["equip_id"].asInt();
+        }
+        m_iEquipCurFootId = out["eq_foot_id"]["id"].asInt();
+        if (m_iEquipCurFootId != -1) {
+            m_iEquipCurFootId = out["eq_head_id"]["equip_id"].asInt();
+        }
     }
     initEquipListView(kEquipHead);
 }
