@@ -21,8 +21,6 @@ var reference_1 = {
         type: "",
         fields: {
         }
-    }
-
     },
     result:{
         0:"操作成功",
