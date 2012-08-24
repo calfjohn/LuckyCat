@@ -36,7 +36,7 @@ bool LevelDataManager::init( void )
 	}
     
     stBible tempBible;
-    CppSQLite3Query q1 = db.execQuery("select * from bible;");
+    CppSQLite3Query q1 = db.execQuery("select * from dict_bible;");
 	while(!q1.eof())
 	{
         tempBible.id = q1.getIntField("id");
@@ -45,7 +45,7 @@ bool LevelDataManager::init( void )
         tempBible.chapterBgId = q1.getIntField("chapter_bg_id");
         {
             char tempSql[256];
-            sprintf(tempSql, "select * from chapter where bible_id = %d order by id;", tempBible.id);
+            sprintf(tempSql, "select * from dict_chapter where bible_id = %d order by id;", tempBible.id);
             CppSQLite3Query q2 = db.execQuery(tempSql);
             while(!q2.eof())
             {
@@ -57,7 +57,7 @@ bool LevelDataManager::init( void )
                 tempChapter.position.x = q2.getFloatField("position_x");
                 tempChapter.position.y = q2.getFloatField("position_y");
                 {
-                    sprintf(tempSql, "select * from page where chapter_id = %d order by id;", tempChapter.id);
+                    sprintf(tempSql, "select * from dict_page where chapter_id = %d order by id;", tempChapter.id);
                     CppSQLite3Query q3 = db.execQuery(tempSql);
                     while(!q3.eof())
                     {
@@ -67,7 +67,7 @@ bool LevelDataManager::init( void )
                         tempPage.name = q3.getStringField("name");
                         tempPage.content = q3.getStringField("content");
                         tempPage.imageId =  q3.getIntField("image_id");
-                        tempPage.eventId =  q3.getIntField("task_id");
+                        tempPage.eventId =  q3.getIntField("event_id");
                         tempPage.state = q3.getIntField("state");
                         tempPage.position.x = q3.getFloatField("position_x");
                         tempPage.position.y = q3.getFloatField("position_y");
@@ -89,7 +89,7 @@ bool LevelDataManager::init( void )
         q1.nextRow();
     }
   
-    CppSQLite3Query result = db.execQuery("select * from actor_level_upgrade;");
+    CppSQLite3Query result = db.execQuery("select * from dict_actor_level_upgrade;");
     
     std::vector<stActorLevelUpgrade *> tLevelList;
 	while(!result.eof())
@@ -104,13 +104,16 @@ bool LevelDataManager::init( void )
         std::vector<int> tmpBonusList = separateStringToNumberVector(strBonus, ",");
         
         if (tmpBonusList.size() > 0)
+        {
             CCAssert( tmpBonusList[0]*2 == tmpBonusList.size()-1, "Something error in sql field\n");
-        for (int i = 1; tmpBonusList[0] != 0 && i+1 < tmpBonusList.size(); i+=2) {
-            stGood _good;
-            _good.id = tmpBonusList[i];
-            _good.num = tmpBonusList[i+1];
-            tmpLevel->bonus.push_back(_good);
+            for (int i = 1; tmpBonusList[0] != 0 && i+1 < tmpBonusList.size(); i+=2) {
+                stGood _good;
+                _good.id = tmpBonusList[i];
+                _good.num = tmpBonusList[i+1];
+                tmpLevel->bonus.push_back(_good);
+            }
         }
+
         
         tmpLevel->print();
         tLevelList.push_back(tmpLevel);
