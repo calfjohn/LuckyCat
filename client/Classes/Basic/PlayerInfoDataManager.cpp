@@ -24,7 +24,7 @@ PlayerInfoDataManager::~PlayerInfoDataManager(){
 }
 
 bool PlayerInfoDataManager::init(){
-    string path = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath("config/hjTestLuckyCat.sqlite");
+    string path = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath("config/LuckyCat.sqlite");
     
     CppSQLite3DB db;
     db.open(path.c_str());
