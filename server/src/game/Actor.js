@@ -179,7 +179,16 @@ Actor = Class.extend({
         return this._dbSkill;
     },
 
-    calculateBasicAttribute:function () {
+    calculateEquipmentBasicAttribute:function () {
+        var ret = {
+            attk: 0,
+            def: 0,
+            speed: 0,
+            life: 0
+        };
+
+        var total = 0;
+        return ret;
 
     }
 
