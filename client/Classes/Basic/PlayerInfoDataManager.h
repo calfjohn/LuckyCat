@@ -31,6 +31,8 @@ public:
     stActorUserEquipInfo* getUserEquipInfo(int index);
     stActorUserEquipInfo* getUserEquipInfoForId(int equipid);
     
+    stActorUserInfo* getCurUserInfo();
+    
 protected:
     PlayerInfoDataManager();
     virtual ~PlayerInfoDataManager();
@@ -53,6 +55,7 @@ protected:
 	static XLRelease Garbo;
     
     vector<stActorUserEquipInfo> m_vecUserEquipInfos;
+    stActorUserInfo *m_curUserInfo;
 };
 
 

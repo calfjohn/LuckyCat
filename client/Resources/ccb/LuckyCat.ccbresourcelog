@@ -13,7 +13,9 @@ ccb/hero_head.ccbi
 ccb/openbox.ccbi
 ccb/page.ccbi
 ccb/pageEx.ccbi
+ccb/pklist.ccbi
 ccb/playerinfo.ccbi
+ccb/skill.ccbi
 image/battle/animationsBomb.plist
 image/battle/greenBomb.plist
 image/battle/greenBomb.png
@@ -32,6 +34,42 @@ image/hero/hero_1002.png
 image/hero/monster_1001.png
 image/hero/monster_1002.png
 image/hero/monster_1003.png
+image/icon/skill01_d.png
+image/icon/skill01_n.png
+image/icon/skill01_s.png
+image/icon/skill02_d.png
+image/icon/skill02_n.png
+image/icon/skill02_s.png
+image/icon/skill03_d.png
+image/icon/skill03_n.png
+image/icon/skill03_s.png
+image/icon/skill04_d.png
+image/icon/skill04_n.png
+image/icon/skill04_s.png
+image/icon/skill05_d.png
+image/icon/skill05_n.png
+image/icon/skill05_s.png
+image/icon/skill06_d.png
+image/icon/skill06_n.png
+image/icon/skill06_s.png
+image/icon/skill07_d.png
+image/icon/skill07_n.png
+image/icon/skill07_s.png
+image/icon/skill08_d.png
+image/icon/skill08_n.png
+image/icon/skill08_s.png
+image/icon/skill09_d.png
+image/icon/skill09_n.png
+image/icon/skill09_s.png
+image/icon/skill10_d.png
+image/icon/skill10_n.png
+image/icon/skill10_s.png
+image/icon/skill11_d.png
+image/icon/skill11_n.png
+image/icon/skill11_s.png
+image/icon/skill12_d.png
+image/icon/skill12_n.png
+image/icon/skill12_s.png
 image/mainui/button_1001_d.png
 image/mainui/button_1001_h.png
 image/mainui/button_1001_n.png
@@ -57,6 +95,7 @@ image/mainui/button_scoll_1002_n.png
 image/mainui/main_ dice_1001_d.png
 image/mainui/main_ dice_1001_h.png
 image/mainui/main_ dice_1001_n.png
+image/mainui/main_ line_1001.png
 image/mainui/main_ rim_1001.png
 image/mainui/main_ rim_1002.png
 image/mainui/main_ rim_1003.png

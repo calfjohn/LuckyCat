@@ -230,7 +230,7 @@ bool EquipInfoView::initEquipListView(EquipType type){
     CCLayer* layer = CCLayer::create();
     layer->setAnchorPoint(CCPointZero);
     layer->setPosition(CCPointZero);
-    layer->setContentSize(CCSizeMake(150, 960));
+    layer->setContentSize(CCSizeMake(150, 150));
     
     layer->addChild(menu);
     
