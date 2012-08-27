@@ -47,7 +47,7 @@ module.exports.handler = function (req, res, next) {
             var team = {};
             team.A = Battle.teamUp(actor, "A");
             team.B = Battle.teamUp(monster, "B");
-            Battle.fight(team, responseResult);
+            Battle.fight(team, responseResult, 2);
         } else {
             next();
         }
