@@ -110,7 +110,7 @@ DictManager = {
                     getMonsterData(err, rows);
                     DictManager._dbAgent.query("SELECT * FROM `dict_equipment_level_growth`", function (err, rows) {
                         getEquipmentLevelGrowth(err, rows);
-                        DictManager._dbAgent.query("SELECT * FROM `dict_equipment_level_growth`", function (err, rows) {
+                        DictManager._dbAgent.query("SELECT * FROM `dict_equipment_rank_growth`", function (err, rows) {
                             getEquipmentRankGrowth(err, rows);
                             DictManager._dbAgent.query("SELECT * FROM `dict_page`", function (err, rows) {
                                 getLevelData(err, rows);
