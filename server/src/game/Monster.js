@@ -26,7 +26,7 @@ Monster = {
     },
 
     caculateCapability : function(){
-        var monster = DictManager._cacheDictMonster;
+        var monster = DictManager._cacheMonster;
         for (var key in monster) {
             var career = DictManager.getCareerByID(monster[key].career_id);
             monster[key].attack = career.attack*Math.pow(1 + career.attack_growth, monster[key].level) * monster[key].rank;

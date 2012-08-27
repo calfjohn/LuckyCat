@@ -164,9 +164,11 @@ void Page::nextPageCallback(CCNode* pNode, void* data)
         return;
     }
     
-    CCScene *pScene = Page::scene(m_nChapterId, pPage);
-    CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
-    CCDirector::sharedDirector()->replaceScene(pTp);
+    //add new layer behind current layer
+    CCScene *pScene = CCDirector::sharedDirector()->getRunningScene();
+    Page *pPageLayer = Page::create(pScene);
+    pPageLayer->turnToPage(m_nChapterId,pPage);
+    pScene->addChild(pPageLayer, this->getZOrder()-1);
     
     this->autoTurnPage();
 }
