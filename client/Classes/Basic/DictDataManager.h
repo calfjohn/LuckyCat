@@ -10,6 +10,7 @@
 #define _DictDataManager_H__
 
 #include "Basic.h"
+#include "CppSQLite3.h"
 
 class DictDataManager
 {
@@ -30,6 +31,11 @@ public:
     const stImage *getImage(int imageId);
 protected:
 	bool init(void);
+    
+    bool initMonster();
+    
+    bool initImage();
+    
 	DictDataManager(void);
 	virtual ~DictDataManager(void);
 
@@ -51,6 +57,8 @@ protected:
     
     map<int, stMonster> m_mapMonster;
     map<int, stImage> m_mapImage; 
+
+    CppSQLite3DB m_db;
 };
 
 #endif

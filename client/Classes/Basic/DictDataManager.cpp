@@ -8,7 +8,6 @@
 
 #include "DictDataManager.h"
 #include "json/json.h"
-#include "CppSQLite3.h"
 #include "cocos2d.h"
 
 USING_NS_CC;
@@ -29,14 +28,23 @@ bool DictDataManager::init( void )
 {
    string strFullPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath("config/LuckyCat.sqlite");
 
-    CppSQLite3DB db;
-    db.open(strFullPath.c_str());
-	if (!db.isOpen())
+    m_db.open(strFullPath.c_str());
+	if (!m_db.isOpen())
 	{
 		return false;
 	}
+     
+    initImage();
+    initMonster();
+    
+    m_db.close();
 
-    CppSQLite3Query q = db.execQuery("select * from dict_monster;");
+    return true;
+}
+
+bool DictDataManager::initMonster()
+{
+    CppSQLite3Query q = m_db.execQuery("select * from dict_monster;");
     while(!q.eof())
     {
         stMonster tempMonster;
@@ -50,7 +58,12 @@ bool DictDataManager::init( void )
         q.nextRow();
     }
     
-    q = db.execQuery("select * from dict_image;");
+    return true;
+}
+
+bool DictDataManager::initImage()
+{
+    CppSQLite3Query q = m_db.execQuery("select * from dict_image;");
     while(!q.eof())
     {
         stImage tempImage;
@@ -64,8 +77,7 @@ bool DictDataManager::init( void )
         
         q.nextRow();
     }    
-    db.close();
-
+    
     return true;
 }
 
