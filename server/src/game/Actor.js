@@ -49,7 +49,7 @@ Actor = Class.extend({
         ret.career_id = db.career_id;
         ret.chapter_id = db.chapter_id;
         ret.page_id = db.page_id;
-        var eqBuff = this.calculateEquipmentBasicAttribute();
+        var eqBuff = this.calculateCapability();
         ret.attack = eqBuff.attack;
         ret.defence = eqBuff.defence;
         ret.speed = eqBuff.speed;
@@ -163,7 +163,7 @@ Actor = Class.extend({
             return;
         }
 
-        // 跟换装备
+        // 更换装备
         if (PartType.partHead == part) {
             basicDB.eq_head_id = id;
         }
@@ -186,7 +186,7 @@ Actor = Class.extend({
     },
 
     // 计算装备基本属性
-    calculateEquipmentBasicAttribute:function () {
+    calculateCapability:function () {
         var ret = {
             attack: 0,
             defence: 0,
