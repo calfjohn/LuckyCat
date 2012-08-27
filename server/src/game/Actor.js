@@ -9,8 +9,8 @@ var util = require("util");
 var log = new Log("Actor.changeEquipment");
 var PartType = {
     partHead:1,
-    partBody:2,
-    partHand:3,
+    partHand:2,
+    partBody:3,
     partFoot:4
 };
 var PartEmpty = -1;
@@ -49,7 +49,7 @@ Actor = Class.extend({
         ret.career_id = db.career_id;
         ret.chapter_id = db.chapter_id;
         ret.page_id = db.page_id;
-        var eqBuff = this.calculateEquipmentBasicAttribute();
+        var eqBuff = this.calculateCapability();
         ret.attack = eqBuff.attack;
         ret.defence = eqBuff.defence;
         ret.speed = eqBuff.speed;
@@ -105,6 +105,8 @@ Actor = Class.extend({
     changeEquipment:function (part, id, callback) {
         var basicDB = this._dbBasic;
         var equipDB = this._dbEquipment;
+        // 计算基本属性
+        var oldCapability = this.calculateCapability();
 
         var ret = {
             result:0,
@@ -140,7 +142,7 @@ Actor = Class.extend({
         }
 
         // 获得这件装备的字典表ID
-        var equip_dict_id = equipDB["equip_id"];
+        var equip_dict_id = (equipDB[id]).equip_id;
 
         // 取到这件装备的字典信息
         var eq = require("./DictManager").getEquipmentByID(equip_dict_id);
@@ -163,7 +165,7 @@ Actor = Class.extend({
             return;
         }
 
-        // 跟换装备
+        // 更换装备
         if (PartType.partHead == part) {
             basicDB.eq_head_id = id;
         }
@@ -177,6 +179,18 @@ Actor = Class.extend({
             basicDB.eq_foot_id = id;
         }
         require("./Actors").writeBackActorById(this._dbBasic.uuid, null);
+        var nowCapability = this.calculateCapability();
+        nowCapability.max_hp = nowCapability.life;
+        delete nowCapability.life;
+        ret.out.now = {};
+        ret.out.now = nowCapability;
+
+        // 计算差异
+        ret.out.delta = {};
+        ret.out.delta.attack = nowCapability.attack - oldCapability.attack;
+        ret.out.delta.defence = nowCapability.defence - oldCapability.defence;
+        ret.out.delta.max_hp = nowCapability.life - oldCapability.life;
+        ret.out.delta.speed = nowCapability.speed - oldCapability.speed;
         callback(ret);
 
     },
@@ -186,7 +200,7 @@ Actor = Class.extend({
     },
 
     // 计算装备基本属性
-    calculateEquipmentBasicAttribute:function () {
+    calculateCapability:function () {
         var ret = {
             attack: 0,
             defence: 0,
