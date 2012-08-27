@@ -13,6 +13,7 @@ var httpHandlers = { "/game/combat":      "./handler/combat"
     , "/game/actor/getSkillInfo":         "./handler/actor.getSkillInfo"
     , "/game/battle/fight1":              "./handler/battle.fight1"
     , "/game/battle/fight2":              "./handler/battle.fight2"
+    , "/game/battle/fight3":              "./handler/battle.fight3"
     , "/game/event/getEventList":         "./handler/event.getEventList"
 };
 
