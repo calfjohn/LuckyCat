@@ -120,17 +120,7 @@ typedef struct {
     }
 }stActorLevelUpgrade;
 
-typedef struct {
-    int             uuid;
-    std::string     nickName;
-    int             imageId;
-    int             level;
-    int             exp;
-    int             hp;
-    int             career_id;
-    int             chapter_id;
-    int             page_id;
-}stActorUserInfo;
+
 
 typedef struct{
     std::string                 equipName;
@@ -149,6 +139,23 @@ typedef struct{
     int                 userEquipType;
     stActorEquipInfo    *equipInfo;
 }stActorUserEquipInfo;
+
+typedef struct {
+    int                     userUuid;
+    std::string             userNickName;
+    int                     userImageId;
+    int                     userLevel;
+    int                     userExp;
+    int                     userHp;
+    int                     userCareerId;
+    int                     userChapterId;
+    int                     userPageId;
+    float                   userAttack;
+    float                   userReference;
+    float                   userSpeed;
+    int                     userMaxHp;
+    stActorUserEquipInfo    *userEquipInfo;
+}stActorUserInfo;
 
 #endif
 

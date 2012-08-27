@@ -17,7 +17,7 @@ PlayerInfoDataManager::XLRelease PlayerInfoDataManager::Garbo;
 
 
 PlayerInfoDataManager::PlayerInfoDataManager(){
-
+    m_curUserInfo = new stActorUserInfo();
 }
 PlayerInfoDataManager::~PlayerInfoDataManager(){
     
@@ -77,4 +77,8 @@ stActorUserEquipInfo* PlayerInfoDataManager::getUserEquipInfoForId(int equipid){
             return &m_vecUserEquipInfos[i];
     }
     return NULL;
+}
+
+stActorUserInfo* PlayerInfoDataManager::getCurUserInfo(){
+    return m_curUserInfo;
 }

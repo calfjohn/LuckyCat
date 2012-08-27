@@ -9,8 +9,8 @@ var util = require("util");
 var log = new Log("Actor.changeEquipment");
 var PartType = {
     partHead:1,
-    partBody:2,
-    partHand:3,
+    partHand:2,
+    partBody:3,
     partFoot:4
 };
 var PartEmpty = -1;
@@ -49,6 +49,12 @@ Actor = Class.extend({
         ret.career_id = db.career_id;
         ret.chapter_id = db.chapter_id;
         ret.page_id = db.page_id;
+        var eqBuff = this.calculateCapability();
+        ret.attack = eqBuff.attack;
+        ret.defence = eqBuff.defence;
+        ret.speed = eqBuff.speed;
+        ret.max_hp = eqBuff.life;
+
         return ret;
     },
 
@@ -99,6 +105,8 @@ Actor = Class.extend({
     changeEquipment:function (part, id, callback) {
         var basicDB = this._dbBasic;
         var equipDB = this._dbEquipment;
+        // 计算基本属性
+        var oldCapability = this.calculateCapability();
 
         var ret = {
             result:0,
@@ -134,7 +142,7 @@ Actor = Class.extend({
         }
 
         // 获得这件装备的字典表ID
-        var equip_dict_id = equipDB["equip_id"];
+        var equip_dict_id = (equipDB[id]).equip_id;
 
         // 取到这件装备的字典信息
         var eq = require("./DictManager").getEquipmentByID(equip_dict_id);
@@ -157,7 +165,7 @@ Actor = Class.extend({
             return;
         }
 
-        // 跟换装备
+        // 更换装备
         if (PartType.partHead == part) {
             basicDB.eq_head_id = id;
         }
@@ -171,6 +179,18 @@ Actor = Class.extend({
             basicDB.eq_foot_id = id;
         }
         require("./Actors").writeBackActorById(this._dbBasic.uuid, null);
+        var nowCapability = this.calculateCapability();
+        nowCapability.max_hp = nowCapability.life;
+        delete nowCapability.life;
+        ret.out.now = {};
+        ret.out.now = nowCapability;
+
+        // 计算差异
+        ret.out.delta = {};
+        ret.out.delta.attack = nowCapability.attack - oldCapability.attack;
+        ret.out.delta.defence = nowCapability.defence - oldCapability.defence;
+        ret.out.delta.max_hp = nowCapability.life - oldCapability.life;
+        ret.out.delta.speed = nowCapability.speed - oldCapability.speed;
         callback(ret);
 
     },
@@ -179,15 +199,58 @@ Actor = Class.extend({
         return this._dbSkill;
     },
 
-    calculateEquipmentBasicAttribute:function () {
+    // 计算装备基本属性
+    calculateCapability:function () {
         var ret = {
-            attk: 0,
-            def: 0,
+            attack: 0,
+            defence: 0,
             speed: 0,
             life: 0
         };
 
-        var total = 0;
+        //玩家基本属性
+        var me = this._dbBasic;
+        var career = DictManager.getCareerByID(me.career_id);
+        ret.attack = career.attack*Math.pow(1 + career.attack_growth, me.level);
+        ret.defence = career.defence*Math.pow(1 + career.defence_growth, me.level);
+        ret.life = career.life*Math.pow(1 + career.life_growth, me.level);
+        ret.speed = career.speed*Math.pow(1 + career.speed_growth, me.level);
+
+        //装备基本属性
+        var actor_equipped = this.getEquippedEquipment();
+        for(var key in actor_equipped){
+            var eq = actor_equipped[key];
+            var equip_id = eq.equip_id;
+            if(PartEmpty !=  equip_id){
+                var eq_dict_info = require("./DictManager").getEquipmentByID(equip_id);
+                var level_growth = require("./DictManager").getEquipLevelGrowthByLevel(eq.level);
+                var rank_growth = require("./DictManager").getEquipRankGrowthByRank(eq.rank);
+
+                // calculate attk
+                var atk = eq_dict_info.attack;
+                ret.attack += atk * (1 + level_growth.growth);
+                ret.attack += atk * (1 + rank_growth.growth);
+
+                // calculate speed
+                var speed = eq_dict_info.speed;
+                ret.speed += atk * (1 + level_growth.growth);
+                ret.speed += atk * (1 + rank_growth.growth);
+
+                // calculate defence
+                var defence = eq_dict_info.defence;
+                ret.defence += atk * (1 + level_growth.growth);
+                ret.defence += atk * (1 + rank_growth.growth);
+
+                // calculate life
+                var life = eq_dict_info.life;
+                ret.life += atk * (1 + level_growth.growth);
+                ret.life += atk * (1 + rank_growth.growth);
+
+            }
+        }
+
+        //技能基本属性
+
         return ret;
 
     }

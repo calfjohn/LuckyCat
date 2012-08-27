@@ -58,7 +58,7 @@ bool EquipInfoView::onAssignCCBMemberVariable(cocos2d::CCObject * pTarget, cocos
 }
 
 void EquipInfoView::scrollViewDidScroll(CCScrollView* view){
-
+    cout << "moved to scrollview" << endl;
 }
 
 void EquipInfoView::scrollViewDidZoom(CCScrollView* view){
@@ -67,7 +67,7 @@ void EquipInfoView::scrollViewDidZoom(CCScrollView* view){
 
 void EquipInfoView::onEnter(){
     CCLayer::onEnter();
-    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 1, false);
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, -200, false);
 }
 
 void EquipInfoView::onExit(){
@@ -137,7 +137,7 @@ bool EquipInfoView::initEquipListView(EquipType type){
                 }
                 CCMenuItemLabel *item = CCMenuItemLabel::create(label, this, menu_selector(EquipInfoView::equipListMenuItemCallBack));
                 float x = 150.0f / 2.0f;
-                float y = i * 15.0f;
+                float y = 150.0f - i * 15.0f - (15.0f / 2.0f);
                 item->setPosition(CCPointMake(x, y));
                 item->setTag(i);
                 items->addObject(item);
@@ -161,7 +161,7 @@ bool EquipInfoView::initEquipListView(EquipType type){
                 }
                 CCMenuItemLabel *item = CCMenuItemLabel::create(label, this, menu_selector(EquipInfoView::equipListMenuItemCallBack));
                 float x = 150.0f / 2.0f;
-                float y = i * 15.0f;
+                float y = 150.0f - i * 15.0f - (15.0f / 2.0f);
                 item->setPosition(CCPointMake(x, y));
                 item->setTag(i);
                 items->addObject(item);
@@ -185,7 +185,7 @@ bool EquipInfoView::initEquipListView(EquipType type){
                 }
                 CCMenuItemLabel *item = CCMenuItemLabel::create(label, this, menu_selector(EquipInfoView::equipListMenuItemCallBack));
                 float x = 150.0f / 2.0f;
-                float y = i * 15.0f;
+                float y = 150.0f - i * 15.0f - (15.0f / 2.0f);
                 item->setPosition(CCPointMake(x, y));
                 item->setTag(i);
                 items->addObject(item);
@@ -209,7 +209,7 @@ bool EquipInfoView::initEquipListView(EquipType type){
                 }
                 CCMenuItemLabel *item = CCMenuItemLabel::create(label, this, menu_selector(EquipInfoView::equipListMenuItemCallBack));
                 float x = 150.0f / 2.0f;
-                float y = i * 15.0f;
+                float y = 150.0f - i * 15.0f - (15.0f / 2.0f);
                 item->setPosition(CCPointMake(x, y));
                 item->setTag(i);
                 items->addObject(item);
@@ -250,7 +250,7 @@ bool EquipInfoView::initEquipListView(EquipType type){
     m_EquipListView->setDirection(CCScrollViewDirectionVertical);
     m_EquipListView->setDelegate(this);
     m_EquipListView->setTouchEnabled(true);
-    //m_EquipListView->scrollsToTop();
+    m_EquipListView->scrollsToTop();
     
     this->addChild(m_EquipListView);
     
@@ -266,6 +266,17 @@ void EquipInfoView::EquipViewBtnCallback(cocos2d::CCObject *pTarget){
             break;
         case kEquipTakeOff:
             sendResetCurEquip();
+            break;
+        case kEquipUp:{
+            CCPoint pos = ccp(0,m_EquipListView->getContentOffset().y+15);
+            m_EquipListView->setContentOffset(pos);
+        }
+            break;
+        case kEquipDown:{
+            CCPoint pos = ccp(0,m_EquipListView->getContentOffset().y-15);
+            m_EquipListView->setContentOffset(pos);
+        }
+            //sendResetCurEquip();
             break;
         default:
             break;
