@@ -98,7 +98,7 @@ Actors = {
         });
     },
 
-    getActor:function (uuid, callback) {
+    getActor:function (uuid) {
         //get a actor basic info by uuid
         var actorDB = Actors._cacheActors["" + uuid];
         var equipDB = null;
@@ -107,23 +107,12 @@ Actors = {
             // get the equipmnets by actor's actor_id
             equipDB = Actors._cacheEquipments["" + actorDB.id];
             skillDB = Actors._cacheSkills["" + actorDB.id];
+            return (new Actor(actorDB, equipDB, skillDB));
         } else {
             actorDB = null;
-        }
-        callback(new Actor(actorDB, equipDB, skillDB));
-    },
-
-    getActorFromCache: function(uuid) {
-        var actor =  Actors._cacheActors[""+uuid];
-        if(undefined == actor){
-            actor = null;
-        }
-        else
-        {
-            Actors.calculateCapablity(actor);
+            return null;
         }
 
-        return actor;
     },
 
     updateProgress: function(id, chapterId, pageId){
@@ -135,20 +124,6 @@ Actors = {
 
         Actors._cacheActors[strUUID].chapter_id = chapterId;
         Actors._cacheActors[strUUID].page_id = pageId;
-    },
-
-    calculateCapablity: function(actor){
-        var career = DictManager.getCareerByID(actor.career_id);
-
-        //玩家基本属性
-        actor.attack = career.attack*Math.pow(1 + career.attack_growth, actor.level);
-        actor.defence = career.defence*Math.pow(1 + career.defence_growth, actor.level);
-        actor.hp = career.life*Math.pow(1 + career.life_growth, actor.level);
-        actor.speed = career.speed*Math.pow(1 + career.speed_growth, actor.level);
-
-        //装备基本属性
-
-        //技能基本属性
     },
 
     writeBackActorById: function(uuid, callback){

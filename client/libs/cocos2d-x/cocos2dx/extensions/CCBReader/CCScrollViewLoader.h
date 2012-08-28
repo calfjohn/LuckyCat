@@ -9,7 +9,7 @@ NS_CC_EXT_BEGIN
 /* Forward declaration. */
 class CCBReader;
 
-class CCScrollViewLoader : public CCNodeLoader {
+class CC_DLL CCScrollViewLoader : public CCNodeLoader {
     public:
         virtual ~CCScrollViewLoader() {};
         CCB_STATIC_NEW_AUTORELEASE_OBJECT_METHOD(CCScrollViewLoader, loader);
