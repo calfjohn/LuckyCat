@@ -25,6 +25,7 @@ DictManager = {
     _cacheLevel:null,
     _cacheEquipmentLevelGrowth: null,
     _cacheEquipmentRankGrowth: null,
+    _cacheActorLevelUpgrade: null,
     initInstance:function (dbConfig, callback) {
         DictManager._dbAgent = new DBAgent(dbConfig);
         DictManager._dbAgent.connect(true);
@@ -96,6 +97,17 @@ DictManager = {
             }
         };
 
+        var getActorLevelUpgrade = function(err, rows){
+            if (! err) {
+                DictManager._cacheActorLevelUpgrade = {};
+                for(var i = 0; i < rows.length; ++i){
+                    var data = rows[i];
+                    var level = "" + data.level;
+                    DictManager._cacheActorLevelUpgrade[level] = data;
+                }
+            }
+        };
+
         // Cache all equipment data on server start
         // second, do query operation for get data from db, thus cache all actors data on server start
         // step 1, query actor data
@@ -114,8 +126,11 @@ DictManager = {
                             getEquipmentRankGrowth(err, rows);
                             DictManager._dbAgent.query("SELECT * FROM `dict_page`", function (err, rows) {
                                 getLevelData(err, rows);
-                                // all data cached, call callback
-                                callback(err);
+                                DictManager._dbAgent.query("SELECT * FROM `dict_actor_level_upgrade`", function (err, rows) {
+                                    getActorLevelUpgrade(err, rows);
+                                    // all data cached, call callback
+                                    callback(err);
+                                });
                             });
 
                         });
@@ -187,6 +202,15 @@ DictManager = {
         }
 
         return growth;
+    },
+
+    getActorLevelUpgradeByLevel: function(level){
+        //get actor level upgrade by level
+        var ret = DictManager._cacheActorLevelUpgrade[""+level];
+        if(undefined == ret){
+            ret = null;
+        }
+        return ret;
     }
 
 

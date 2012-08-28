@@ -253,12 +253,12 @@ Events = {
                         tEvent.Money = money;
                         var oExp = {};
                         oExp.type = 1;
-                        oExp.id = 999;//exp
+                        oExp.id = 2;//exp
                         oExp.num = exp;
 
                         var oMoney = {};
                         oMoney.type = 2;
-                        oMoney.id = 888;
+                        oMoney.id = 1;
                         oMoney.num = money;
 
                         tEvent.bonusArray.push(oMoney);
