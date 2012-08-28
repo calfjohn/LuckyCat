@@ -128,6 +128,7 @@ Actor = Class.extend({
             }
             require("./Actors").writeBackActorById(this._dbBasic.uuid, null);
             var nowCapability = this.calculateCapability();
+            nowCapability.max_hp = 0;
             nowCapability.max_hp = nowCapability.life;
             delete nowCapability.life;
             ret.out.now = {};
@@ -192,6 +193,7 @@ Actor = Class.extend({
         }
         require("./Actors").writeBackActorById(this._dbBasic.uuid, null);
         var nowCapability = this.calculateCapability();
+        nowCapability.max_hp = 0;
         nowCapability.max_hp = nowCapability.life;
         delete nowCapability.life;
         ret.out.now = {};
@@ -246,28 +248,46 @@ Actor = Class.extend({
 
                 // calculate speed
                 var speed = eq_dict_info.speed;
-                ret.speed += atk * (1 + level_growth.growth);
-                ret.speed += atk * (1 + rank_growth.growth);
+                ret.speed += speed * (1 + level_growth.growth);
+                ret.speed += speed * (1 + rank_growth.growth);
 
                 // calculate defence
                 var defence = eq_dict_info.defence;
-                ret.defence += atk * (1 + level_growth.growth);
-                ret.defence += atk * (1 + rank_growth.growth);
+                ret.defence += defence * (1 + level_growth.growth);
+                ret.defence += defence * (1 + rank_growth.growth);
 
                 // calculate life
                 var life = eq_dict_info.life;
-                ret.life += atk * (1 + level_growth.growth);
-                ret.life += atk * (1 + rank_growth.growth);
+                ret.life += life * (1 + level_growth.growth);
+                ret.life += life * (1 + rank_growth.growth);
 
             }
         }
 
-        //技能基本属性
+        //技能基本属性 
         return ret;
     },
 
     gainExp: function (exp){
-        this._dbBasic.exp +=exp;
+        var actor  = this._dbBasic;
+        var curExp = actor.exp;
+        var upgrade_table = require("./DictManager").getActorLevelUpgradeByLevel(actor.level);
+        var upgrade_need_exp = upgrade_table.xp
+
+        var restExp = exp;
+        while(restExp > 0){
+            var diff  = restExp - upgrade_need_exp;
+            // 玩家升级了
+            if(diff >= 0){
+                actor.exp += upgrade_need_exp;
+                actor.level += 1;
+            }else{
+                actor.exp += restExp;
+            }
+            restExp = diff;
+        }
+
+
     },
 
     gainEquipment: function (equip_id){
