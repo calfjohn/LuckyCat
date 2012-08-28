@@ -263,8 +263,14 @@ Actor = Class.extend({
         }
 
         //技能基本属性
-
         return ret;
+    },
+
+    gainExp: function (exp){
+        this._dbBasic.exp +=exp;
+    },
+
+    gainEquipment: function (equip_id){
 
     }
 
