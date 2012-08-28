@@ -44,6 +44,8 @@ public:
     
     void hideBasicView();
     
+    void initBasicInfoView();
+    
     void sendBasicInfo();
     void responesBasicInfo(CCNode *pNode, void* data);
     void setBasicInfoLabelForTag(const int tag, cocos2d::CCString *infomation);

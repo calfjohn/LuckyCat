@@ -99,7 +99,7 @@ bool EquipInfoView::initEquipListData(){
 
     for (int i = 0; i<size; i++) {
         stActorUserEquipInfo *info = PlayerInfoDataManager::sharedPlayerInfoDataManager()->getUserEquipInfoForId(m_vecEquipIds[i]);
-        
+        info->userListId = m_vecEquipListIds[i];
         switch (info->userEquipType) {
             case kEquipHead:
                 m_EquipHeadInfos.push_back(*info);
@@ -152,10 +152,11 @@ bool EquipInfoView::initEquipListView(EquipType type){
             for (int i = 0; i<m_EquipHandInfos.size(); i++) {
                 stActorUserEquipInfo *info = &(m_EquipHandInfos[i]);
                 CCLabelTTF* label;
-                if (info->userEquipId == m_iEquipCurHeadId) {
+                if (info->userEquipId == m_iEquipCurHandId) {
                     info->userPutOn = true;
                     CCString *name = CCString::createWithFormat("%s(当前)",info->equipInfo->equipName.c_str());
                     label = CCLabelTTF::create(name->getCString(), "Arial", 15);
+                    cout << "put on" << endl;
                 }else{
                     label = CCLabelTTF::create(info->equipInfo->equipName.c_str(), "Arial", 15);
                 }
@@ -176,7 +177,7 @@ bool EquipInfoView::initEquipListView(EquipType type){
             for (int i = 0; i<m_EquipBodyInfos.size(); i++) {
                 stActorUserEquipInfo *info = &(m_EquipBodyInfos[i]);
                 CCLabelTTF* label;
-                if (info->userEquipId == m_iEquipCurHeadId) {
+                if (info->userEquipId == m_iEquipCurBodyId) {
                     info->userPutOn = true;
                     CCString *name = CCString::createWithFormat("%s(当前)",info->equipInfo->equipName.c_str());
                     label = CCLabelTTF::create(name->getCString(), "Arial", 15);
@@ -200,7 +201,7 @@ bool EquipInfoView::initEquipListView(EquipType type){
             for (int i = 0; i<m_EquipFootInfos.size(); i++) {
                 stActorUserEquipInfo *info = &(m_EquipFootInfos[i]);
                 CCLabelTTF* label;
-                if (info->userEquipId == m_iEquipCurHeadId) {
+                if (info->userEquipId == m_iEquipCurFootId) {
                     info->userPutOn = true;
                     CCString *name = CCString::createWithFormat("%s(当前)",info->equipInfo->equipName.c_str());
                     label = CCLabelTTF::create(name->getCString(), "Arial", 15);
@@ -341,27 +342,61 @@ void EquipInfoView::setEquipInfo(const stActorEquipInfo *info){
         m_labEquipAttack->setString(attack->getCString());
     }
     CCMenu* menu = (CCMenu*)this->getChildByTag(kEquipMenu);
-    if (m_selectedEquipData->userPutOn) {
-        CCMenuItemImage *puton = (CCMenuItemImage*)menu->getChildByTag(kEquipPutOn);
-        puton->setEnabled(false);
-        CCLabelTTF *pstring = (CCLabelTTF*)this->getChildByTag(kEquipFontPutOn);
-        pstring->setVisible(false);
-        
-        CCMenuItemImage *takeoff = (CCMenuItemImage*)menu->getChildByTag(kEquipTakeOff);
-        takeoff->setEnabled(true);
-        CCLabelTTF *tstring = (CCLabelTTF*)this->getChildByTag(kEquipFontTakeOff);
-        tstring->setVisible(true);
-    }else{
-        CCMenuItemImage *puton = (CCMenuItemImage*)menu->getChildByTag(kEquipPutOn);
-        puton->setEnabled(true);
-        CCLabelTTF *pstring = (CCLabelTTF*)this->getChildByTag(kEquipFontPutOn);
-        pstring->setVisible(true);
-        
-        CCMenuItemImage *takeoff = (CCMenuItemImage*)menu->getChildByTag(kEquipTakeOff);
-        takeoff->setEnabled(false);
-        CCLabelTTF *tstring = (CCLabelTTF*)this->getChildByTag(kEquipFontTakeOff);
-        tstring->setVisible(false);
+    bool havePutOn;
+    switch (m_selectedEquipData->userEquipType) {
+        case kEquipHead:
+            havePutOn = m_bHeadHavePutOn;
+            break;
+        case kEquipHand:
+            havePutOn = m_bHandHavePutOn;
+            break;
+        case kEquipBody:
+            havePutOn = m_bBodyHavePutOn;
+            break;
+        case kEquipFoot:
+            havePutOn = m_bFootHavePutOn;
+            break;
+        default:
+            break;
     }
+    if (havePutOn) {
+        if (m_selectedEquipData->userPutOn) {
+            CCMenuItemImage *puton = (CCMenuItemImage*)menu->getChildByTag(kEquipPutOn);
+            puton->setEnabled(false);
+            CCLabelTTF *pstring = (CCLabelTTF*)this->getChildByTag(kEquipFontPutOn);
+            pstring->setVisible(false);
+            
+            CCMenuItemImage *takeoff = (CCMenuItemImage*)menu->getChildByTag(kEquipTakeOff);
+            takeoff->setEnabled(true);
+            CCLabelTTF *tstring = (CCLabelTTF*)this->getChildByTag(kEquipFontTakeOff);
+            tstring->setVisible(true);
+        }else{
+            CCMenuItemImage *puton = (CCMenuItemImage*)menu->getChildByTag(kEquipPutOn);
+            puton->setEnabled(false);
+            //puton->unselected();
+            CCLabelTTF *pstring = (CCLabelTTF*)this->getChildByTag(kEquipFontPutOn);
+            pstring->setVisible(true);
+            
+            CCMenuItemImage *takeoff = (CCMenuItemImage*)menu->getChildByTag(kEquipTakeOff);
+            takeoff->setEnabled(false);
+            //takeoff->unselected();
+            CCLabelTTF *tstring = (CCLabelTTF*)this->getChildByTag(kEquipFontTakeOff);
+            tstring->setVisible(false);
+        }
+    }else{
+            CCMenuItemImage *puton = (CCMenuItemImage*)menu->getChildByTag(kEquipPutOn);
+            puton->setEnabled(true);
+            //puton->unselected();
+            CCLabelTTF *pstring = (CCLabelTTF*)this->getChildByTag(kEquipFontPutOn);
+            pstring->setVisible(true);
+            
+            CCMenuItemImage *takeoff = (CCMenuItemImage*)menu->getChildByTag(kEquipTakeOff);
+            takeoff->setEnabled(false);
+            //takeoff->unselected();
+            CCLabelTTF *tstring = (CCLabelTTF*)this->getChildByTag(kEquipFontTakeOff);
+            tstring->setVisible(false);
+    }
+    
     
 }
 
@@ -389,6 +424,9 @@ void EquipInfoView::responsePlayerEquipInfo(CCNode *pNode, void* data){
     if(!m_vecEquipIds.empty()){
         m_vecEquipIds.clear();
     }
+    if (!m_vecEquipListIds.empty()) {
+        m_vecEquipListIds.clear();
+    }
     Json::Value root;
     Json::Reader reader;
     
@@ -397,6 +435,7 @@ void EquipInfoView::responsePlayerEquipInfo(CCNode *pNode, void* data){
         for(int i = 0;i<out.size();i++){
             //std::cout << "i = " << i << " " << out[i]["equip_id"].asInt() << std::endl;
             m_vecEquipIds.push_back(out[i]["equip_id"].asInt());
+            m_vecEquipListIds.push_back(out[i]["id"].asInt());
         }
     }
     initEquipListData();
@@ -416,18 +455,30 @@ void EquipInfoView::responsePlayerCurEquipInfo(CCNode *pNode, void* data){
         m_iEquipCurHeadId = out["eq_head_id"]["id"].asInt();
         if (m_iEquipCurHeadId != -1) {
             m_iEquipCurHeadId = out["eq_head_id"]["equip_id"].asInt();
+            m_bHeadHavePutOn = true;
+        }else{
+            m_bHeadHavePutOn = false;
         }
         m_iEquipCurBodyId = out["eq_body_id"]["id"].asInt();
         if (m_iEquipCurBodyId != -1) {
-            m_iEquipCurBodyId = out["eq_head_id"]["equip_id"].asInt();
+            m_iEquipCurBodyId = out["eq_body_id"]["equip_id"].asInt();
+            m_bBodyHavePutOn = true;
+        }else{
+            m_bBodyHavePutOn = false;
         }
         m_iEquipCurHandId = out["eq_hand_id"]["id"].asInt();
         if (m_iEquipCurHandId != -1) {
-            m_iEquipCurHandId = out["eq_head_id"]["equip_id"].asInt();
+            m_iEquipCurHandId = out["eq_hand_id"]["equip_id"].asInt();
+            m_bHandHavePutOn = true;
+        }else{
+            m_bHandHavePutOn = false;
         }
         m_iEquipCurFootId = out["eq_foot_id"]["id"].asInt();
         if (m_iEquipCurFootId != -1) {
-            m_iEquipCurFootId = out["eq_head_id"]["equip_id"].asInt();
+            m_iEquipCurFootId = out["eq_foot_id"]["equip_id"].asInt();
+            m_bFootHavePutOn = true;
+        }else{
+            m_bFootHavePutOn = false;
         }
     }
     initEquipListView(kEquipHead);
@@ -440,13 +491,28 @@ void EquipInfoView::sendResetCurEquip(){
         NetManager::shareNetManager()->sendEx(kModeActor, kDoChangeEquipmentInfo, callfuncND_selector(EquipInfoView::responseTakeOffCurEquip), this, "\"part\":%d,\"id\":%d",m_selectedEquipData->userEquipType,-1);
     }else{
         cout << m_selectedEquipData->userEquipType << " " << m_selectedEquipData->userEquipId << endl;
-        NetManager::shareNetManager()->sendEx(kModeActor, kDoChangeEquipmentInfo, callfuncND_selector(EquipInfoView::responsePutOnCurEquip), this, "\"part\":%d,\"id\":%d",m_selectedEquipData->userEquipType,m_selectedEquipData->userEquipId);
+        NetManager::shareNetManager()->sendEx(kModeActor, kDoChangeEquipmentInfo, callfuncND_selector(EquipInfoView::responsePutOnCurEquip), this, "\"part\":%d,\"id\":%d",m_selectedEquipData->userEquipType,m_selectedEquipData->userListId);
     }
 }
 
 void EquipInfoView::responsePutOnCurEquip(CCNode *pNode, void* data){
     m_selectedEquipData->userPutOn = true;
-    
+    switch (m_selectedEquipData->userEquipType) {
+        case kEquipHead:
+            m_bHeadHavePutOn = true;
+            break;
+        case kEquipHand:
+            m_bHandHavePutOn = true;
+            break;
+        case kEquipBody:
+            m_bBodyHavePutOn = true;
+            break;
+        case kEquipFoot:
+            m_bFootHavePutOn = true;
+            break;
+        default:
+            break;
+    }
     CCMenu *menu = (CCMenu*)this->getChildByTag(kEquipMenu);
     
     CCMenuItemImage *puton = (CCMenuItemImage*)menu->getChildByTag(kEquipPutOn);
@@ -463,10 +529,57 @@ void EquipInfoView::responsePutOnCurEquip(CCNode *pNode, void* data){
     CCLabelTTF *label = (CCLabelTTF*)m_selectedEquipListLabel->getLabel();
     CCString *name = CCString::createWithFormat("%s(当前)",label->getString());
     m_selectedEquipListLabel->setString(name->getCString());
+    
+    switch (m_selectedEquipData->userEquipType) {
+        case kEquipHead:
+            m_iEquipCurHeadId = m_selectedEquipData->userEquipId;
+            break;
+        case kEquipHand:
+            m_iEquipCurHandId = m_selectedEquipData->userEquipId;
+            break;
+        case kEquipBody:
+            m_iEquipCurBodyId = m_selectedEquipData->userEquipId;
+            break;
+        case kEquipFoot:
+            m_iEquipCurFootId = m_selectedEquipData->userEquipId;
+            break;
+        default:
+            break;
+    }
+    
+    Json::Value root;
+    Json::Reader reader;
+    
+    if(reader.parse(NetManager::shareNetManager()->processResponse(data), root)){
+        stActorUserInfo* info = PlayerInfoDataManager::sharedPlayerInfoDataManager()->getCurUserInfo();
+        if(info == NULL){
+            return;
+        }
+        Json::Value now = root["meta"]["out"]["now"];
+        info->userAttack = now["attack"].asDouble();
+        info->userReference = now["defence"].asDouble();
+        info->userSpeed = now["speed"].asDouble();
+    }
 }
 
 void EquipInfoView::responseTakeOffCurEquip(CCNode *pNode, void* data){
     m_selectedEquipData->userPutOn = false;
+    switch (m_selectedEquipData->userEquipType) {
+        case kEquipHead:
+            m_bHeadHavePutOn = false;
+            break;
+        case kEquipHand:
+            m_bHandHavePutOn = false;
+            break;
+        case kEquipBody:
+            m_bBodyHavePutOn = false;
+            break;
+        case kEquipFoot:
+            m_bFootHavePutOn = false;
+            break;
+        default:
+            break;
+    }
     
     CCMenu *menu = (CCMenu*)this->getChildByTag(kEquipMenu);
     
@@ -483,6 +596,36 @@ void EquipInfoView::responseTakeOffCurEquip(CCNode *pNode, void* data){
     //CCString *name =
     CCLabelTTF *label = CCLabelTTF::create(m_selectedEquipData->equipInfo->equipName.c_str(), "Arial", 15);
     m_selectedEquipListLabel->setLabel(label);
+    switch (m_selectedEquipData->userEquipType) {
+        case kEquipHead:
+            m_iEquipCurHeadId = -1;
+            break;
+        case kEquipHand:
+            m_iEquipCurHandId = -1;
+            break;
+        case kEquipBody:
+            m_iEquipCurBodyId = -1;
+            break;
+        case kEquipFoot:
+            m_iEquipCurFootId = -1;
+            break;
+        default:
+            break;
+    }
+    
+    Json::Value root;
+    Json::Reader reader;
+    
+    if(reader.parse(NetManager::shareNetManager()->processResponse(data), root)){
+        stActorUserInfo* info = PlayerInfoDataManager::sharedPlayerInfoDataManager()->getCurUserInfo();
+        if(info == NULL){
+            return;
+        }
+        Json::Value now = root["meta"]["out"]["now"];
+        info->userAttack = now["attack"].asDouble();
+        info->userReference = now["defence"].asDouble();
+        info->userSpeed = now["speed"].asDouble();
+    }
 }
 
 

@@ -127,6 +127,18 @@ Actor = Class.extend({
                 basicDB.eq_foot_id = PartEmpty;
             }
             require("./Actors").writeBackActorById(this._dbBasic.uuid, null);
+            var nowCapability = this.calculateCapability();
+            nowCapability.max_hp = nowCapability.life;
+            delete nowCapability.life;
+            ret.out.now = {};
+            ret.out.now = nowCapability;
+
+            // 计算差异
+            ret.out.delta = {};
+            ret.out.delta.attack = nowCapability.attack - oldCapability.attack;
+            ret.out.delta.defence = nowCapability.defence - oldCapability.defence;
+            ret.out.delta.max_hp = nowCapability.life - oldCapability.life;
+            ret.out.delta.speed = nowCapability.speed - oldCapability.speed;
             callback(ret);
             return;
         }

@@ -135,6 +135,7 @@ typedef struct{
 
 typedef struct{
     bool                userPutOn;
+    int                 userListId;
     int                 userEquipId;
     int                 userEquipType;
     stActorEquipInfo    *equipInfo;
