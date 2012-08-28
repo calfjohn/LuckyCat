@@ -18,7 +18,9 @@
 
 
 EquipInfoView::EquipInfoView(){
-    
+    m_EquipListView = NULL;
+    m_selectedEquipData = NULL;
+    m_selectedEquipListLabel = NULL;
 }
 
 EquipInfoView::~EquipInfoView(){
@@ -56,7 +58,7 @@ bool EquipInfoView::onAssignCCBMemberVariable(cocos2d::CCObject * pTarget, cocos
 }
 
 void EquipInfoView::scrollViewDidScroll(CCScrollView* view){
-
+    cout << "moved to scrollview" << endl;
 }
 
 void EquipInfoView::scrollViewDidZoom(CCScrollView* view){
@@ -65,7 +67,7 @@ void EquipInfoView::scrollViewDidZoom(CCScrollView* view){
 
 void EquipInfoView::onEnter(){
     CCLayer::onEnter();
-    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 1, false);
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, -200, false);
 }
 
 void EquipInfoView::onExit(){
@@ -135,7 +137,7 @@ bool EquipInfoView::initEquipListView(EquipType type){
                 }
                 CCMenuItemLabel *item = CCMenuItemLabel::create(label, this, menu_selector(EquipInfoView::equipListMenuItemCallBack));
                 float x = 150.0f / 2.0f;
-                float y = i * 15.0f;
+                float y = 150.0f - i * 15.0f - (15.0f / 2.0f);
                 item->setPosition(CCPointMake(x, y));
                 item->setTag(i);
                 items->addObject(item);
@@ -159,7 +161,7 @@ bool EquipInfoView::initEquipListView(EquipType type){
                 }
                 CCMenuItemLabel *item = CCMenuItemLabel::create(label, this, menu_selector(EquipInfoView::equipListMenuItemCallBack));
                 float x = 150.0f / 2.0f;
-                float y = i * 15.0f;
+                float y = 150.0f - i * 15.0f - (15.0f / 2.0f);
                 item->setPosition(CCPointMake(x, y));
                 item->setTag(i);
                 items->addObject(item);
@@ -183,7 +185,7 @@ bool EquipInfoView::initEquipListView(EquipType type){
                 }
                 CCMenuItemLabel *item = CCMenuItemLabel::create(label, this, menu_selector(EquipInfoView::equipListMenuItemCallBack));
                 float x = 150.0f / 2.0f;
-                float y = i * 15.0f;
+                float y = 150.0f - i * 15.0f - (15.0f / 2.0f);
                 item->setPosition(CCPointMake(x, y));
                 item->setTag(i);
                 items->addObject(item);
@@ -207,7 +209,7 @@ bool EquipInfoView::initEquipListView(EquipType type){
                 }
                 CCMenuItemLabel *item = CCMenuItemLabel::create(label, this, menu_selector(EquipInfoView::equipListMenuItemCallBack));
                 float x = 150.0f / 2.0f;
-                float y = i * 15.0f;
+                float y = 150.0f - i * 15.0f - (15.0f / 2.0f);
                 item->setPosition(CCPointMake(x, y));
                 item->setTag(i);
                 items->addObject(item);
@@ -232,7 +234,12 @@ bool EquipInfoView::initEquipListView(EquipType type){
     
     layer->addChild(menu);
     
-    m_EquipListView = CCScrollView::create(CCSizeMake(150, 100),layer);
+    if (m_EquipListView != NULL) {
+        m_EquipListView->removeAllChildrenWithCleanup(true);
+        m_EquipListView = CCScrollView::create(CCSizeMake(150, 100),layer);
+    }else{
+        m_EquipListView = CCScrollView::create(CCSizeMake(150, 100),layer);
+    }
     m_EquipListView->setPosition(CCPointMake(107, 137));
     //m_EquipListView->setContentOffset(CCPointMake(0, 137));
     
@@ -243,7 +250,7 @@ bool EquipInfoView::initEquipListView(EquipType type){
     m_EquipListView->setDirection(CCScrollViewDirectionVertical);
     m_EquipListView->setDelegate(this);
     m_EquipListView->setTouchEnabled(true);
-    //m_EquipListView->scrollsToTop();
+    m_EquipListView->scrollsToTop();
     
     this->addChild(m_EquipListView);
     
@@ -259,6 +266,17 @@ void EquipInfoView::EquipViewBtnCallback(cocos2d::CCObject *pTarget){
             break;
         case kEquipTakeOff:
             sendResetCurEquip();
+            break;
+        case kEquipUp:{
+            CCPoint pos = ccp(0,m_EquipListView->getContentOffset().y+15);
+            m_EquipListView->setContentOffset(pos);
+        }
+            break;
+        case kEquipDown:{
+            CCPoint pos = ccp(0,m_EquipListView->getContentOffset().y-15);
+            m_EquipListView->setContentOffset(pos);
+        }
+            //sendResetCurEquip();
             break;
         default:
             break;
@@ -395,10 +413,22 @@ void EquipInfoView::responsePlayerCurEquipInfo(CCNode *pNode, void* data){
     
     if(reader.parse(NetManager::shareNetManager()->processResponse(data), root)){
         Json::Value out = root["meta"]["out"];
-        m_iEquipCurHeadId = out["eq_head_id"].asInt();
-        m_iEquipCurBodyId = out["eq_body_id"].asInt();
-        m_iEquipCurHandId = out["eq_hand_id"].asInt();
-        m_iEquipCurFootId = out["eq_foot_id"].asInt();
+        m_iEquipCurHeadId = out["eq_head_id"]["id"].asInt();
+        if (m_iEquipCurHeadId != -1) {
+            m_iEquipCurHeadId = out["eq_head_id"]["equip_id"].asInt();
+        }
+        m_iEquipCurBodyId = out["eq_body_id"]["id"].asInt();
+        if (m_iEquipCurBodyId != -1) {
+            m_iEquipCurBodyId = out["eq_head_id"]["equip_id"].asInt();
+        }
+        m_iEquipCurHandId = out["eq_hand_id"]["id"].asInt();
+        if (m_iEquipCurHandId != -1) {
+            m_iEquipCurHandId = out["eq_head_id"]["equip_id"].asInt();
+        }
+        m_iEquipCurFootId = out["eq_foot_id"]["id"].asInt();
+        if (m_iEquipCurFootId != -1) {
+            m_iEquipCurFootId = out["eq_head_id"]["equip_id"].asInt();
+        }
     }
     initEquipListView(kEquipHead);
 }

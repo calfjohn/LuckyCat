@@ -114,7 +114,16 @@ Actors = {
     },
 
     getActorFromCache: function(uuid) {
-        return Actors._cacheActors[""+uuid];
+        var actor =  Actors._cacheActors[""+uuid];
+        if(undefined == actor){
+            actor = null;
+        }
+        else
+        {
+            Actors.calculateCapablity(actor);
+        }
+
+        return actor;
     },
 
     updateProgress: function(id, chapterId, pageId){
@@ -128,14 +137,18 @@ Actors = {
         Actors._cacheActors[strUUID].page_id = pageId;
     },
 
-    calculateCapablity: function(id){
-        var actor = Actors.getActorFromCache(id);
-        var career  = DictManager.getCareerByID(actor.career_id);
+    calculateCapablity: function(actor){
+        var career = DictManager.getCareerByID(actor.career_id);
 
+        //玩家基本属性
         actor.attack = career.attack*Math.pow(1 + career.attack_growth, actor.level);
         actor.defence = career.defence*Math.pow(1 + career.defence_growth, actor.level);
         actor.hp = career.life*Math.pow(1 + career.life_growth, actor.level);
         actor.speed = career.speed*Math.pow(1 + career.speed_growth, actor.level);
+
+        //装备基本属性
+
+        //技能基本属性
     },
 
     writeBackActorById: function(uuid, callback){

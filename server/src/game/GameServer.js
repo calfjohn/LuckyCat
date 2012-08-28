@@ -13,6 +13,7 @@ var httpHandlers = { "/game/combat":      "./handler/combat"
     , "/game/actor/getSkillInfo":         "./handler/actor.getSkillInfo"
     , "/game/battle/fight1":              "./handler/battle.fight1"
     , "/game/battle/fight2":              "./handler/battle.fight2"
+    , "/game/battle/fight3":              "./handler/battle.fight3"
     , "/game/event/getEventList":         "./handler/event.getEventList"
 };
 
@@ -73,15 +74,12 @@ app.initInstance = function (srvConfig, callback) {
             if (err) throw err;
             require("./Events").initInstance(cfg.db_actors, function(err) {
                 if (err) throw err;
-                require("./Level").initInstance(cfg.db_actors, function(err) {
+                require("./DictManager").initInstance(cfg.db_actors, function(err) {
                     if (err) throw err;
-                    require("./Monster").initInstance(cfg.db_actors, function(err) {
+                    require("./Monster").initInstance(function(err) {
                         if (err) throw err;
-                        require("./DictManager").initInstance(cfg.db_actors, function(err) {
-                            if (err) throw err;
-                            afterInitModules();
-                        });
-                    });
+                        afterInitModules();
+                     });
                 });
             });
         });

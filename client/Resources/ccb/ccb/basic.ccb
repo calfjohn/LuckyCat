@@ -560,7 +560,7 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>128</real>
+							<real>48</real>
 							<real>20</real>
 							<integer>0</integer>
 						</array>
@@ -694,7 +694,7 @@
 						<key>type</key>
 						<string>Text</string>
 						<key>value</key>
-						<string>名称：无敌小金刚</string>
+						<string>名称：</string>
 					</dict>
 				</array>
 			</dict>
@@ -730,7 +730,7 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>66</real>
+							<real>48</real>
 							<real>20</real>
 							<integer>0</integer>
 						</array>
@@ -864,7 +864,7 @@
 						<key>type</key>
 						<string>Text</string>
 						<key>value</key>
-						<string>等级：40</string>
+						<string>等级：</string>
 					</dict>
 				</array>
 			</dict>
@@ -900,7 +900,7 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>92</real>
+							<real>55</real>
 							<real>20</real>
 							<integer>0</integer>
 						</array>
@@ -1034,7 +1034,7 @@
 						<key>type</key>
 						<string>Text</string>
 						<key>value</key>
-						<string>HP：  13209</string>
+						<string>H  P：  </string>
 					</dict>
 				</array>
 			</dict>
@@ -1070,7 +1070,7 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>75</real>
+							<real>48</real>
 							<real>20</real>
 							<integer>0</integer>
 						</array>
@@ -1204,7 +1204,7 @@
 						<key>type</key>
 						<string>Text</string>
 						<key>value</key>
-						<string>攻击：255</string>
+						<string>攻击：</string>
 					</dict>
 				</array>
 			</dict>
@@ -1240,7 +1240,7 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>75</real>
+							<real>48</real>
 							<real>20</real>
 							<integer>0</integer>
 						</array>
@@ -1374,7 +1374,7 @@
 						<key>type</key>
 						<string>Text</string>
 						<key>value</key>
-						<string>防御：255</string>
+						<string>防御：</string>
 					</dict>
 				</array>
 			</dict>
@@ -1410,7 +1410,7 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>75</real>
+							<real>48</real>
 							<real>20</real>
 							<integer>0</integer>
 						</array>
@@ -1544,7 +1544,7 @@
 						<key>type</key>
 						<string>Text</string>
 						<key>value</key>
-						<string>速度：255</string>
+						<string>速度：</string>
 					</dict>
 				</array>
 			</dict>

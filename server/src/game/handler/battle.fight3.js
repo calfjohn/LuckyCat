@@ -1,7 +1,7 @@
 /**
  * Created with JetBrains WebStorm.
  * User: cocos2d
- * Date: 12-8-16
+ * Date: 12-8-27
  * Time: 上午9:47
  * To change this template use File | Settings | File Templates.
  */
@@ -10,7 +10,7 @@ require("../../system/Log");
 require("../Battle");
 
 module.exports.handler = function (req, res, next) {
-    var log = new Log("battle.fight2");
+    var log = new Log("battle.fight3");
 
     var chunks = [];
     req.on("data", function(chunk) {
@@ -38,19 +38,17 @@ module.exports.handler = function (req, res, next) {
         if (info) {
             //receive input parameter
             var uuid = parseInt(info.header.token);
-            var actor = require("../Actors").getActorFromCache(uuid);
+            var actor1 = require("../Actors").getActorFromCache(uuid);
 
-            // test code, 组装成队伍战斗
-            var monsterId = parseInt(info.meta.in.monsterId);
-            var monster = require("../DictManager").getMonsterById(monsterId);
+            var actorId = parseInt(info.meta.in.actorId);
+            var actor2 = require("../Actors").getActorFromCache(actorId);
 
             var team = {};
-            team.A = Battle.teamUp(actor, "A");
-            team.B = Battle.teamUp(monster, "B");
-            Battle.fight(team, responseResult, 2);
+            team.A = Battle.teamUp(actor1, "A");
+            team.B = Battle.teamUp(actor2, "B");
+            Battle.fight(team, responseResult, 3);
         } else {
             next();
         }
-
     });
 };

@@ -17,14 +17,14 @@ PlayerInfoDataManager::XLRelease PlayerInfoDataManager::Garbo;
 
 
 PlayerInfoDataManager::PlayerInfoDataManager(){
-
+    m_curUserInfo = new stActorUserInfo();
 }
 PlayerInfoDataManager::~PlayerInfoDataManager(){
     
 }
 
 bool PlayerInfoDataManager::init(){
-    string path = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath("config/hjTestLuckyCat.sqlite");
+    string path = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath("config/LuckyCat.sqlite");
     
     CppSQLite3DB db;
     db.open(path.c_str());
@@ -77,4 +77,8 @@ stActorUserEquipInfo* PlayerInfoDataManager::getUserEquipInfoForId(int equipid){
             return &m_vecUserEquipInfos[i];
     }
     return NULL;
+}
+
+stActorUserInfo* PlayerInfoDataManager::getCurUserInfo(){
+    return m_curUserInfo;
 }
