@@ -14,6 +14,7 @@
 #include "PageScene.h"
 #include "extensions/CCBReader/CCBReader.h"
 #include "extensions/CCBReader/CCNodeLoaderLibrary.h"
+#include "BasicFunction.h"
 
 #define TAG_BUTTON_BOOK 1
 #define TAG_BUTTON_MAGIC 2
@@ -111,7 +112,7 @@ bool Cover::init()
 #include "NetManager.h"
 void Cover::menuDaggerCallback(CCObject* pSender)
 {
-    NetManager::shareNetManager()->sendEx(kModeBattle, kDoFight3, callfuncND_selector(Cover::responseFight), this, "\"actorId\": %d", 2);
+//    NetManager::shareNetManager()->sendEx(kModeBattle, kDoFight3, callfuncND_selector(Cover::responseFight), this, "\"actorId\": %d", 2);
 }
 
 void Cover::responseFight(CCNode *pNode, void *data)
@@ -125,43 +126,11 @@ void Cover::responseFight(CCNode *pNode, void *data)
         for (int i = 0; i < playList.size(); i++) 
         {
             Json::Value tempRound = playList[i];
-            CCLOG("第几轮%d", i+1);
+            CCLOG("第%d轮", i+1);
             
             for (int j = 0; j < tempRound.size(); j++) 
             {
-                Json::Value tempMember = tempRound[j];
-
-            string tempString = "";
-            switch (tempMember["type"].asInt()) {
-                case 1:
-                    tempString = "攻击";
-                    break;
-                case 2:
-                    tempString = "爆击1";
-                    break;
-                case 3:
-                    tempString = "爆击2";
-                    break;
-                case 4:
-                    tempString = "破防";
-                    break;
-                case 5:
-                    tempString = "吸血1";
-                    break;
-                case 6:
-                    tempString = "吸血2";
-                    break;
-                case 7:
-                    tempString = "受击";
-                    break;
-                case 8:
-                    tempString = "闪避";
-                    break;
-                case 9:
-                    tempString = "反震";
-                    break;
-            }
-            CCLOG("队伍:%s, 角色:%d, 动作类型:%s, 伤害值:%.2f", tempMember["teamId"].asCString(), tempMember["actId"].asInt(), tempString.c_str(), tempMember["hurt"].asDouble());
+                printFight(tempRound[j]);
             }
         }
     }
