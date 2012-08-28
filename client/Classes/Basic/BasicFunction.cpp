@@ -118,3 +118,40 @@ int ConvertJsonToInt(Json::Value data)
 	return -1;
 }
 
+std::string printFight(Json::Value tempMember)
+{
+    std::string tempString = "";
+    switch (tempMember["type"].asInt()) {
+        case 1:
+            tempString = "攻击";
+            break;
+        case 2:
+            tempString = "爆击1";
+            break;
+        case 3:
+            tempString = "爆击2";
+            break;
+        case 4:
+            tempString = "破防";
+            break;
+        case 5:
+            tempString = "吸血1";
+            break;
+        case 6:
+            tempString = "吸血2";
+            break;
+        case 7:
+            tempString = "受击";
+            break;
+        case 8:
+            tempString = "闪避";
+            break;
+        case 9:
+            tempString = "反震";
+            break;
+    }
+    CCLOG("队伍:%s, 角色:%d, 动作类型:%s, 伤害值:%.2f", tempMember["teamId"].asCString(), tempMember["actId"].asInt(), tempString.c_str(), tempMember["hurt"].asDouble());
+    
+    return tempString;
+}
+

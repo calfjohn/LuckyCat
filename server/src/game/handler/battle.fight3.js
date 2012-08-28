@@ -38,10 +38,10 @@ module.exports.handler = function (req, res, next) {
         if (info) {
             //receive input parameter
             var uuid = parseInt(info.header.token);
-            var actor1 = require("../Actors").getActorFromCache(uuid);
+            var actor1 = require("../Actors").getActor(uuid).calculateCapability();
 
             var actorId = parseInt(info.meta.in.actorId);
-            var actor2 = require("../Actors").getActorFromCache(actorId);
+            var actor2 = require("../Actors").getActor(actorId).calculateCapability();
 
             var team = {};
             team.A = Battle.teamUp(actor1, "A");

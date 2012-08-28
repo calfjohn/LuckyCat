@@ -15,6 +15,7 @@
 #include "FuzzyBgView.h"
 #include "NetManager.h"
 #include "PlayerInfoView.h"
+#include "BasicFunction.h"
 
 #define TAG_EFFECT_MONSTER_NODE 6
 #define TAG_EFFECT_ACTOR_NODE 7
@@ -40,8 +41,6 @@ SpecialBattleView::SpecialBattleView()
     CC_SAFE_RETAIN(animationEffect[1]);
     CC_SAFE_RETAIN(animationEffect[2]);
     CC_SAFE_RETAIN(animationEffect[3]);
-    
-    m_nRound = 0;
 }
 
 SpecialBattleView::~SpecialBattleView()
@@ -107,11 +106,27 @@ void SpecialBattleView::onMenuItemClicked(cocos2d::CCObject *pTarget)
     }
 }
 
-void SpecialBattleView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent) {
-    cocos2d::CCNode *p = static_cast<cocos2d::CCNode *>(pSender);
-    printf("tag %d\n",p->getTag());
-    
-    CallBackHeroAction();
+void SpecialBattleView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent)
+{
+//    cocos2d::CCNode *p = static_cast<cocos2d::CCNode *>(pSender);
+//    printf("tag %d\n",p->getTag());
+    playList.clear();
+    playList = battleResult["battleArray"]["playlist"][m_nRound++];
+
+    if (playList.isNull())
+    {   
+        //所有回合结束
+        removeAndCleanSelf(0);
+    }
+    else
+    {
+        CCLOG("第%d轮", m_nRound);
+        Json::FastWriter jasonWrite;
+        CCLOG("%s", jasonWrite.write(playList).c_str());
+
+        //播放回合
+        CallBackHeroAction();
+    }
 }
                                           
 void SpecialBattleView::responseFight(CCNode *pNode, void* data)
@@ -125,6 +140,7 @@ void SpecialBattleView::responseFight(CCNode *pNode, void* data)
         
         CreateTeam(battleResult["team"]);
         m_nIndexList = 0;
+        m_nRound = 0;
     }
 }
 
@@ -139,27 +155,17 @@ void SpecialBattleView::CreateTeam(Json::Value &data)
 
 void SpecialBattleView::CallBackHeroAction()
 {
- //   if(m_nRound == 0)
-    {
-        this->setIsTouchForbidden(true);
-    }
-    
-    //播放一回合的动作
-    Json::Value playList = battleResult["battleArray"]["playlist"][m_nRound];
-    if (playList[m_nRound].isNull())
-    {
-        removeAndCleanSelf(0);
-        return;
-    }
-    
+    this->setIsTouchForbidden(true);
+
+    //本回合结束
     if (playList[m_nIndexList].isNull()) 
     {
         m_nIndexList = 0;
-        m_nRound++;
         this->setIsTouchForbidden(false);
         return;
     }
     
+    //播放动作
     Json::Value tempMember = playList[m_nIndexList++];
     CCNode* pNode = m_mapTeam[tempMember["teamId"].asString()][tempMember["actId"].asInt()];
     
@@ -171,18 +177,16 @@ void SpecialBattleView::CallBackHeroAction()
                                     CCHide::create(),
                                     CCCallFunc::create(this, callfunc_selector(SpecialBattleView::CallBackHeroAction)),
                                     NULL));
-
-    Json::FastWriter jasonWrite;
-    CCLOG("%s", jasonWrite.write(playList[m_nIndexList]).c_str());
     
-//    m_nRound++;
+    showTips(printFight(tempMember).c_str(), pNode->getPosition());
+    showTips(ConvertToString(tempMember["hurt"]).c_str(), ccp(160, 240));
 }
 
 void SpecialBattleView::notificationTouchEvent(LTouchEvent tLTouchEvent)
 {
     if (tLTouchEvent == kLTouchEventSingleClick)
     {
-        CallBackHeroAction();
+        onCCControlButtonClicked(NULL, NULL);
     }
 }
 
@@ -231,4 +235,24 @@ void SpecialBattleView::setData(LEventData *tEvent, cocos2d::CCObject *target, c
     NetManager::shareNetManager()->sendEx(kModeBattle, kDoFight2, callfuncND_selector(SpecialBattleView::responseFight), this, "\"monsterId\": %d", p_CurEvent->targetId[0]);
 }
 
+void SpecialBattleView::showTips(const char *tips, CCPoint positon)
+{
+    CCLabelTTF *pLable = CCLabelTTF::create(tips, "Arial", 36);
+    pLable->setColor(ccBLUE);
+    addChild(pLable, 10000);
+    
+    CCAction* spawnAction = CCSpawn::actions(CCMoveBy::actionWithDuration(3.0, ccp(0, 30)),
+                                            CCFadeOut::actionWithDuration(3.0),
+                                            NULL);
+    CCAction* action = CCSequence::actions(CCPlace::actionWithPosition(positon), 
+                                           spawnAction, 
+                                           CCCallFuncN::create(pLable, callfuncN_selector(SpecialBattleView::removeSelf)),
+                                           NULL);
 
+    pLable->runAction(action);
+}
+
+void SpecialBattleView::removeSelf(CCNode *pNode)
+{
+    pNode->removeFromParentAndCleanup(true);
+}
