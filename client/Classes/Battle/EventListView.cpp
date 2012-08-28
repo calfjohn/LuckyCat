@@ -57,7 +57,7 @@ void EventListView::initLayer(const int tChapterId,const stPage *p_page, CCObjec
     
     this->getEventDataList();
     
-    this->showHeroHeadView();
+    //this->showHeroHeadView();
 };
 
 void EventListView::getEventDataList()

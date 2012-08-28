@@ -626,7 +626,7 @@
 						<key>type</key>
 						<string>Integer</string>
 						<key>value</key>
-						<integer>-1</integer>
+						<integer>112</integer>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -774,7 +774,7 @@
 						<key>type</key>
 						<string>Integer</string>
 						<key>value</key>
-						<integer>-1</integer>
+						<integer>111</integer>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -922,7 +922,7 @@
 						<key>type</key>
 						<string>Integer</string>
 						<key>value</key>
-						<integer>-1</integer>
+						<integer>114</integer>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -1070,7 +1070,7 @@
 						<key>type</key>
 						<string>Integer</string>
 						<key>value</key>
-						<integer>-1</integer>
+						<integer>113</integer>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -1218,7 +1218,7 @@
 						<key>type</key>
 						<string>Integer</string>
 						<key>value</key>
-						<integer>5</integer>
+						<integer>91</integer>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -1706,7 +1706,7 @@
 						<key>type</key>
 						<string>Integer</string>
 						<key>value</key>
-						<integer>-1</integer>
+						<integer>102</integer>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -1854,7 +1854,7 @@
 						<key>type</key>
 						<string>Integer</string>
 						<key>value</key>
-						<integer>-1</integer>
+						<integer>101</integer>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -2268,7 +2268,7 @@
 						<key>type</key>
 						<string>Check</string>
 						<key>value</key>
-						<true/>
+						<false/>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -2416,7 +2416,7 @@
 						<key>type</key>
 						<string>Check</string>
 						<key>value</key>
-						<true/>
+						<false/>
 					</dict>
 					<dict>
 						<key>name</key>
