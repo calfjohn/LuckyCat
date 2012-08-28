@@ -21,7 +21,7 @@ USING_NS_CC;
 USING_NS_CC_EXT;
 
 typedef enum{
-    kEquipHead      = 0,  //equip head;
+    kEquipHead      = 1,  //equip head;
     kEquipHand,             //equip arms;
     kEquipBody,            //equip armor;
     kEquipFoot,            //equip shoes;
@@ -112,6 +112,7 @@ private:
     CCScrollView* m_EquipListView;
     
     std::vector<int> m_vecEquipIds;
+    std::vector<int> m_vecEquipListIds;
     int m_iEquipCurHeadId;
     int m_iEquipCurHandId;
     int m_iEquipCurBodyId;
@@ -125,7 +126,11 @@ private:
     stActorUserEquipInfo *m_selectedEquipData;
     CCMenuItemLabel *m_selectedEquipListLabel;
     
-    bool m_bIsPutOn;
+    bool m_bHeadHavePutOn;
+    bool m_bHandHavePutOn;
+    bool m_bBodyHavePutOn;
+    bool m_bFootHavePutOn;
+    
 
     //void setEquipInfo(cocos2d::CCSprite *equipIcon, cocos2d::CCLabelTTF *equipName, std::vector<cocos2d::CCLabelTTF> &equipProprety);
     

@@ -145,22 +145,22 @@ void PlayerInfoView::playerInfoBarBtnCallback(cocos2d::CCObject *pSender, cocos2
             break;
         case kPlayerInfoTagHeadBtn:
             m_iType = kPlayerInfoTagHeadBtn;
-            this->m_pEquipInfoView->m_curEquipType = (EquipType)0;
+            this->m_pEquipInfoView->m_curEquipType = (EquipType)1;
             showViewForType();
             break;
         case kPlayerInfoTagHandBtn:
             m_iType = kPlayerInfoTagHandBtn;
-            this->m_pEquipInfoView->m_curEquipType = (EquipType)1;
+            this->m_pEquipInfoView->m_curEquipType = (EquipType)2;
             showViewForType();
             break;
         case kPlayerInfoTagBodyBtn:
             m_iType = kPlayerInfoTagBodyBtn;
-            this->m_pEquipInfoView->m_curEquipType = (EquipType)2;
+            this->m_pEquipInfoView->m_curEquipType = (EquipType)3;
             showViewForType();
             break;
         case kPlayerInfoTagFootBtn:
             m_iType = kPlayerInfoTagFootBtn;
-            this->m_pEquipInfoView->m_curEquipType = (EquipType)3;
+            this->m_pEquipInfoView->m_curEquipType = (EquipType)4;
             showViewForType();
             break;
         default:
@@ -175,25 +175,26 @@ void PlayerInfoView::showViewForType(){
     }
     
     if(m_iType > kPlayerInfoTagPlayerBtn ){
-        m_pBasicInfoView->hideBasicView();
-        m_pEquipInfoView->showEquipView();
         switch (m_iType) {
             case kPlayerInfoTagHeadBtn:
-                this->m_pEquipInfoView->initEquipListView((EquipType)0);
-                break;
-            case kPlayerInfoTagHandBtn:
                 this->m_pEquipInfoView->initEquipListView((EquipType)1);
                 break;
-            case kPlayerInfoTagBodyBtn:
+            case kPlayerInfoTagHandBtn:
                 this->m_pEquipInfoView->initEquipListView((EquipType)2);
                 break;
-            case kPlayerInfoTagFootBtn:
+            case kPlayerInfoTagBodyBtn:
                 this->m_pEquipInfoView->initEquipListView((EquipType)3);
+                break;
+            case kPlayerInfoTagFootBtn:
+                this->m_pEquipInfoView->initEquipListView((EquipType)4);
                 break;
             default:
                 break;
         }
+        m_pBasicInfoView->hideBasicView();
+        m_pEquipInfoView->showEquipView();
     }else{
+        m_pBasicInfoView->initBasicInfoView();
         m_pBasicInfoView->showBasicView();
         m_pEquipInfoView->hideEquipView();
     }
