@@ -139,23 +139,24 @@ void SpecialBattleView::CreateTeam(Json::Value &data)
 
 void SpecialBattleView::CallBackHeroAction()
 {
-    if(m_nRound == 0)
+ //   if(m_nRound == 0)
     {
         this->setIsTouchForbidden(true);
     }
     
     //播放一回合的动作
-    Json::Value playList = battleResult["battleArray"]["playlist"];
-    if (playList[m_nIndexList].isNull())
+    Json::Value playList = battleResult["battleArray"]["playlist"][m_nRound];
+    if (playList[m_nRound].isNull())
     {
         removeAndCleanSelf(0);
         return;
     }
     
-    if (m_nRound == 2) 
+    if (playList[m_nIndexList].isNull()) 
     {
+        m_nIndexList = 0;
+        m_nRound++;
         this->setIsTouchForbidden(false);
-        m_nRound = 0;
         return;
     }
     
@@ -174,7 +175,7 @@ void SpecialBattleView::CallBackHeroAction()
     Json::FastWriter jasonWrite;
     CCLOG("%s", jasonWrite.write(playList[m_nIndexList]).c_str());
     
-    m_nRound++;
+//    m_nRound++;
 }
 
 void SpecialBattleView::notificationTouchEvent(LTouchEvent tLTouchEvent)
