@@ -220,8 +220,9 @@ Actor = Class.extend({
         var actor_equipped = this.getEquippedEquipment();
         for(var key in actor_equipped){
             var eq = actor_equipped[key];
-            var equip_id = eq.equip_id;
-            if(PartEmpty !=  equip_id){
+            var id = eq.id;
+            if(PartEmpty !=  id){
+                var equip_id = eq.equip_id;
                 var eq_dict_info = require("./DictManager").getEquipmentByID(equip_id);
                 var level_growth = require("./DictManager").getEquipLevelGrowthByLevel(eq.level);
                 var rank_growth = require("./DictManager").getEquipRankGrowthByRank(eq.rank);
