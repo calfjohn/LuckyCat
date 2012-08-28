@@ -64,13 +64,12 @@ module.exports.handler = function (req, res, next) {
 
         if (info) {
             var uuid = info.header.token;
-            require("../Actors").getActor(uuid, function(actor){
-                if (actor != null){
-                    var part = parseInt(info.meta.in.part);
-                    var id = parseInt(info.meta.in.id);
-                    actor.changeEquipment(part, id, responseResult);
-                }
-            });
+            var actor = require("../Actors").getActor(uuid)
+            if (actor != null) {
+                var part = parseInt(info.meta.in.part);
+                var id = parseInt(info.meta.in.id);
+                actor.changeEquipment(part, id, responseResult);
+            }
         } else {
             next();
         }
