@@ -172,7 +172,7 @@ Events = {
                     {
                         var goodId = parseInt(intList[g]);
                         var goodNum = parseInt(intList[g+1]);
-                        var goodType = parseInt(0);
+                        var goodType = parseInt(3);
 
                         var tmpGood = new stGood();
                         tmpGood.setData(goodType,goodId,goodNum);
