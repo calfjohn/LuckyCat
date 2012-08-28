@@ -133,7 +133,7 @@ private:
     bool m_bBodyHavePutOn;
     bool m_bFootHavePutOn;
     
-
+    bool m_bIsChangeEquip;
     //void setEquipInfo(cocos2d::CCSprite *equipIcon, cocos2d::CCLabelTTF *equipName, std::vector<cocos2d::CCLabelTTF> &equipProprety);
     
     void setPlayerEquipInfo();
@@ -143,9 +143,13 @@ private:
     void equipListMenuItemCallBack(CCObject *pSender);
     
     
-    void playEquipChangeAnimation(float attack, float defence, float speed);
+    void playEquipPutOnAnimation(float attack, float defence, float speed);
     
-    void playEquipChangeAniCallback();
+    void playEquipTakeOffAnimation(float attack, float defence, float speed);
+    
+    void playEquipPutOnAniCallback();
+    
+    void playEquipTakeOffAniCallback();
 
 };
 
