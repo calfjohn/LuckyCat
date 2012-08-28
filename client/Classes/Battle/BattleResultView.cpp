@@ -51,10 +51,10 @@ void BattleResultView::initView(LEventData *tEvent)
         
         char strChar[512];
         
-        if (_goods.id == 888) {
+        if (_goods.id == 1) {
             sprintf(strChar, "获得金币 ：%d",_goods.num);
         }
-        else if (_goods.id == 999) 
+        else if (_goods.id == 2)
         {
             sprintf(strChar, "获得经验 ：%d",_goods.num);
         }
