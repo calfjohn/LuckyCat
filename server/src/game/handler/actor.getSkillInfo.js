@@ -38,17 +38,17 @@ module.exports.handler = function (req, res, next) {
 
         if (info) {
             var uuid = info.header.token;
-            require("../Actors").getActor(uuid, function (actor) {
-                if (actor != null) {
-                    //remove actor id
-                    var skills = actor.getSkills();;
-                    for (var i=0; i< skills.length; i++){
-                         var skill = skills[i];
-                        delete skill["actor_id"];
-                    }
-                    responseResult(skills);
+            var actor = require("../Actors").getActor(uuid)
+            if (actor != null) {
+                //remove actor id
+                var skills = actor.getSkills();
+                ;
+                for (var i = 0; i < skills.length; i++) {
+                    var skill = skills[i];
+                    delete skill["actor_id"];
                 }
-            });
+                responseResult(skills);
+            }
         } else {
             next();
         }
