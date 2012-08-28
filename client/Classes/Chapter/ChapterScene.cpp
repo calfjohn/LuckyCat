@@ -93,19 +93,30 @@ void Chapter::menuBackCallback(CCObject* pSender)
     CCDirector::sharedDirector()->popScene();
 }
 
+#include "PageScene.h"
 void Chapter::menuChapterCallback(CCObject* pSender)
 {
     CCNode *pNode = (CCNode *)pSender;
     
-    const stPage *pPage = LevelDataManager::shareLevelDataManager()->getNewPage(pNode->getTag());
+//    const stPage *pPage = LevelDataManager::shareLevelDataManager()->getNewPage(pNode->getTag());
+//    if (!pPage) 
+//    {
+//        return;
+//    }
+//    
+//    CCScene *pScene = PageMap::scene(pNode->getTag());
+//    CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
+//    CCDirector::sharedDirector()->pushScene(pTp);
+    
+    const stPage *pPage = LevelDataManager::shareLevelDataManager()->getPage(pNode->getTag(), 1);
     if (!pPage) 
     {
         return;
     }
     
-    CCScene *pScene = PageMap::scene(pNode->getTag());
+    CCScene *pScene = Page::scene(pNode->getTag(), pPage);
     CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
-    CCDirector::sharedDirector()->pushScene(pTp);
+    CCDirector::sharedDirector()->replaceScene(pTp);
 }
 
 void Chapter::onEnter()

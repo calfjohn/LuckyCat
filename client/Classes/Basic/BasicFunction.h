@@ -33,7 +33,8 @@ static std::string ConvertToString(T value) {
     std::stringstream ss;
     ss << value;
     return ss.str();
-    
 }
+
+std::string printFight(Json::Value);
 
 #endif
