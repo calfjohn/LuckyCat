@@ -88,7 +88,7 @@ void BattleResultView::initView(std::vector<stGood> tGoodsList)
     
     if (resultOfBattle)
     {
-        resultOfBattle->setString("开箱结果");
+        resultOfBattle->setString("开箱结果:");
     }
     
     CCLabelTTF *labtip = static_cast<CCLabelTTF *>(this->getChildByTag(11));

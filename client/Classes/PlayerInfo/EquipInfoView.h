@@ -138,7 +138,7 @@ private:
     
     void setEquipInfo(const stActorEquipInfo *info);
     
-    void equipListMenuItemCallBack(CCNode *pSender);
+    void equipListMenuItemCallBack(CCObject *pSender);
 
 };
 

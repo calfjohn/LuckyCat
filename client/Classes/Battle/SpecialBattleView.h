@@ -14,7 +14,7 @@
 #include "extensions/CCBReader/CCBSelectorResolver.h"
 #include "extensions/CCBReader/CCBMemberVariableAssigner.h"
 #include "extensions/CCBReader/CCLayerLoader.h"
-#include "json.h"
+#include "json/json.h"
 #include "EventBasic.h"
 
 

@@ -288,14 +288,14 @@ void EquipInfoView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d
 
 }
 
-void EquipInfoView::equipListMenuItemCallBack(CCNode *pSender){
+void EquipInfoView::equipListMenuItemCallBack(CCObject *pSender){
     /*CCMenuItemLabel* item = (CCMenuItemLabel*)pSender;
     CCLabelTTF* label = (CCLabelTTF*)item->getLabel();
     CCString* name = CCString::createWithFormat("%s(当前)",label->getString());
     item->setString(name->getCString());*/
     
     stActorUserEquipInfo *info;
-    int index = pSender->getTag();
+    int index = ((CCNode*)pSender)->getTag();
     m_selectedEquipListLabel = (CCMenuItemLabel*)pSender;
     switch (m_curEquipType) {
         case kEquipHead:

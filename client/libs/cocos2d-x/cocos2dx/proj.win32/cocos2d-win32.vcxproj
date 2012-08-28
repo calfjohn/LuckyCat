@@ -71,7 +71,7 @@
     <PreLinkEvent>
       <Command>if not exist "$(OutDir)" mkdir "$(OutDir)"
 xcopy /Y /Q "$(SolutionDir)\libs\cocos2d-x\cocos2dx\platform\third_party\win32\libraries\*.*" "$(OutDir)"
-</Command>
+xcopy /Y /Q "$(SolutionDir)\libs\cppsqlite\sqlite3.dll" "$(OutDir)"</Command>
     </PreLinkEvent>
     <Link>
       <AdditionalDependencies>opengl32.lib;glew32.lib;libxml2.lib;libzlib.lib;libpng.lib;libtiff.lib;libjpeg.lib;libiconv.lib;pthreadVCE2.lib;libcurl_imp.lib;%(AdditionalDependencies)</AdditionalDependencies>

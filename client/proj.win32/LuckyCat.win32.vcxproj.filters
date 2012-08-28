@@ -37,11 +37,11 @@
     <Filter Include="source\Battle">
       <UniqueIdentifier>{9c87d537-9e68-4e8b-814a-ed20320217ee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="source\Task">
-      <UniqueIdentifier>{02880fae-d748-49c1-97a1-ef0305c30f64}</UniqueIdentifier>
-    </Filter>
     <Filter Include="source\PlayerInfo">
       <UniqueIdentifier>{cacdc6a6-2e14-477d-9159-a2bcb7a593b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Event">
+      <UniqueIdentifier>{02880fae-d748-49c1-97a1-ef0305c30f64}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -127,20 +127,8 @@
     <ClInclude Include="..\Classes\Page\PageMapScene.h">
       <Filter>source\Page</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Task\TaskBasic.h">
-      <Filter>source\Task</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Task\TaskDataManager.h">
-      <Filter>source\Task</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Task\TaskModule.h">
-      <Filter>source\Task</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Basic\LuckySprite.h">
       <Filter>source\Basic</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\PlayerInfo\PlayerInfoBar.h">
-      <Filter>source\PlayerInfo</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Battle\BattleResultView.h">
       <Filter>source\Battle</Filter>
@@ -163,8 +151,53 @@
     <ClInclude Include="..\Classes\Battle\SpecialBattleView.h">
       <Filter>source\Battle</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Battle\TaskListView.h">
+    <ClInclude Include="..\Classes\Event\EventBasic.h">
+      <Filter>source\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Event\EventDataManager.h">
+      <Filter>source\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Event\EventModule.h">
+      <Filter>source\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PlayerInfo\BasicInfoView.h">
+      <Filter>source\PlayerInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PlayerInfo\CustomCCScrollView.h">
+      <Filter>source\PlayerInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PlayerInfo\EquipInfoView.h">
+      <Filter>source\PlayerInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PlayerInfo\Equipment.h">
+      <Filter>source\PlayerInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Battle\EventListView.h">
       <Filter>source\Battle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Battle\HeroHeadView.h">
+      <Filter>source\Battle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Battle\OpenBoxResultView.h">
+      <Filter>source\Battle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Battle\OpenBoxView.h">
+      <Filter>source\Battle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Battle\TouchLayer.h">
+      <Filter>source\Battle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Basic\Netbasic.h">
+      <Filter>source\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Basic\NetManager.h">
+      <Filter>source\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Basic\PlayerInfoDataManager.h">
+      <Filter>source\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Page\PageEx.h">
+      <Filter>source\Page</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -204,26 +237,14 @@
     <ClCompile Include="..\Classes\Page\PageMapScene.cpp">
       <Filter>source\Page</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Task\TaskDataManager.cpp">
-      <Filter>source\Task</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Task\TaskModule.cpp">
-      <Filter>source\Task</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Basic\LuckySprite.cpp">
       <Filter>source\Basic</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\PlayerInfo\PlayerInfoBar.cpp">
-      <Filter>source\PlayerInfo</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Battle\BattleResultView.cpp">
       <Filter>source\Battle</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Basic\BasicFunction.cpp">
       <Filter>source\Basic</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\PlayerInfo\PlayerInfoView.cpp">
-      <Filter>source\PlayerInfo</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Battle\GeneralBattleView.cpp">
       <Filter>source\Battle</Filter>
@@ -234,8 +255,47 @@
     <ClCompile Include="..\Classes\Battle\SpecialBattleView.cpp">
       <Filter>source\Battle</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Battle\TaskListView.cpp">
+    <ClCompile Include="..\Classes\Event\EventDataManager.cpp">
+      <Filter>source\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Event\EventModule.cpp">
+      <Filter>source\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\PlayerInfo\BasicInfoView.cpp">
+      <Filter>source\PlayerInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\PlayerInfo\CustomCCScrollView.cpp">
+      <Filter>source\PlayerInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\PlayerInfo\EquipInfoView.cpp">
+      <Filter>source\PlayerInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Battle\EventListView.cpp">
       <Filter>source\Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Battle\HeroHeadView.cpp">
+      <Filter>source\Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Battle\OpenBoxResultView.cpp">
+      <Filter>source\Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Battle\OpenBoxView.cpp">
+      <Filter>source\Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Battle\TouchLayer.cpp">
+      <Filter>source\Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Basic\NetManager.cpp">
+      <Filter>source\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Basic\PlayerInfoDataManager.cpp">
+      <Filter>source\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\PlayerInfo\PlayerInfoView.cpp">
+      <Filter>source\PlayerInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Page\PageEx.cpp">
+      <Filter>source\Page</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
