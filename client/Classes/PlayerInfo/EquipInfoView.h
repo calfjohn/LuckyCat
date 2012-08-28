@@ -126,6 +126,8 @@ private:
     stActorUserEquipInfo *m_selectedEquipData;
     CCMenuItemLabel *m_selectedEquipListLabel;
     
+    CCSprite *m_sprEquipAnimation;
+    
     bool m_bHeadHavePutOn;
     bool m_bHandHavePutOn;
     bool m_bBodyHavePutOn;
@@ -139,6 +141,11 @@ private:
     void setEquipInfo(const stActorEquipInfo *info);
     
     void equipListMenuItemCallBack(CCObject *pSender);
+    
+    
+    void playEquipChangeAnimation(float attack, float defence, float speed);
+    
+    void playEquipChangeAniCallback();
 
 };
 
