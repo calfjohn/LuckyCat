@@ -265,6 +265,9 @@ Events = {
                         tEvent.bonusArray.push(oExp);
 
                         tEvent.bonusArray.reverse();
+
+
+                        require("./Actor").gainExp(tEvent.Exp);//add by lj
                     }
                 }
                 if ( tEvent.box_id != -1 )
