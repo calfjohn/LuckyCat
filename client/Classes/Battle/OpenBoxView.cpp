@@ -15,7 +15,7 @@
 #include "OpenBoxResultView.h"
 #include "NetManager.h"
 #include "CCMessageQueue.h"
-#include "json.h"
+#include "json/json.h"
 
 #include "FuzzyBgView.h"
 

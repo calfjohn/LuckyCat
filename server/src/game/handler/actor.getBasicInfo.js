@@ -34,14 +34,12 @@ module.exports.handler = function (req, res, next) {
             res.end();
         };
 
-        var getBasicInfo = function (actor) {
-            if (!actor) next();
-            responseResult(actor.getBasicInfo());
-        };
-
         if (info) {
             var uuid = parseInt(info.header.token);
-            require("../Actors").getActor(uuid, getBasicInfo);
+            var actor = require("../Actors").getActor(uuid);
+            if(null != actor){
+                responseResult(actor.getBasicInfo());
+            }
         } else {
             next();
         }

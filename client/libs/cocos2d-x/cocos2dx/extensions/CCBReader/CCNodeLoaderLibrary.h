@@ -9,7 +9,7 @@ NS_CC_EXT_BEGIN
 typedef std::map<CCString *, CCNodeLoader *, CCStringCompare> CCNodeLoaderMap;
 typedef std::pair<CCString *, CCNodeLoader *> CCNodeLoaderMapEntry;
 
-class CCNodeLoaderLibrary : public CCObject {
+class CC_DLL CCNodeLoaderLibrary : public CCObject {
     private:
         CCNodeLoaderMap mCCNodeLoaders;
 

@@ -131,18 +131,15 @@ private:
     bool m_bBodyHavePutOn;
     bool m_bFootHavePutOn;
     
-    CCSprite *m_sprEquipAnimation;
+
     //void setEquipInfo(cocos2d::CCSprite *equipIcon, cocos2d::CCLabelTTF *equipName, std::vector<cocos2d::CCLabelTTF> &equipProprety);
     
     void setPlayerEquipInfo();
     
     void setEquipInfo(const stActorEquipInfo *info);
     
-    void equipListMenuItemCallBack(CCNode *pSender);
-    
-    void playEquipChangeAnimation(float attack, float defence, float speed);
-    
-    void playEquipChangeAniCallback();
+    void equipListMenuItemCallBack(CCObject *pSender);
+
 };
 
 class CCBReader;

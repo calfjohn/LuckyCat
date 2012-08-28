@@ -20,7 +20,7 @@
 
 #include "NetManager.h"
 #include "CCMessageQueue.h"
-#include "json.h"
+#include "json/json.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;

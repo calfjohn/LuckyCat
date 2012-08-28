@@ -14,9 +14,9 @@
 #include "extensions/CCBReader/CCBSelectorResolver.h"
 #include "extensions/CCBReader/CCBMemberVariableAssigner.h"
 #include "extensions/CCBReader/CCLayerLoader.h"
-#include "json.h"
+#include "json/json.h"
 #include "EventBasic.h"
-#include "BattleDefine.h"
+
 
 typedef struct
 {
@@ -81,80 +81,6 @@ private:
     CCAnimate *animationEffect[4];
     
     int m_nRound;           //current battle round
-    
-public:
-    /*
-     1. 进入战斗 (BOSS出现 / A vs B) 
-     2. 分析 最新一回合战斗数据
-     3. 显示 第几回合
-     4. 如果,是操作者的角色,则倒计时. 时间到了玩家还没有按色子,然后执行4 ,程序主动帮玩家按一下.然后,执行4
-     如果,不是操作者的角色, 执行 5
-     5. 按色子, 显示色子结果
-     6. 谁出手
-     7. 翻放战斗效果. 1. 技能名, 2. 技能光效
-     8. 被 打者动画, 1. 被打者闪一闪, 2. 扣血,闪避, 爆击, 3 血条变化.
-     9. 如果, 双方到还没挂, 回到 2. 否则,到9
-     10. 显示战斗结果
-     */
-    //1. 进入战斗 (BOSS出现 / A vs B) 
-    void startBattle();
-    
-    //2. 分析 最新一回合战斗数据
-    void analyseBattleData();
-    
-    //2. 显示 第几回合
-    void showRoundNumber();
-    
-    //3. 倒计时,
-    void countDown();
-    
-    void countDownSchedule(float tArg);
-    
-    //4. 按色子后, 显示色子结果.
-    void showDiceResult();
-    
-    void pressControlButtonDice();
-    
-    //***************************
-    
-    
-    //根据数据创建动画
-    void battleAnimationCreate(Json::Value tOneRound);
-    
-    //攻击者动画, 显示攻击者是谁                1
-    void attackerAnimation();//(GRole *pNodeRole,GRoleAction *pAction);
-    
-    //攻击者效果显示, 技能光效,                 2
-    void attackerEffectAnimation();//(GRole *pNodeRole,GRoleAction *pAction);
-    
-    //显示技能名                               2
-    void showSkillNameAnimation();//(GRole *pNodeRole,GRoleAction *pAction);
-    
-    //防守者动画, 显示防守者是谁                 3
-    void defenderAnimation();//(GRole *pNodeRole,GRoleAction *pAction);
-    
-    //防守者效果显示, 如,扣血,闪避,爆击等         3
-    void defenderEffectAnimation();//(GRole *pNodeRole,GRoleAction *pAction);
-    
-public:
-    //在动作结束时,移除对像
-    void callbackRemoveNodeWhenDidAction(CCNode * pNode);
-    
-    CCNode *pAttackEffectNode;
-    GRole *pNodeAttacker;
-    GRole *pNOdeDefener;
-    
-    GRoleAction *pRoleAction;
-    
-    std::vector<CCNode *> mHpLineList;
-    std::vector<CCNode *> mHpLineBgList;
-    
-    std::vector<CCNode *> mHeroSpriteList;
-    std::vector<CCNode *> mMonsterSpriteList;
-    
-    std::vector<CCProgressTimer *> mHpProgressTimerList;
-    
-    int m_nCountTime;
 };
 
 class CCBReader;

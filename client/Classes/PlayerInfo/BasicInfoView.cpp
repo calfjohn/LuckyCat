@@ -10,7 +10,7 @@
 #include "FuzzyBgView.h"
 #include "PlayerInfoView.h"
 #include "NetManager.h"
-#include "json.h"
+#include "json/json.h"
 #include "CCNetwork.h"
 #include "CCCallbackNode.h"
 #include "Basic.h"
