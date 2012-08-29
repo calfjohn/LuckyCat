@@ -16,11 +16,14 @@
 #include "extensions/CCTouchPageTurn/CCTouchPageTurn.h"
 #include "LuckySprite.h"
 
+class BasicInfoView;
 class HeroHeadView;
 class Page : public cocos2d::extension::CCTouchPageTurn
 {
 public:
     static Page *create(cocos2d::CCObject * pOwner);
+    
+    CCNode* createNodeForCCBI(const char *pCCBFileName , const char *pCCNodeName , cocos2d::extension::CCNodeLoader *pCCNodeLoader);
     
     virtual bool init();  
 
@@ -65,6 +68,8 @@ protected:
     cocos2d::CCPoint pBeginPoint;
     
     HeroHeadView *p_HeroHeadView;
+    
+    BasicInfoView* m_pBasicInfoView;
 };
 
 class CCBReader;

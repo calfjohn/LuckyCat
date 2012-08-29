@@ -71,7 +71,7 @@ BasicInfoView::~BasicInfoView()
 }*/
 
 cocos2d::SEL_MenuHandler BasicInfoView::onResolveCCBCCMenuItemSelector(cocos2d::CCObject * pTarget, cocos2d::CCString * pSelectorName){
-    CCB_SELECTORRESOLVER_CCMENUITEM_GLUE(this, "onMenuItemClicked", BasicInfoView::onMenuItemClicked);
+    CCB_SELECTORRESOLVER_CCMENUITEM_GLUE(this, "basicViewBtnCallback", BasicInfoView::basicViewBtnCallback);
     
     return NULL;
 }
@@ -107,7 +107,7 @@ void BasicInfoView::initBasicInfoView(){
     if(info == NULL){
         return;
     }
-    cocos2d::CCString* strNickname = cocos2d::CCString::createWithFormat("名称：%s",info->userNickName.c_str());
+    cocos2d::CCString* strNickname = cocos2d::CCString::createWithFormat("%s",info->userNickName.c_str());
     setBasicInfoLabelForTag(kNickNameInfo,strNickname);
     
     cocos2d::CCString* strLevel = cocos2d::CCString::createWithFormat("等级：%d",info->userLevel);
@@ -165,6 +165,19 @@ void BasicInfoView::setBasicInfoLabelForTag(const int tag, cocos2d::CCString *in
             m_labScore = (cocos2d::CCLabelTTF*)this->getChildByTag(kExpInfo);
             m_labScore->setString(infomation->getCString());
             break;
+        default:
+            break;
+    }
+}
+
+void BasicInfoView::basicViewBtnCallback(CCObject *pSender){
+    CCNode *node = (CCNode*)pSender;
+    cout << "tag = " << node->getTag() << endl;
+    switch (node->getTag()) {
+        case 0:
+            
+            break;
+            
         default:
             break;
     }
