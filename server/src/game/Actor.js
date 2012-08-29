@@ -287,9 +287,10 @@ Actor = Class.extend({
         }
     },
 
-    gainEquipment: function (equipment){
-        equipment.actor_id = this._dbBasic.id;
 
+    gainEquipment: function (equipment){
+        //equipment需已包含 {equip_id:'2001', level:'1', rank:'1', color:'1'};
+        equipment.actor_id = this._dbBasic.id;
         require("./Actors").insertEquipmentToActor(this._dbBasic.uuid,equipment,function(result){
             equipment.id = result.insertId;
             this._dbEquipment[""+equipment.id] = equipment;
