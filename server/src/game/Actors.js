@@ -131,8 +131,16 @@ Actors = {
         if(undefined!=actor){
             Actors._dbAgent.query("UPDATE `actor` SET ? WHERE `actor`.`id` = ?", [actor, actor.id], function(err, result){
                 if (err) throw err;
-                log.d("---++++-------");
-                log.d(result);
+            });
+        }
+    },
+
+    insertEquipmentToActor: function(uuid, equipment, callback){
+        var actor = Actors._cacheActors["" + uuid];
+        if(undefined!=actor){
+            Actors._dbAgent.query("INSERT INTO `actor_equipment` SET ? ", equipment, function(err, result){
+                if (err) throw err;
+                callback(result);
             });
         }
     }

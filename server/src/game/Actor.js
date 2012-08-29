@@ -264,34 +264,36 @@ Actor = Class.extend({
             }
         }
 
-        //技能基本属性 
+        //技能基本属性
         return ret;
     },
 
     gainExp: function (exp){
+        if (exp <=0) return;
         var actor  = this._dbBasic;
         var curExp = actor.exp;
-        var upgrade_table = require("./DictManager").getActorLevelUpgradeByLevel(actor.level);
-        var upgrade_need_exp = upgrade_table.xp
-
-        var restExp = exp;
+        var restExp = curExp + exp;
         while(restExp > 0){
+            var upgrade_table = require("./DictManager").getActorLevelUpgradeByLevel(actor.level);
+            var upgrade_need_exp = upgrade_table.xp
             var diff  = restExp - upgrade_need_exp;
             // 玩家升级了
             if(diff >= 0){
-                actor.exp += upgrade_need_exp;
                 actor.level += 1;
             }else{
                 actor.exp += restExp;
             }
             restExp = diff;
         }
-
-
     },
 
-    gainEquipment: function (equip_id){
+    gainEquipment: function (equipment){
+        equipment.actor_id = this._dbBasic.id;
 
+        require("./Actors").insertEquipmentToActor(this._dbBasic.uuid,equipment,function(result){
+            equipment.id = result.insertId;
+            this._dbEquipment[""+equipment.id] = equipment;
+        });
     }
 
 });
