@@ -29,8 +29,8 @@ enum BasicInfoTag{
     kAttackInfo,
     kRefenshInfo,
     kSpeedInfo,
-    kTitleInfo,
-    kScoreInfo,
+    kMoneyInfo,
+    kExpInfo,
     
     kInfoCount,
 };
@@ -126,6 +126,9 @@ void BasicInfoView::initBasicInfoView(){
     
     cocos2d::CCString* strSpeed = cocos2d::CCString::createWithFormat("速度：%d",(int)info->userSpeed);
     setBasicInfoLabelForTag(kSpeedInfo, strSpeed);
+    
+    cocos2d::CCString* strExp = cocos2d::CCString::createWithFormat("经验：%d",(int)info->userExp);
+    setBasicInfoLabelForTag(kExpInfo, strExp);
 }
 
 void BasicInfoView::setBasicInfoLabelForTag(const int tag, cocos2d::CCString *infomation){
@@ -154,12 +157,12 @@ void BasicInfoView::setBasicInfoLabelForTag(const int tag, cocos2d::CCString *in
             m_labSpeed = (cocos2d::CCLabelTTF*)this->getChildByTag(kSpeedInfo);
             m_labSpeed->setString(infomation->getCString());
             break;
-        case kTitleInfo:
-            m_labTitle = (cocos2d::CCLabelTTF*)this->getChildByTag(kTitleInfo);
+        case kMoneyInfo:
+            m_labTitle = (cocos2d::CCLabelTTF*)this->getChildByTag(kMoneyInfo);
             m_labTitle->setString(infomation->getCString());
             break;
-        case kScoreInfo:
-            m_labScore = (cocos2d::CCLabelTTF*)this->getChildByTag(kScoreInfo);
+        case kExpInfo:
+            m_labScore = (cocos2d::CCLabelTTF*)this->getChildByTag(kExpInfo);
             m_labScore->setString(infomation->getCString());
             break;
         default:
@@ -207,6 +210,7 @@ void BasicInfoView::responesBasicInfo(CCNode *pNode, void* data){
             info->userSpeed = root["meta"]["out"]["speed"].asDouble();
             //cocos2d::CCString* strSpeed = cocos2d::CCString::createWithFormat("速度：%d",(int)info->userSpeed);
             //setBasicInfoLabelForTag(kSpeedInfo, strSpeed);
+            info->userExp = root["meta"]["out"]["exp"].asInt();
             initBasicInfoView();
         }
     }

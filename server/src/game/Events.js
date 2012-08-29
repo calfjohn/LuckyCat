@@ -172,7 +172,7 @@ Events = {
                     {
                         var goodId = parseInt(intList[g]);
                         var goodNum = parseInt(intList[g+1]);
-                        var goodType = parseInt(0);
+                        var goodType = parseInt(3);
 
                         var tmpGood = new stGood();
                         tmpGood.setData(goodType,goodId,goodNum);
@@ -253,18 +253,20 @@ Events = {
                         tEvent.Money = money;
                         var oExp = {};
                         oExp.type = 1;
-                        oExp.id = 999;//exp
+                        oExp.id = 2;//exp
                         oExp.num = exp;
 
                         var oMoney = {};
                         oMoney.type = 2;
-                        oMoney.id = 888;
+                        oMoney.id = 1;
                         oMoney.num = money;
 
                         tEvent.bonusArray.push(oMoney);
                         tEvent.bonusArray.push(oExp);
 
                         tEvent.bonusArray.reverse();
+
+                        require("./Actors").getActor(2).gainExp(tEvent.Exp);//add by lj
                     }
                 }
                 if ( tEvent.box_id != -1 )

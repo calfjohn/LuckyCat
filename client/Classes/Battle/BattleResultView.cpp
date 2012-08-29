@@ -51,15 +51,18 @@ void BattleResultView::initView(LEventData *tEvent)
         
         char strChar[512];
         
-        if (_goods.id == 888) {
+        if (_goods.id == 1) {
             sprintf(strChar, "获得金币 ：%d",_goods.num);
         }
-        else if (_goods.id == 999) 
+        else if (_goods.id == 2)
         {
             sprintf(strChar, "获得经验 ：%d",_goods.num);
         }
-        else {
-            sprintf(strChar, "获得%d ：%d",_goods.id,_goods.num);
+        else if (_goods.id == 3){
+            sprintf(strChar, "获得大力丸 ：%d",_goods.num);
+        }
+        else if (_goods.id == 4){
+            sprintf(strChar, "获得镶嵌物品 ：%d",_goods.num);
         }
         CCLabelTTF *bonusLabel = CCLabelTTF::create(strChar, CCSizeMake(screanSize.width * 0.8f, screanSize.height * 0.15f ), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter,"Arial", 18);
         bonusLabel->setColor(ccWHITE);
