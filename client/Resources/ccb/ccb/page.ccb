@@ -187,7 +187,7 @@
 						<key>value</key>
 						<array>
 							<real>150</real>
-							<real>400</real>
+							<real>420</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -357,7 +357,7 @@
 						<key>value</key>
 						<array>
 							<real>150</real>
-							<real>327</real>
+							<real>340</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -530,7 +530,7 @@
 						<key>value</key>
 						<array>
 							<real>150</real>
-							<real>180</real>
+							<real>220</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -678,7 +678,7 @@
 						<key>value</key>
 						<array>
 							<real>150</real>
-							<real>180</real>
+							<real>220</real>
 							<integer>0</integer>
 						</array>
 					</dict>
