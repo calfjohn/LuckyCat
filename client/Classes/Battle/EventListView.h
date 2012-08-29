@@ -106,7 +106,7 @@ private:
     
     LEventData *p_CurEvent;          //Current Event
     
-    std::vector<LEventData *> mEventDataList;        //All Event in this page
+    std::vector<LEventData> mEventDataList;        //All Event in this page
     
     cocos2d::CCLayer *p_CurLayer;       //Current Show Layer
     

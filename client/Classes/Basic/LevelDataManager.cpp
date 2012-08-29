@@ -109,7 +109,7 @@ bool LevelDataManager::init( void )
             for (int i = 1; tmpBonusList[0] != 0 && i+1 < tmpBonusList.size(); i+=2) {
                 stGood _good;
                 _good.id = tmpBonusList[i];
-                _good.num = tmpBonusList[i+1];
+                _good.count = tmpBonusList[i+1];
                 tmpLevel->bonus.push_back(_good);
             }
         }

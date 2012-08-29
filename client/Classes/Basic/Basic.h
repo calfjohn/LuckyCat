@@ -92,12 +92,12 @@ public:
 typedef struct 
 {
     int id;
-    int num;
+    int count;
     int type;
     
     void print()
     {
-        printf("Good ID %d,Type %d, GoodNum %d\n",id,type,num);
+        printf("Good ID %d,Type %d, GoodNum %d\n",id,type,count);
     }
 }stGood;
 

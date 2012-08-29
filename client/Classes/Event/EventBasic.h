@@ -42,8 +42,8 @@ typedef struct
 typedef struct
 {
 	int	id;				//id of event.
-	LEventType type;			//type of event. 
-    std::vector<int> targetId;		//id of target.
+	LEventType type;	//type of event. 
+    int targetId;		//id of target.
 	std::vector<stGood> bonus;		//bonus of event.
 	int nextEventId;		//next event follow this event.
     int box_id;             //id of treasure chests
@@ -54,10 +54,7 @@ typedef struct
         printf("---- stEvent -----\n");
         printf("id %d\n", id);
         printf("type %d\n", type);
-        for ( int i=0; i<targetId.size(); i++ )
-        {
-            printf("%d target--> %d\n",i,targetId[i]);
-        }
+        printf("target %d\n",targetId);
         printf("bonus\n");
         for ( int i=0; i<bonus.size(); i++ )
         {
@@ -120,16 +117,9 @@ typedef  struct LEventData
     }
     ~LEventData()
     {
-        targetId.clear();
         bonus.clear();
     }
-    int getTarget()
-    {
-        if ( this->targetId.empty() == false )return this->targetId[0];
-        else {
-            return 0;
-        }
-    }
+  
     std::vector<stGood> getBouns()
     {
         return this->bonus;
@@ -151,9 +141,9 @@ typedef  struct LEventData
     
 	int	id;                   //id of event.
 	LEventType type;                //type of event.
-    std::vector<int> targetId;		//id of target.
+    int targetId;		//id of target.
 	std::vector<stGood> bonus;		//bonus of event.
-    
+    std::vector<stGood> awardArray; //bonus of fight
     int box_id;
     std::vector<stGood> boxAward;   //if box_id is not equal to -1. boxAward have some goods
     

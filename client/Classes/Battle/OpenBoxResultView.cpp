@@ -43,7 +43,7 @@ void OpenBoxResultView::initView(std::vector<stGood> tGoodsList)
         stGood _goods = *_iter;
         
         char strChar[512];
-        sprintf(strChar, "获得%d ：%d",_goods.id,_goods.num);
+        sprintf(strChar, "获得%d ：%d",_goods.id,_goods.count);
         CCLabelTTF *bonusLabel = CCLabelTTF::create(strChar, CCSizeMake(screanSize.width * 0.8f, screanSize.height * 0.15f ), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter,"Arial", 18);
         bonusLabel->setColor(ccWHITE);
         bonusLabel->setAnchorPoint(CCPointZero);

@@ -51,18 +51,18 @@ void BattleResultView::initView(LEventData *tEvent)
         
         char strChar[512];
         
-        if (_goods.id == 1) {
-            sprintf(strChar, "获得金币 ：%d",_goods.num);
+        if (_goods.type == 1) {
+            sprintf(strChar, "获得金币 ：%d",_goods.count);
         }
-        else if (_goods.id == 2)
+        else if (_goods.type == 2)
         {
-            sprintf(strChar, "获得经验 ：%d",_goods.num);
+            sprintf(strChar, "获得经验 ：%d",_goods.count);
         }
-        else if (_goods.id == 3){
-            sprintf(strChar, "获得大力丸 ：%d",_goods.num);
+        else if (_goods.type == 3){
+            sprintf(strChar, "获得物品 ：%d",_goods.count);
         }
-        else if (_goods.id == 4){
-            sprintf(strChar, "获得镶嵌物品 ：%d",_goods.num);
+        else if (_goods.type == 4){
+            sprintf(strChar, "获得装备 ：%d",_goods.count);
         }
         CCLabelTTF *bonusLabel = CCLabelTTF::create(strChar, CCSizeMake(screanSize.width * 0.8f, screanSize.height * 0.15f ), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter,"Arial", 18);
         bonusLabel->setColor(ccWHITE);
@@ -103,7 +103,7 @@ void BattleResultView::initView(std::vector<stGood> tGoodsList)
         stGood _goods = *_iter;
         
         char strChar[512];
-        sprintf(strChar, "获得%d ：%d",_goods.id,_goods.num);
+        sprintf(strChar, "获得%d ：%d",_goods.id,_goods.count);
         CCLabelTTF *bonusLabel = CCLabelTTF::create(strChar, CCSizeMake(screanSize.width * 0.8f, screanSize.height * 0.15f ), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter,"Arial", 18);
         bonusLabel->setColor(ccWHITE);
         bonusLabel->setAnchorPoint(CCPointZero);

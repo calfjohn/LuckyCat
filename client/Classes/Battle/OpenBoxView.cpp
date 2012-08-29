@@ -159,7 +159,7 @@ void OpenBoxView::netCallBack(CCNode* pNode, void* data)
             stGood tmpGoods;
             tmpGoods.id = goods["id"].asInt();
             tmpGoods.type = goods["type"].asInt();
-            tmpGoods.num = goods["num"].asInt();
+            tmpGoods.count = goods["count"].asInt();
             
             tGoodsList.push_back(tmpGoods);
         }
