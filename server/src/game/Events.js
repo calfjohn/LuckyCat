@@ -80,6 +80,39 @@ Events = {
         }
         return null;
     },
+    processBonusArray: function(bonus, uuid)
+    {
+        if(!bonus)
+        {
+            return;
+        }
+
+        for(var i = 0; i < bonus.length; i++)
+        {
+            switch (bonus[i].type)
+            {
+                case 1://金钱，待开发
+                    break;
+                case 2://经验
+                    require("./Actors").getActor(uuid).gainExp(bonus[i].count);
+                    break;
+                case 3://物品，待开发
+                    break;
+                case 4://装备
+                    //equipment需已包含 {equip_id:'2001', level:'1', rank:'1', color:'1'};
+                    var equipment = {};
+                    equipment.equip_id = bonus[i].id;
+                    equipment.level = '1';
+                    equipment.color = '1';
+                    equipment.rank = '1';
+                    for(var j = 0; j < bonus[i].count; j++)
+                    {
+                        require("./Actors").getActor(uuid).gainEquipment(equipment);
+                    }
+                    break;
+            }
+        }
+    },
     getEventList : function (eventId, uuid)
     {
         var tEventId = eventId;
@@ -87,7 +120,7 @@ Events = {
 
         while ( tEventId != -1 )
         {
-            var tEvent = [];
+            var tEvent = [];//待扩展为一系列事件，暂时只有一个事件
             tEvent = this.getEvent(tEventId);
             if ( tEvent )
             {
@@ -111,7 +144,6 @@ Events = {
                         oMoney.id = -1;
                         oMoney.count = money;
                         tEvent.awardArray.push(oMoney);
-                        require("./Actors").getActor(uuid).gainExp(tEvent.Exp);//add by lj
                     }
                 }
                 if ( tEvent.box_id != -1 )
@@ -128,7 +160,17 @@ Events = {
                 tEventId = tEvent.nextEventId;
             }
         }
-        if (tEventList.length != 0) return tEventList;
+        if (tEventList.length != 0) {
+            //处理所有奖励，包括战斗、箱子、事件
+            for(var i = 0; i < tEventList.length; i++)
+            {
+                Events.processBonusArray(tEventList[i].awardArray, uuid);
+                Events.processBonusArray(tEventList[i].boxAward, uuid);
+                Events.processBonusArray(tEventList[i].bonus, uuid);
+            }
+
+            return tEventList;
+        }
 
         return null;
     }
