@@ -54,7 +54,8 @@ module.exports.handler = function (req, res, next) {
 
         var getEventList = function() {
             var argIn = info.meta.in;
-            var ary = require("../Events").getEventList(argIn.eventId);
+            var uuid = parseInt(info.header.token);
+            var ary = require("../Events").getEventList(argIn.eventId, uuid);
 
             responseResult(ary);
         };

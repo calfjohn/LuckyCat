@@ -33,6 +33,7 @@ Actors = {
             Actors._cacheActors = {};
             for (var i = 0; i < rows.length; ++i) {
                 var data = rows[i];
+                if(-1 == data.id) continue;
                 var strUUID = "" + data.uuid;
                 Actors._cacheActors[strUUID] = data;
             }
@@ -47,6 +48,7 @@ Actors = {
             Actors._cacheEquipments = {};
             for (var i = 0; i < rows.length; ++i) {
                 var data = rows[i];
+                if(-1 == data.id) continue;
                 var strActorID = "" + data.actor_id;
                 var datas = Actors._cacheEquipments[strActorID];
                 if (undefined == datas) {
@@ -98,7 +100,7 @@ Actors = {
         });
     },
 
-    getActor:function (uuid, callback) {
+    getActor:function (uuid) {
         //get a actor basic info by uuid
         var actorDB = Actors._cacheActors["" + uuid];
         var equipDB = null;
@@ -107,23 +109,12 @@ Actors = {
             // get the equipmnets by actor's actor_id
             equipDB = Actors._cacheEquipments["" + actorDB.id];
             skillDB = Actors._cacheSkills["" + actorDB.id];
+            return (new Actor(actorDB, equipDB, skillDB));
         } else {
             actorDB = null;
-        }
-        callback(new Actor(actorDB, equipDB, skillDB));
-    },
-
-    getActorFromCache: function(uuid) {
-        var actor =  Actors._cacheActors[""+uuid];
-        if(undefined == actor){
-            actor = null;
-        }
-        else
-        {
-            Actors.calculateCapablity(actor);
+            return null;
         }
 
-        return actor;
     },
 
     updateProgress: function(id, chapterId, pageId){
@@ -137,27 +128,21 @@ Actors = {
         Actors._cacheActors[strUUID].page_id = pageId;
     },
 
-    calculateCapablity: function(actor){
-        var career = DictManager.getCareerByID(actor.career_id);
-
-        //玩家基本属性
-        actor.attack = career.attack*Math.pow(1 + career.attack_growth, actor.level);
-        actor.defence = career.defence*Math.pow(1 + career.defence_growth, actor.level);
-        actor.hp = career.life*Math.pow(1 + career.life_growth, actor.level);
-        actor.speed = career.speed*Math.pow(1 + career.speed_growth, actor.level);
-
-        //装备基本属性
-
-        //技能基本属性
-    },
-
     writeBackActorById: function(uuid, callback){
         var actor = Actors._cacheActors["" + uuid];
         if(undefined!=actor){
             Actors._dbAgent.query("UPDATE `actor` SET ? WHERE `actor`.`id` = ?", [actor, actor.id], function(err, result){
                 if (err) throw err;
-                log.d("---++++-------");
-                log.d(result);
+            });
+        }
+    },
+
+    insertEquipmentToActor: function(uuid, equipment, callback){
+        var actor = Actors._cacheActors["" + uuid];
+        if(undefined!=actor){
+            Actors._dbAgent.query("INSERT INTO `actor_equipment` SET ? ", equipment, function(err, result){
+                if (err) throw err;
+                callback(result);
             });
         }
     }

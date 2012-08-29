@@ -10,7 +10,7 @@
 #include "FuzzyBgView.h"
 #include "PlayerInfoView.h"
 #include "NetManager.h"
-#include "json.h"
+#include "json/json.h"
 #include "CCNetwork.h"
 #include "CCCallbackNode.h"
 #include "Basic.h"
@@ -29,8 +29,8 @@ enum BasicInfoTag{
     kAttackInfo,
     kRefenshInfo,
     kSpeedInfo,
-    kTitleInfo,
-    kScoreInfo,
+    kMoneyInfo,
+    kExpInfo,
     
     kInfoCount,
 };
@@ -71,7 +71,7 @@ BasicInfoView::~BasicInfoView()
 }*/
 
 cocos2d::SEL_MenuHandler BasicInfoView::onResolveCCBCCMenuItemSelector(cocos2d::CCObject * pTarget, cocos2d::CCString * pSelectorName){
-    CCB_SELECTORRESOLVER_CCMENUITEM_GLUE(this, "onMenuItemClicked", BasicInfoView::onMenuItemClicked);
+    CCB_SELECTORRESOLVER_CCMENUITEM_GLUE(this, "basicViewBtnCallback", BasicInfoView::basicViewBtnCallback);
     
     return NULL;
 }
@@ -107,7 +107,7 @@ void BasicInfoView::initBasicInfoView(){
     if(info == NULL){
         return;
     }
-    cocos2d::CCString* strNickname = cocos2d::CCString::createWithFormat("名称：%s",info->userNickName.c_str());
+    cocos2d::CCString* strNickname = cocos2d::CCString::createWithFormat("%s",info->userNickName.c_str());
     setBasicInfoLabelForTag(kNickNameInfo,strNickname);
     
     cocos2d::CCString* strLevel = cocos2d::CCString::createWithFormat("等级：%d",info->userLevel);
@@ -126,6 +126,13 @@ void BasicInfoView::initBasicInfoView(){
     
     cocos2d::CCString* strSpeed = cocos2d::CCString::createWithFormat("速度：%d",(int)info->userSpeed);
     setBasicInfoLabelForTag(kSpeedInfo, strSpeed);
+    
+    cocos2d::CCString* strExp = cocos2d::CCString::createWithFormat("经验：%d",(int)info->userExp);
+    setBasicInfoLabelForTag(kExpInfo, strExp);
+    
+    m_playerInfoView = PlayerInfoView::create(this);
+    this->addChild(m_playerInfoView);
+    m_playerInfoView->hidePlayerInfo();
 }
 
 void BasicInfoView::setBasicInfoLabelForTag(const int tag, cocos2d::CCString *infomation){
@@ -154,14 +161,31 @@ void BasicInfoView::setBasicInfoLabelForTag(const int tag, cocos2d::CCString *in
             m_labSpeed = (cocos2d::CCLabelTTF*)this->getChildByTag(kSpeedInfo);
             m_labSpeed->setString(infomation->getCString());
             break;
-        case kTitleInfo:
-            m_labTitle = (cocos2d::CCLabelTTF*)this->getChildByTag(kTitleInfo);
+        case kMoneyInfo:
+            m_labTitle = (cocos2d::CCLabelTTF*)this->getChildByTag(kMoneyInfo);
             m_labTitle->setString(infomation->getCString());
             break;
-        case kScoreInfo:
-            m_labScore = (cocos2d::CCLabelTTF*)this->getChildByTag(kScoreInfo);
+        case kExpInfo:
+            m_labScore = (cocos2d::CCLabelTTF*)this->getChildByTag(kExpInfo);
             m_labScore->setString(infomation->getCString());
             break;
+        default:
+            break;
+    }
+}
+
+void BasicInfoView::basicViewBtnCallback(CCObject *pSender){
+    CCNode *node = (CCNode*)pSender;
+    cout << "tag = " << node->getTag() << endl;
+    switch (node->getTag()) {
+        case 0:
+            //if(m_playerInfoView == NULL){
+                m_playerInfoView = PlayerInfoView::create(this);
+                this->addChild(m_playerInfoView);
+            //}
+            //m_playerInfoView->showPlayerInfo();
+            break;
+            
         default:
             break;
     }
@@ -207,6 +231,7 @@ void BasicInfoView::responesBasicInfo(CCNode *pNode, void* data){
             info->userSpeed = root["meta"]["out"]["speed"].asDouble();
             //cocos2d::CCString* strSpeed = cocos2d::CCString::createWithFormat("速度：%d",(int)info->userSpeed);
             //setBasicInfoLabelForTag(kSpeedInfo, strSpeed);
+            info->userExp = root["meta"]["out"]["exp"].asInt();
             initBasicInfoView();
         }
     }

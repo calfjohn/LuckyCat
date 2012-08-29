@@ -15,7 +15,7 @@
 #include "OpenBoxResultView.h"
 #include "NetManager.h"
 #include "CCMessageQueue.h"
-#include "json.h"
+#include "json/json.h"
 
 #include "FuzzyBgView.h"
 
@@ -159,7 +159,7 @@ void OpenBoxView::netCallBack(CCNode* pNode, void* data)
             stGood tmpGoods;
             tmpGoods.id = goods["id"].asInt();
             tmpGoods.type = goods["type"].asInt();
-            tmpGoods.num = goods["num"].asInt();
+            tmpGoods.count = goods["count"].asInt();
             
             tGoodsList.push_back(tmpGoods);
         }

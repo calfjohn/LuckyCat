@@ -20,8 +20,10 @@
 #include "extensions/CCBReader/CCNodeLoaderLibrary.h"
 #include "HeroHeadView.h"
 #include "LuckySprite.h"
+#include "BasicInfoView.h"
 
 USING_NS_CC;
+USING_NS_CC_EXT;
 
 #define TAG_MENU 1000
 #define TAG_NEXT 1001
@@ -31,6 +33,28 @@ USING_NS_CC;
 #define TAG_Lab_Content     12
 #define TAG_Sprite_Bg       21
 #define TAG_Sprite_Monster  22
+
+CCNode* Page::createNodeForCCBI(const char *pCCBFileName , const char *pCCNodeName , cocos2d::extension::CCNodeLoader *pCCNodeLoader){
+    /* Create an autorelease CCNodeLoaderLibrary. */
+    CCNodeLoaderLibrary * ccNodeLoaderLibrary = CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
+    
+    ccNodeLoaderLibrary->registerCCNodeLoader("Page", PageLoader::loader());
+    if(pCCNodeName != NULL && pCCNodeLoader != NULL) {
+        ccNodeLoaderLibrary->registerCCNodeLoader(pCCNodeName, pCCNodeLoader);
+    }
+    
+    /* Create an autorelease CCBReader. */
+    cocos2d::extension::CCBReader * ccbReader = new cocos2d::extension::CCBReader(ccNodeLoaderLibrary);
+    ccbReader->autorelease();
+    
+    /* Read a ccbi file. */
+    // Load the scene from the ccbi-file, setting this class as
+    // the owner will cause lblTestTitle to be set by the CCBReader.
+    // lblTestTitle is in the TestHeader.ccbi, which is referenced
+    // from each of the test scenes.
+    CCNode * node = ccbReader->readNodeGraphFromFile("pub/", pCCBFileName, this);
+    return node;
+}
 
 Page *Page::create(cocos2d::CCObject * pOwner)
 {
@@ -44,6 +68,13 @@ Page *Page::create(cocos2d::CCObject * pOwner)
     CCNode * pNode = ccbReader->readNodeGraphFromFile("pub/", "ccb/page.ccbi", pOwner);
     
     Page *pPage = static_cast<Page *>(pNode);
+    
+    pPage->m_pBasicInfoView = (BasicInfoView*)pPage->createNodeForCCBI("ccb/basic.ccbi", "BasicInfoView", BasicInfoViewLoader::loader());
+    if (pPage->m_pBasicInfoView != NULL) {
+        pPage->m_pBasicInfoView->setTag(kPlayerInfoTagBasicLayer);
+        pPage->addChild(pPage->m_pBasicInfoView);
+        pPage->m_pBasicInfoView->sendBasicInfo();
+    }
     
     return pPage;
 }
@@ -96,26 +127,18 @@ void Page::turnToPage(int chapterId, const stPage *pPage)
     m_title = (CCLabelTTF *)this->getChildByTag(TAG_Lab_Title);
     m_content = (CCLabelTTF *)this->getChildByTag(TAG_Lab_Content);
     
-    m_SpriteMonster = (CCSprite *)this->getChildByTag(TAG_Sprite_Monster);
-    m_SpriteBg = (CCSprite *)this->getChildByTag(TAG_Sprite_Bg);
+    m_SpriteMonster = (LuckySprite *)this->getChildByTag(TAG_Sprite_Monster);
+    m_SpriteBg = (LuckySprite *)this->getChildByTag(TAG_Sprite_Bg);
     
     m_title->setString(m_pPage->name.c_str());
     m_content->setString(m_pPage->content.c_str());
-    
-    //    m_SpriteBg->setDisplayFrame(CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("monster_1.png"));
-    //    
-    //    m_SpriteMonster->setTexture(CCTextureCache::sharedTextureCache()->addImage("pub/image/hero/monster_1002.png"));
-    char strChar[100];
-    memset(strChar, 0, 100);
-    sprintf(strChar, "scene_100%d.png",m_pPage->id);
-    m_SpriteBg->setDisplayFrame(LuckySprite::getSpriteFrame(strChar));
-    
+
+    m_SpriteBg->setNewTexture(m_pPage->imageId);
     stEvent *tStEvent = EventDataManager::getShareInstance()->getEvent(m_pPage->eventId);
-    memset(strChar, 0, 100);
-    sprintf(strChar, "pub/image/hero/monster_100%d.png",tStEvent->targetId[0]);
-    m_SpriteMonster->setTexture(LuckySprite::getTextrue2D(strChar));
+    const stMonster * pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(tStEvent->targetId);
+    m_SpriteMonster->setNewTexture(pMonster->imageId);
     
-    this->showHeroHeadView();
+    //this->showHeroHeadView();
 }
 
 void Page::showBattleView(CCObject *pSender)

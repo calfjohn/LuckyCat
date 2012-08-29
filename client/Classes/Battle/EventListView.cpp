@@ -20,7 +20,7 @@
 
 #include "NetManager.h"
 #include "CCMessageQueue.h"
-#include "json.h"
+#include "json/json.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -62,7 +62,6 @@ void EventListView::initLayer(const int tChapterId,const stPage *p_page, CCObjec
 
 void EventListView::getEventDataList()
 {
-    this->netCallBackEventList(NULL,NULL);
     NetManager::shareNetManager()->sendEx(kModeEvent, kDoGetEventList, callfuncND_selector(EventListView::netCallBackEventList), this, "\"chapterId\": %d, \"pageId\": %d, \"eventId\": %d", mChapterId, p_pPage->id, p_pPage->eventId);
 }
 
@@ -78,54 +77,54 @@ void EventListView::netCallBackEventList(CCNode* pNode, void* data)
         Json::Value json_root;
         if (!reader.parse(tempInfo->strResponseData.c_str(), json_root))
             return;
-        //
+
         Json::Value json_meta = json_root["meta"];
         Json::Value json_out = json_meta["out"];
-        
         int ret = json_out["result"].asInt();
         if ( ret != 0 )
         {
             return;
         }
-        Json::Value json_eventArray = json_out["eventList"];
         
         mEventDataList.clear();
-        
-        for (int i = 0; i < json_eventArray.size(); i++) {
-            Json::Value jEvent = json_eventArray[i];
-            LEventData *tEventData = new LEventData();
+        for (int i = 0; i < json_out["eventList"].size(); i++) 
+        {
+            Json::Value jEvent = json_out["eventList"][i];
+            LEventData tEventData = LEventData();
             
-            tEventData->id = jEvent["id"].asInt();
+            tEventData.id = jEvent["id"].asInt();
+            tEventData.targetId = atoi(jEvent["target"].asCString());
             
-            Json::Value jTargetArray = jEvent["targetArray"];
-            std::vector<int> tVectorTarget;
-            for (int j = 0; j < jTargetArray.size(); j++) {
-                int tTarget = jTargetArray[j].asInt();
-                tVectorTarget.push_back(tTarget);
-            }
-            tEventData->targetId = tVectorTarget;
-            
-            Json::Value jBonusArray = jEvent["bonusArray"];
-            std::vector<stGood> tVectorGood;
-            for (int j = 0; j < jBonusArray.size(); j++) {
-                Json::Value jBonus = jBonusArray[j];
+            for (int j = 0; j < jEvent["bonus"].size(); j++) 
+            {
+                Json::Value jBonus = jEvent["bonus"][j];
                 stGood tGoods;
                 tGoods.id = jBonus["id"].asInt();
                 tGoods.type = jBonus["type"].asInt();
-                tGoods.num = jBonus["num"].asInt();
+                tGoods.count = jBonus["count"].asInt();
                 
-                tVectorGood.push_back(tGoods);
+                tEventData.bonus.push_back(tGoods);
             }
-            tEventData->bonus = tVectorGood;
             
-            stEvent *tStEvent = EventDataManager::getShareInstance()->getEvent(tEventData->id);
-            tEventData->type = (LEventType)(jEvent["type"].asInt());
-            tEventData->pStEvent = tStEvent;
+            for (int j = 0; j < jEvent["awardArray"].size(); j++) 
+            {
+                Json::Value jBonus = jEvent["awardArray"][j];
+                stGood tGoods;
+                tGoods.id = jBonus["id"].asInt();
+                tGoods.type = jBonus["type"].asInt();
+                tGoods.count = jBonus["count"].asInt();
+                
+                tEventData.awardArray.push_back(tGoods);
+            }
             
-            tEventData->pBattle = NULL;
-            tEventData->box_id = jEvent["box_id"].asInt();
+            stEvent *tStEvent = EventDataManager::getShareInstance()->getEvent(tEventData.id);
+            tEventData.type = (LEventType)(jEvent["type"].asInt());
+            tEventData.pStEvent = tStEvent;
             
-            if ( tEventData->box_id != -1 )
+            tEventData.pBattle = NULL;
+            tEventData.box_id = jEvent["box_id"].asInt();
+            
+            if ( tEventData.box_id != -1 )
             {
                 Json::Value jBonusArray = jEvent["boxAward"];
                 std::vector<stGood> tVectorGood;
@@ -134,20 +133,20 @@ void EventListView::netCallBackEventList(CCNode* pNode, void* data)
                     stGood tGoods;
                     tGoods.id = jBonus["id"].asInt();
                     tGoods.type = jBonus["type"].asInt();
-                    tGoods.num = jBonus["num"].asInt();
+                    tGoods.count = jBonus["num"].asInt();
                     
                     tVectorGood.push_back(tGoods);
                 }
-                tEventData->boxAward = tVectorGood;
+                tEventData.boxAward = tVectorGood;
             }else {
-                tEventData->boxAward.clear();
+                tEventData.boxAward.clear();
             }
             
-            if (tVectorGood.empty() == false) {
-                tEventData->m_bBattleResultIsShowed = false;
+            if (tEventData.bonus.empty() == false) {
+                tEventData.m_bBattleResultIsShowed = false;
             }
             else {
-                tEventData->m_bBattleResultIsShowed = true;
+                tEventData.m_bBattleResultIsShowed = true;
             }
             mEventDataList.push_back(tEventData);
         }
@@ -162,7 +161,7 @@ LEventData * EventListView::getCurEvent()
 {
     if ( mEventDataList.empty() == false )
     {
-        p_CurEvent = mEventDataList[0];
+        p_CurEvent = &mEventDataList[0];
         
         switch (p_CurEvent->type) {
             case kLEventTypeGeneralBattle:
@@ -195,12 +194,12 @@ void EventListView::popEvent()
 {
     if ( mEventDataList.empty() == false )
     {
-        std::vector<LEventData *>::iterator _iter = mEventDataList.begin();
+        std::vector<LEventData>::iterator _iter = mEventDataList.begin();
         mEventDataList.erase(_iter);
         
         if ( mEventDataList.empty() == false )
         {
-            p_CurEvent = mEventDataList[0];
+            p_CurEvent = &mEventDataList[0];
             
             switch (p_CurEvent->type) {
                 case kLEventTypeGeneralBattle:
@@ -385,19 +384,4 @@ void EventListView::removeAllChildLayer()
         
         p_CurLayer = NULL;
     }
-//    if (p_HeroHeadView)
-//    {
-//        p_HeroHeadView->removeFromParentAndCleanup(true);
-//        p_HeroHeadView = NULL;
-//    }
-//    if (p_OpenBoxView)
-//    {
-//        p_OpenBoxView->removeFromParentAndCleanup(true);
-//        p_OpenBoxView = NULL;
-//    }
-//    if (p_BattleResultView)
-//    {
-//        p_BattleResultView->removeFromParentAndCleanup(true);
-//        p_BattleResultView = NULL;
-//    }
 }

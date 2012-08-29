@@ -126,19 +126,30 @@ private:
     stActorUserEquipInfo *m_selectedEquipData;
     CCMenuItemLabel *m_selectedEquipListLabel;
     
+    CCSprite *m_sprEquipAnimation;
+    
     bool m_bHeadHavePutOn;
     bool m_bHandHavePutOn;
     bool m_bBodyHavePutOn;
     bool m_bFootHavePutOn;
     
-
+    bool m_bIsChangeEquip;
     //void setEquipInfo(cocos2d::CCSprite *equipIcon, cocos2d::CCLabelTTF *equipName, std::vector<cocos2d::CCLabelTTF> &equipProprety);
     
     void setPlayerEquipInfo();
     
     void setEquipInfo(const stActorEquipInfo *info);
     
-    void equipListMenuItemCallBack(CCNode *pSender);
+    void equipListMenuItemCallBack(CCObject *pSender);
+    
+    
+    void playEquipPutOnAnimation(float attack, float defence, float speed);
+    
+    void playEquipTakeOffAnimation(float attack, float defence, float speed);
+    
+    void playEquipPutOnAniCallback();
+    
+    void playEquipTakeOffAniCallback();
 
 };
 

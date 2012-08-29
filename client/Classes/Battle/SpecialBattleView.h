@@ -14,7 +14,7 @@
 #include "extensions/CCBReader/CCBSelectorResolver.h"
 #include "extensions/CCBReader/CCBMemberVariableAssigner.h"
 #include "extensions/CCBReader/CCLayerLoader.h"
-#include "json.h"
+#include "json/json.h"
 #include "EventBasic.h"
 #include "BattleDefine.h"
 
@@ -70,7 +70,13 @@ private:
     
     int m_nIndexList;               //战斗数据索引
     
+    void showTips(const char *tips, CCPoint positon);
+    
+    void removeSelf(CCNode *pNode);
+    
     Json::Value battleResult;       //战斗数据
+
+    Json::Value playList;           //战斗动作序列
     
     cocos2d::CCPoint         pBeginPoint;
     

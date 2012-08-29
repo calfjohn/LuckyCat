@@ -21,6 +21,7 @@ EquipInfoView::EquipInfoView(){
     m_EquipListView = NULL;
     m_selectedEquipData = NULL;
     m_selectedEquipListLabel = NULL;
+    m_sprEquipAnimation = NULL;
 }
 
 EquipInfoView::~EquipInfoView(){
@@ -128,7 +129,7 @@ bool EquipInfoView::initEquipListView(EquipType type){
             for (int i = 0; i<m_EquipHeadInfos.size(); i++) {
                 stActorUserEquipInfo *info = &(m_EquipHeadInfos[i]);
                 CCLabelTTF* label;
-                if (info->userEquipId == m_iEquipCurHeadId) {
+                if (info->userListId == m_iEquipCurHeadId) {
                     info->userPutOn = true;
                     CCString *name = CCString::createWithFormat("%s(当前)",info->equipInfo->equipName.c_str());
                     label = CCLabelTTF::create(name->getCString(), "Arial", 15);
@@ -152,7 +153,7 @@ bool EquipInfoView::initEquipListView(EquipType type){
             for (int i = 0; i<m_EquipHandInfos.size(); i++) {
                 stActorUserEquipInfo *info = &(m_EquipHandInfos[i]);
                 CCLabelTTF* label;
-                if (info->userEquipId == m_iEquipCurHandId) {
+                if (info->userListId == m_iEquipCurHandId) {
                     info->userPutOn = true;
                     CCString *name = CCString::createWithFormat("%s(当前)",info->equipInfo->equipName.c_str());
                     label = CCLabelTTF::create(name->getCString(), "Arial", 15);
@@ -177,7 +178,7 @@ bool EquipInfoView::initEquipListView(EquipType type){
             for (int i = 0; i<m_EquipBodyInfos.size(); i++) {
                 stActorUserEquipInfo *info = &(m_EquipBodyInfos[i]);
                 CCLabelTTF* label;
-                if (info->userEquipId == m_iEquipCurBodyId) {
+                if (info->userListId == m_iEquipCurBodyId) {
                     info->userPutOn = true;
                     CCString *name = CCString::createWithFormat("%s(当前)",info->equipInfo->equipName.c_str());
                     label = CCLabelTTF::create(name->getCString(), "Arial", 15);
@@ -201,7 +202,7 @@ bool EquipInfoView::initEquipListView(EquipType type){
             for (int i = 0; i<m_EquipFootInfos.size(); i++) {
                 stActorUserEquipInfo *info = &(m_EquipFootInfos[i]);
                 CCLabelTTF* label;
-                if (info->userEquipId == m_iEquipCurFootId) {
+                if (info->userListId == m_iEquipCurFootId) {
                     info->userPutOn = true;
                     CCString *name = CCString::createWithFormat("%s(当前)",info->equipInfo->equipName.c_str());
                     label = CCLabelTTF::create(name->getCString(), "Arial", 15);
@@ -288,14 +289,14 @@ void EquipInfoView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d
 
 }
 
-void EquipInfoView::equipListMenuItemCallBack(CCNode *pSender){
+void EquipInfoView::equipListMenuItemCallBack(CCObject *pSender){
     /*CCMenuItemLabel* item = (CCMenuItemLabel*)pSender;
     CCLabelTTF* label = (CCLabelTTF*)item->getLabel();
     CCString* name = CCString::createWithFormat("%s(当前)",label->getString());
     item->setString(name->getCString());*/
     
     stActorUserEquipInfo *info;
-    int index = pSender->getTag();
+    int index = ((CCNode*)pSender)->getTag();
     m_selectedEquipListLabel = (CCMenuItemLabel*)pSender;
     switch (m_curEquipType) {
         case kEquipHead:
@@ -410,6 +411,121 @@ void EquipInfoView::hideEquipView(){
 }
 
 
+
+void EquipInfoView::playEquipPutOnAnimation(float attack, float defence, float speed){
+    if (m_sprEquipAnimation != NULL) {
+        m_sprEquipAnimation->stopAllActions();
+        m_sprEquipAnimation->removeAllChildrenWithCleanup(true);
+        m_sprEquipAnimation = NULL;
+    }
+    if (m_sprEquipAnimation == NULL) {
+        m_sprEquipAnimation = CCSprite::create();
+        m_sprEquipAnimation->setPosition(CCPointZero);
+        CCString *strattack = CCString::createWithFormat("攻击+%d",(int)attack);
+        CCLabelTTF *attack = CCLabelTTF::create(strattack->getCString(), "Arial", 30);
+        attack->setTag(0);
+        attack->setPosition(ccp(320/2,480/2+30));
+        
+        CCString *strdefence = CCString::createWithFormat("防御+%d",(int)defence);
+        CCLabelTTF *defence = CCLabelTTF::create(strdefence->getCString(), "Arial", 30);
+        defence->setTag(1);
+        defence->setPosition(ccp(320/2,480/2));
+       
+        CCString *strspeed = CCString::createWithFormat("速度+%d",(int)speed);
+        CCLabelTTF *speed = CCLabelTTF::create(strspeed->getCString(), "Arial", 30);
+        speed->setTag(2);
+        speed->setPosition(ccp(320/2,480/2-30));
+        m_sprEquipAnimation->addChild(attack);
+        m_sprEquipAnimation->addChild(defence);
+        m_sprEquipAnimation->addChild(speed);
+        this->addChild(m_sprEquipAnimation);
+    }
+    CCMoveTo *to = CCMoveTo::create(2, ccp(0,480/2));
+    CCCallFunc *fun = CCCallFunc::create(this, callfunc_selector(EquipInfoView::playEquipPutOnAniCallback));
+    CCSequence *squ = CCSequence::create(to,fun);
+    m_sprEquipAnimation->runAction(squ);
+    //CCAction* action;
+    
+    /*CCMenu *menu = (CCMenu*)this->getChildByTag(kEquipMenu);
+    
+    CCMenuItemImage *puton = (CCMenuItemImage*)menu->getChildByTag(kEquipPutOn);
+    puton->setEnabled(false);
+    CCMenuItemImage *takeoff = (CCMenuItemImage*)menu->getChildByTag(kEquipTakeOff);
+    takeoff->setEnabled(false);*/
+}
+
+void EquipInfoView::playEquipPutOnAniCallback(){
+    if (m_sprEquipAnimation != NULL) {
+        m_sprEquipAnimation->removeAllChildrenWithCleanup(true);
+        m_sprEquipAnimation = NULL;
+    }
+    
+    /*CCMenu *menu = (CCMenu*)this->getChildByTag(kEquipMenu);
+    CCMenuItemImage *puton = (CCMenuItemImage*)menu->getChildByTag(kEquipPutOn);
+    puton->setEnabled(false);
+    CCMenuItemImage *takeoff = (CCMenuItemImage*)menu->getChildByTag(kEquipTakeOff);
+    takeoff->setEnabled(true);
+    
+    m_bIsChangeEquip = false;*/
+}
+
+void EquipInfoView::playEquipTakeOffAnimation(float attack, float defence, float speed){
+    if (m_sprEquipAnimation != NULL) {
+        m_sprEquipAnimation->stopAllActions();
+        m_sprEquipAnimation->removeAllChildrenWithCleanup(true);
+        m_sprEquipAnimation = NULL;
+    }
+    if (m_sprEquipAnimation == NULL) {
+        m_sprEquipAnimation = CCSprite::create();
+        m_sprEquipAnimation->setPosition(CCPointZero);
+        CCString *strattack = CCString::createWithFormat("攻击%d",(int)attack);
+        CCLabelTTF *attack = CCLabelTTF::create(strattack->getCString(), "Arial", 30);
+        attack->setTag(0);
+        attack->setPosition(ccp(320/2,480/2+30));
+        
+        CCString *strdefence = CCString::createWithFormat("防御%d",(int)defence);
+        CCLabelTTF *defence = CCLabelTTF::create(strdefence->getCString(), "Arial", 30);
+        defence->setTag(1);
+        defence->setPosition(ccp(320/2,480/2));
+        
+        CCString *strspeed = CCString::createWithFormat("速度%d",(int)speed);
+        CCLabelTTF *speed = CCLabelTTF::create(strspeed->getCString(), "Arial", 30);
+        speed->setTag(2);
+        speed->setPosition(ccp(320/2,480/2-30));
+        m_sprEquipAnimation->addChild(attack);
+        m_sprEquipAnimation->addChild(defence);
+        m_sprEquipAnimation->addChild(speed);
+        this->addChild(m_sprEquipAnimation);
+    }
+    CCMoveTo *to = CCMoveTo::create(2, ccp(0,480/2));
+    CCCallFunc *fun = CCCallFunc::create(this, callfunc_selector(EquipInfoView::playEquipTakeOffAniCallback));
+    CCSequence *squ = CCSequence::create(to,fun);
+    m_sprEquipAnimation->runAction(squ);
+    //CCAction* action;
+    
+    /*CCMenu *menu = (CCMenu*)this->getChildByTag(kEquipMenu);
+    
+    CCMenuItemImage *puton = (CCMenuItemImage*)menu->getChildByTag(kEquipPutOn);
+    puton->setEnabled(false);
+    CCMenuItemImage *takeoff = (CCMenuItemImage*)menu->getChildByTag(kEquipTakeOff);
+    takeoff->setEnabled(false);*/
+}
+
+void EquipInfoView::playEquipTakeOffAniCallback(){
+    if (m_sprEquipAnimation != NULL) {
+        m_sprEquipAnimation->removeAllChildrenWithCleanup(true);
+        m_sprEquipAnimation = NULL;
+    }
+    
+    /*CCMenu *menu = (CCMenu*)this->getChildByTag(kEquipMenu);
+    CCMenuItemImage *puton = (CCMenuItemImage*)menu->getChildByTag(kEquipPutOn);
+    puton->setEnabled(true);
+    CCMenuItemImage *takeoff = (CCMenuItemImage*)menu->getChildByTag(kEquipTakeOff);
+    takeoff->setEnabled(false);
+    
+    m_bIsChangeEquip = false;*/
+}
+
 /*
 void EquipInfoView::setEquipInfo(cocos2d::CCSprite *equipIcon, cocos2d::CCLabelTTF *equipName, std::vector<cocos2d::CCLabelTTF> &equipProprety){
     
@@ -454,28 +570,28 @@ void EquipInfoView::responsePlayerCurEquipInfo(CCNode *pNode, void* data){
         Json::Value out = root["meta"]["out"];
         m_iEquipCurHeadId = out["eq_head_id"]["id"].asInt();
         if (m_iEquipCurHeadId != -1) {
-            m_iEquipCurHeadId = out["eq_head_id"]["equip_id"].asInt();
+            //m_iEquipCurHeadId = out["eq_head_id"]["equip_id"].asInt();
             m_bHeadHavePutOn = true;
         }else{
             m_bHeadHavePutOn = false;
         }
         m_iEquipCurBodyId = out["eq_body_id"]["id"].asInt();
         if (m_iEquipCurBodyId != -1) {
-            m_iEquipCurBodyId = out["eq_body_id"]["equip_id"].asInt();
+            //m_iEquipCurBodyId = out["eq_body_id"]["equip_id"].asInt();
             m_bBodyHavePutOn = true;
         }else{
             m_bBodyHavePutOn = false;
         }
         m_iEquipCurHandId = out["eq_hand_id"]["id"].asInt();
         if (m_iEquipCurHandId != -1) {
-            m_iEquipCurHandId = out["eq_hand_id"]["equip_id"].asInt();
+            //m_iEquipCurHandId = out["eq_hand_id"]["equip_id"].asInt();
             m_bHandHavePutOn = true;
         }else{
             m_bHandHavePutOn = false;
         }
         m_iEquipCurFootId = out["eq_foot_id"]["id"].asInt();
         if (m_iEquipCurFootId != -1) {
-            m_iEquipCurFootId = out["eq_foot_id"]["equip_id"].asInt();
+            //m_iEquipCurFootId = out["eq_foot_id"]["equip_id"].asInt();
             m_bFootHavePutOn = true;
         }else{
             m_bFootHavePutOn = false;
@@ -559,7 +675,15 @@ void EquipInfoView::responsePutOnCurEquip(CCNode *pNode, void* data){
         info->userAttack = now["attack"].asDouble();
         info->userReference = now["defence"].asDouble();
         info->userSpeed = now["speed"].asDouble();
+        
+        Json::Value delta = root["meta"]["out"]["delta"];
+        float attack = delta["attack"].asDouble();
+        float defence = delta["defence"].asDouble();
+        float speed = delta["speed"].asDouble();
+        playEquipPutOnAnimation(attack,defence,speed);
+        //m_bIsChangeEquip = false;
     }
+    
 }
 
 void EquipInfoView::responseTakeOffCurEquip(CCNode *pNode, void* data){
@@ -625,7 +749,15 @@ void EquipInfoView::responseTakeOffCurEquip(CCNode *pNode, void* data){
         info->userAttack = now["attack"].asDouble();
         info->userReference = now["defence"].asDouble();
         info->userSpeed = now["speed"].asDouble();
+        
+        Json::Value delta = root["meta"]["out"]["delta"];
+        float attack = delta["attack"].asDouble();
+        float defence = delta["defence"].asDouble();
+        float speed = delta["speed"].asDouble();
+        playEquipTakeOffAnimation(attack,defence,speed);
+        //m_bIsChangeEquip = true;
     }
+    
 }
 
 

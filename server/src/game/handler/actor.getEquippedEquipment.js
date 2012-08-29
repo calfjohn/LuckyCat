@@ -65,11 +65,10 @@ module.exports.handler = function (req, res, next) {
 
         if (info) {
             var uuid = info.header.token;
-            require("../Actors").getActor(uuid, function (actor) {
-                if (actor != null) {
-                    responseResult(actor.getEquippedEquipment());
-                }
-            });
+            var actor = require("../Actors").getActor(uuid)
+            if (actor != null) {
+                responseResult(actor.getEquippedEquipment());
+            }
         } else {
             next();
         }

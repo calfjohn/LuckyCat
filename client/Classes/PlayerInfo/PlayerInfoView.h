@@ -60,9 +60,9 @@ class PlayerInfoView
         virtual cocos2d::extension::SEL_CCControlHandler onResolveCCBCCControlSelector(cocos2d::CCObject * pTarget, cocos2d::CCString * pSelectorName);
         virtual bool onAssignCCBMemberVariable(cocos2d::CCObject * pTarget, cocos2d::CCString * pMemberVariableName, cocos2d::CCNode * pNode);
     
-    virtual void notificationTouchEvent(LTouchEvent tLTouchEvent);
+        virtual void notificationTouchEvent(LTouchEvent tLTouchEvent);
     
-    virtual void registerWithTouchDispatcher(void);
+        virtual void registerWithTouchDispatcher(void);
     
         CCNode* createNodeForCCBI(const char *pCCBFileName , const char *pCCNodeName , cocos2d::extension::CCNodeLoader *pCCNodeLoader);
     
@@ -71,6 +71,10 @@ class PlayerInfoView
         void playerInfoBarBtnCallback(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent);
         
         void showViewForType();
+    
+        void showPlayerInfo();
+    
+        void hidePlayerInfo();
 
         BasicInfoView *m_pBasicInfoView;
         EquipInfoView *m_pEquipInfoView;

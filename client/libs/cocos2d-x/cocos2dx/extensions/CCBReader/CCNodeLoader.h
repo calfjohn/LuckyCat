@@ -27,7 +27,7 @@ struct BlockCCControlData {
 /* Forward declaration. */
 class CCBReader;
 
-class CCNodeLoader : public CCObject {
+class CC_DLL CCNodeLoader : public CCObject {
     public:
         virtual ~CCNodeLoader() {};
         CCB_STATIC_NEW_AUTORELEASE_OBJECT_METHOD(CCNodeLoader, loader);

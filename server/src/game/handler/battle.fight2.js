@@ -38,7 +38,7 @@ module.exports.handler = function (req, res, next) {
         if (info) {
             //receive input parameter
             var uuid = parseInt(info.header.token);
-            var actor = require("../Actors").getActorFromCache(uuid);
+            var actor = require("../Actors").getActor(uuid).calculateCapability();
 
             // test code, 组装成队伍战斗
             var monsterId = parseInt(info.meta.in.monsterId);

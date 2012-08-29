@@ -1,17 +1,15 @@
 /**
  * Created with JetBrains WebStorm.
  * User: lihex
- * Date: 12-8-20
- * Time: 下午4:39
+ * Date: 12-8-29
+ * Time: 上午11:35
  * To change this template use File | Settings | File Templates.
  */
 
 require("../../system/Log");
-var partAll = 0;
-var partEquipped = 1;
 
 module.exports.handler = function (req, res, next) {
-    var log = new Log("actor.getSkillInfo");
+    var log = new Log("getBasicInfo");
 
     var chunks = [];
     req.on("data", function (chunk) {
@@ -37,22 +35,25 @@ module.exports.handler = function (req, res, next) {
         };
 
         if (info) {
-            var uuid = info.header.token;
-            var actor = require("../Actors").getActor(uuid)
-            if (actor != null) {
-                //remove actor id
-                var skills = actor.getSkills();
-                ;
-                for (var i = 0; i < skills.length; i++) {
-                    var skill = skills[i];
-                    delete skill["actor_id"];
-                }
-                responseResult(skills);
+            var uuid = parseInt(info.header.token);
+            var me = require("../Actors").getActor(uuid)._dbBasic;
+            var actors = require("../Actors")._cacheActors;
+            var ret = [];
+            for (var key in actors) {
+                if((me.uuid+"") == key) continue;
+                var _actor = {};
+                _actor.uuid = actors[key].uuid;
+                _actor.nickname = actors[key].nickname;
+                _actor.image_id = actors[key].image_id;
+                _actor.level = actors[key].level;
+                _actor.career_id = actors[key].career_id;
+                ret.push(_actor);
             }
+            responseResult(ret);
+
         } else {
             next();
         }
-
 
     });
 };

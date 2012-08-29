@@ -15,7 +15,7 @@ NS_CC_EXT_BEGIN
     return cccontrol_selector(METHOD); \
 }
 
-class CCBSelectorResolver {
+class CC_DLL CCBSelectorResolver {
     public:
         virtual ~CCBSelectorResolver() {};
 
