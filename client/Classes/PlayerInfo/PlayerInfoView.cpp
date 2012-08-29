@@ -135,6 +135,14 @@ void PlayerInfoView::onMenuItemClicked(cocos2d::CCObject *pTarget){
     
 }
 
+void PlayerInfoView::showPlayerInfo(){
+    this->setVisible(true);
+}
+
+void PlayerInfoView::hidePlayerInfo(){
+    this->setVisible(false);
+}
+
 
 void PlayerInfoView::playerInfoBarBtnCallback(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent){
     CCNode* btn = (CCNode*)pSender;

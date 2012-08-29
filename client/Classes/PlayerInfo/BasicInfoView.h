@@ -46,6 +46,8 @@ public:
     
     void initBasicInfoView();
     
+    void basicViewBtnCallback(CCObject *pSender);
+    
     void sendBasicInfo();
     void responesBasicInfo(CCNode *pNode, void* data);
     void setBasicInfoLabelForTag(const int tag, cocos2d::CCString *infomation);
@@ -58,6 +60,9 @@ private:
     cocos2d::CCLabelTTF *m_labSpeed;
     cocos2d::CCLabelTTF *m_labTitle;
     cocos2d::CCLabelTTF *m_labScore;
+    
+    cocos2d::CCMenu *m_equipMenu;
+    cocos2d::CCMenu *m_settingMenu;
 
 };
 
