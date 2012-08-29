@@ -287,8 +287,13 @@ Actor = Class.extend({
         }
     },
 
-    gainEquipment: function (equip_id){
+    gainEquipment: function (equipment){
+        equipment.actor_id = this._dbBasic.id;
 
+        require("./Actors").insertEquipmentToActor(this._dbBasic.uuid,equipment,function(result){
+            equipment.id = result.insertId;
+            this._dbEquipment[""+equipment.id] = equipment;
+        });
     }
 
 });
