@@ -16,7 +16,7 @@
 #include "extensions/CCBReader/CCLayerLoader.h"
 #include "json.h"
 #include "EventBasic.h"
-
+#include "BattleDefine.h"
 
 typedef struct
 {
@@ -28,6 +28,12 @@ typedef struct
 	int point;
 	int talentId;
 }stAction;
+
+enum TipMotion {
+    kTipMotionGeneral       = 1,
+    kTipMotionRise          = 2,
+    kTipMotionSink          = 3,
+    };
 
 class SpecialBattleView 
 : public TouchLayer
@@ -57,9 +63,7 @@ public:
     void removeAndCleanSelf(float dt);
     
     void menuBackCallback(CCObject* pSender);
-private:
-    void CallBackHeroAction();//战斗表现回调寒暑
-    
+private:    
     void responseFight(CCNode *pNode, void* data);//服务器数据回调
     
     void CreateTeam(Json::Value &data);//创建战斗组，关联数据对象
@@ -76,11 +80,65 @@ private:
     
     cocos2d::SEL_CallFuncND  m_pfnSelector;    //callback selector
     
-    map<string, map<int, CCNode*> > m_mapTeam;    //team id assiated with CCSprite
+    //map<string, map<int, CCNode*> > m_mapTeam;    //team id assiated with CCSprite
     
     CCAnimate *animationEffect[4];
     
     int m_nRound;           //current battle round
+    
+    
+public:
+    //1. 进入战斗 (BOSS出现 / A vs B) 
+    void startBattle();
+    
+    //2. 分析 最新一回合战斗数据
+    void analyseBattleData();
+    
+    //2. 显示 第几回合
+    void showRoundNumber();
+    
+    //3. 倒计时,
+    void countDown();
+    
+    void countDownSchedule(float tArg);
+    
+    //4. 按色子后, 显示色子结果.
+    void showDiceResult();
+    
+    void pressControlButtonDice();
+    
+    //显示一个动作
+    void showRoleAction();
+    
+public:
+    //在动作结束时,移除对像
+    void callbackRemoveNodeWhenDidAction(CCNode * pNode);
+
+    //显示Tip由上到下
+    void showTip(std::string tStr, cocos2d::ccColor3B tColor, TipMotion tTipMotion = kTipMotionGeneral,unsigned int fontSize = 26,cocos2d::CCCallFuncN *callBack = NULL);
+    
+    CCActionInterval *GetSkillEffect(GActionType type);
+    
+    std::string getActionName(GActionType type);
+    
+    //处理一个行为,对角色属性的影响
+    void dealRoleAction(GRole *pRole,GRoleAction tAction);
+private:
+    //第几回合
+    
+    //当前回合中的第几个动作
+    int m_nActionNumber;
+    
+    //倒计时冷却时间
+    int m_nCountTime;
+    
+    //共有几个回合
+    int m_nTotalRound;
+    
+    //一个回合内的动作列表
+    std::vector<GRoleAction> m_OneRoundActionList;
+    
+    map<string, map<int, GRole> > m_mapTeam;    //team id assiated with CCSprite
 };
 
 class CCBReader;
