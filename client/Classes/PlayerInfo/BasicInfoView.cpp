@@ -129,6 +129,10 @@ void BasicInfoView::initBasicInfoView(){
     
     cocos2d::CCString* strExp = cocos2d::CCString::createWithFormat("经验：%d",(int)info->userExp);
     setBasicInfoLabelForTag(kExpInfo, strExp);
+    
+    m_playerInfoView = PlayerInfoView::create(this);
+    this->addChild(m_playerInfoView);
+    m_playerInfoView->hidePlayerInfo();
 }
 
 void BasicInfoView::setBasicInfoLabelForTag(const int tag, cocos2d::CCString *infomation){
@@ -175,7 +179,11 @@ void BasicInfoView::basicViewBtnCallback(CCObject *pSender){
     cout << "tag = " << node->getTag() << endl;
     switch (node->getTag()) {
         case 0:
-            
+            //if(m_playerInfoView == NULL){
+                m_playerInfoView = PlayerInfoView::create(this);
+                this->addChild(m_playerInfoView);
+            //}
+            //m_playerInfoView->showPlayerInfo();
             break;
             
         default:

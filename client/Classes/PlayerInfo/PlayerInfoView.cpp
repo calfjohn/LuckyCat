@@ -75,12 +75,12 @@ PlayerInfoView * PlayerInfoView::create(cocos2d::CCObject * pOwner){
     
     PlayerInfoDataManager *info = PlayerInfoDataManager::sharedPlayerInfoDataManager();
     
-    pPlayerInfoView->m_pBasicInfoView = (BasicInfoView*)pPlayerInfoView->createNodeForCCBI("ccb/basic.ccbi", "BasicInfoView", BasicInfoViewLoader::loader());
+    /*pPlayerInfoView->m_pBasicInfoView = (BasicInfoView*)pPlayerInfoView->createNodeForCCBI("ccb/basic.ccbi", "BasicInfoView", BasicInfoViewLoader::loader());
     if (pPlayerInfoView->m_pBasicInfoView != NULL) {
         pPlayerInfoView->m_pBasicInfoView->setTag(kPlayerInfoTagBasicLayer);
         pPlayerInfoView->addChild(pPlayerInfoView->m_pBasicInfoView);
         pPlayerInfoView->m_pBasicInfoView->sendBasicInfo();
-    }
+    }*/
     pPlayerInfoView->m_pEquipInfoView = (EquipInfoView*)pPlayerInfoView->createNodeForCCBI("ccb/equip.ccbi", "EquipInfoView", EquipInfoViewLoader::loader());
     if (pPlayerInfoView->m_pEquipInfoView != NULL) {
         pPlayerInfoView->m_pEquipInfoView->setTag(kPlayerInfoTagEquipLayer);
@@ -88,7 +88,8 @@ PlayerInfoView * PlayerInfoView::create(cocos2d::CCObject * pOwner){
         pPlayerInfoView->m_pEquipInfoView->sendPlayerEquipInfo();
         pPlayerInfoView->m_pEquipInfoView->initEquipListView(kEquipHead);
     }
-    if (pPlayerInfoView->m_pBasicInfoView != NULL && pPlayerInfoView->m_pEquipInfoView != NULL) {
+    //if (pPlayerInfoView->m_pBasicInfoView != NULL && pPlayerInfoView->m_pEquipInfoView != NULL) {
+    if (pPlayerInfoView->m_pEquipInfoView != NULL) {
         pPlayerInfoView->m_iType = kPlayerInfoTagPlayerBtn;
         pPlayerInfoView->showViewForType();
     }
@@ -98,13 +99,13 @@ PlayerInfoView * PlayerInfoView::create(cocos2d::CCObject * pOwner){
         CCNode *pBgNode = pPlayerInfoView->getChildByTag(901);
         pPlayerInfoView->registerTouchNode(pBgNode);
         
-        if (pPlayerInfoView->m_pBasicInfoView)
-        {
-            CCNode *pBgNode = pPlayerInfoView->m_pBasicInfoView->getChildByTag(902);
-            CCNode *pBgTitleNode = pPlayerInfoView->m_pBasicInfoView->getChildByTag(903);
-            pPlayerInfoView->registerTouchNode(pBgNode);
-            pPlayerInfoView->registerTouchNode(pBgTitleNode);
-        }
+        //if (pPlayerInfoView->m_pBasicInfoView)
+        //{
+            //CCNode *pBgNode = pPlayerInfoView->m_pBasicInfoView->getChildByTag(902);
+            //CCNode *pBgTitleNode = pPlayerInfoView->m_pBasicInfoView->getChildByTag(903);
+            //pPlayerInfoView->registerTouchNode(pBgNode);
+            //pPlayerInfoView->registerTouchNode(pBgTitleNode);
+        //}
         
         pPlayerInfoView->setIsTouchAreaEnabled(true);
     }
@@ -200,11 +201,11 @@ void PlayerInfoView::showViewForType(){
             default:
                 break;
         }
-        m_pBasicInfoView->hideBasicView();
+        //m_pBasicInfoView->hideBasicView();
         m_pEquipInfoView->showEquipView();
     }else{
-        m_pBasicInfoView->initBasicInfoView();
-        m_pBasicInfoView->showBasicView();
+        //m_pBasicInfoView->initBasicInfoView();
+        //m_pBasicInfoView->showBasicView();
         m_pEquipInfoView->hideEquipView();
     }
 }

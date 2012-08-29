@@ -129,7 +129,7 @@ bool EquipInfoView::initEquipListView(EquipType type){
             for (int i = 0; i<m_EquipHeadInfos.size(); i++) {
                 stActorUserEquipInfo *info = &(m_EquipHeadInfos[i]);
                 CCLabelTTF* label;
-                if (info->userEquipId == m_iEquipCurHeadId) {
+                if (info->userListId == m_iEquipCurHeadId) {
                     info->userPutOn = true;
                     CCString *name = CCString::createWithFormat("%s(当前)",info->equipInfo->equipName.c_str());
                     label = CCLabelTTF::create(name->getCString(), "Arial", 15);
@@ -153,7 +153,7 @@ bool EquipInfoView::initEquipListView(EquipType type){
             for (int i = 0; i<m_EquipHandInfos.size(); i++) {
                 stActorUserEquipInfo *info = &(m_EquipHandInfos[i]);
                 CCLabelTTF* label;
-                if (info->userEquipId == m_iEquipCurHandId) {
+                if (info->userListId == m_iEquipCurHandId) {
                     info->userPutOn = true;
                     CCString *name = CCString::createWithFormat("%s(当前)",info->equipInfo->equipName.c_str());
                     label = CCLabelTTF::create(name->getCString(), "Arial", 15);
@@ -178,7 +178,7 @@ bool EquipInfoView::initEquipListView(EquipType type){
             for (int i = 0; i<m_EquipBodyInfos.size(); i++) {
                 stActorUserEquipInfo *info = &(m_EquipBodyInfos[i]);
                 CCLabelTTF* label;
-                if (info->userEquipId == m_iEquipCurBodyId) {
+                if (info->userListId == m_iEquipCurBodyId) {
                     info->userPutOn = true;
                     CCString *name = CCString::createWithFormat("%s(当前)",info->equipInfo->equipName.c_str());
                     label = CCLabelTTF::create(name->getCString(), "Arial", 15);
@@ -202,7 +202,7 @@ bool EquipInfoView::initEquipListView(EquipType type){
             for (int i = 0; i<m_EquipFootInfos.size(); i++) {
                 stActorUserEquipInfo *info = &(m_EquipFootInfos[i]);
                 CCLabelTTF* label;
-                if (info->userEquipId == m_iEquipCurFootId) {
+                if (info->userListId == m_iEquipCurFootId) {
                     info->userPutOn = true;
                     CCString *name = CCString::createWithFormat("%s(当前)",info->equipInfo->equipName.c_str());
                     label = CCLabelTTF::create(name->getCString(), "Arial", 15);
@@ -570,28 +570,28 @@ void EquipInfoView::responsePlayerCurEquipInfo(CCNode *pNode, void* data){
         Json::Value out = root["meta"]["out"];
         m_iEquipCurHeadId = out["eq_head_id"]["id"].asInt();
         if (m_iEquipCurHeadId != -1) {
-            m_iEquipCurHeadId = out["eq_head_id"]["equip_id"].asInt();
+            //m_iEquipCurHeadId = out["eq_head_id"]["equip_id"].asInt();
             m_bHeadHavePutOn = true;
         }else{
             m_bHeadHavePutOn = false;
         }
         m_iEquipCurBodyId = out["eq_body_id"]["id"].asInt();
         if (m_iEquipCurBodyId != -1) {
-            m_iEquipCurBodyId = out["eq_body_id"]["equip_id"].asInt();
+            //m_iEquipCurBodyId = out["eq_body_id"]["equip_id"].asInt();
             m_bBodyHavePutOn = true;
         }else{
             m_bBodyHavePutOn = false;
         }
         m_iEquipCurHandId = out["eq_hand_id"]["id"].asInt();
         if (m_iEquipCurHandId != -1) {
-            m_iEquipCurHandId = out["eq_hand_id"]["equip_id"].asInt();
+            //m_iEquipCurHandId = out["eq_hand_id"]["equip_id"].asInt();
             m_bHandHavePutOn = true;
         }else{
             m_bHandHavePutOn = false;
         }
         m_iEquipCurFootId = out["eq_foot_id"]["id"].asInt();
         if (m_iEquipCurFootId != -1) {
-            m_iEquipCurFootId = out["eq_foot_id"]["equip_id"].asInt();
+            //m_iEquipCurFootId = out["eq_foot_id"]["equip_id"].asInt();
             m_bFootHavePutOn = true;
         }else{
             m_bFootHavePutOn = false;
@@ -757,6 +757,7 @@ void EquipInfoView::responseTakeOffCurEquip(CCNode *pNode, void* data){
         playEquipTakeOffAnimation(attack,defence,speed);
         //m_bIsChangeEquip = true;
     }
+    
 }
 
 

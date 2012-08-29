@@ -16,7 +16,7 @@
 #include "extensions/CCBReader/CCBMemberVariableAssigner.h"
 #include "extensions/CCBReader/CCLayerLoader.h"
 
-
+class PlayerInfoView;
 
 class BasicInfoView
 : public cocos2d::CCLayer
@@ -25,6 +25,8 @@ class BasicInfoView
 , public cocos2d::CCTextFieldDelegate
 {
 public:
+    PlayerInfoView *m_playerInfoView;
+    
     BasicInfoView();
     virtual ~BasicInfoView();
     
