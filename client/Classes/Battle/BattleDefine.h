@@ -14,7 +14,7 @@
 #define ACTION_TIME_JUMP        0.5f
 
 #define ACTION_TIME_BLINK       1.2f
-#define ACTION_BLINK_TIMES      5
+#define ACTION_BLINK_TIMES      6
 
 #define ACTION_TIME_ACTTACK_EFFECT      1.2f
 
@@ -134,9 +134,18 @@ public:
         }
         else
         {
-            curHP -= _hp;
+            curHP -= abs(_hp);
         }
-        printf("--->>>>CurHp : %d , Percentage %f\n",curHP,getCurPercentHP());    }
+        printf("--->>>>CurHp : %d , Percentage %f\n",curHP,getCurPercentHP());
+    }
+    
+    void setPlusHp(int _hp)
+    {
+        curHP += abs(_hp);
+        if (curHP > maxHp)
+            curHP = maxHp;
+        printf("--->>>>CurHp : %d , Percentage %f\n",curHP,getCurPercentHP());
+    }
     
     std::string getTeamStrName()
     {

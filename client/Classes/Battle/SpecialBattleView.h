@@ -119,6 +119,8 @@ public:
     
     CCActionInterval *GetSkillEffect(GActionType type);
     
+    CCNode *getActionNode(GRoleAction tAction);
+    
     std::string getActionName(GActionType type);
     
     //处理一个行为,对角色属性的影响

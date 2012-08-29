@@ -152,13 +152,16 @@ void SpecialBattleView::responseFight(CCNode *pNode, void* data)
         
         Json::Value team = battleResult["team"];
         
+        int pos = 0;
+        Json::Value json_A_0 = team["A"][pos];
         GRole *role_A_0 = &m_mapTeam["A"][0];
-        role_A_0->maxHp = 36;
-        role_A_0->curHP = 36;
+        role_A_0->maxHp = json_A_0["hp"].asInt();
+        role_A_0->curHP = role_A_0->maxHp;
         
+        Json::Value json_B_0 = team["B"][pos];
         GRole *role_B_0 = &m_mapTeam["B"][0];
-        role_B_0->maxHp = 36;
-        role_B_0->curHP = 36;
+        role_B_0->maxHp = json_B_0["hp"].asInt();
+        role_B_0->curHP = role_B_0->maxHp;
         
         m_nRound = 0;
         m_nActionNumber = 0;
@@ -255,6 +258,7 @@ void SpecialBattleView::setData(LEventData *tEvent, cocos2d::CCObject *target, c
     
     std::vector<CCProgressTimer *> mHpProgressTimerList;
     
+    mHpProgressTimerList.clear();
     for (std::vector<CCNode *>::iterator _iter = tHpLineList.begin(); _iter != tHpLineList.end(); _iter++) {
         CCNode *pNode = *_iter;
         CCSprite *pSprite = static_cast<CCSprite *>(pNode);
@@ -280,8 +284,8 @@ void SpecialBattleView::setData(LEventData *tEvent, cocos2d::CCObject *target, c
     roleA_1.pProgressTimer = mHpProgressTimerList[0];
     
     GRole roleB_1 = GRole();
-    roleB_1.teamId = kGTeamA;
-    roleB_1.pNodeRole = pHero1;
+    roleB_1.teamId = kGTeamB;
+    roleB_1.pNodeRole = pMonster;
     roleB_1.pProgressTimer = mHpProgressTimerList[2];
     
     m_mapTeam.clear();
@@ -505,7 +509,6 @@ void SpecialBattleView::countDownSchedule(float tArg)
     memset(strChar, 0, 512);
     sprintf(strChar,"%d", m_nCountTime--);
     
-    CCLog(strChar);
     if (m_nCountTime == 0)
     {
         this->showDiceResult();
@@ -563,60 +566,80 @@ void SpecialBattleView::showRoleAction()
         strTip = getActionName(tAction.type);
         char strChar[512];
         memset(strChar, 0, 512);
-        sprintf(strChar, "%s - %d %%",strTip.c_str(),tAction.hurt * 100);
+        
+        int hurt = static_cast<int>(tAction.hurt);
+        if (hurt != 0)
+        {
+            sprintf(strChar, "%s - %d",strTip.c_str(), tAction.hurt);
+        }
+        else {
+            sprintf(strChar, "%s",strTip.c_str());
+        }
         
         strTip = string(strChar);
     }
     
     TipMotion tMotion;
+    GRole *pRole;
     if (tAction.teamId == kGTeamA)
     {
         tMotion = kTipMotionRise;
+        pRole = &m_mapTeam["A"][0];
     }
     else {
         tMotion = kTipMotionSink;
+        pRole = &m_mapTeam["B"][0];
     }
 
-    
-    GRole *pRole = &m_mapTeam[tAction.getTeamStrName()][0];
-    static int tHp = 90;
-    tHp -= 5;
-    pRole->setSubHp(3);
+    dealRoleAction(pRole,tAction);
     pRole->pProgressTimer->setPercentage(pRole->getCurPercentHP());
     
     this->showTip(strTip, ccRED,tMotion);
     
-    getChildByTag(TAG_EFFECT_MONSTER_NODE)->runAction(CCSequence::create(
-                                         CCShow::create(),
-                                         GetSkillEffect(tAction.type),
-                                         CCHide::create(),
-                                         CCDelayTime::create(1.0f),
-                                         CCCallFunc::create(this, callfunc_selector(SpecialBattleView::analyseBattleData)),
-                                         NULL));
+    CCActionInterval *pActionEffect = GetSkillEffect(tAction.type);
+    CCNode *pActionNode = getActionNode(tAction);
+    
+    if (pActionEffect && pActionNode)
+    {
+        pActionNode->runAction(CCSequence::create(
+                                                                             CCShow::create(),
+                                                                             pActionEffect,
+                                                                             CCHide::create(),
+                                                                             CCDelayTime::create(1.0f),
+                                                                             CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::analyseBattleData)),
+                                                                             NULL));
+    }
+    else {
+        this->runAction(CCSequence::create(
+                                                                             CCDelayTime::create(1.0f),
+                                                                             CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::analyseBattleData)),
+                                                                             NULL));
+    }
+
 }
 
 CCActionInterval *SpecialBattleView::GetSkillEffect(GActionType type)
 {
-    return (CCActionInterval *)animationEffect[0];
+    CCActionInterval *pAction = NULL;
     switch (type) {
         case kGActionTypeAttack:
         {
-            
+            pAction = (CCActionInterval *)animationEffect[0];
             break;
         }
         case kGActionTypeCritical_1:
         {
-            
+            pAction = (CCActionInterval *)animationEffect[1];
             break;
         }
         case kGActionTypeCritical_2:
         {
-            
+            pAction = (CCActionInterval *)animationEffect[3];
             break;
         }
         case kGActionTypeCrush:
         {
-            
+            pAction = (CCActionInterval *)animationEffect[2];
             break;
         }
         case kGActionTypeSuckBlood_1:
@@ -636,7 +659,7 @@ CCActionInterval *SpecialBattleView::GetSkillEffect(GActionType type)
         }
         case kGActionTypeDodge:
         {
-            
+            pAction = CCBlink::create(ACTION_TIME_BLINK, ACTION_BLINK_TIMES);
             break;
         }
         case kGActionTypeRevert:
@@ -647,43 +670,78 @@ CCActionInterval *SpecialBattleView::GetSkillEffect(GActionType type)
         default:
             break;
     }
+    return pAction;
 }
 
 std::string SpecialBattleView::getActionName(GActionType type)
 {
+    string actionName;
     switch (type) {
         case kGActionTypeAttack:
-            return "攻击";
+            actionName = "攻击";
+            break;
         case kGActionTypeCritical_1:
-            return "爆击";
+            actionName = "爆击";
+            break;
         case kGActionTypeCritical_2:
-            return "爆击";
+            actionName = "爆击";
+            break;
         case kGActionTypeCrush:
-            return "破防";
+            actionName = "破防";
+            break;
         case kGActionTypeSuckBlood_1:
-            return "吸血";
+            actionName = "吸血";
+            break;
         case kGActionTypeSuckBlood_2:
-            return "吸血";
+            actionName = "吸血";
+            break;
             
         case kGActionTypeHurt:
-            return "受击";
+            actionName = "受击";
+            break;
         case kGActionTypeDodge:
-            return "闪避";
+            actionName = "闪避";
+            break;
         case kGActionTypeRevert:
-            return "反震";
+            actionName = "反震";
+            break;
             
         default:
-            return "error";
+            actionName = "error";
             break;
     }
+    return actionName;
 }
 
-void dealRoleAction(GRole *pRole,GRoleAction tAction)
+CCNode * SpecialBattleView::getActionNode(GRoleAction tAction)
+{
+    CCNode *pNode = NULL;
+    if ( tAction.type == kGActionTypeDodge ) {
+        if ( tAction.teamId == kGTeamA )
+        {
+            pNode = m_mapTeam["A"][0].pNodeRole;
+        }
+        else {
+            pNode = m_mapTeam["B"][0].pNodeRole;
+        }
+    }
+    else {
+        if ( tAction.teamId == kGTeamA )
+        {
+            pNode = this->getChildByTag(TAG_EFFECT_ACTOR_NODE);
+        }
+        else {
+            pNode = this->getChildByTag(TAG_EFFECT_MONSTER_NODE);
+        }
+    }
+    return pNode;
+}
+
+void SpecialBattleView::dealRoleAction(GRole *pRole,GRoleAction tAction)
 {
     switch (tAction.type) {
         case kGActionTypeAttack:
         {
-            
             break;
         }
         case kGActionTypeCritical_1:
@@ -703,17 +761,23 @@ void dealRoleAction(GRole *pRole,GRoleAction tAction)
         }
         case kGActionTypeSuckBlood_1:
         {
-            
+            if (m_nActionNumber) {
+                pRole->setPlusHp(tAction.hurt);
+            }
             break;
         }
         case kGActionTypeSuckBlood_2:
         {
-            
+            if (m_nActionNumber) {
+                pRole->setPlusHp(tAction.hurt);
+            }
             break;
         }
         case kGActionTypeHurt:
         {
-            
+            if (m_nActionNumber) {
+                pRole->setSubHp(tAction.hurt);
+            }
             break;
         }
         case kGActionTypeDodge:
@@ -723,7 +787,9 @@ void dealRoleAction(GRole *pRole,GRoleAction tAction)
         }
         case kGActionTypeRevert:
         {
-            
+            if (m_nActionNumber == 2) {
+                pRole->setSubHp(tAction.hurt);
+            }
             break;
         }
         default:
