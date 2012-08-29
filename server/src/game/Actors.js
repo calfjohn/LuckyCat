@@ -33,6 +33,7 @@ Actors = {
             Actors._cacheActors = {};
             for (var i = 0; i < rows.length; ++i) {
                 var data = rows[i];
+                if(-1 == data.id) continue;
                 var strUUID = "" + data.uuid;
                 Actors._cacheActors[strUUID] = data;
             }
@@ -47,6 +48,7 @@ Actors = {
             Actors._cacheEquipments = {};
             for (var i = 0; i < rows.length; ++i) {
                 var data = rows[i];
+                if(-1 == data.id) continue;
                 var strActorID = "" + data.actor_id;
                 var datas = Actors._cacheEquipments[strActorID];
                 if (undefined == datas) {
@@ -131,8 +133,16 @@ Actors = {
         if(undefined!=actor){
             Actors._dbAgent.query("UPDATE `actor` SET ? WHERE `actor`.`id` = ?", [actor, actor.id], function(err, result){
                 if (err) throw err;
-                log.d("---++++-------");
-                log.d(result);
+            });
+        }
+    },
+
+    insertEquipmentToActor: function(uuid, equipment, callback){
+        var actor = Actors._cacheActors["" + uuid];
+        if(undefined!=actor){
+            Actors._dbAgent.query("INSERT INTO `actor_equipment` SET ? ", equipment, function(err, result){
+                if (err) throw err;
+                callback(result);
             });
         }
     }
