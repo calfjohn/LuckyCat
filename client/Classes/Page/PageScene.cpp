@@ -127,24 +127,16 @@ void Page::turnToPage(int chapterId, const stPage *pPage)
     m_title = (CCLabelTTF *)this->getChildByTag(TAG_Lab_Title);
     m_content = (CCLabelTTF *)this->getChildByTag(TAG_Lab_Content);
     
-    m_SpriteMonster = (CCSprite *)this->getChildByTag(TAG_Sprite_Monster);
-    m_SpriteBg = (CCSprite *)this->getChildByTag(TAG_Sprite_Bg);
+    m_SpriteMonster = (LuckySprite *)this->getChildByTag(TAG_Sprite_Monster);
+    m_SpriteBg = (LuckySprite *)this->getChildByTag(TAG_Sprite_Bg);
     
     m_title->setString(m_pPage->name.c_str());
     m_content->setString(m_pPage->content.c_str());
-    
-    //    m_SpriteBg->setDisplayFrame(CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("monster_1.png"));
-    //    
-    //    m_SpriteMonster->setTexture(CCTextureCache::sharedTextureCache()->addImage("pub/image/hero/monster_1002.png"));
-    char strChar[100];
-    memset(strChar, 0, 100);
-    sprintf(strChar, "scene_100%d.png",m_pPage->id);
-    m_SpriteBg->setDisplayFrame(LuckySprite::getSpriteFrame(strChar));
-    
+
+    m_SpriteBg->setNewTexture(m_pPage->imageId);
     stEvent *tStEvent = EventDataManager::getShareInstance()->getEvent(m_pPage->eventId);
-    memset(strChar, 0, 100);
-    sprintf(strChar, "pub/image/hero/monster_100%d.png",tStEvent->targetId[0]);
-    m_SpriteMonster->setTexture(LuckySprite::getTextrue2D(strChar));
+    const stMonster * pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(tStEvent->targetId);
+    m_SpriteMonster->setNewTexture(pMonster->imageId);
     
     //this->showHeroHeadView();
 }

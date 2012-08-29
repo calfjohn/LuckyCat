@@ -14,6 +14,7 @@
 #include "extensions/CCBReader/CCNodeLoader.h"
 #include "extensions/CCBReader/CCLayerLoader.h"
 #include "extensions/CCTouchPageTurn/CCTouchPageTurn.h"
+#include "LuckySprite.h"
 
 class BasicInfoView;
 class HeroHeadView;
@@ -55,8 +56,8 @@ protected:
     cocos2d::CCLabelTTF *m_title;
     cocos2d::CCLabelTTF *m_content;
     
-    cocos2d::CCSprite *m_SpriteMonster;
-    cocos2d::CCSprite *m_SpriteBg;
+    LuckySprite *m_SpriteMonster;
+    LuckySprite *m_SpriteBg;
     
 //    cocos2d::CCLabelTTF *m_monster;
 //    cocos2d::CCLabelTTF *m_state;

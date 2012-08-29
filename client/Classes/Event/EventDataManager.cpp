@@ -297,8 +297,7 @@ void EventDataManager::readDB()
         stEvent *tEvent = new stEvent();
         tEvent->id = result.getIntField("id");
         tEvent->type = (LEventType)result.getIntField("type");
-        std::string strTarget = result.getStringField("target");
-        tEvent->targetId = separateStringToNumberVector(strTarget, ",");
+        tEvent->targetId = atoi(result.getStringField("target"));
         std::string strBonus = result.getStringField("bonus");
         std::vector<int> tmpBonusList = separateStringToNumberVector(strBonus, ",");
         
@@ -307,7 +306,7 @@ void EventDataManager::readDB()
         for (int i = 1; tmpBonusList[0] != 0 && i+1 < tmpBonusList.size(); i+=2) {
             stGood _good;
             _good.id = tmpBonusList[i];
-            _good.num = tmpBonusList[i+1];
+            _good.count = tmpBonusList[i+1];
             tEvent->bonus.push_back(_good);
         }
         

@@ -15,6 +15,7 @@ var httpHandlers = { "/game/combat":      "./handler/combat"
     , "/game/battle/fight2":              "./handler/battle.fight2"
     , "/game/battle/fight3":              "./handler/battle.fight3"
     , "/game/event/getEventList":         "./handler/event.getEventList"
+    , "/game/pk/getPKList":             "./handler/pk.getPKList"
 };
 
 var wsHandlers = [

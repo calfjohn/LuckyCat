@@ -13,6 +13,7 @@
 #include "EventBasic.h"
 #include "LuckySprite.h"
 #include "FuzzyBgView.h"
+#include "DictDataManager.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -122,14 +123,11 @@ void NPCDialogView::setData(LEventData *tEvent, cocos2d::CCObject *target, cocos
     
     pBeginPoint = CCPointZero;
     
-    CCSprite *pMonster = static_cast<CCSprite *>(this->getChildByTag(TAG_MONSTER));
-    if (pMonster)
+    LuckySprite *pSpriteMonster = static_cast<LuckySprite *>(this->getChildByTag(TAG_MONSTER));
+    if (pSpriteMonster)
     {
-        stEvent *tStEvent = tEvent->pStEvent;
-        char strChar[100];
-        memset(strChar, 0, 100);
-        sprintf(strChar, "pub/image/hero/monster_100%d.png",tStEvent->targetId[0]);
-        pMonster->setTexture(LuckySprite::getTextrue2D(strChar));
+        const stMonster * pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(p_CurEvent->targetId);
+        pSpriteMonster->setNewTexture(pMonster->imageId);
     }
     
     showDialog();
