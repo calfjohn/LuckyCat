@@ -123,7 +123,8 @@ bool Page::init()
 
 void Page::menuBackCallback(CCObject* pSender)
 {
-    CCDirector::sharedDirector()->popScene();
+    CCScene *pScene = Chapter::scene();
+    CCDirector::sharedDirector()->replaceScene(pScene);
 }
 
 void Page::turnToPage(int chapterId, const stPage *pPage)
@@ -195,7 +196,8 @@ void Page::nextPageCallback(CCNode* pNode, void* data)
     const stPage *pPage = LevelDataManager::shareLevelDataManager()->getNewPage(m_nChapterId);
     if (m_pPage == pPage) 
     {
-        CCDirector::sharedDirector()->popScene();
+        CCScene *pScene = Chapter::scene();
+        CCDirector::sharedDirector()->replaceScene(pScene);
         return;
     }
     

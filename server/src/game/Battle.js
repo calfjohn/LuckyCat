@@ -229,7 +229,7 @@ Battle = {
             defender.hpEx = 0;
         }
 
-        actionB.hurt = tempHurt;
+        actionB.hurt = Number(tempHurt.toFixed(2));
         round.push(actionB);
 //////////////////////////////////////////////
 
@@ -239,7 +239,7 @@ Battle = {
             action.teamId = attacker.teamId;
             action.actId = attacker.id;
             action.skillId = -1;
-            action.hurt = tempSuckBlood;
+            action.hurt = Number(tempSuckBlood.toFixed(2));
             action.fx = -1;
             round.push(action);
         }
@@ -249,7 +249,7 @@ Battle = {
             action.teamId = attacker.teamId;
             action.actId = attacker.id;
             action.skillId = -1;
-            action.hurt = tempRevertHurt;
+            action.hurt = Number(tempRevertHurt.toFixed(2));
             action.fx = -1;
             round.push(action);
         }

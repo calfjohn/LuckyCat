@@ -274,22 +274,38 @@ Actor = Class.extend({
     },
 
     gainExp: function (exp){
+        log.d("exp:",  this._dbBasic.exp, "level:", this._dbBasic.level, "add Exp:", exp);
+
         if (exp <=0) return;
         var actor  = this._dbBasic;
-        var curExp = actor.exp;
-        var restExp = curExp + exp;
-        while(restExp > 0){
+        actor.exp += exp;
+        while(1){
+            //经验不累计，到升级标准后重置
             var upgrade_table = require("./DictManager").getActorLevelUpgradeByLevel(actor.level);
-            var upgrade_need_exp = upgrade_table.xp
-            var diff  = restExp - upgrade_need_exp;
-            // 玩家升级了
-            if(diff >= 0){
-                actor.level += 1;
-            }else{
-                actor.exp += restExp;
+            if(actor.exp < upgrade_table.xp){
+                break;
             }
-            restExp = diff;
+
+            actor.level++;
+            actor.exp -= upgrade_table.xp;
         }
+
+        log.d("exp:",  this._dbBasic.exp, "level:", this._dbBasic.level);
+
+//        var curExp = actor.exp;
+//        var restExp = curExp + exp;
+//        while(restExp > 0){
+//            var upgrade_table = require("./DictManager").getActorLevelUpgradeByLevel(actor.level);
+//            var upgrade_need_exp = upgrade_table.xp
+//            var diff  = restExp - upgrade_need_exp;
+//            // 玩家升级了
+//            if(diff >= 0){
+//                actor.level += 1;
+//            }else{
+//                actor.exp += restExp;
+//            }
+//            restExp = diff;
+//        }
     },
 
 

@@ -12,6 +12,7 @@
 #include "LuckySprite.h"
 #include "BattleDefine.h"
 #include "LuckySprite.h"
+#include "CoverScene.h"
 
 USING_NS_CC;
 
@@ -90,7 +91,8 @@ bool Chapter::init()
 
 void Chapter::menuBackCallback(CCObject* pSender)
 {
-    CCDirector::sharedDirector()->popScene();
+    CCScene *pScene = Cover::scene();
+    CCDirector::sharedDirector()->replaceScene(pScene);
 }
 
 #include "PageScene.h"
