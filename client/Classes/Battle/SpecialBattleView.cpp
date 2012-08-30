@@ -20,7 +20,10 @@
 
 #define TAG_EFFECT_MONSTER_NODE 6
 #define TAG_EFFECT_ACTOR_NODE 7
+#define TAG_DICE_NODE       8
 #define TAG_MONSTER 91
+
+#define TAG_MONSTER_NAME    9
 
 #define TAG_MONSTER_HP_LINE_1           101
 #define TAG_MONSTER_HP_LINE_BG_1        102
@@ -42,6 +45,7 @@ SpecialBattleView::SpecialBattleView()
     CCAnimation *animation2 = cache->animationByName("purpleBomb");
     CCAnimation *animation3 = cache->animationByName("orangeBomb");
     CCAnimation *animation4 = cache->animationByName("greenBomb");
+    
     animationEffect[0] = CCAnimate::create(animation1);
     animationEffect[1] = CCAnimate::create(animation2);
     animationEffect[2] = CCAnimate::create(animation3);
@@ -51,6 +55,10 @@ SpecialBattleView::SpecialBattleView()
     CC_SAFE_RETAIN(animationEffect[1]);
     CC_SAFE_RETAIN(animationEffect[2]);
     CC_SAFE_RETAIN(animationEffect[3]);
+    
+    CCAnimation *animationDice_ = cache->animationByName("dice");
+    animationDice = CCAnimate::create(animationDice_);
+    CC_SAFE_RETAIN(animationDice);
     
     m_nRound = 0;
     m_nActionNumber = 0;
@@ -64,6 +72,7 @@ SpecialBattleView::~SpecialBattleView()
     CC_SAFE_RELEASE(animationEffect[1]);
     CC_SAFE_RELEASE(animationEffect[2]);
     CC_SAFE_RELEASE(animationEffect[3]);
+    CC_SAFE_RELEASE(animationDice);
 }
 
 SpecialBattleView *SpecialBattleView::create(cocos2d::CCObject * pOwner)
@@ -157,13 +166,19 @@ void SpecialBattleView::responseFight(CCNode *pNode, void* data)
         int pos = 0;
         Json::Value json_A_0 = team["A"][pos];
         GRole *role_A_0 = &m_mapTeam["A"][0];
-        role_A_0->maxHp = json_A_0["hp"].asInt();
+        role_A_0->maxHp = json_A_0["life"].asInt();
         role_A_0->curHP = role_A_0->maxHp;
+        role_A_0->mStrName = "主角";
         
         Json::Value json_B_0 = team["B"][pos];
         GRole *role_B_0 = &m_mapTeam["B"][0];
         role_B_0->maxHp = json_B_0["hp"].asInt();
         role_B_0->curHP = role_B_0->maxHp;
+        role_B_0->mStrName =json_B_0["name"].asString();
+        
+        Json::Value json_result = battleResult["result"];
+        int type = json_result["type"].asInt();
+        p_CurEvent->mBattleProcess.m_battleResult = (BattleResult)json_result["state"].asInt();
         
         m_nRound = 0;
         m_nActionNumber = 0;
@@ -291,6 +306,11 @@ void SpecialBattleView::setData(LEventData *tEvent, cocos2d::CCObject *target, c
     m_mapTeam["A"][0] = roleA_1;
     m_mapTeam["B"][0] = roleB_1;
     
+    const stMonster *pStMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(p_CurEvent->targetId);
+    
+    CCLabelTTF *tMonsterName = ((CCLabelTTF *)(this->getChildByTag(TAG_MONSTER_NAME)));
+    tMonsterName->setString(pStMonster->name.c_str());
+    
     NetManager::shareNetManager()->sendEx(kModeBattle, kDoFight2, callfuncND_selector(SpecialBattleView::responseFight), this, "\"monsterId\": %d",p_CurEvent->targetId);
 }
 
@@ -378,33 +398,72 @@ void SpecialBattleView::showTip(std::string tStr,ccColor3B tColor,TipMotion tTip
 
 void SpecialBattleView::startBattle()
 {
-    std::string labString;
-    if (true)
-    {
-        labString = std::string("Boss出现...");
-    }
-    else {
-        labString = std::string("小小\n    VS\n      大大");
-    }
-    CCLabelTTF * label = CCLabelTTF::create(labString.c_str(), "Thonburi", 20);
-    this->addChild(label,99);
-    ccColor3B color = ccYELLOW;//{ 226, 121, 7};
-    label->setColor(color);
-    
+    CCLayer *pLayer = CCLayer::create();
     CCSize screanSize = CCDirector::sharedDirector()->getWinSize();
+    pLayer->ignoreAnchorPointForPosition(false);
+    pLayer->setContentSize(CCSizeMake(screanSize.width, 200));
+    pLayer->setAnchorPoint(CCPointMake(0.5f, 0.5f));
+    this->addChild(pLayer);
     
-    CCPoint labPos = CCPointMake(screanSize.width * 0.5f, screanSize.height * 0.75f);
+    CCSprite *pSprite = CCSprite::create("image/battle/battle_vs.png");
+    pLayer->addChild(pSprite);
+    pSprite->setPosition(CCPointMake(screanSize.width * 0.5f, 100));
     
-    label->setPosition(labPos);
-    label->setScale(2);
+    GRole *pRolePlayer = &m_mapTeam["A"][0];
+    GRole *pRoleEnemy = &m_mapTeam["B"][0];
+    
+    CCLabelTTF * tPlayerName = CCLabelTTF::create(pRolePlayer->mStrName.c_str(), "Thonburi", 20);
+    pLayer->addChild(tPlayerName);
+    tPlayerName->setColor(ccRED);
+    tPlayerName->setPosition(CCPointMake(screanSize.width * 0.2f, 120));
+    
+    CCLabelTTF *tEnemyName = CCLabelTTF::create(pRoleEnemy->mStrName.c_str(), "Thonburi", 20);
+    pLayer->addChild(tEnemyName);
+    tEnemyName->setColor(ccBLUE);
+    tEnemyName->setPosition(CCPointMake(screanSize.width * 0.8f, 80));
+    
+    CCPoint posLeft = CCPointMake(screanSize.width * 0.1f, screanSize.height * 0.5f);
+    CCPoint posMid = CCPointMake(screanSize.width * 0.5f, screanSize.height *0.5f);
+    CCPoint posRight = CCPointMake(screanSize.width * 0.9f, screanSize.height * 0.5f);
+    
+    pLayer->setPosition(posLeft);
     
     CCAction * seq = CCSequence::create(
+                                        CCSpawn::create(
+                                                        CCMoveTo::create(ACTION_TIME_LABEL_SHOW_TIME, posMid),
+                                                        CCFadeIn::create(0.5f),
+                                                        0),
                                         CCDelayTime::create(ACTION_TIME_LABEL_SHOW_TIME),
-                                        CCMoveBy::create(ACTION_TIME_SHOW_SKILL_NAME, CCPointMake(0, LABEL_MOVE_DISTANCE)),
+                                        CCSpawn::create(
+                                                        CCMoveTo::create(ACTION_TIME_LABEL_SHOW_TIME, posRight),
+                                                        CCFadeOut::create(0.5f),
+                                                        0),
+                                        CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::callbackRemoveNodeWhenDidAction)),
+                                        0);
+    //pLayer->runAction(seq);
+    pLayer->runAction(getMoveLeftToRight());
+    
+    CCSprite *pSpriteStart = CCSprite::create("image/battle/battle_start.png");
+    this->addChild(pSpriteStart);
+    pSpriteStart->setPosition(posLeft);
+    
+    seq = CCSequence::create(
+                             CCHide::create(),
+                             CCDelayTime::create(ACTION_TIME_LABEL_SHOW_TIME*2.5f),
+                             CCShow::create(),
+                                        CCSpawn::create(
+                                                        CCMoveTo::create(ACTION_TIME_LABEL_SHOW_TIME, posMid),
+                                                        CCFadeIn::create(0.5f),
+                                                        0),
+                                        CCDelayTime::create(ACTION_TIME_LABEL_SHOW_TIME),
+                                        CCSpawn::create(
+                                                        CCMoveTo::create(ACTION_TIME_LABEL_SHOW_TIME, posRight),
+                                                        CCFadeOut::create(0.5f),
+                                                        0),
                                         CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::analyseBattleData)),
                                         CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::callbackRemoveNodeWhenDidAction)),
                                         0);
-    label->runAction(seq);
+    pSpriteStart->runAction(seq);
 }
 
 void SpecialBattleView::analyseBattleData()
@@ -455,38 +514,47 @@ void SpecialBattleView::analyseBattleData()
 
 void SpecialBattleView::showRoundNumber()
 {   
-    char strChar[512];
-    memset(strChar, 0, 512);
-    sprintf(strChar,"第 %d 回合", m_nRound + 1);
-    
-    CCLabelTTF * label = CCLabelTTF::create(strChar, "Thonburi", 34);
-    this->addChild(label,99);
-    ccColor3B color = ccYELLOW;
-    label->setColor(color);
-    
-    CCSize screanSize = CCDirector::sharedDirector()->getWinSize();
-    
-    CCPoint posLeft = CCPointMake(screanSize.width * 0.1f, screanSize.height * 0.5f);
-    CCPoint posMid = CCPointMake(screanSize.width * 0.5f, screanSize.height *0.5f);
-    CCPoint posRight = CCPointMake(screanSize.width * 0.9f, screanSize.height * 0.5f);
-    
-    label->setPosition(posLeft);
-    
-    CCAction * seq = CCSequence::create(
-                                        CCSpawn::create(
-                                                        CCMoveTo::create(SHOW_ROUND_TIME, posMid),
-                                                        CCFadeIn::create(0.5f),
-                                                        0),
-                                        CCDelayTime::create(SHOW_ROUND_TIME),
-                                        CCSpawn::create(
-                                                        CCMoveTo::create(SHOW_ROUND_TIME, posRight),
-                                                        CCFadeOut::create(0.5f),
-                                                        0),
-                                        CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::countDown)),
-                                        CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::callbackRemoveNodeWhenDidAction)),
-                                        0);
-    
-    label->runAction(seq);
+//    CCLayer *pLayer = CCLayer::create();
+//    CCSize screanSize = CCDirector::sharedDirector()->getWinSize();
+//    pLayer->ignoreAnchorPointForPosition(false);
+//    pLayer->setContentSize(CCSizeMake(screanSize.width, 200));
+//    pLayer->setAnchorPoint(CCPointMake(0.5f, 0.5f));
+//    this->addChild(pLayer);
+//    
+//    CCSprite *pSprite = CCSprite::create("image/battle/battle_round_number.png");
+//    pLayer->addChild(pSprite);
+//    pSprite->setPosition(CCPointMake(screanSize.width * 0.5f, 100));
+//    
+//    char strChar[100];
+//    memset(strChar, 0, 100);
+//    sprintf(strChar,"%d", m_nRound + 1);
+//    
+//    CCLabelTTF * label = CCLabelTTF::create(strChar, "Thonburi", 34);
+//    label->setAnchorPoint(CCPointMake(0.5f, 0.5f));
+//    label->setPosition(CCPointMake(screanSize.width * 0.5f  - 13, 100));
+//    pLayer->addChild(label,99);
+//    ccColor3B color = ccRED;
+//    label->setColor(color);
+//    
+//    pLayer->runAction(getMoveLeftToRight(CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::showAttacker))));
+    this->showAttacker();
+}
+
+void SpecialBattleView::showAttacker()
+{
+    //显示谁在行动
+    GRoleAction tAction = m_OneRoundActionList[0];
+    CCSprite *pWhowAction;
+    if (tAction.teamId == kGTeamA)
+    {
+        pWhowAction = CCSprite::create("image/battle/battle_actor_move.png");
+        this->addChild(pWhowAction);
+    }
+    else {
+        pWhowAction = CCSprite::create("image/battle/battle_enemy_move.png");
+        this->addChild(pWhowAction);
+    }
+    pWhowAction->runAction(getMoveLeftToRight(CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::countDown))));
 }
 
 void SpecialBattleView::countDown()
@@ -538,8 +606,16 @@ void SpecialBattleView::countDownSchedule(float tArg)
 void SpecialBattleView::showDiceResult()
 {
     this->setIsTouchForbidden(true);
+
+    CCActionInterval *pActionInterval = (CCActionInterval *)animationDice;
     
-    this->showTip(getActionName(m_OneRoundActionList[m_nActionNumber].type), ccGREEN, kTipMotionGeneral,26,CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::showRoleAction)));
+    CCNode *pNode = this->getChildByTag(TAG_DICE_NODE);
+    pNode->runAction(CCSequence::create(
+                                                                         CCShow::create(),
+                                                                         pActionInterval,
+                                                                         CCHide::create(),
+                                                                         CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::showRoleAction)),NULL));
+    
 }
 
 void SpecialBattleView::pressControlButtonDice()
@@ -553,30 +629,7 @@ void SpecialBattleView::pressControlButtonDice()
 
 void SpecialBattleView::showRoleAction()
 {
-    GRoleAction tAction = m_OneRoundActionList[m_nActionNumber++];
-    
-    string strTip;
-    
-    if (tAction.hurt < 0)
-    {
-        strTip = getActionName(tAction.type);
-    }
-    else {
-        strTip = getActionName(tAction.type);
-        char strChar[512];
-        memset(strChar, 0, 512);
-        
-        int hurt = static_cast<int>(tAction.hurt);
-        if (hurt != 0)
-        {
-            sprintf(strChar, "%s - %d",strTip.c_str(), tAction.hurt);
-        }
-        else {
-            sprintf(strChar, "%s",strTip.c_str());
-        }
-        
-        strTip = string(strChar);
-    }
+    GRoleAction tAction = m_OneRoundActionList[m_nActionNumber];
     
     TipMotion tMotion;
     GRole *pRole;
@@ -593,18 +646,35 @@ void SpecialBattleView::showRoleAction()
     dealRoleAction(pRole,tAction);
     pRole->pProgressTimer->setPercentage(pRole->getCurPercentHP());
     
-    this->showTip(strTip, ccRED,tMotion);
+    //this->showTip(strTip, ccRED,tMotion);
+    this->showSkillName(tAction);
     
     CCActionInterval *pActionEffect = GetSkillEffect(tAction.type);
     CCNode *pActionNode = getActionNode(tAction);
     
+    CCAction *pSequence = NULL;
+    
+    if ( pActionEffect )
+    {
+        if (tAction.type == kGActionTypeDodge)
+        {
+            pSequence = CCSequence::create(
+                               pActionEffect,
+                               CCDelayTime::create(1.0f),NULL);
+        }
+        else {
+            pSequence = CCSequence::create(
+                               CCShow::create(),
+                               pActionEffect,
+                               CCHide::create(),
+                               CCDelayTime::create(1.0f),NULL);
+        }
+    }
+    
     if (pActionEffect && pActionNode)
     {
         pActionNode->runAction(CCSequence::create(
-                                                                             CCShow::create(),
-                                                                             pActionEffect,
-                                                                             CCHide::create(),
-                                                                             CCDelayTime::create(1.0f),
+                                                  (CCActionInterval *)pSequence,
                                                                              CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::analyseBattleData)),
                                                                              NULL));
     }
@@ -615,6 +685,7 @@ void SpecialBattleView::showRoleAction()
                                                                              NULL));
     }
 
+    m_nActionNumber++;
 }
 
 CCActionInterval *SpecialBattleView::GetSkillEffect(GActionType type)
@@ -623,22 +694,22 @@ CCActionInterval *SpecialBattleView::GetSkillEffect(GActionType type)
     switch (type) {
         case kGActionTypeAttack:
         {
-            pAction = (CCActionInterval *)animationEffect[0];
+            //pAction = (CCActionInterval *)animationEffect[0];
             break;
         }
         case kGActionTypeCritical_1:
         {
-            pAction = (CCActionInterval *)animationEffect[1];
+            //pAction = (CCActionInterval *)animationEffect[1];
             break;
         }
         case kGActionTypeCritical_2:
         {
-            pAction = (CCActionInterval *)animationEffect[3];
+            //pAction = (CCActionInterval *)animationEffect[3];
             break;
         }
         case kGActionTypeCrush:
         {
-            pAction = (CCActionInterval *)animationEffect[2];
+            //pAction = (CCActionInterval *)animationEffect[2];
             break;
         }
         case kGActionTypeSuckBlood_1:
@@ -653,7 +724,11 @@ CCActionInterval *SpecialBattleView::GetSkillEffect(GActionType type)
         } 
         case kGActionTypeHurt:
         {
-            
+            if ( m_nActionNumber != 0 )
+            {
+                GRoleAction attackAction = m_OneRoundActionList[0];
+                pAction = animationEffect[attackAction.type % 3];
+            }
             break;
         }
         case kGActionTypeDodge:
@@ -663,7 +738,11 @@ CCActionInterval *SpecialBattleView::GetSkillEffect(GActionType type)
         }
         case kGActionTypeRevert:
         {
-            
+            if ( m_nActionNumber == 2 )
+            {
+                GRoleAction attackAction = m_OneRoundActionList[0];
+                pAction = animationEffect[attackAction.type % 3];
+            }
             break;
         }  
         default:
@@ -712,6 +791,149 @@ std::string SpecialBattleView::getActionName(GActionType type)
     return actionName;
 }
 
+void SpecialBattleView::showSkillName(GRoleAction tAction)
+{
+    CCLayer *pLayer = CCLayer::create();
+    CCSize screanSize = CCDirector::sharedDirector()->getWinSize();
+    pLayer->ignoreAnchorPointForPosition(false);
+    pLayer->setContentSize(CCSizeMake(screanSize.width, 200));
+    pLayer->setAnchorPoint(CCPointMake(0.5f, 0.5f));
+    
+    float argf = 0.5f;
+    
+    switch (tAction.type) {
+        case kGActionTypeAttack:
+        {
+            CCSprite *pSprite = CCSprite::create("image/battle/battle_skill_1.png");
+            pLayer->addChild(pSprite);
+            pSprite->setPosition(CCPointMake(screanSize.width * argf, 100));
+            break;
+        }
+        case kGActionTypeCritical_1:
+        {
+            CCSprite *pSprite = CCSprite::create("image/battle/battle_skill_2.png");
+            pLayer->addChild(pSprite);
+            pSprite->setPosition(CCPointMake(screanSize.width * argf, 100));
+            break;
+        }
+        case kGActionTypeCritical_2:
+        {
+            CCSprite *pSprite = CCSprite::create("image/battle/battle_skill_3.png");
+            pLayer->addChild(pSprite);
+            pSprite->setPosition(CCPointMake(screanSize.width * argf, 100));
+            break;
+        }
+        case kGActionTypeCrush:
+        {
+            CCSprite *pSprite = CCSprite::create("image/battle/battle_skill_4.png");
+            pLayer->addChild(pSprite);
+            pSprite->setPosition(CCPointMake(screanSize.width * argf, 100));
+            break;
+        }
+        case kGActionTypeSuckBlood_1:
+        {
+            CCSprite *pSprite = CCSprite::create("image/battle/battle_skill_5.png");
+            pLayer->addChild(pSprite);
+            pSprite->setPosition(CCPointMake(screanSize.width * argf, 100));
+            break;
+        }
+        case kGActionTypeSuckBlood_2:
+        {
+            CCSprite *pSprite = CCSprite::create("image/battle/battle_skill_6.png");
+            pLayer->addChild(pSprite);
+            pSprite->setPosition(CCPointMake(screanSize.width * argf, 100));
+            break;
+        }
+            
+        case kGActionTypeHurt:
+        {            
+            char strChar[100];
+            memset(strChar, 0, 100);
+            sprintf(strChar, "- %d",abs(int(tAction.hurt)));
+            
+            CCLabelTTF * label = CCLabelTTF::create(strChar, "Thonburi", 42);
+            pLayer->addChild(label,99);
+            label->setPosition(CCPointMake(screanSize.width * 0.5f + 70, 100));
+            ccColor3B color = ccRED;
+            label->setColor(color);
+            
+            break;
+        }
+        case kGActionTypeDodge:
+        {
+            CCSprite *pSprite = CCSprite::create("image/battle/battle_skill_8.png");
+            pLayer->addChild(pSprite);
+            pSprite->setPosition(CCPointMake(screanSize.width * argf, 100));
+            break;
+        }
+        case kGActionTypeRevert:
+        {
+            CCSprite *pSprite = CCSprite::create("image/battle/battle_skill_9.png");
+            pLayer->addChild(pSprite);
+            pSprite->setPosition(CCPointMake(screanSize.width * argf, 100));
+            break;
+        }
+        default:
+        {
+            break;
+        }
+    }
+    
+    CCPoint beginPos,midPos,endPos;
+    
+    TipMotion tTipMotion;
+    if (tAction.teamId == kGTeamA)
+    {
+        tTipMotion = kTipMotionRise;
+    }
+    else {
+        tTipMotion = kTipMotionSink;
+    }
+    
+    if ( tTipMotion == kTipMotionGeneral ) {
+        beginPos = CCPointMake(screanSize.width * 0.5f, screanSize.height * 0.5f);
+        
+        midPos = CCPointMake(screanSize.width * 0.5f, screanSize.height * 0.6f);
+        
+        endPos = CCPointMake(screanSize.width *0.5f, screanSize.height * 0.7f);
+    }
+    else if ( tTipMotion == kTipMotionRise ){
+        beginPos = CCPointMake(screanSize.width * 0.5f, screanSize.height * 0.2f);
+        
+        midPos = CCPointMake(screanSize.width * 0.5f, screanSize.height * 0.5f);
+        
+        endPos = CCPointMake(screanSize.width *0.5f, screanSize.height * 0.8f );
+    }
+    else {
+        beginPos = CCPointMake(screanSize.width * 0.5f, screanSize.height * 0.8f);
+        
+        midPos = CCPointMake(screanSize.width * 0.5f, screanSize.height * 0.5f);
+        
+        endPos = CCPointMake(screanSize.width *0.5f, screanSize.height * 0.2f);
+    }
+    
+    
+    pLayer->setPosition(beginPos);
+    
+    this->addChild(pLayer);
+    
+    float t_f_moveTime = 0.5f;
+    float t_f_delayTime = 0.8f;
+    
+    pLayer->runAction(
+                      CCSequence::create(
+                                         CCSpawn::create(
+                                                         CCEaseIn::create(CCMoveTo::create(t_f_moveTime, midPos), t_f_moveTime),
+                                                         CCFadeIn::create(t_f_moveTime),
+                                                         NULL),
+                                         CCDelayTime::create(t_f_delayTime),
+//                                         CCSpawn::create(CCEaseOut::create(CCMoveTo::create(t_f_moveTime, endPos), t_f_moveTime),
+//                                                         CCFadeOut::create(t_f_moveTime),
+//                                                         NULL),
+                                         CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::callbackRemoveNodeWhenDidAction)),
+                                         NULL));
+}
+
 CCNode * SpecialBattleView::getActionNode(GRoleAction tAction)
 {
     CCNode *pNode = NULL;
@@ -734,6 +956,51 @@ CCNode * SpecialBattleView::getActionNode(GRoleAction tAction)
         }
     }
     return pNode;
+}
+CCActionInterval * SpecialBattleView::getMoveLeftToRight(cocos2d::CCCallFuncN *callBack)
+{
+    CCAction * pAction;
+    
+    CCSize screanSize = CCDirector::sharedDirector()->getWinSize();
+    
+    CCPoint posLeft = CCPointMake(screanSize.width * 0.1f, screanSize.height * 0.5f);
+    CCPoint posMid = CCPointMake(screanSize.width * 0.5f, screanSize.height *0.5f);
+    CCPoint posRight = CCPointMake(screanSize.width * 0.9f, screanSize.height * 0.5f);
+    
+    if (callBack)
+    {
+        pAction = CCSequence::create(
+                                 CCMoveTo::create(0, posLeft),
+                                 CCSpawn::create(
+                                                 CCEaseIn::create(CCMoveTo::create(ACTION_TIME_LABEL_SHOW_TIME, posMid), ACTION_TIME_LABEL_SHOW_TIME),
+                                                 CCFadeIn::create(0.5f),
+                                                 0),
+                                 CCDelayTime::create(ACTION_TIME_LABEL_SHOW_TIME),
+                                 CCSpawn::create(
+                                                 CCEaseOut::create(CCMoveTo::create(ACTION_TIME_LABEL_SHOW_TIME, posRight), ACTION_TIME_LABEL_SHOW_TIME),
+                                                 CCFadeOut::create(0.5f),
+                                                 0),
+                                 callBack,
+                                 CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::callbackRemoveNodeWhenDidAction)),
+                                 NULL);
+    }
+    else {
+        pAction = CCSequence::create(
+                                CCMoveTo::create(0, posLeft),
+                                     CCSpawn::create(
+                                                     CCEaseIn::create(CCMoveTo::create(ACTION_TIME_LABEL_SHOW_TIME, posMid), ACTION_TIME_LABEL_SHOW_TIME),
+                                                     CCFadeIn::create(0.5f),
+                                                     0),
+                                     CCDelayTime::create(ACTION_TIME_LABEL_SHOW_TIME),
+                                     CCSpawn::create(
+                                                     CCEaseOut::create(CCMoveTo::create(ACTION_TIME_LABEL_SHOW_TIME, posRight), ACTION_TIME_LABEL_SHOW_TIME),
+                                                     CCFadeOut::create(0.5f),
+                                                     0),
+                                 CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::callbackRemoveNodeWhenDidAction)),
+                                 0);
+    }
+    
+    return static_cast<CCActionInterval *>(pAction);
 }
 
 void SpecialBattleView::dealRoleAction(GRole *pRole,GRoleAction tAction)

@@ -102,7 +102,19 @@ public:
     }
 };
 
-typedef int BattleProcess;  //Temporary data of battle. It's will be replace by Lijun.
+enum BattleResult {
+    kBattleResultWin    = 1,
+    kBattleResultLost   = 0,
+    };
+
+typedef struct BattleProcess
+{
+    BattleProcess():
+    m_battleResult(kBattleResultWin){}
+    ~BattleProcess(){}
+    
+    BattleResult m_battleResult;
+}BattleProcess;
 
 typedef  struct LEventData
 {
@@ -110,7 +122,6 @@ typedef  struct LEventData
     :m_bBoxIsOpened(false),
     m_bBattleResultIsShowed(false),
     id(0),
-    pBattle(NULL),
     pStEvent(NULL)
     {
         
@@ -147,7 +158,7 @@ typedef  struct LEventData
     int box_id;
     std::vector<stGood> boxAward;   //if box_id is not equal to -1. boxAward have some goods
     
-    BattleProcess *pBattle;         //Battle process struct. GeneralBattleView. 
+    BattleProcess mBattleProcess;         //Battle process struct. GeneralBattleView. 
     
     bool m_bBoxIsOpened;              //The box is opened.
     bool m_bBattleResultIsShowed;

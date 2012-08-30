@@ -4,6 +4,8 @@
 
 require("../system/Class");
 require("../system/Log");
+var sysUtils = require("../system/utils");
+
 
 var util = require("util");
 var log = new Log("Actor.changeEquipment");
@@ -64,7 +66,7 @@ Actor = Class.extend({
         for (var key in db) {
             var equipment = {};
             var value = db[key];
-            equipment = value;
+            equipment = sysUtils.clone(value);
             delete equipment["actor_id"];
             ret.push(equipment);
         }
@@ -95,7 +97,7 @@ Actor = Class.extend({
                 value.item5_id = 0;
                 ret[key] = value;
             } else {
-                ret[key] = equipDB["" + equipment[key]];
+                ret[key] = sysUtils.clone(equipDB["" + equipment[key]]);
                 delete  (ret[key])["actor_id"];
             }
         }
@@ -263,7 +265,10 @@ Actor = Class.extend({
 
             }
         }
-
+        ret.attack = Number(ret.attack.toFixed(2));
+        ret.speed = Number(ret.speed.toFixed(2));
+        ret.defence = Number(ret.defence.toFixed(2));
+        ret.life = Number(ret.life.toFixed(2));
         //技能基本属性
         return ret;
     },
@@ -274,17 +279,20 @@ Actor = Class.extend({
         var curExp = actor.exp;
         var restExp = curExp + exp;
         while(restExp > 0){
+            //获得升级所需得XP值
             var upgrade_table = require("./DictManager").getActorLevelUpgradeByLevel(actor.level);
             var upgrade_need_exp = upgrade_table.xp
             var diff  = restExp - upgrade_need_exp;
             // 玩家升级了
             if(diff >= 0){
                 actor.level += 1;
+                actor.exp = 0;
             }else{
                 actor.exp += restExp;
             }
             restExp = diff;
         }
+
     },
 
 
@@ -296,6 +304,39 @@ Actor = Class.extend({
             equipment.id = result.insertId;
             that._dbEquipment[""+equipment.id] = equipment;
         });
+    },
+
+    /**
+     * 按概率使用某个技能
+     * @param acfg 概率配置表，格式，[概率，对应值]
+     * example:
+     * var cfg = [
+     * [10, 1],
+     * [20, 2],
+     * [30, 3],
+     * [20, 4],
+     * [10, 5],
+     * [10, 6]
+     * ];
+     * @return {Object} 某个技能
+     */
+    useSkill:function (acfg) {
+        var ret = {};
+        var cfg = [
+            [10, 1],
+            [20, 2],
+            [30, 3],
+            [20, 4],
+            [10, 5],
+            [10, 6]
+        ];
+
+        var skill_id = sysUtils.randomPick(cfg);
+        var skill_info = require("./DictManager").getSkillByID(skill_id);
+        ret.name = skill_info.name;
+        ret.icon_id = skill_info.icon_id;
+
+        return ret;
     }
 
 });

@@ -14,7 +14,7 @@
 #define ACTION_TIME_JUMP        0.5f
 
 #define ACTION_TIME_BLINK       1.2f
-#define ACTION_BLINK_TIMES      6
+#define ACTION_BLINK_TIMES      5
 
 #define ACTION_TIME_ACTTACK_EFFECT      1.2f
 
@@ -84,7 +84,8 @@ public:
     pNodeRole(NULL),
     teamId(kGTeamA),
     actId(0),
-    pProgressTimer(NULL)
+    pProgressTimer(NULL),
+    mStrName("")
     {}
     virtual ~GRole(){}
     int roleID;
@@ -94,6 +95,7 @@ public:
     cocos2d::CCProgressTimer *pProgressTimer;     //角色的血条
     GTeam teamId;
     int actId;
+    std::string mStrName;
     
 private:
     float curPercentHP;

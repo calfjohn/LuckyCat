@@ -121,7 +121,6 @@ void EventListView::netCallBackEventList(CCNode* pNode, void* data)
             tEventData.type = (LEventType)(jEvent["type"].asInt());
             tEventData.pStEvent = tStEvent;
             
-            tEventData.pBattle = NULL;
             tEventData.box_id = jEvent["box_id"].asInt();
             
             if ( tEventData.box_id != -1 )
@@ -366,10 +365,12 @@ void EventListView::showNextEvent(float dt)
     {
         this->showBattleResultView(); 
     }
-    else if ( p_CurEvent && p_CurEvent->m_bBoxIsOpened == false && p_CurEvent->box_id != -1 ) {
+    else if ( p_CurEvent && p_CurEvent->mBattleProcess.m_battleResult == kBattleResultWin && p_CurEvent->m_bBoxIsOpened == false && p_CurEvent->box_id != -1 ) {
         this->showOpenBoxView();
     }
-    else {
+    else if ( p_CurEvent && p_CurEvent->mBattleProcess.m_battleResult == kBattleResultLost ){//战斗失败,事件不再执行
+        removeAndCleanSelf(0);
+    }else {
         popEvent();
         
         showCurEvent();
