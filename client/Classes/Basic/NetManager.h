@@ -28,6 +28,8 @@ public:
     std::string GetLastSuccess(){return m_lastSuccess;}
     
     const char* processResponse(void *data);
+    
+    bool setToken(std::string strToken);
 public:
 	static NetManager* shareNetManager(void)
 	{

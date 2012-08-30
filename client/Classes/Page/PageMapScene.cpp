@@ -9,6 +9,7 @@
 #include "PageMapScene.h"
 #include "PageScene.h"
 #include "LuckySprite.h"
+#include "ChapterScene.h"
 
 USING_NS_CC;
 
@@ -66,7 +67,8 @@ bool PageMap::init()
 
 void PageMap::menuBackCallback(CCObject* pSender)
 {
-    CCDirector::sharedDirector()->popScene();
+    CCScene *pScene = Chapter::scene();
+    CCDirector::sharedDirector()->replaceScene(pScene);
 }
 
 void PageMap::onEnter()

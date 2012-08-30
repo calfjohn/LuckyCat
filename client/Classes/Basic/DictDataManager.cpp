@@ -26,7 +26,7 @@ DictDataManager::~DictDataManager( void )
 
 bool DictDataManager::init( void )
 {
-   string strFullPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath("config/LuckyCat.sqlite");
+   string strFullPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath("config/luckycat.sqlite");
 
     m_db.open(strFullPath.c_str());
 	if (!m_db.isOpen())
