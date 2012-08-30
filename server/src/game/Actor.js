@@ -4,6 +4,8 @@
 
 require("../system/Class");
 require("../system/Log");
+var sysUtils = require("../system/utils");
+
 
 var util = require("util");
 var log = new Log("Actor.changeEquipment");
@@ -296,6 +298,39 @@ Actor = Class.extend({
             equipment.id = result.insertId;
             that._dbEquipment[""+equipment.id] = equipment;
         });
+    },
+
+    /**
+     * 按概率使用某个技能
+     * @param acfg 概率配置表，格式，[概率，对应值]
+     * example:
+     * var cfg = [
+     * [10, 1],
+     * [20, 2],
+     * [30, 3],
+     * [20, 4],
+     * [10, 5],
+     * [10, 6]
+     * ];
+     * @return {Object} 某个技能
+     */
+    useSkill:function (acfg) {
+        var ret = {};
+        var cfg = [
+            [10, 1],
+            [20, 2],
+            [30, 3],
+            [20, 4],
+            [10, 5],
+            [10, 6]
+        ];
+
+        var skill_id = sysUtils.randomPick(cfg);
+        var skill_info = require("./DictManager").getSkillByID(skill_id);
+        ret.name = skill_info.name;
+        ret.icon_id = skill_info.icon_id;
+
+        return ret;
     }
 
 });
