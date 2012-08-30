@@ -265,7 +265,10 @@ Actor = Class.extend({
 
             }
         }
-
+        ret.attack = Number(ret.attack.toFixed(2));
+        ret.speed = Number(ret.speed.toFixed(2));
+        ret.defence = Number(ret.defence.toFixed(2));
+        ret.life = Number(ret.life.toFixed(2));
         //技能基本属性
         return ret;
     },
