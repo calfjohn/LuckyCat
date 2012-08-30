@@ -289,7 +289,7 @@ Actor = Class.extend({
 
 
     gainEquipment: function (equipment){
-        //equipment需已包含 {equip_id:'2001', level:'1', rank:'1', color:'1'};
+        //equipment需已设置这些字段信息 {equip_id, level, rank, color};
         equipment.actor_id = this._dbBasic.id;
         var that = this;
         require("./Actors").insertEquipmentToActor(this._dbBasic.uuid,equipment,function(result){
