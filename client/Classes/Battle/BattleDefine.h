@@ -14,7 +14,7 @@
 #define ACTION_TIME_JUMP        0.5f
 
 #define ACTION_TIME_BLINK       1.2f
-#define ACTION_BLINK_TIMES      5
+#define ACTION_BLINK_TIMES      6
 
 #define ACTION_TIME_ACTTACK_EFFECT      1.2f
 
@@ -27,8 +27,10 @@
 #define COUNT_DOWN_TIMES                5
 #define COUNT_DOWN_INTERVAL             1.0f
 
+#define SHOW_ROUND_TIME                 1.0f
 
-#define LABEL_MOVE_DISTANCE             15
+
+#define LABEL_MOVE_DISTANCE             35
 
 enum GRolePosition {
     kGRolePositionUpOne      =   1,
@@ -54,13 +56,21 @@ enum GRoleType {
 //DEAD : int = 8;死亡
 enum GActionType {
     kGActionTypeAttack          =   1,
-    kGActionTypeCritical        =   2,
-    kGActionTypeCrush           =   3,
-    kGActionTypeSuckBlood       =   4,
-    kGActionTypeHurt            =   5,
-    kGActionTypeDodge           =   6,
-    kGActionTypeRevert          =   7,
-    kGActionTypeDead            =   8,
+    kGActionTypeCritical_1      =   2,
+    kGActionTypeCritical_2      =   3,
+    kGActionTypeCrush           =   4,
+    kGActionTypeSuckBlood_1     =   5,
+    kGActionTypeSuckBlood_2     =   6,
+    
+    kGActionTypeHurt            =   7,
+    kGActionTypeDodge           =   8,
+    kGActionTypeRevert          =   9,
+    kGActionTypeDead            =   10,
+    };
+
+enum GTeam {
+    kGTeamA = 1,
+    kGTeamB = 2,
     };
 
 class GRole
@@ -72,16 +82,18 @@ public:
     maxHp(0),
     curPercentHP(0.0f),
     pNodeRole(NULL),
-    rolePosition(kGRolePositionUpOne),
-    pCCProgressTimer(NULL)
+    teamId(kGTeamA),
+    actId(0),
+    pProgressTimer(NULL)
     {}
     virtual ~GRole(){}
-    unsigned int roleID;
-    unsigned int curHP;
-    unsigned int maxHp;
+    int roleID;
+    int curHP;
+    int maxHp;
     cocos2d::CCNode *pNodeRole; //这个角色之所指向的对象
-    cocos2d::CCProgressTimer *pCCProgressTimer;     //角色的血条
-    GRolePosition rolePosition;  //角色站位
+    cocos2d::CCProgressTimer *pProgressTimer;     //角色的血条
+    GTeam teamId;
+    int actId;
     
 private:
     float curPercentHP;
@@ -92,29 +104,29 @@ public:
         
         if ( maxHp ) curPercentHP = curHP * ( 1.0 / maxHp );
         
-        if (curPercentHP > 100)
-        {
-            curPercentHP = 100;
-        }
-        return curPercentHP;//*100;
+        return curPercentHP*100;
     }
     
-    void setMaxHp(unsigned int _max_hp)
+    void setMaxHp(int _max_hp)
     {
         maxHp = _max_hp;
         curHP = _max_hp;
-        if (pCCProgressTimer)
-            pCCProgressTimer->setPercentage(maxHp);
+        if (maxHp < 0) {
+            maxHp = 0;
+            curHP = 0;
+        }
     }
     
-    void setCurHp(unsigned int _cur_hp)
+    void setCurHp(int _cur_hp)
     {
         curHP = _cur_hp;
-        if (pCCProgressTimer)
-            pCCProgressTimer->setPercentage(curHP);
+        if (curHP < 0)
+            curHP = 0;
+        if (curHP > maxHp)
+            curHP = maxHp;
     }
     
-    void setSubHp(unsigned int _hp)
+    void setSubHp(int _hp)
     {
         if ( curHP < _hp)
         {
@@ -122,33 +134,49 @@ public:
         }
         else
         {
-            curHP -= _hp;
+            curHP -= abs(_hp);
         }
         printf("--->>>>CurHp : %d , Percentage %f\n",curHP,getCurPercentHP());
-        if (pCCProgressTimer)
-        {
-            cocos2d::CCProgressTo *toAction = cocos2d::CCProgressTo::create(ACTION_TIME_BLINK, getCurPercentHP());
-            pCCProgressTimer->runAction(toAction);
-            pCCProgressTimer->setPercentage(curHP);
+    }
+    
+    void setPlusHp(int _hp)
+    {
+        curHP += abs(_hp);
+        if (curHP > maxHp)
+            curHP = maxHp;
+        printf("--->>>>CurHp : %d , Percentage %f\n",curHP,getCurPercentHP());
+    }
+    
+    std::string getTeamStrName()
+    {
+        if (teamId == kGTeamB) {
+            return "B";
+        }
+        else {
+            return "A";
         }
     }
 };
 
-class GRoleAction
+struct GRoleAction
 {
 public:
-    GRoleAction():
-    m_Attacker(kGRoleTypeLeadingActor),
-    m_Defender(kGRoleTypeMonster),
-    m_ActionType(kGActionTypeAttack){}
-    virtual ~GRoleAction(){}
+    GTeam           teamId;
+    int             actId;
+    GActionType     type;
+    int             hurt;
+    int             skillId;
+    int             fx;
     
-    unsigned int m_nHuntHp;
-    
-    GRoleType m_Attacker;
-    GRoleType m_Defender;
-    GActionType m_ActionType;
-    
+    std::string getTeamStrName()
+    {
+        if (teamId == kGTeamB) {
+            return "B";
+        }
+        else {
+            return "A";
+        }
+    }
 };
 
 
