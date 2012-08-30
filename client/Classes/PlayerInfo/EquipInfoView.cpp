@@ -706,7 +706,7 @@ void EquipInfoView::responsePutOnCurEquip(CCNode *pNode, void* data){
         }
         Json::Value now = root["meta"]["out"]["now"];
         info->userAttack = now["attack"].asDouble();
-        info->userReference = now["defence"].asDouble();
+        info->userDefence = now["defence"].asDouble();
         info->userSpeed = now["speed"].asDouble();
         
         Json::Value delta = root["meta"]["out"]["delta"];
@@ -780,7 +780,7 @@ void EquipInfoView::responseTakeOffCurEquip(CCNode *pNode, void* data){
         }
         Json::Value now = root["meta"]["out"]["now"];
         info->userAttack = now["attack"].asDouble();
-        info->userReference = now["defence"].asDouble();
+        info->userDefence = now["defence"].asDouble();
         info->userSpeed = now["speed"].asDouble();
         
         Json::Value delta = root["meta"]["out"]["delta"];

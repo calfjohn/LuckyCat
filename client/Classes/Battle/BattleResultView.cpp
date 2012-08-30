@@ -11,6 +11,7 @@
 #include "extensions/CCBReader/CCNodeLoaderLibrary.h"
 #include "NetManager.h"
 #include "DictDataManager.h"
+#include "BasicInfoView.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -33,6 +34,12 @@ BattleResultView *BattleResultView::create(cocos2d::CCObject * pOwner)
 
 void BattleResultView::initView(LEventData *tEvent)
 {
+    BasicInfoView *pBasicView = (BasicInfoView *)CCDirector::sharedDirector()->getRunningScene()->getChildByTag(kBasicInfo);
+    if(pBasicView)
+    {
+        pBasicView->updateBasicInfo(&tEvent->basicInfo);
+    }
+    
     CCSize screanSize = CCDirector::sharedDirector()->getWinSize();
     
     CCLabelTTF *resultOfBattle = static_cast<CCLabelTTF *>(this->getChildByTag(10));

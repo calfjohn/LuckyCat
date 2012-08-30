@@ -147,6 +147,22 @@ void EventListView::netCallBackEventList(CCNode* pNode, void* data)
             else {
                 tEventData.m_bBattleResultIsShowed = true;
             }
+            
+            Json::Value tempInfo = jEvent["basicInfo"];
+            tEventData.basicInfo.userUuid = tempInfo["id"].asInt();
+            tEventData.basicInfo.userNickName = tempInfo["nickname"].asString();
+            tEventData.basicInfo.userSpeed = tempInfo["image_id"].asInt();
+            tEventData.basicInfo.userLevel = tempInfo["level"].asInt();
+            tEventData.basicInfo.userExp = tempInfo["exp"].asInt();
+            tEventData.basicInfo.userHp = tempInfo["hp"].asDouble();
+            tEventData.basicInfo.userCareerId = tempInfo["career_id"].asInt();
+            tEventData.basicInfo.userChapterId = tempInfo["chapter_id"].asInt();
+            tEventData.basicInfo.userPageId = tempInfo["page_id"].asInt();
+            tEventData.basicInfo.userAttack = tempInfo["attack"].asDouble();
+            tEventData.basicInfo.userDefence = tempInfo["defence"].asDouble();
+            tEventData.basicInfo.userSpeed = tempInfo["speed"].asDouble();
+            tEventData.basicInfo.userMaxHp = tempInfo["max_hp"].asInt();
+                        
             mEventDataList.push_back(tEventData);
         }
         

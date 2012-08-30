@@ -162,6 +162,8 @@ typedef  struct LEventData
     
     bool m_bBoxIsOpened;              //The box is opened.
     bool m_bBattleResultIsShowed;
+    
+    stActorUserInfo basicInfo;
 }LEventData;
 
 enum EventLayerTag

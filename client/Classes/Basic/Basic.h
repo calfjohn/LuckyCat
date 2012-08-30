@@ -154,7 +154,7 @@ typedef struct {
     int                     userChapterId;
     int                     userPageId;
     float                   userAttack;
-    float                   userReference;
+    float                   userDefence;
     float                   userSpeed;
     int                     userMaxHp;
     stActorUserEquipInfo    *userEquipInfo;
