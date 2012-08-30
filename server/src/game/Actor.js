@@ -66,7 +66,7 @@ Actor = Class.extend({
         for (var key in db) {
             var equipment = {};
             var value = db[key];
-            equipment = value;
+            equipment = sysUtils.clone(value);
             delete equipment["actor_id"];
             ret.push(equipment);
         }
@@ -97,7 +97,7 @@ Actor = Class.extend({
                 value.item5_id = 0;
                 ret[key] = value;
             } else {
-                ret[key] = equipDB["" + equipment[key]];
+                ret[key] = sysUtils.clone(equipDB["" + equipment[key]]);
                 delete  (ret[key])["actor_id"];
             }
         }
