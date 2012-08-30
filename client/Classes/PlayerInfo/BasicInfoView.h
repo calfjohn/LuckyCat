@@ -32,7 +32,7 @@ public:
     
     CCB_STATIC_NEW_AUTORELEASE_OBJECT_WITH_INIT_METHOD(BasicInfoView, create);
     
-    static BasicInfoView *create(cocos2d::CCObject * pOwner,CCObject *target,SEL_CallFuncND selector);
+    static BasicInfoView *create(cocos2d::CCObject * pOwner);
     
     CCNode* createNodeForCCBI(const char *pCCBFileName , const char *pCCNodeName , cocos2d::extension::CCNodeLoader *pCCNodeLoader);
     
@@ -49,6 +49,8 @@ public:
     void hideBasicView();
     
     void initBasicInfoView();
+    
+    void initBasicMenuTargetAndSel(CCObject *target, SEL_CallFuncND selector);
     
     void basicViewBtnCallback(CCObject *pSender);
     
