@@ -123,8 +123,10 @@ typedef struct {
 
 
 typedef struct{
+    int                         equipId;
     std::string                 equipName;
     int                         equipImageId;
+    int                         equipType;
     int                         equipLife;
     int                         equipLevelLimit;
     int                         equipAttack;

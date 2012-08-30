@@ -260,7 +260,7 @@ Box = {
             var obj = new Object();
             obj.id = tBox.rewardId;
             obj.type = tBox.rewardType;
-            obj.num = tBox.rewardNum;
+            obj.count = tBox.rewardNum;
 
             ret.push(obj);
         }

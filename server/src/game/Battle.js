@@ -287,20 +287,19 @@ Battle = {
         //遍历计算每个角色属性加成
         //遍历每个角色的速度，定出优先顺序
         //选择被攻击角色
-        //被攻击角色是否闪避             //被攻击角色是否反震
-        //攻击角色是否爆击
-        //攻击，计算伤害值
-        //更新相关角色属性
+        //战斗，计算伤害值（被攻击角色是否闪避、反震、爆击）
         //直到有一队全部死亡
-        //否则下一个
+        //否则更新相关角色属性
+        //循环
         var battleResult = Battle.contructResult(team, fightType);
         while(true){
             var attacker = Battle.whoIsFast(team);
             var defender = Battle.whoIsDefender((attacker.teamId == "A")? team.B: team.A);
             if(Battle.versus(attacker, defender, battleResult))
             {
-                battleResult.result.state = (defender.teamId == "A" ? 1: 0);
-                battleResult.result.type = 3;
+                //战斗结束
+                battleResult.result.state = (defender.hpEx == 0 ? 1: 0);
+                battleResult.result.type = fightType;
                 break;
             }
 

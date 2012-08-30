@@ -14,6 +14,21 @@ require("../system/DBAgent");
 require("../system/Log");
 require("../system/Class");
 
+clone = function (obj) {
+    var newObj = (obj instanceof Array) ? [] : {};
+    for (var key in obj) {
+        var copy = obj[key];
+        if (copy instanceof Array) {
+            newObj[key] = arguments.callee(copy);
+        } else if ((typeof copy) == "object")  {
+            newObj[key] = arguments.callee(copy);
+        } else {
+            newObj[key] = copy;
+        }
+    }
+    return newObj;
+};
+
 Events = {
     _dbAgent : null,
     _mMapEvent : null,
@@ -59,10 +74,10 @@ Events = {
                 tEvent.type = rows[i].type;
                 tEvent.target = rows[i].target;
                 tEvent.nextEventId = rows[i].next_event_id;
-                tEvent.bonus = JSON.parse(rows[i].bonus);
+                tEvent.bonus = JSON.parse(rows[i].bonus);//事件奖励
                 tEvent.box_id = rows[i].box_id;
                 tEvent.bonusRepeat = rows[i].bonus_repeat;
-                tEvent.awardArray = [];
+                tEvent.awardArray = [];//战斗奖励
 
                 that._mMapEvent[tEvent.id] = tEvent;
             }
@@ -120,31 +135,28 @@ Events = {
 
         while ( tEventId != -1 )
         {
-            var tEvent = [];//待扩展为一系列事件，暂时只有一个事件
-            tEvent = this.getEvent(tEventId);
+            //待扩展为一系列事件，暂时只有一个事件
+            var tEvent = clone(this.getEvent(tEventId));
             if ( tEvent )
             {
-                if (tEvent.type != 1)
+                //获取奖励，与怪物等级相关
+                var monster = require("./DictManager").getMonsterById(tEvent.target);
+                if (monster)
                 {
-                    //获取奖励，与怪物等级相关
-                    var monster = require("./DictManager").getMonsterById(tEvent.target);
-                    if (monster)
-                    {
-                        var exp = ((60+monster.level*5)*monster.rank) | 0;
-                        var money = ((100+monster.level*6)*monster.rank) | 0;
+                    var exp = ((60+monster.level*5)*monster.rank) | 0;
+//                        var money = ((100+monster.level*6)*monster.rank) | 0;
 
-                        var oExp = {};
-                        oExp.type = 2;
-                        oExp.id = -1;
-                        oExp.count = exp;
-                        tEvent.awardArray.push(oExp);
+                    var oExp = {};
+                    oExp.type = 2;
+                    oExp.id = -1;
+                    oExp.count = exp;
+                    tEvent.awardArray.push(oExp);
 
-                        var oMoney = {};
-                        oMoney.type = 1;
-                        oMoney.id = -1;
-                        oMoney.count = money;
-                        tEvent.awardArray.push(oMoney);
-                    }
+//                        var oMoney = {};
+//                        oMoney.type = 1;
+//                        oMoney.id = -1;
+//                        oMoney.count = money;
+//                        tEvent.awardArray.push(oMoney);
                 }
                 if ( tEvent.box_id != -1 )
                 {

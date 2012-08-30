@@ -36,6 +36,7 @@ bool DictDataManager::init( void )
      
     initImage();
     initMonster();
+    initEquipment();
     
     m_db.close();
 
@@ -81,6 +82,29 @@ bool DictDataManager::initImage()
     return true;
 }
 
+bool DictDataManager::initEquipment()
+{
+    CppSQLite3Query q = m_db.execQuery("select * from dict_equipment;");
+    while(!q.eof())
+    {
+        stActorEquipInfo equipInfo;
+        
+        equipInfo.equipId = q.getIntField("id");
+        equipInfo.equipName = q.getStringField("name");
+        equipInfo.equipImageId = q.getIntField("image_id");
+        equipInfo.equipType = q.getIntField("class");
+        equipInfo.equipLife = q.getIntField("life");
+        equipInfo.equipLevelLimit = q.getIntField("level_limit");
+        equipInfo.equipAttack = q.getIntField("attack");
+        equipInfo.equipDefence = q.getIntField("defence");
+        equipInfo.equipSpeed = q.getIntField("speed");
+        equipInfo.equipDescription = q.getStringField("description");
+        
+        m_mapEuipment[equipInfo.equipId] = equipInfo;
+        q.nextRow();
+    }
+}
+
 const stMonster *DictDataManager::getMonsterImageId(int monsterId)
 {   
     const stMonster *pRetValue = NULL;
@@ -101,6 +125,20 @@ const stImage *DictDataManager::getImage(int imageId)
     map<int, stImage>::iterator iterTemp;
     iterTemp = m_mapImage.find(imageId);
     if (iterTemp != m_mapImage.end()) 
+    {
+        pRetValue = &(*iterTemp).second;
+    }
+    
+    return pRetValue;
+}
+
+const stActorEquipInfo *DictDataManager::getEquipment(int equipId)
+{
+    const stActorEquipInfo *pRetValue = NULL;
+    
+    map<int, stActorEquipInfo>::iterator iterTemp;
+    iterTemp = m_mapEuipment.find(equipId);
+    if (iterTemp != m_mapEuipment.end()) 
     {
         pRetValue = &(*iterTemp).second;
     }
