@@ -66,7 +66,7 @@ Actor = Class.extend({
         for (var key in db) {
             var equipment = {};
             var value = db[key];
-            equipment = value;
+            equipment = sysUtils.clone(value);
             delete equipment["actor_id"];
             ret.push(equipment);
         }
@@ -97,7 +97,7 @@ Actor = Class.extend({
                 value.item5_id = 0;
                 ret[key] = value;
             } else {
-                ret[key] = equipDB["" + equipment[key]];
+                ret[key] = sysUtils.clone(equipDB["" + equipment[key]]);
                 delete  (ret[key])["actor_id"];
             }
         }
@@ -274,38 +274,25 @@ Actor = Class.extend({
     },
 
     gainExp: function (exp){
-        log.d("exp:",  this._dbBasic.exp, "level:", this._dbBasic.level, "add Exp:", exp);
-
         if (exp <=0) return;
         var actor  = this._dbBasic;
-        actor.exp += exp;
-        while(1){
-            //经验不累计，到升级标准后重置
+        var curExp = actor.exp;
+        var restExp = curExp + exp;
+        while(restExp > 0){
+            //获得升级所需得XP值
             var upgrade_table = require("./DictManager").getActorLevelUpgradeByLevel(actor.level);
-            if(actor.exp < upgrade_table.xp){
-                break;
+            var upgrade_need_exp = upgrade_table.xp
+            var diff  = restExp - upgrade_need_exp;
+            // 玩家升级了
+            if(diff >= 0){
+                actor.level += 1;
+                actor.exp = 0;
+            }else{
+                actor.exp += restExp;
             }
-
-            actor.level++;
-            actor.exp -= upgrade_table.xp;
+            restExp = diff;
         }
 
-        log.d("exp:",  this._dbBasic.exp, "level:", this._dbBasic.level);
-
-//        var curExp = actor.exp;
-//        var restExp = curExp + exp;
-//        while(restExp > 0){
-//            var upgrade_table = require("./DictManager").getActorLevelUpgradeByLevel(actor.level);
-//            var upgrade_need_exp = upgrade_table.xp
-//            var diff  = restExp - upgrade_need_exp;
-//            // 玩家升级了
-//            if(diff >= 0){
-//                actor.level += 1;
-//            }else{
-//                actor.exp += restExp;
-//            }
-//            restExp = diff;
-//        }
     },
 
 

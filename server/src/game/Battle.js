@@ -190,7 +190,7 @@ Battle = {
                 tempHurt = 0;
                 break;
             case actType.REVERT:
-                tempRevertHurt = tempHurt*0.05;
+                tempRevertHurt = tempHurt*0.3;//反震损伤30%
                 tempHurt = 0;
                 break;
             case actType.HURT:

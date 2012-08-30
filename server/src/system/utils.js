@@ -41,7 +41,22 @@ if (! global.serverUtils) {
                     return probabilityCfg[i][1];
                 }
             }
+        },
+
+        clone: function (obj) {
+        var newObj = (obj instanceof Array) ? [] : {};
+        for (var key in obj) {
+            var copy = obj[key];
+            if (copy instanceof Array) {
+                newObj[key] = serverUtils.clone(copy);
+            } else if ((typeof copy) == "object")  {
+                newObj[key] = serverUtils.clone(copy);
+            } else {
+                newObj[key] = copy;
+            }
         }
+        return newObj;
+    }
     };
 }
 
