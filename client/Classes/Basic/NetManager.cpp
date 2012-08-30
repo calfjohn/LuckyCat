@@ -20,10 +20,15 @@ bool NetManager::init(void)
 {
 //	m_mapError[-1] = "通讯错误或者返回的json数据内容错误";
 
-    m_strToken = "2";
+    m_strToken = "3";
     m_strUrl = "http://localhost:22222/game/";
     m_nIndex = 1;
 	return true;
+}
+//test function
+bool NetManager::setToken(std::string strToken)
+{
+    m_strToken = strToken;
 }
 
 bool NetManager::send(ModeRequestType modEnum, DoRequestType doEnum, cocos2d::SEL_CallFuncND selector, cocos2d::CCObject *rec, const char* requestData)

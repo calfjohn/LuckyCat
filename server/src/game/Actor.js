@@ -4,6 +4,8 @@
 
 require("../system/Class");
 require("../system/Log");
+var sysUtils = require("../system/utils");
+
 
 var util = require("util");
 var log = new Log("Actor.changeEquipment");
@@ -263,39 +265,91 @@ Actor = Class.extend({
 
             }
         }
-
+        ret.attack = Number(ret.attack.toFixed(2));
+        ret.speed = Number(ret.speed.toFixed(2));
+        ret.defence = Number(ret.defence.toFixed(2));
+        ret.life = Number(ret.life.toFixed(2));
         //技能基本属性
         return ret;
     },
 
     gainExp: function (exp){
+        log.d("exp:",  this._dbBasic.exp, "level:", this._dbBasic.level, "add Exp:", exp);
+
         if (exp <=0) return;
         var actor  = this._dbBasic;
-        var curExp = actor.exp;
-        var restExp = curExp + exp;
-        while(restExp > 0){
+        actor.exp += exp;
+        while(1){
+            //经验不累计，到升级标准后重置
             var upgrade_table = require("./DictManager").getActorLevelUpgradeByLevel(actor.level);
-            var upgrade_need_exp = upgrade_table.xp
-            var diff  = restExp - upgrade_need_exp;
-            // 玩家升级了
-            if(diff >= 0){
-                actor.level += 1;
-            }else{
-                actor.exp += restExp;
+            if(actor.exp < upgrade_table.xp){
+                break;
             }
-            restExp = diff;
+
+            actor.level++;
+            actor.exp -= upgrade_table.xp;
         }
+
+        log.d("exp:",  this._dbBasic.exp, "level:", this._dbBasic.level);
+
+//        var curExp = actor.exp;
+//        var restExp = curExp + exp;
+//        while(restExp > 0){
+//            var upgrade_table = require("./DictManager").getActorLevelUpgradeByLevel(actor.level);
+//            var upgrade_need_exp = upgrade_table.xp
+//            var diff  = restExp - upgrade_need_exp;
+//            // 玩家升级了
+//            if(diff >= 0){
+//                actor.level += 1;
+//            }else{
+//                actor.exp += restExp;
+//            }
+//            restExp = diff;
+//        }
     },
 
 
     gainEquipment: function (equipment){
-        //equipment需已包含 {equip_id:'2001', level:'1', rank:'1', color:'1'};
+        //equipment需已设置这些字段信息 {equip_id, level, rank, color};
         equipment.actor_id = this._dbBasic.id;
         var that = this;
         require("./Actors").insertEquipmentToActor(this._dbBasic.uuid,equipment,function(result){
             equipment.id = result.insertId;
             that._dbEquipment[""+equipment.id] = equipment;
         });
+    },
+
+    /**
+     * 按概率使用某个技能
+     * @param acfg 概率配置表，格式，[概率，对应值]
+     * example:
+     * var cfg = [
+     * [10, 1],
+     * [20, 2],
+     * [30, 3],
+     * [20, 4],
+     * [10, 5],
+     * [10, 6]
+     * ];
+     * @return {Object} 某个技能
+     */
+    useSkill:function (acfg) {
+        var ret = {};
+        var cfg = [
+            [10, 1],
+            [20, 2],
+            [30, 3],
+            [20, 4],
+            [10, 5],
+            [10, 6]
+        ];
+
+        var skill_id = sysUtils.randomPick(cfg);
+        var skill_info = require("./DictManager").getSkillByID(skill_id);
+        ret.name = skill_info.name;
+        ret.icon_id = skill_info.icon_id;
+
+        return ret;
     }
 
 });

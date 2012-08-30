@@ -45,6 +45,8 @@ BasicInfoView::BasicInfoView()
     m_labSpeed = NULL;
     m_labTitle = NULL;
     m_labScore = NULL;
+    
+    m_playerInfoView = NULL;
 }
 
 BasicInfoView::~BasicInfoView()
@@ -52,23 +54,49 @@ BasicInfoView::~BasicInfoView()
     
 }
 
-/*BasicInfoView *BasicInfoView::create(cocos2d::CCObject * pOwner)
+CCNode* BasicInfoView::createNodeForCCBI(const char *pCCBFileName , const char *pCCNodeName , cocos2d::extension::CCNodeLoader *pCCNodeLoader){
+    /* Create an autorelease CCNodeLoaderLibrary. */
+    CCNodeLoaderLibrary * ccNodeLoaderLibrary = CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
+    
+    ccNodeLoaderLibrary->registerCCNodeLoader("BasicInfoView", BasicInfoViewLoader::loader());
+    if(pCCNodeName != NULL && pCCNodeLoader != NULL) {
+        ccNodeLoaderLibrary->registerCCNodeLoader(pCCNodeName, pCCNodeLoader);
+    }
+    
+    /* Create an autorelease CCBReader. */
+    cocos2d::extension::CCBReader * ccbReader = new cocos2d::extension::CCBReader(ccNodeLoaderLibrary);
+    ccbReader->autorelease();
+    
+    /* Read a ccbi file. */
+    // Load the scene from the ccbi-file, setting this class as
+    // the owner will cause lblTestTitle to be set by the CCBReader.
+    // lblTestTitle is in the TestHeader.ccbi, which is referenced
+    // from each of the test scenes.
+    CCNode * node = ccbReader->readNodeGraphFromFile("pub/", pCCBFileName, this);
+    return node;
+}
+
+BasicInfoView *BasicInfoView::create(cocos2d::CCObject * pOwner)
 {
     cocos2d::extension::CCNodeLoaderLibrary * ccNodeLoaderLibrary = cocos2d::extension::CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
     
     ccNodeLoaderLibrary->registerCCNodeLoader("BasicInfoView", BasicInfoViewLoader::loader());
-    ccNodeLoaderLibrary->registerCCNodeLoader("FuzzyBgView", FuzzyBgViewLoader::loader());
-    ccNodeLoaderLibrary->registerCCNodeLoader("PlayerInfoView", PlayerInfoViewLoader::loader());
+    //ccNodeLoaderLibrary->registerCCNodeLoader("FuzzyBgView", FuzzyBgViewLoader::loader());
+    //ccNodeLoaderLibrary->registerCCNodeLoader("PlayerInfoView", PlayerInfoViewLoader::loader());
     cocos2d::extension::CCBReader * ccbReader = new cocos2d::extension::CCBReader(ccNodeLoaderLibrary);
     ccbReader->autorelease();
     
-    CCNode * pNode = ccbReader->readNodeGraphFromFile("pub/", "ccb/info.ccbi", pOwner);
+    CCNode * pNode = ccbReader->readNodeGraphFromFile("pub/", "ccb/basic.ccbi", pOwner);
     
     BasicInfoView *pInfoView = static_cast<BasicInfoView *>(pNode);
-    pInfoView->m_pPlayerEquipInfoView = EquipInfoView::create(pInfoView);
-    pInfoView->m_pPlayerEquipInfoView->sendPlayerEquipInfoRequest();
+    //pInfoView->m_pPlayerEquipInfoView = EquipInfoView::create(pInfoView);
+    //pInfoView->m_pPlayerEquipInfoView->sendPlayerEquipInfoRequest();
+    //pInfoView->m_playerInfoView = (PlayerInfoView*)pInfoView->createNodeForCCBI("ccb/playerinfo.ccbi", "PlayerInfoView", PlayerInfoViewLoader::loader());
+    //pInfoView->addChild(pInfoView->m_playerInfoView);
+    
+    
     return pInfoView;
-}*/
+}
 
 cocos2d::SEL_MenuHandler BasicInfoView::onResolveCCBCCMenuItemSelector(cocos2d::CCObject * pTarget, cocos2d::CCString * pSelectorName){
     CCB_SELECTORRESOLVER_CCMENUITEM_GLUE(this, "basicViewBtnCallback", BasicInfoView::basicViewBtnCallback);
@@ -130,9 +158,14 @@ void BasicInfoView::initBasicInfoView(){
     cocos2d::CCString* strExp = cocos2d::CCString::createWithFormat("经验：%d",(int)info->userExp);
     setBasicInfoLabelForTag(kExpInfo, strExp);
     
-    m_playerInfoView = PlayerInfoView::create(this);
-    this->addChild(m_playerInfoView);
-    m_playerInfoView->hidePlayerInfo();
+    //m_playerInfoView = PlayerInfoView::create(this);
+    //this->addChild(m_playerInfoView);
+    //m_playerInfoView->hidePlayerInfo();
+}
+
+void BasicInfoView::initBasicMenuTargetAndSel(CCObject *target, SEL_CallFuncND selector){
+    this->m_pMenuTarget = target;
+    this->m_MenuSelector = selector;
 }
 
 void BasicInfoView::setBasicInfoLabelForTag(const int tag, cocos2d::CCString *infomation){
@@ -179,10 +212,8 @@ void BasicInfoView::basicViewBtnCallback(CCObject *pSender){
     cout << "tag = " << node->getTag() << endl;
     switch (node->getTag()) {
         case 0:
-            //if(m_playerInfoView == NULL){
-                m_playerInfoView = PlayerInfoView::create(this);
-                this->addChild(m_playerInfoView);
-            //}
+            //m_playerInfoView = PlayerInfoView::create(this);
+            ((m_pMenuTarget)->*(m_MenuSelector))(this,NULL);
             //m_playerInfoView->showPlayerInfo();
             break;
             

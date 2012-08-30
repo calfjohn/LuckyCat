@@ -109,53 +109,53 @@ bool Cover::init()
     return true;
 }
 
-#include "NetManager.h"
 void Cover::menuDaggerCallback(CCObject* pSender)
 {
-//    NetManager::shareNetManager()->sendEx(kModeBattle, kDoFight3, callfuncND_selector(Cover::responseFight), this, "\"actorId\": %d", 2);
-}
-
-void Cover::responseFight(CCNode *pNode, void *data)
-{
-    Json::Value root;
-    Json::Reader reader;
+    NetManager::shareNetManager()->setToken("5");
     
-    if(reader.parse(NetManager::shareNetManager()->processResponse(data), root))
-    {
-        Json::Value playList = root["meta"]["out"]["battleArray"]["playlist"];
-        for (int i = 0; i < playList.size(); i++) 
-        {
-            Json::Value tempRound = playList[i];
-            CCLOG("第%d轮", i+1);
-            
-            for (int j = 0; j < tempRound.size(); j++) 
-            {
-                printFight(tempRound[j]);
-            }
-        }
-    }
-}
-
-void Cover::menuMagicCallback(CCObject* pSender)
-{
-}
-
-void Cover::menuBookCallback(CCObject* pSender)
-{
     CCScene *pScene = Chapter::scene();
     
     CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
     
-    CCDirector::sharedDirector()->pushScene(pTp);
+    CCDirector::sharedDirector()->replaceScene(pTp);
+}
+
+void Cover::menuMagicCallback(CCObject* pSender)
+{
+    NetManager::shareNetManager()->setToken("4");
+    
+    CCScene *pScene = Chapter::scene();
+    
+    CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
+    
+    CCDirector::sharedDirector()->replaceScene(pTp);
+}
+
+void Cover::menuBookCallback(CCObject* pSender)
+{
+    NetManager::shareNetManager()->setToken("3");
+
+    CCScene *pScene = Chapter::scene();
+    
+    CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
+    
+    CCDirector::sharedDirector()->replaceScene(pTp);
 }
 
 void Cover::menuCardCallback(CCObject* pSender)
 {
+
 }
 
 void Cover::menuOptionCallback(CCObject* pSender)
 {
-    LevelDataManager::shareLevelDataManager()->reload();
+    NetManager::shareNetManager()->setToken("2");
+    
+    CCScene *pScene = Chapter::scene();
+    
+    CCTransitionPageTurn *pTp = CCTransitionPageTurn::create(TRANSITION_PAGE_INTERVAL_TIME, pScene, false);
+    
+    CCDirector::sharedDirector()->replaceScene(pTp);
 }
 
 void Cover::registerWithTouchDispatcher()

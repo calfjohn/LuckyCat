@@ -132,7 +132,7 @@ void EventListView::netCallBackEventList(CCNode* pNode, void* data)
                     stGood tGoods;
                     tGoods.id = jBonus["id"].asInt();
                     tGoods.type = jBonus["type"].asInt();
-                    tGoods.count = jBonus["num"].asInt();
+                    tGoods.count = jBonus["count"].asInt();
                     
                     tVectorGood.push_back(tGoods);
                 }

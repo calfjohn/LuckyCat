@@ -281,7 +281,7 @@ std::string EventDataManager::getDialogFromTalk( stTalk * tmpTalk )
 #pragma Read SQLite
 void EventDataManager::readDB()
 {
-    string strFullPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath("config/LuckyCat.sqlite");
+    string strFullPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath("config/luckycat.sqlite");
     CppSQLite3DB db;
     db.open(strFullPath.c_str());
 	if (!db.isOpen())

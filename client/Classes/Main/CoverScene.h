@@ -49,7 +49,6 @@ public:
     void menuBookCallback(CCObject* pSender);
     void menuCardCallback(CCObject* pSender);
     void menuOptionCallback(CCObject* pSender);
-    void responseFight(CCNode *pNode, void *data);
 };
 
 class CCBReader;

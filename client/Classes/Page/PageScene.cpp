@@ -69,12 +69,12 @@ Page *Page::create(cocos2d::CCObject * pOwner)
     
     Page *pPage = static_cast<Page *>(pNode);
     
-    pPage->m_pBasicInfoView = (BasicInfoView*)pPage->createNodeForCCBI("ccb/basic.ccbi", "BasicInfoView", BasicInfoViewLoader::loader());
+    /*pPage->m_pBasicInfoView = (BasicInfoView*)pPage->createNodeForCCBI("ccb/basic.ccbi", "BasicInfoView", BasicInfoViewLoader::loader());
     if (pPage->m_pBasicInfoView != NULL) {
         pPage->m_pBasicInfoView->setTag(kPlayerInfoTagBasicLayer);
         pPage->addChild(pPage->m_pBasicInfoView);
         pPage->m_pBasicInfoView->sendBasicInfo();
-    }
+    }*/
     
     return pPage;
 }
@@ -94,6 +94,17 @@ CCScene* Page::scene(int chapterId, const stPage *pPage)
         Page *layer = Page::create(scene);
         CC_BREAK_IF(! layer);
         scene->addChild(layer);
+        
+        
+        BasicInfoView* info = (BasicInfoView*)BasicInfoView::create(scene);
+        CC_BREAK_IF(! info);
+        scene->addChild(info,-1000);
+        info->setTag(kPagePlayerInfo);
+        info->sendBasicInfo();
+        info->initBasicMenuTargetAndSel(layer, callfuncND_selector(Page::showPlayerInfoViewCallback));
+        
+        
+        
         layer->turnToPage(chapterId, pPage);
         
     } while (0);
@@ -112,7 +123,8 @@ bool Page::init()
 
 void Page::menuBackCallback(CCObject* pSender)
 {
-    CCDirector::sharedDirector()->popScene();
+    CCScene *pScene = Chapter::scene();
+    CCDirector::sharedDirector()->replaceScene(pScene);
 }
 
 void Page::turnToPage(int chapterId, const stPage *pPage)
@@ -140,6 +152,7 @@ void Page::turnToPage(int chapterId, const stPage *pPage)
     
     //this->showHeroHeadView();
 }
+
 
 void Page::showBattleView(CCObject *pSender)
 {
@@ -183,7 +196,8 @@ void Page::nextPageCallback(CCNode* pNode, void* data)
     const stPage *pPage = LevelDataManager::shareLevelDataManager()->getNewPage(m_nChapterId);
     if (m_pPage == pPage) 
     {
-        CCDirector::sharedDirector()->popScene();
+        CCScene *pScene = Chapter::scene();
+        CCDirector::sharedDirector()->replaceScene(pScene);
         return;
     }
     
@@ -192,8 +206,20 @@ void Page::nextPageCallback(CCNode* pNode, void* data)
     Page *pPageLayer = Page::create(pScene);
     pPageLayer->turnToPage(m_nChapterId,pPage);
     pScene->addChild(pPageLayer, this->getZOrder()-1);
-    
+    BasicInfoView* pInfo = (BasicInfoView*)pScene->getChildByTag(kPagePlayerInfo);
+    pInfo->initBasicMenuTargetAndSel(pPageLayer, callfuncND_selector(Page::showPlayerInfoViewCallback));
     this->autoTurnPage();
+}
+
+void Page::showPlayerInfoViewCallback(CCNode* pNode, void* data){
+    if (this->getChildByTag(kPagePlayerInfo) == NULL && pNode != NULL) {
+        BasicInfoView* pInfo = (BasicInfoView*)pNode;
+        pInfo->m_playerInfoView = PlayerInfoView::create(this);
+        
+        pInfo->m_playerInfoView->setTag(kPagePlayerInfo);
+        this->addChild(pInfo->m_playerInfoView);
+    }
+    
 }
 
 bool Page::ccTouchBegan(cocos2d::CCTouch* touch, cocos2d::CCEvent *pEvent)
