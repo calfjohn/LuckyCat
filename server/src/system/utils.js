@@ -1,4 +1,7 @@
 
+require("../system/Log");
+var log = new Log("utils.serverUtils");
+
 if (! global.serverUtils) {
     serverUtils = {
         // callback: fucntion(err, ip)
@@ -11,45 +14,33 @@ if (! global.serverUtils) {
             socket.on("error", callback);
         },
         /**
-         * 按配置得概率获取对应得值
-         * @param probabilityCfg{total总概率, table{key,value}概率表
+         * 按配置得概率抽取对应值
+         * @param probabilityCfg 概率表，格式[概率，对应值]
          * example:
-         * var cfg = {
-         *      total: 1,
-         *      table: {
-         *      "0.1":1,
-         *      "0.2":2,
-         *      "0.3":3,
-         *      "0.4":4
-         *      }
-         * };
-         * @return {*} 返回table中击中的key对应的value
+         * var cfg = [
+         * [10, 1],
+         * [20, 2],
+         * [30, 3],
+         * [20, 4],
+         * [10, 5],
+         * [10, 6]
+         * ];
+         * @return {*} 返回对应值
          */
-        randomNumber: function(probabilityCfg){
-            var table = null;
+        randomPick: function(probabilityCfg){
             var total = 0;
-            if (probabilityCfg.table) {
-                table = probabilityCfg.table;
-                if(!probabilityCfg.total){
-                    for(var key in table){
-                        total += parseFloat(key);
-                    }
-                }else{
-                    total = probabilityCfg.total;
-                }
-            } else {
-                table = probabilityCfg;
+            for (var i=0; i < probabilityCfg.length; i++) {
+                total += probabilityCfg[i][0];
             }
 
             var seed = Math.random()*total;
             var guard = 0;
-            for(var key in table){
-                guard += parseFloat(key);
+            for (var i = 0; i < probabilityCfg.length; i++) {
+                guard += probabilityCfg[i][0];
                 if(seed < guard){
-                    return table[key];
+                    return probabilityCfg[i][1];
                 }
             }
-            throw new Error("Invalid argument!");
         }
     };
 }
