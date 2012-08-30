@@ -247,21 +247,25 @@ Actor = Class.extend({
                 var atk = eq_dict_info.attack;
                 ret.attack += atk * (1 + level_growth.growth);
                 ret.attack += atk * (1 + rank_growth.growth);
+                ret.attack = ret.attack.toFixed(2);
 
                 // calculate speed
                 var speed = eq_dict_info.speed;
                 ret.speed += speed * (1 + level_growth.growth);
                 ret.speed += speed * (1 + rank_growth.growth);
+                ret.speed = ret.speed.toFixed(2);
 
                 // calculate defence
                 var defence = eq_dict_info.defence;
                 ret.defence += defence * (1 + level_growth.growth);
                 ret.defence += defence * (1 + rank_growth.growth);
+                ret.defence = ret.defence.toFixed(2);
 
                 // calculate life
                 var life = eq_dict_info.life;
                 ret.life += life * (1 + level_growth.growth);
                 ret.life += life * (1 + rank_growth.growth);
+                ret.life = ret.life.toFixed(2);
 
             }
         }
