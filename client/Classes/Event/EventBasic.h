@@ -103,8 +103,8 @@ public:
 };
 
 enum BattleResult {
-    kBattleResultWin    = 0,
-    kBattleResultLost   = 1,
+    kBattleResultWin    = 1,
+    kBattleResultLost   = 0,
     };
 
 typedef struct BattleProcess

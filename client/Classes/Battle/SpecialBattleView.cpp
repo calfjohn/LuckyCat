@@ -514,29 +514,30 @@ void SpecialBattleView::analyseBattleData()
 
 void SpecialBattleView::showRoundNumber()
 {   
-    CCLayer *pLayer = CCLayer::create();
-    CCSize screanSize = CCDirector::sharedDirector()->getWinSize();
-    pLayer->ignoreAnchorPointForPosition(false);
-    pLayer->setContentSize(CCSizeMake(screanSize.width, 200));
-    pLayer->setAnchorPoint(CCPointMake(0.5f, 0.5f));
-    this->addChild(pLayer);
-    
-    CCSprite *pSprite = CCSprite::create("image/battle/battle_round_number.png");
-    pLayer->addChild(pSprite);
-    pSprite->setPosition(CCPointMake(screanSize.width * 0.5f, 100));
-    
-    char strChar[100];
-    memset(strChar, 0, 100);
-    sprintf(strChar,"%d", m_nRound + 1);
-    
-    CCLabelTTF * label = CCLabelTTF::create(strChar, "Thonburi", 34);
-    label->setAnchorPoint(CCPointMake(0.5f, 0.5f));
-    label->setPosition(CCPointMake(screanSize.width * 0.5f  - 13, 100));
-    pLayer->addChild(label,99);
-    ccColor3B color = ccRED;
-    label->setColor(color);
-    
-    pLayer->runAction(getMoveLeftToRight(CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::showAttacker))));
+//    CCLayer *pLayer = CCLayer::create();
+//    CCSize screanSize = CCDirector::sharedDirector()->getWinSize();
+//    pLayer->ignoreAnchorPointForPosition(false);
+//    pLayer->setContentSize(CCSizeMake(screanSize.width, 200));
+//    pLayer->setAnchorPoint(CCPointMake(0.5f, 0.5f));
+//    this->addChild(pLayer);
+//    
+//    CCSprite *pSprite = CCSprite::create("image/battle/battle_round_number.png");
+//    pLayer->addChild(pSprite);
+//    pSprite->setPosition(CCPointMake(screanSize.width * 0.5f, 100));
+//    
+//    char strChar[100];
+//    memset(strChar, 0, 100);
+//    sprintf(strChar,"%d", m_nRound + 1);
+//    
+//    CCLabelTTF * label = CCLabelTTF::create(strChar, "Thonburi", 34);
+//    label->setAnchorPoint(CCPointMake(0.5f, 0.5f));
+//    label->setPosition(CCPointMake(screanSize.width * 0.5f  - 13, 100));
+//    pLayer->addChild(label,99);
+//    ccColor3B color = ccRED;
+//    label->setColor(color);
+//    
+//    pLayer->runAction(getMoveLeftToRight(CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::showAttacker))));
+    this->showAttacker();
 }
 
 void SpecialBattleView::showAttacker()
@@ -651,13 +652,29 @@ void SpecialBattleView::showRoleAction()
     CCActionInterval *pActionEffect = GetSkillEffect(tAction.type);
     CCNode *pActionNode = getActionNode(tAction);
     
+    CCAction *pSequence = NULL;
+    
+    if ( pActionEffect )
+    {
+        if (tAction.type == kGActionTypeDodge)
+        {
+            pSequence = CCSequence::create(
+                               pActionEffect,
+                               CCDelayTime::create(1.0f),NULL);
+        }
+        else {
+            pSequence = CCSequence::create(
+                               CCShow::create(),
+                               pActionEffect,
+                               CCHide::create(),
+                               CCDelayTime::create(1.0f),NULL);
+        }
+    }
+    
     if (pActionEffect && pActionNode)
     {
         pActionNode->runAction(CCSequence::create(
-                                                                             CCShow::create(),
-                                                                             pActionEffect,
-                                                                             CCHide::create(),
-                                                                             CCDelayTime::create(1.0f),
+                                                  (CCActionInterval *)pSequence,
                                                                              CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::analyseBattleData)),
                                                                              NULL));
     }
@@ -677,22 +694,22 @@ CCActionInterval *SpecialBattleView::GetSkillEffect(GActionType type)
     switch (type) {
         case kGActionTypeAttack:
         {
-            pAction = (CCActionInterval *)animationEffect[0];
+            //pAction = (CCActionInterval *)animationEffect[0];
             break;
         }
         case kGActionTypeCritical_1:
         {
-            pAction = (CCActionInterval *)animationEffect[1];
+            //pAction = (CCActionInterval *)animationEffect[1];
             break;
         }
         case kGActionTypeCritical_2:
         {
-            pAction = (CCActionInterval *)animationEffect[3];
+            //pAction = (CCActionInterval *)animationEffect[3];
             break;
         }
         case kGActionTypeCrush:
         {
-            pAction = (CCActionInterval *)animationEffect[2];
+            //pAction = (CCActionInterval *)animationEffect[2];
             break;
         }
         case kGActionTypeSuckBlood_1:
@@ -707,7 +724,11 @@ CCActionInterval *SpecialBattleView::GetSkillEffect(GActionType type)
         } 
         case kGActionTypeHurt:
         {
-            
+            if ( m_nActionNumber != 0 )
+            {
+                GRoleAction attackAction = m_OneRoundActionList[0];
+                pAction = animationEffect[attackAction.type % 3];
+            }
             break;
         }
         case kGActionTypeDodge:
@@ -717,7 +738,11 @@ CCActionInterval *SpecialBattleView::GetSkillEffect(GActionType type)
         }
         case kGActionTypeRevert:
         {
-            
+            if ( m_nActionNumber == 2 )
+            {
+                GRoleAction attackAction = m_OneRoundActionList[0];
+                pAction = animationEffect[attackAction.type % 3];
+            }
             break;
         }  
         default:
@@ -892,8 +917,8 @@ void SpecialBattleView::showSkillName(GRoleAction tAction)
     
     this->addChild(pLayer);
     
-    float t_f_moveTime = 0.8f;
-    float t_f_delayTime = 0.5f;
+    float t_f_moveTime = 0.5f;
+    float t_f_delayTime = 0.8f;
     
     pLayer->runAction(
                       CCSequence::create(
@@ -902,9 +927,9 @@ void SpecialBattleView::showSkillName(GRoleAction tAction)
                                                          CCFadeIn::create(t_f_moveTime),
                                                          NULL),
                                          CCDelayTime::create(t_f_delayTime),
-                                         CCSpawn::create(CCEaseOut::create(CCMoveTo::create(t_f_moveTime, endPos), t_f_moveTime),
-                                                         CCFadeOut::create(t_f_moveTime),
-                                                         NULL),
+//                                         CCSpawn::create(CCEaseOut::create(CCMoveTo::create(t_f_moveTime, endPos), t_f_moveTime),
+//                                                         CCFadeOut::create(t_f_moveTime),
+//                                                         NULL),
                                          CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::callbackRemoveNodeWhenDidAction)),
                                          NULL));
 }
