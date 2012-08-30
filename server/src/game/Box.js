@@ -243,7 +243,7 @@ Box = {
             }
 
             var tReward = rewardRange[index];
-            if (Math.random() > tReward.probability)
+            if (Math.random() < tReward.probability)
             {
                 rewardArray.push(tReward);
                 rewardRange.splice(index,1);

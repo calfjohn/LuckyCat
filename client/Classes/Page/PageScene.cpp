@@ -69,12 +69,12 @@ Page *Page::create(cocos2d::CCObject * pOwner)
     
     Page *pPage = static_cast<Page *>(pNode);
     
-    pPage->m_pBasicInfoView = (BasicInfoView*)pPage->createNodeForCCBI("ccb/basic.ccbi", "BasicInfoView", BasicInfoViewLoader::loader());
+    /*pPage->m_pBasicInfoView = (BasicInfoView*)pPage->createNodeForCCBI("ccb/basic.ccbi", "BasicInfoView", BasicInfoViewLoader::loader());
     if (pPage->m_pBasicInfoView != NULL) {
         pPage->m_pBasicInfoView->setTag(kPlayerInfoTagBasicLayer);
         pPage->addChild(pPage->m_pBasicInfoView);
         pPage->m_pBasicInfoView->sendBasicInfo();
-    }
+    }*/
     
     return pPage;
 }
@@ -94,6 +94,15 @@ CCScene* Page::scene(int chapterId, const stPage *pPage)
         Page *layer = Page::create(scene);
         CC_BREAK_IF(! layer);
         scene->addChild(layer);
+        
+        
+        layer->m_pBasicInfoView = (BasicInfoView*)BasicInfoView::create(scene,layer,callfuncND_selector(Page::showPlayerInfoViewCallback));
+        CC_BREAK_IF(! layer->m_pBasicInfoView);
+        scene->addChild(layer->m_pBasicInfoView,-1000);
+        layer->m_pBasicInfoView->sendBasicInfo();
+        
+        
+        
         layer->turnToPage(chapterId, pPage);
         
     } while (0);
@@ -140,6 +149,7 @@ void Page::turnToPage(int chapterId, const stPage *pPage)
     
     //this->showHeroHeadView();
 }
+
 
 void Page::showBattleView(CCObject *pSender)
 {
@@ -194,6 +204,15 @@ void Page::nextPageCallback(CCNode* pNode, void* data)
     pScene->addChild(pPageLayer, this->getZOrder()-1);
     
     this->autoTurnPage();
+}
+
+void Page::showPlayerInfoViewCallback(CCNode* pNode, void* data){
+    if (this->getChildByTag(kPagePlayerInfo) == NULL && pNode != NULL) {
+        this->m_pBasicInfoView->m_playerInfoView = PlayerInfoView::create(this);
+        
+        this->m_pBasicInfoView->m_playerInfoView->setTag(kPagePlayerInfo);
+        this->addChild(this->m_pBasicInfoView->m_playerInfoView);
+    }
 }
 
 bool Page::ccTouchBegan(cocos2d::CCTouch* touch, cocos2d::CCEvent *pEvent)
