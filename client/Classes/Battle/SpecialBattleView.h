@@ -90,6 +90,8 @@ private:
     
     CCAnimate *animationEffect[4];
     
+    CCAnimate *animationDice;
+    
     int m_nRound;           //current battle round
     
     
@@ -102,6 +104,8 @@ public:
     
     //2. 显示 第几回合
     void showRoundNumber();
+    
+    void showAttacker();
     
     //3. 倒计时,
     void countDown();
@@ -127,7 +131,11 @@ public:
     
     CCNode *getActionNode(GRoleAction tAction);
     
+    CCActionInterval *getMoveLeftToRight(cocos2d::CCCallFuncN *callBack = NULL);
+    
     std::string getActionName(GActionType type);
+    
+    void showSkillName(GRoleAction tAction);
     
     //处理一个行为,对角色属性的影响
     void dealRoleAction(GRole *pRole,GRoleAction tAction);

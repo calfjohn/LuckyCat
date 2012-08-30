@@ -39,7 +39,15 @@ void BattleResultView::initView(LEventData *tEvent)
     
     if (resultOfBattle)
     {
-        resultOfBattle->setString("战斗胜利");
+        if ( tEvent->mBattleProcess.m_battleResult == kBattleResultWin )
+        {
+            resultOfBattle->setString("战斗胜利");
+        }
+        else {
+            resultOfBattle->setString("战斗失败");
+            
+            return;
+        }
     }
     
     CCLabelTTF *labtip = static_cast<CCLabelTTF *>(this->getChildByTag(11));

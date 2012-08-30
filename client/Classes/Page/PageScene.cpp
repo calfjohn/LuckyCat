@@ -159,6 +159,7 @@ void Page::showBattleView(CCObject *pSender)
     //load battle animation first
     CCAnimationCache *cache = CCAnimationCache::sharedAnimationCache();
     cache->addAnimationsWithFile("image/battle/animationsBomb.plist");
+    cache->addAnimationsWithFile("image/battle/animationsDice.plist");
     
     if ( EventListView::getIsInEvent() == false )
     {
