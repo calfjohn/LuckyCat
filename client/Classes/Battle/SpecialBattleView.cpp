@@ -284,14 +284,14 @@ void SpecialBattleView::setData(LEventData *tEvent, cocos2d::CCObject *target, c
     
     GRole roleB_1 = GRole();
     roleB_1.teamId = kGTeamB;
-    roleB_1.pNodeRole = pMonster;
+    roleB_1.pNodeRole = pSpriteMonster;
     roleB_1.pProgressTimer = mHpProgressTimerList[2];
     
     m_mapTeam.clear();
     m_mapTeam["A"][0] = roleA_1;
     m_mapTeam["B"][0] = roleB_1;
     
-    NetManager::shareNetManager()->sendEx(kModeBattle, kDoFight2, callfuncND_selector(SpecialBattleView::responseFight), this, "\"monsterId\": %d", p_CurEvent->targetId[0]);
+    NetManager::shareNetManager()->sendEx(kModeBattle, kDoFight2, callfuncND_selector(SpecialBattleView::responseFight), this, "\"monsterId\": %d",p_CurEvent->targetId);
 }
 
 void SpecialBattleView::callbackRemoveNodeWhenDidAction(CCNode * pNode)
