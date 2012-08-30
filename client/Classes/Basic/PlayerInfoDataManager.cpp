@@ -82,3 +82,12 @@ stActorUserEquipInfo* PlayerInfoDataManager::getUserEquipInfoForId(int equipid){
 stActorUserInfo* PlayerInfoDataManager::getCurUserInfo(){
     return m_curUserInfo;
 }
+
+void PlayerInfoDataManager::setCurUserInfo(stActorUserInfo* info){
+    if (m_curUserInfo != NULL) {
+        delete m_curUserInfo;
+        m_curUserInfo = NULL;
+    }
+    m_curUserInfo = info;
+}
+
