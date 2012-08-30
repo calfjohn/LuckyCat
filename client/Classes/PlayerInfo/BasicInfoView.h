@@ -32,7 +32,9 @@ public:
     
     CCB_STATIC_NEW_AUTORELEASE_OBJECT_WITH_INIT_METHOD(BasicInfoView, create);
     
-    //static BasicInfoView *create(cocos2d::CCObject * pOwner);
+    static BasicInfoView *create(cocos2d::CCObject * pOwner,CCObject *target,SEL_CallFuncND selector);
+    
+    CCNode* createNodeForCCBI(const char *pCCBFileName , const char *pCCNodeName , cocos2d::extension::CCNodeLoader *pCCNodeLoader);
     
     virtual cocos2d::SEL_MenuHandler onResolveCCBCCMenuItemSelector(cocos2d::CCObject * pTarget, cocos2d::CCString * pSelectorName);
     virtual cocos2d::extension::SEL_CCControlHandler onResolveCCBCCControlSelector(cocos2d::CCObject * pTarget, cocos2d::CCString * pSelectorName);
@@ -66,6 +68,8 @@ private:
     cocos2d::CCMenu *m_equipMenu;
     cocos2d::CCMenu *m_settingMenu;
 
+    cocos2d::CCObject* m_pMenuTarget;
+    cocos2d::SEL_CallFuncND m_MenuSelector;
 };
 
 class CCBReader;

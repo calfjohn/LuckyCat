@@ -16,6 +16,10 @@
 #include "extensions/CCTouchPageTurn/CCTouchPageTurn.h"
 #include "LuckySprite.h"
 
+typedef enum{
+    kPagePlayerInfo = 100,
+} PageTag;
+
 class BasicInfoView;
 class HeroHeadView;
 class Page : public cocos2d::extension::CCTouchPageTurn
@@ -52,6 +56,8 @@ protected:
     void showBattleView(CCObject *pSender);
     
     void showHeroHeadView();
+    
+    void showPlayerInfoViewCallback(CCNode* pNode, void* data);
     
     cocos2d::CCLabelTTF *m_title;
     cocos2d::CCLabelTTF *m_content;
