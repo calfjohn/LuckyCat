@@ -96,10 +96,12 @@ CCScene* Page::scene(int chapterId, const stPage *pPage)
         scene->addChild(layer);
         
         
-        layer->m_pBasicInfoView = (BasicInfoView*)BasicInfoView::create(scene,layer,callfuncND_selector(Page::showPlayerInfoViewCallback));
-        CC_BREAK_IF(! layer->m_pBasicInfoView);
-        scene->addChild(layer->m_pBasicInfoView,-1000);
-        layer->m_pBasicInfoView->sendBasicInfo();
+        BasicInfoView* info = (BasicInfoView*)BasicInfoView::create(scene);
+        CC_BREAK_IF(! info);
+        scene->addChild(info,-1000);
+        info->setTag(kPagePlayerInfo);
+        info->sendBasicInfo();
+        info->initBasicMenuTargetAndSel(layer, callfuncND_selector(Page::showPlayerInfoViewCallback));
         
         
         
@@ -204,17 +206,20 @@ void Page::nextPageCallback(CCNode* pNode, void* data)
     Page *pPageLayer = Page::create(pScene);
     pPageLayer->turnToPage(m_nChapterId,pPage);
     pScene->addChild(pPageLayer, this->getZOrder()-1);
-    
+    BasicInfoView* pInfo = (BasicInfoView*)pScene->getChildByTag(kPagePlayerInfo);
+    pInfo->initBasicMenuTargetAndSel(pPageLayer, callfuncND_selector(Page::showPlayerInfoViewCallback));
     this->autoTurnPage();
 }
 
 void Page::showPlayerInfoViewCallback(CCNode* pNode, void* data){
     if (this->getChildByTag(kPagePlayerInfo) == NULL && pNode != NULL) {
-        this->m_pBasicInfoView->m_playerInfoView = PlayerInfoView::create(this);
+        BasicInfoView* pInfo = (BasicInfoView*)pNode;
+        pInfo->m_playerInfoView = PlayerInfoView::create(this);
         
-        this->m_pBasicInfoView->m_playerInfoView->setTag(kPagePlayerInfo);
-        this->addChild(this->m_pBasicInfoView->m_playerInfoView);
+        pInfo->m_playerInfoView->setTag(kPagePlayerInfo);
+        this->addChild(pInfo->m_playerInfoView);
     }
+    
 }
 
 bool Page::ccTouchBegan(cocos2d::CCTouch* touch, cocos2d::CCEvent *pEvent)

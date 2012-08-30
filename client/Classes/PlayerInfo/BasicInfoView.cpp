@@ -76,7 +76,7 @@ CCNode* BasicInfoView::createNodeForCCBI(const char *pCCBFileName , const char *
     return node;
 }
 
-BasicInfoView *BasicInfoView::create(cocos2d::CCObject * pOwner,CCObject *target,SEL_CallFuncND selector)
+BasicInfoView *BasicInfoView::create(cocos2d::CCObject * pOwner)
 {
     cocos2d::extension::CCNodeLoaderLibrary * ccNodeLoaderLibrary = cocos2d::extension::CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
     
@@ -93,8 +93,7 @@ BasicInfoView *BasicInfoView::create(cocos2d::CCObject * pOwner,CCObject *target
     //pInfoView->m_pPlayerEquipInfoView->sendPlayerEquipInfoRequest();
     //pInfoView->m_playerInfoView = (PlayerInfoView*)pInfoView->createNodeForCCBI("ccb/playerinfo.ccbi", "PlayerInfoView", PlayerInfoViewLoader::loader());
     //pInfoView->addChild(pInfoView->m_playerInfoView);
-    pInfoView->m_pMenuTarget = target;
-    pInfoView->m_MenuSelector = selector;
+    
     
     return pInfoView;
 }
@@ -162,6 +161,11 @@ void BasicInfoView::initBasicInfoView(){
     //m_playerInfoView = PlayerInfoView::create(this);
     //this->addChild(m_playerInfoView);
     //m_playerInfoView->hidePlayerInfo();
+}
+
+void BasicInfoView::initBasicMenuTargetAndSel(CCObject *target, SEL_CallFuncND selector){
+    this->m_pMenuTarget = target;
+    this->m_MenuSelector = selector;
 }
 
 void BasicInfoView::setBasicInfoLabelForTag(const int tag, cocos2d::CCString *infomation){
