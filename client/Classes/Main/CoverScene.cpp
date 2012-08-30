@@ -15,6 +15,7 @@
 #include "extensions/CCBReader/CCBReader.h"
 #include "extensions/CCBReader/CCNodeLoaderLibrary.h"
 #include "BasicFunction.h"
+#include "PKListView.h"
 
 #define TAG_BUTTON_BOOK 1
 #define TAG_BUTTON_MAGIC 2
@@ -113,6 +114,10 @@ bool Cover::init()
 void Cover::menuDaggerCallback(CCObject* pSender)
 {
 //    NetManager::shareNetManager()->sendEx(kModeBattle, kDoFight3, callfuncND_selector(Cover::responseFight), this, "\"actorId\": %d", 2);
+    PKListView* pPkList = PKListView::create(this);
+    CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+    pPkList->setPosition(CCPointZero);
+    this->addChild(pPkList);
 }
 
 void Cover::responseFight(CCNode *pNode, void *data)
