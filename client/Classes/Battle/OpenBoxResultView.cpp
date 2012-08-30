@@ -10,6 +10,7 @@
 #include "extensions/CCBReader/CCBReader.h"
 #include "extensions/CCBReader/CCNodeLoaderLibrary.h"
 #include "NetManager.h"
+#include "DictDataManager.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -42,8 +43,28 @@ void OpenBoxResultView::initView(std::vector<stGood> tGoodsList)
     for (std::vector<stGood>::iterator _iter = tGoodsList.begin(); _iter < tGoodsList.end(); _iter++,i++) {
         stGood _goods = *_iter;
         
-        char strChar[512];
-        sprintf(strChar, "获得%d ：%d",_goods.id,_goods.count);
+        char strChar[64];
+        
+        if (_goods.type == 1) {
+            sprintf(strChar, "获得金币 ：%d",_goods.count);
+        }
+        else if (_goods.type == 2)
+        {
+            sprintf(strChar, "获得经验 ：%d",_goods.count);
+        }
+        else if (_goods.type == 3){
+            sprintf(strChar, "获得物品 ：%d",_goods.count);
+        }
+        else if (_goods.type == 4){
+            const stActorEquipInfo *pTempEquip = DictDataManager::shareDictDataManager()->getEquipment(_goods.id);
+            if (pTempEquip) {
+                sprintf(strChar, "获得装备 ：%s %d件",pTempEquip->equipName.c_str(),_goods.count);
+            }
+            else {
+                sprintf(strChar, "获得装备 ：错误id %d",_goods.id);
+            }
+        }
+        
         CCLabelTTF *bonusLabel = CCLabelTTF::create(strChar, CCSizeMake(screanSize.width * 0.8f, screanSize.height * 0.15f ), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter,"Arial", 18);
         bonusLabel->setColor(ccWHITE);
         bonusLabel->setAnchorPoint(CCPointZero);

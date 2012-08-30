@@ -29,12 +29,17 @@ public:
     const stMonster* getMonsterImageId(int monsterId);
     
     const stImage *getImage(int imageId);
+    
+    const stActorEquipInfo *getEquipment(int equipId);
+
 protected:
 	bool init(void);
     
     bool initMonster();
     
     bool initImage();
+    
+    bool initEquipment();
     
 	DictDataManager(void);
 	virtual ~DictDataManager(void);
@@ -57,7 +62,8 @@ protected:
     
     map<int, stMonster> m_mapMonster;
     map<int, stImage> m_mapImage; 
-
+    map<int, stActorEquipInfo> m_mapEuipment;
+    
     CppSQLite3DB m_db;
 };
 
