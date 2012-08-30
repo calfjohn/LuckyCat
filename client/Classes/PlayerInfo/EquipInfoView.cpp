@@ -122,10 +122,16 @@ bool EquipInfoView::initEquipListData(){
 }
 
 bool EquipInfoView::initEquipListView(EquipType type){
-    
+    CCLabelTTF* title = (CCLabelTTF*)this->getChildByTag(kEquipTitle);
     CCArray* items = CCArray::create();
     switch (type) {
         case kEquipHead:
+            title->setString("头部装备");
+            /*if (m_EquipHeadInfos.size() <= 0) {
+                m_selectedEquipData = NULL;
+                m_selectedEquipListLabel = NULL;
+                setEquipInfo(NULL);
+            }*/
             for (int i = 0; i<m_EquipHeadInfos.size(); i++) {
                 stActorUserEquipInfo *info = &(m_EquipHeadInfos[i]);
                 CCLabelTTF* label;
@@ -150,6 +156,12 @@ bool EquipInfoView::initEquipListView(EquipType type){
             }
             break;
         case kEquipHand:
+            title->setString("武器装备");
+            /*if (m_EquipHandInfos.size() <= 0) {
+                m_selectedEquipData = NULL;
+                m_selectedEquipListLabel = NULL;
+                setEquipInfo(NULL);
+            }*/
             for (int i = 0; i<m_EquipHandInfos.size(); i++) {
                 stActorUserEquipInfo *info = &(m_EquipHandInfos[i]);
                 CCLabelTTF* label;
@@ -174,6 +186,12 @@ bool EquipInfoView::initEquipListView(EquipType type){
             }
             break;
         case kEquipBody:
+            title->setString("身体装备");
+            /*if (m_EquipBodyInfos.size() <= 0) {
+                m_selectedEquipData = NULL;
+                m_selectedEquipListLabel = NULL;
+                setEquipInfo(NULL);
+            }*/
             for (int i = 0; i<m_EquipBodyInfos.size(); i++) {
                 stActorUserEquipInfo *info = &(m_EquipBodyInfos[i]);
                 CCLabelTTF* label;
@@ -198,6 +216,12 @@ bool EquipInfoView::initEquipListView(EquipType type){
             }
             break;
         case kEquipFoot:
+            title->setString("腿部装备");
+            /*if (m_EquipFootInfos.size() <= 0) {
+                m_selectedEquipData = NULL;
+                m_selectedEquipListLabel = NULL;
+                setEquipInfo(NULL);
+            }*/
             for (int i = 0; i<m_EquipFootInfos.size(); i++) {
                 stActorUserEquipInfo *info = &(m_EquipFootInfos[i]);
                 CCLabelTTF* label;
@@ -319,6 +343,16 @@ void EquipInfoView::equipListMenuItemCallBack(CCObject *pSender){
 
 void EquipInfoView::setEquipInfo(const stActorEquipInfo *info){
     CCPoint point;
+    
+    /*if (info == NULL) {
+        m_labEquipName = (CCLabelTTF*)this->getChildByTag(11);
+        m_labEquipName->setString("");
+        
+        m_labEquipAttack = (CCLabelTTF*)this->getChildByTag(12);
+        m_labEquipAttack->setString("");
+        
+        return;
+    }*/
 
     if (!info->equipName.empty()) {
         m_labEquipName = (CCLabelTTF*)this->getChildByTag(11);

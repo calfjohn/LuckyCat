@@ -268,4 +268,14 @@ void BasicInfoView::responesBasicInfo(CCNode *pNode, void* data){
     }
 }
 
+void BasicInfoView::updateBasicInfo(stActorUserInfo *info){
+    stActorUserInfo* basic = PlayerInfoDataManager::sharedPlayerInfoDataManager()->getCurUserInfo();
+    if (basic != NULL) {
+        delete basic;
+        basic = NULL;
+    }
+    basic = info;
+    initBasicInfoView();
+}
+
 

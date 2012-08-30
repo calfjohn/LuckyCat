@@ -33,6 +33,7 @@ typedef enum{
     kEquipUp = 5,
     kEquipDown = 6,
     
+    kEquipTitle = 10,
     kEquipFontTakeOff = 16,
     kEquipFontPutOn = 17,
     
