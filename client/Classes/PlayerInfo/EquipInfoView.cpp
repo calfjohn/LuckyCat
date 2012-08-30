@@ -157,7 +157,6 @@ bool EquipInfoView::initEquipListView(EquipType type){
                     info->userPutOn = true;
                     CCString *name = CCString::createWithFormat("%s(当前)",info->equipInfo->equipName.c_str());
                     label = CCLabelTTF::create(name->getCString(), "Arial", 15);
-                    cout << "put on" << endl;
                 }else{
                     label = CCLabelTTF::create(info->equipInfo->equipName.c_str(), "Arial", 15);
                 }
