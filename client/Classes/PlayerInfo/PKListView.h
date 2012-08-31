@@ -13,6 +13,7 @@
 #include <list>
 #include <string.h>
 #include "cocos2d.h"
+#include "Basic.h"
 #include "extensions/CCBReader/CCNodeLoader.h"
 #include "extensions/CCBReader/CCBSelectorResolver.h"
 #include "extensions/CCBReader/CCBMemberVariableAssigner.h"
@@ -36,7 +37,7 @@ private:
     
 private:
     // 存放的List数据
-    std::list<std::string> *m_pDataList;
+    std::list<stPKInfo> m_pDataList;
     CCListView *m_pListView;
     bool m_bFresh;
     
@@ -58,13 +59,16 @@ public:
     
     void onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent);
     
-    virtual bool init();
+    //virtual bool init();
     
     //LAYER_CREATE_FUNC(PKListView);
     
     virtual void visit();
     
     virtual void registerWithTouchDispatcher();
+    
+    void sendPKListInfo();
+    void responesPKListInfo(CCNode *pNode, void* data);
     
 public:
     // 继承自CCListViewDelegate所需要实现的方法
