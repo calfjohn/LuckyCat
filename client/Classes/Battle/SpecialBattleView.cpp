@@ -64,6 +64,8 @@ SpecialBattleView::SpecialBattleView()
     m_nActionNumber = 0;
     m_nCountTime = 0;
     m_nTotalRound = 0;
+    
+    m_OneRoundActionList.clear();
 }
 
 SpecialBattleView::~SpecialBattleView()
@@ -213,7 +215,10 @@ void SpecialBattleView::notificationTouchEvent(LTouchEvent tLTouchEvent)
 void SpecialBattleView::removeAndCleanSelf(float dt)
 {
     if ( m_target && m_pfnSelector )
+    {
         ((m_target)->*(m_pfnSelector))(this, NULL);
+    }
+        
 }
 
 void SpecialBattleView::menuBackCallback(CCObject* pSender)
@@ -614,6 +619,7 @@ void SpecialBattleView::showDiceResult()
                                                                          CCShow::create(),
                                                                          pActionInterval,
                                                                          CCHide::create(),
+                                        CCDelayTime::create(0.1f),
                                                                          CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::showRoleAction)),NULL));
     
 }
@@ -917,13 +923,13 @@ void SpecialBattleView::showSkillName(GRoleAction tAction)
     
     this->addChild(pLayer);
     
-    float t_f_moveTime = 0.5f;
+    float t_f_moveTime = 0.2f;
     float t_f_delayTime = 0.8f;
     
     pLayer->runAction(
                       CCSequence::create(
                                          CCSpawn::create(
-                                                         CCEaseIn::create(CCMoveTo::create(t_f_moveTime, midPos), t_f_moveTime),
+                                                         CCEaseOut::create(CCMoveTo::create(t_f_moveTime, midPos), t_f_moveTime),
                                                          CCFadeIn::create(t_f_moveTime),
                                                          NULL),
                                          CCDelayTime::create(t_f_delayTime),

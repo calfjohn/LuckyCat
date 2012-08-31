@@ -31,8 +31,6 @@ public:
     
     void initView(LEventData *tEvent);
     
-    void initView(std::vector<stGood> tGoodsList);
-    
     void setSelector(cocos2d::CCObject *target, cocos2d::SEL_CallFuncND pfnSelector);
     
     void netCallBack(CCNode* pNode, void* data);

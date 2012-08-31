@@ -22,6 +22,9 @@ class HeroHeadView;
 class EventListView : public cocos2d::CCLayer 
 {
 public:
+    EventListView();
+    virtual ~EventListView();
+    
     static bool getIsInEvent();
     //
     LAYER_CREATE_FUNC(EventListView);

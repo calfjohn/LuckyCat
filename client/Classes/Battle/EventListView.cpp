@@ -28,6 +28,16 @@ using namespace std;
 
 static bool m_bIsInEvent = false;
 
+EventListView::EventListView():p_CurLayer(NULL)
+{
+    mEventDataList.clear();
+}
+
+EventListView::~EventListView()
+{
+    mEventDataList.clear();
+}
+
 bool EventListView::getIsInEvent()
 {
     return m_bIsInEvent;
