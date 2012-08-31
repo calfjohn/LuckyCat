@@ -267,14 +267,15 @@ Actor = Class.extend({
 
             }
         }
-        // 结果只保留2位有效数字
-        ret.attack = Number(ret.attack.toFixed(2));
-        ret.speed = Number(ret.speed.toFixed(2));
-        ret.defence = Number(ret.defence.toFixed(2));
-        ret.life = Number(ret.life.toFixed(2));
+
+
+        // 结果只保留整数
+        ret.attack = ret.attack | 0;
+        ret.speed = ret.speed | 0;
+        ret.defence = ret.defence | 0;
+        ret.life = ret.life | 0;
 
         //技能基本属性
-
         return ret;
     },
 
