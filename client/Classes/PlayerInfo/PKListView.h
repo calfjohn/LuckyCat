@@ -13,6 +13,8 @@
 #include <list>
 #include <string.h>
 #include "cocos2d.h"
+#include "Basic.h"
+#include "TouchLayer.h"
 #include "extensions/CCBReader/CCNodeLoader.h"
 #include "extensions/CCBReader/CCBSelectorResolver.h"
 #include "extensions/CCBReader/CCBMemberVariableAssigner.h"
@@ -25,7 +27,7 @@ USING_NS_CC;
 USING_NS_CC_EXT;
 
 class PKListView
-: public CCLayer
+: public TouchLayer
 , public CCListViewDelegate
 , public cocos2d::extension::CCBMemberVariableAssigner
 , public cocos2d::extension::CCBSelectorResolver
@@ -36,7 +38,7 @@ private:
     
 private:
     // 存放的List数据
-    std::list<std::string> *m_pDataList;
+    std::list<stPKInfo> m_pDataList;
     CCListView *m_pListView;
     bool m_bFresh;
     
@@ -54,17 +56,24 @@ public:
     virtual cocos2d::extension::SEL_CCControlHandler onResolveCCBCCControlSelector(cocos2d::CCObject * pTarget, cocos2d::CCString * pSelectorName);
     virtual bool onAssignCCBMemberVariable(cocos2d::CCObject * pTarget, cocos2d::CCString * pMemberVariableName, cocos2d::CCNode * pNode);
     
+    virtual void notificationTouchEvent(LTouchEvent tLTouchEvent);
+    
     void onMenuItemClicked(cocos2d::CCObject *pTarget);
     
     void onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent);
     
-    virtual bool init();
+    //virtual bool init();
     
     //LAYER_CREATE_FUNC(PKListView);
     
     virtual void visit();
     
-    virtual void registerWithTouchDispatcher();
+    virtual void registerWithTouchDispatcher(void);
+    
+    //virtual void registerWithTouchDispatcher();
+    
+    void sendPKListInfo();
+    void responesPKListInfo(CCNode *pNode, void* data);
     
 public:
     // 继承自CCListViewDelegate所需要实现的方法

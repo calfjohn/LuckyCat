@@ -7,9 +7,12 @@
 //
 
 #include "PKListView.h"
+#include "PKListViewCell.h"
 #include "extensions/CCBReader/CCBSelectorResolver.h"
 #include "extensions/CCBReader/CCBReader.h"
 #include "extensions/CCBReader/CCNodeLoaderLibrary.h"
+#include "NetManager.h"
+
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -64,13 +67,6 @@ PKListView *PKListView::create(cocos2d::CCObject * pOwner)
     //pInfoView->m_pPlayerEquipInfoView->sendPlayerEquipInfoRequest();
     //pInfoView->m_playerInfoView = (PlayerInfoView*)pInfoView->createNodeForCCBI("ccb/playerinfo.ccbi", "PlayerInfoView", PlayerInfoViewLoader::loader());
     //pInfoView->addChild(pInfoView->m_playerInfoView);
-
-    pInfoView->m_pDataList = new std::list<std::string>;
-    for (int i=0; i<15; i++) {
-        char info[20];
-        sprintf(info, "Cell %d", i);
-        pInfoView->m_pDataList->push_back(info);
-    }
     
     CCSize winSize = CCDirector::sharedDirector()->getWinSize();
     
@@ -90,6 +86,24 @@ PKListView *PKListView::create(cocos2d::CCObject * pOwner)
     pInfoView->addChild(listView,2);
     
     pInfoView->m_pListView = listView;
+    
+    pInfoView->sendPKListInfo();
+    
+    if (pInfoView)
+    {
+        CCNode *pBgNode = pInfoView->getChildByTag(0);
+        pInfoView->registerTouchNode(pBgNode);
+        
+        //if (pPlayerInfoView->m_pBasicInfoView)
+        //{
+        //CCNode *pBgNode = pPlayerInfoView->m_pBasicInfoView->getChildByTag(902);
+        //CCNode *pBgTitleNode = pPlayerInfoView->m_pBasicInfoView->getChildByTag(903);
+        //pPlayerInfoView->registerTouchNode(pBgNode);
+        //pPlayerInfoView->registerTouchNode(pBgTitleNode);
+        //}
+        
+        pInfoView->setIsTouchAreaEnabled(true);
+    }
     
     return pInfoView;
 }
@@ -118,52 +132,7 @@ void PKListView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::e
     CCLog("onCCControlButtonClicked success!!!");
 }
 
-
-bool PKListView::init()
-{
-    bool bRet = false;
-    
-    do {
-        CC_BREAK_IF(!CCLayer::init());
-        
-        // 初始化List数据
-        m_pDataList = new std::list<std::string>;
-        for (int i=0; i<15; i++) {
-            char info[20];
-            sprintf(info, "Cell %d", i);
-            m_pDataList->push_back(info);
-        }
-        
-        CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-        
-        
-        // 初始化控件ListView
-        CCListView *listView = CCListView::create(CCListViewModeVertical);
-        CCLOG("getAnchorPoint=%f,%f",listView->getAnchorPoint().x,listView->getAnchorPoint().y);
-        CCSize listSize = CCSizeMake(200 , 300);
-        listView->setContentSize(listSize);
-        listView->setDelegate(this);
-        //listView->setPosition(winSize.width - listSize.width / 2 , winSize.height - listSize.height / 2);
-        listView->setPosition(60 , 90);
-        //listView->setPosition(CCPointZero);
-        //listView->setAnchorPoint(ccp(60, 90));
-        this->addChild(listView);
-        
-        m_pListView = listView;
-        
-        // 初始化控件Label，显示ListView信息
-        //m_InfoLabel = CCLabelTTF::create("Info", "", 32);
-        //m_InfoLabel->setPosition(ccp(winSize.width * 3 / 4, winSize.height / 2));
-        //this->addChild(m_InfoLabel);
-        
-        CCLOG("listView->getSlideDir=%d",listView->getSlideDir());
-        bRet = true;
-    } while (0);
-    
-    return bRet;
-}
-
-void PKListView::registerWithTouchDispatcher(){
+void PKListView::registerWithTouchDispatcher(void){
     CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, -900, false);
 }
 
@@ -178,8 +147,8 @@ void PKListView::visit()
 
 void PKListView::CCListView_numberOfCells(cocos2d::extension::CCListView *listView, cocos2d::extension::CCListViewProtrolData *data)
 {
-    data->nNumberOfRows = m_pDataList->size();
-    CCLOG("PKListView::CCListView_numberOfCells=%u,NumberOfRows=%u,point=%d",m_pDataList->size(),data->nNumberOfRows,data);
+    data->nNumberOfRows = m_pDataList.size();
+    //CCLOG("PKListView::CCListView_numberOfCells=%u,NumberOfRows=%u,point=%d",m_pDataList->size(),data->nNumberOfRows,data);
 }
 
 void PKListView::CCListView_cellForRow(cocos2d::extension::CCListView *listView, cocos2d::extension::CCListViewProtrolData *data)
@@ -193,14 +162,20 @@ void PKListView::CCListView_cellForRow(cocos2d::extension::CCListView *listView,
     cell->setSelectionColor(ccc4(255, 0, 0, 255));
     data->cell = cell;
     
-    std::list<std::string>::iterator it = m_pDataList->begin();
-    CCLOG("PKListView::CCListView_cellForRow   data->nRow=%u,NumberOfRows=%u,point=%d",data->nRow,data->nNumberOfRows,data);
+    std::list<stPKInfo>::iterator it = m_pDataList.begin();
+    //CCLOG("PKListView::CCListView_cellForRow   data->nRow=%u,NumberOfRows=%u,point=%d",data->nRow,data->nNumberOfRows,data);
     for (unsigned int i=0; i<data->nRow; ++i) {
         ++it;
     }
-    CCLabelTTF *cellLabel = CCLabelTTF::create(((std::string) *it).c_str(), "Arial", 15);
-    cellLabel->setPosition(ccp(cellSize.width / 2, cellSize.height / 2));
-    cell->addChild(cellLabel);
+    //CCLabelTTF *cellLabel = CCLabelTTF::create(((std::string) *it).c_str(), "Arial", 15);
+    //cellLabel->setPosition(ccp(cellSize.width / 2, cellSize.height / 2));
+    PKListViewCell *item = (PKListViewCell*)this->createNodeForCCBI("ccb/pklist_scroll.ccbi", "PKListViewCell", PKListViewCellLoader::loader());
+    
+    item->setCellUserId((*it).pkUserId);
+    item->setCellUserLevel((*it).pkUserLevel);
+    item->setCellUserNickName((*it).pkUserNickName.c_str());
+    
+    cell->addChild(item);
 }
 
 void PKListView::CCListView_didClickCellAtRow(cocos2d::extension::CCListView *listView, cocos2d::extension::CCListViewProtrolData *data)
@@ -214,4 +189,43 @@ void PKListView::CCListView_didClickCellAtRow(cocos2d::extension::CCListView *li
 void PKListView::CCListView_didScrollToRow(cocos2d::extension::CCListView *listView, cocos2d::extension::CCListViewProtrolData *data)
 {
     //m_InfoLabel->setString("Scrolling...");
+}
+
+
+void PKListView::sendPKListInfo(){
+    NetManager::shareNetManager()->sendEx(kModePK, kDoGetPKList, callfuncND_selector(PKListView::responesPKListInfo), this, "");
+}
+void PKListView::responesPKListInfo(CCNode *pNode, void* data){
+    if (data != NULL) {
+        Json::Value root;
+        Json::Reader reader;
+        
+        if(reader.parse(NetManager::shareNetManager()->processResponse(data), root)){
+            Json::Value out = root["meta"]["out"];
+            for(int i = 0;i<out.size();i++){
+                //std::cout << "i = " << i << " " << out[i]["equip_id"].asInt() << std::endl;
+                stPKInfo info;
+                info.pkUserId = out[i]["uuid"].asInt();
+                info.pkUserLevel = out[i]["level"].asInt();
+                info.pkUserNickName = out[i]["nickname"].asString();
+                m_pDataList.push_back(info);
+            }
+        }
+    }
+    
+    m_pListView->reload();
+}
+
+void PKListView::notificationTouchEvent(LTouchEvent tLTouchEvent){
+    if (tLTouchEvent == kLTouchEventOutsideTouchArea) {
+        removeFromParentAndCleanup(true);
+        CCLog("kLTouchEvent OutsideTouchArea");
+    }
+    else if (tLTouchEvent == kLTouchEventInsideTouchArea)
+    {
+        CCLog("kLTouchEvent InsideTouchArea");
+    }
+    else {
+        CCLog("kLTouchEvent Other...");
+    }
 }

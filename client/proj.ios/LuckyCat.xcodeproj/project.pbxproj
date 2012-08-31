@@ -84,6 +84,7 @@
 		FA5A00EE15DE187F00C1A9B9 /* EquipInfoView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA5A00EC15DE187F00C1A9B9 /* EquipInfoView.cpp */; };
 		FA8C106D15DA585000FF3FA4 /* PlayerInfoView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA8C106B15DA585000FF3FA4 /* PlayerInfoView.cpp */; };
 		FAC9A8D115E3954E00A5DC8C /* PlayerInfoDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FAC9A8CF15E3954E00A5DC8C /* PlayerInfoDataManager.cpp */; };
+		FAED5F2315F0961400C3E05F /* PKListViewCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FAED5F2115F0961400C3E05F /* PKListViewCell.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -233,6 +234,8 @@
 		FA8C106C15DA585000FF3FA4 /* PlayerInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerInfoView.h; sourceTree = "<group>"; };
 		FAC9A8CF15E3954E00A5DC8C /* PlayerInfoDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerInfoDataManager.cpp; sourceTree = "<group>"; };
 		FAC9A8D015E3954E00A5DC8C /* PlayerInfoDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerInfoDataManager.h; sourceTree = "<group>"; };
+		FAED5F2115F0961400C3E05F /* PKListViewCell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PKListViewCell.cpp; sourceTree = "<group>"; };
+		FAED5F2215F0961400C3E05F /* PKListViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKListViewCell.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -367,6 +370,8 @@
 		15D5106E15CA14DC00FE43A8 /* PlayerInfo */ = {
 			isa = PBXGroup;
 			children = (
+				FAED5F2115F0961400C3E05F /* PKListViewCell.cpp */,
+				FAED5F2215F0961400C3E05F /* PKListViewCell.h */,
 				FA3D8BA315EDC00000E3438D /* PKListView.cpp */,
 				FA3D8BA415EDC00000E3438D /* PKListView.h */,
 				18C1935215E32BFC005A1D0E /* BasicInfoView.cpp */,
@@ -765,6 +770,7 @@
 				FAC9A8D115E3954E00A5DC8C /* PlayerInfoDataManager.cpp in Sources */,
 				1845BDED15E5E47300A5ACA6 /* TouchLayer.cpp in Sources */,
 				FA3D8BA515EDC00000E3438D /* PKListView.cpp in Sources */,
+				FAED5F2315F0961400C3E05F /* PKListViewCell.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

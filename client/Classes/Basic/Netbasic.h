@@ -17,6 +17,7 @@ enum ModeRequestType
     kModeActor,
     kModeBox,
     kModeBattle,
+    kModePK,
 	//add more
 
 	MOD_COUNT,
@@ -28,6 +29,7 @@ const std::string g_modNames[MOD_COUNT] = {
     "actor",
     "box",
     "battle",
+    "pk",
     
     //add more
 };
@@ -45,6 +47,7 @@ enum DoRequestType
     kDoGetEquippedEquipment,
     kDoGetEventList,
     kDoChangeEquipmentInfo,
+    kDoGetPKList,
     
 	DO_COUNT,
 };
@@ -61,6 +64,7 @@ const std::string g_doNames[DO_COUNT] = {
     "getEquippedEquipment",
     "getEventList",
     "changeEquipmentInfo",
+    "getPKList",
 };
 
 const std::string g_url[DO_COUNT] = {
@@ -75,11 +79,13 @@ const std::string g_url[DO_COUNT] = {
     "actor/getEquippedEquipment",
     "event/getEventList/",
     "actor/changeEquipmentInfo",
+    "pk/getPKList",
 };
 
 
 const int g_doVersion[DO_COUNT] = {
 	1,
+    1,
     1,
     1,
     1,

@@ -165,6 +165,12 @@ typedef struct
     int targetId;		//id of target.
 }stEvent;
 
+typedef struct{
+    int             pkUserId;
+    std::string     pkUserNickName;
+    int             pkUserLevel;
+}stPKInfo;
+
 
 #endif
 
