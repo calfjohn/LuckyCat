@@ -20,6 +20,10 @@ PlayerInfoDataManager::PlayerInfoDataManager(){
     m_curUserInfo = NULL;
 }
 PlayerInfoDataManager::~PlayerInfoDataManager(){
+    if (m_curUserInfo != NULL) {
+        delete m_curUserInfo;
+        m_curUserInfo = NULL;
+    }
     
 }
 
@@ -84,11 +88,24 @@ stActorUserInfo* PlayerInfoDataManager::getCurUserInfo(){
 }
 
 void PlayerInfoDataManager::setCurUserInfo(stActorUserInfo* info){
-    if (m_curUserInfo != NULL) {
-        delete m_curUserInfo;
-        m_curUserInfo = NULL;
+    if (m_curUserInfo == NULL) {
+        m_curUserInfo = new stActorUserInfo();
     }
-    m_curUserInfo = info;
+    if (info != NULL) {
+        m_curUserInfo->userNickName = info->userNickName;
+        m_curUserInfo->userImageId = info->userImageId;
+        m_curUserInfo->userLevel = info->userLevel;
+        m_curUserInfo->userExp = info->userExp;
+        m_curUserInfo->userHp = info->userHp;
+        m_curUserInfo->userCareerId = info->userCareerId;
+        m_curUserInfo->userChapterId = info->userChapterId;
+        m_curUserInfo->userPageId = info->userPageId;
+        m_curUserInfo->userAttack = info->userAttack;
+        m_curUserInfo->userDefence = info->userDefence;
+        m_curUserInfo->userSpeed = info->userSpeed;
+        m_curUserInfo->userMaxHp = info->userMaxHp;
+    }
+    //m_curUserInfo = info;
 }
 
 void PlayerInfoDataManager::setCurUserInfoAttack(float attack){

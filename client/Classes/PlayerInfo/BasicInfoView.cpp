@@ -233,37 +233,40 @@ void BasicInfoView::responesBasicInfo(CCNode *pNode, void* data){
         Json::Reader reader;
         
         if(reader.parse(NetManager::shareNetManager()->processResponse(data), root)){
-            stActorUserInfo* info = PlayerInfoDataManager::sharedPlayerInfoDataManager()->getCurUserInfo();
-            if(info == NULL){
-                info = new stActorUserInfo();
-                PlayerInfoDataManager::sharedPlayerInfoDataManager()->setCurUserInfo(info);
-            }
-            info->userNickName = root["meta"]["out"]["nickname"].asCString();
+            //stActorUserInfo* info = PlayerInfoDataManager::sharedPlayerInfoDataManager()->getCurUserInfo();
+            //if(info == NULL){
+                //info = new stActorUserInfo();
+                //PlayerInfoDataManager::sharedPlayerInfoDataManager()->setCurUserInfo(info);
+            //}
+            stActorUserInfo info;
+            info.userNickName = root["meta"]["out"]["nickname"].asCString();
             //cocos2d::CCString* strNickname = cocos2d::CCString::createWithFormat("名称：%s",info->userNickName.c_str());
             //setBasicInfoLabelForTag(kNickNameInfo,strNickname);
             
-            info->userLevel = root["meta"]["out"]["level"].asInt();
+            info.userLevel = root["meta"]["out"]["level"].asInt();
             //cocos2d::CCString* strLevel = cocos2d::CCString::createWithFormat("等级：%d",info->userLevel);
             //setBasicInfoLabelForTag(kLevelInfo, strLevel);
             
             //info->userExp = root["meta"]["out"]["exp"].asInt();
             //setPlayerInfoLabelForTag(kLevelInfo, cocos2d::CCString::createWithFormat("%d",info->userExp));
-            info->userHp = root["meta"]["out"]["hp"].asInt();
+            info.userHp = root["meta"]["out"]["hp"].asInt();
             //cocos2d::CCString* strHp = cocos2d::CCString::createWithFormat("H  P：%d",info->userHp);
             //setBasicInfoLabelForTag(kHpInfo, strHp);
             
-            info->userAttack = root["meta"]["out"]["attack"].asDouble();
+            info.userAttack = root["meta"]["out"]["attack"].asDouble();
             //cocos2d::CCString* strAttack = cocos2d::CCString::createWithFormat("攻击：%d",(int)info->userAttack);
             //setBasicInfoLabelForTag(kAttackInfo, strAttack);
             
-            info->userDefence = root["meta"]["out"]["defence"].asDouble();
+            info.userDefence = root["meta"]["out"]["defence"].asDouble();
             //cocos2d::CCString* strDefence = cocos2d::CCString::createWithFormat("防御：%d",(int)info->userDefence);
             //setBasicInfoLabelForTag(kRefenshInfo, strDefence);
             
-            info->userSpeed = root["meta"]["out"]["speed"].asDouble();
+            info.userSpeed = root["meta"]["out"]["speed"].asDouble();
             //cocos2d::CCString* strSpeed = cocos2d::CCString::createWithFormat("速度：%d",(int)info->userSpeed);
             //setBasicInfoLabelForTag(kSpeedInfo, strSpeed);
-            info->userExp = root["meta"]["out"]["exp"].asInt();
+            info.userExp = root["meta"]["out"]["exp"].asInt();
+            
+            PlayerInfoDataManager::sharedPlayerInfoDataManager()->setCurUserInfo(&info);
             initBasicInfoView();
         }
     }
