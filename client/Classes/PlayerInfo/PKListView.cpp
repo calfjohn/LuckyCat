@@ -89,6 +89,22 @@ PKListView *PKListView::create(cocos2d::CCObject * pOwner)
     
     pInfoView->sendPKListInfo();
     
+    if (pInfoView)
+    {
+        CCNode *pBgNode = pInfoView->getChildByTag(0);
+        pInfoView->registerTouchNode(pBgNode);
+        
+        //if (pPlayerInfoView->m_pBasicInfoView)
+        //{
+        //CCNode *pBgNode = pPlayerInfoView->m_pBasicInfoView->getChildByTag(902);
+        //CCNode *pBgTitleNode = pPlayerInfoView->m_pBasicInfoView->getChildByTag(903);
+        //pPlayerInfoView->registerTouchNode(pBgNode);
+        //pPlayerInfoView->registerTouchNode(pBgTitleNode);
+        //}
+        
+        pInfoView->setIsTouchAreaEnabled(true);
+    }
+    
     return pInfoView;
 }
 
@@ -116,51 +132,7 @@ void PKListView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::e
     CCLog("onCCControlButtonClicked success!!!");
 }
 
-/*bool PKListView::init()
-{
-    bool bRet = false;
-    
-    do {
-        CC_BREAK_IF(!CCLayer::init());
-        
-        // 初始化List数据
-        m_pDataList = new std::list<std::string>;
-        for (int i=0; i<15; i++) {
-            char info[20];
-            sprintf(info, "Cell %d", i);
-            m_pDataList->push_back(info);
-        }
-        
-        CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-        
-        
-        // 初始化控件ListView
-        CCListView *listView = CCListView::create(CCListViewModeVertical);
-        CCLOG("getAnchorPoint=%f,%f",listView->getAnchorPoint().x,listView->getAnchorPoint().y);
-        CCSize listSize = CCSizeMake(200 , 300);
-        listView->setContentSize(listSize);
-        listView->setDelegate(this);
-        //listView->setPosition(winSize.width - listSize.width / 2 , winSize.height - listSize.height / 2);
-        listView->setPosition(60 , 90);
-        //listView->setPosition(CCPointZero);
-        //listView->setAnchorPoint(ccp(60, 90));
-        this->addChild(listView);
-        
-        m_pListView = listView;
-        
-        // 初始化控件Label，显示ListView信息
-        //m_InfoLabel = CCLabelTTF::create("Info", "", 32);
-        //m_InfoLabel->setPosition(ccp(winSize.width * 3 / 4, winSize.height / 2));
-        //this->addChild(m_InfoLabel);
-        
-        CCLOG("listView->getSlideDir=%d",listView->getSlideDir());
-        bRet = true;
-    } while (0);
-    
-    return bRet;
-}*/
-
-void PKListView::registerWithTouchDispatcher(){
+void PKListView::registerWithTouchDispatcher(void){
     CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, -900, false);
 }
 
@@ -242,4 +214,18 @@ void PKListView::responesPKListInfo(CCNode *pNode, void* data){
     }
     
     m_pListView->reload();
+}
+
+void PKListView::notificationTouchEvent(LTouchEvent tLTouchEvent){
+    if (tLTouchEvent == kLTouchEventOutsideTouchArea) {
+        removeFromParentAndCleanup(true);
+        CCLog("kLTouchEvent OutsideTouchArea");
+    }
+    else if (tLTouchEvent == kLTouchEventInsideTouchArea)
+    {
+        CCLog("kLTouchEvent InsideTouchArea");
+    }
+    else {
+        CCLog("kLTouchEvent Other...");
+    }
 }
