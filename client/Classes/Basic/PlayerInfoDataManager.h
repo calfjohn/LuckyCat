@@ -32,8 +32,13 @@ public:
     stActorUserEquipInfo* getUserEquipInfoForId(int equipid);
     
     stActorUserInfo* getCurUserInfo();
+    std::string getCurUserInfoNickname();
     
     void setCurUserInfo(stActorUserInfo* info);
+    
+    void setCurUserInfoAttack(float attack);
+    void setCurUserInfoDefence(float defence);
+    void setCurUserInfoSpeed(float speed);
     
 protected:
     PlayerInfoDataManager();
@@ -49,6 +54,7 @@ protected:
 		{
 			if(PlayerInfoDataManager::m_pInstance)
 			{
+                delete PlayerInfoDataManager::m_pInstance->m_curUserInfo;
 				delete PlayerInfoDataManager::m_pInstance;
 				PlayerInfoDataManager::m_pInstance = NULL;
 			}
