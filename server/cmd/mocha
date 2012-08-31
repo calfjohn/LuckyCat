@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+SHELL_FILE_PATCH=${PWD}/${0%/*};
+$SHELL_FILE_PATCH/../node_modules/mocha/bin/mocha $@
