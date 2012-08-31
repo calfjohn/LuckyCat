@@ -225,7 +225,7 @@ Actor = Class.extend({
             attack: 0,
             defence: 0,
             speed: 0,
-            life: 0
+            hp: 0
         };
 
         //玩家基本属性
@@ -233,7 +233,7 @@ Actor = Class.extend({
         var career = DictManager.getCareerByID(me.career_id);
         ret.attack = career.attack*Math.pow(1 + career.attack_growth, me.level);
         ret.defence = career.defence*Math.pow(1 + career.defence_growth, me.level);
-        ret.life = career.life*Math.pow(1 + career.life_growth, me.level);
+        ret.hp = career.life*Math.pow(1 + career.life_growth, me.level);
         ret.speed = career.speed*Math.pow(1 + career.speed_growth, me.level);
 
         //装备基本属性
@@ -262,8 +262,8 @@ Actor = Class.extend({
 
                 // calculate life
                 var life = eq_dict_info.life;
-                ret.life += life * (1 + level_growth.growth);
-                ret.life += life * (1 + rank_growth.growth);
+                ret.hp += life * (1 + level_growth.growth);
+                ret.hp += life * (1 + rank_growth.growth);
 
             }
         }
@@ -273,7 +273,7 @@ Actor = Class.extend({
         ret.attack = ret.attack | 0;
         ret.speed = ret.speed | 0;
         ret.defence = ret.defence | 0;
-        ret.life = ret.life | 0;
+        ret.hp = ret.hp | 0;
 
         //技能基本属性
         return ret;

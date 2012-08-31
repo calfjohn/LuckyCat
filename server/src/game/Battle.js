@@ -216,7 +216,7 @@ Battle = {
         tempSuckBlood = tempSuckBlood | 0;
 
         attacker.hpEx += tempSuckBlood;
-        if(attacker.hpEx > attacker.life)
+        if(attacker.hpEx > attacker.hp)
         {
             attacker.hpEx = attacker.hp;
         }
@@ -308,7 +308,16 @@ Battle = {
             if(Battle.versus(attacker, defender, battleResult))
             {
                 //战斗结束
-                battleResult.result.state = (defender.hpEx == 0 ? 1: 0);
+                if(defender.hpEx == 0)
+                {
+                    //防守方挂了
+                    battleResult.result.state = (defender.teamId == "B" ? 1: 0);
+                }
+                else// attaker.hpEx == 0
+                {
+                    //进攻方挂了
+                    battleResult.result.state = (attacker.teamId == "B" ? 1: 0);
+                }
                 battleResult.result.type = fightType;
                 break;
             }
