@@ -235,7 +235,8 @@ void BasicInfoView::responesBasicInfo(CCNode *pNode, void* data){
         if(reader.parse(NetManager::shareNetManager()->processResponse(data), root)){
             stActorUserInfo* info = PlayerInfoDataManager::sharedPlayerInfoDataManager()->getCurUserInfo();
             if(info == NULL){
-                return;
+                info = new stActorUserInfo();
+                PlayerInfoDataManager::sharedPlayerInfoDataManager()->setCurUserInfo(info);
             }
             info->userNickName = root["meta"]["out"]["nickname"].asCString();
             //cocos2d::CCString* strNickname = cocos2d::CCString::createWithFormat("名称：%s",info->userNickName.c_str());
@@ -272,5 +273,6 @@ void BasicInfoView::updateBasicInfo(stActorUserInfo *info){
     PlayerInfoDataManager::sharedPlayerInfoDataManager()->setCurUserInfo(info);
     initBasicInfoView();
 }
+
 
 

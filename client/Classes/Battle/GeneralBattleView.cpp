@@ -134,7 +134,7 @@ void GeneralBattleView::setData(LEventData *tEvent, cocos2d::CCObject *target, c
     LuckySprite *pSpriteMonster = static_cast<LuckySprite *>(this->getChildByTag(TAG_MONSTER));
     if (pSpriteMonster)
     {
-        const stMonster * pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(tEvent->pStEvent->targetId);
+        const stMonster * pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(tEvent->targetId);
         pSpriteMonster->setNewTexture(pMonster->imageId);
     }
     

@@ -82,6 +82,8 @@ public:
     
     bool initEquipListView(EquipType type);
     
+    void deleteEquipListData();
+    
     void EquipViewBtnCallback(cocos2d::CCObject *pTarget);
     
     void onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extension::CCControlEvent pCCControlEvent);
@@ -139,7 +141,7 @@ private:
     
     void setPlayerEquipInfo();
     
-    void setEquipInfo(const stActorEquipInfo *info);
+    void setEquipInfo(const stActorUserEquipInfo *info);
     
     void equipListMenuItemCallBack(CCObject *pSender);
     

@@ -11,6 +11,7 @@
 #include "FuzzyBgView.h"
 #include "NetManager.h"
 #include "PlayerInfoView.h"
+#include "BasicInfoView.h"
 #include "PlayerInfoDataManager.h"
 #include "extensions/CCBReader/CCBSelectorResolver.h"
 #include "extensions/CCBReader/CCBReader.h"
@@ -122,6 +123,7 @@ bool EquipInfoView::initEquipListData(){
 }
 
 bool EquipInfoView::initEquipListView(EquipType type){
+    deleteEquipListData();
     CCLabelTTF* title = (CCLabelTTF*)this->getChildByTag(kEquipTitle);
     CCArray* items = CCArray::create();
     switch (type) {
@@ -151,7 +153,7 @@ bool EquipInfoView::initEquipListView(EquipType type){
                 if(i == 0){
                     m_selectedEquipData = info;
                     m_selectedEquipListLabel = item;
-                    setEquipInfo(info->equipInfo);
+                    setEquipInfo(info);
                 }
             }
             break;
@@ -181,7 +183,7 @@ bool EquipInfoView::initEquipListView(EquipType type){
                 if(i == 0){
                     m_selectedEquipData = info;
                     m_selectedEquipListLabel = item;
-                    setEquipInfo(info->equipInfo);
+                    setEquipInfo(info);
                 }
             }
             break;
@@ -211,7 +213,7 @@ bool EquipInfoView::initEquipListView(EquipType type){
                 if(i == 0){
                     m_selectedEquipData = info;
                     m_selectedEquipListLabel = item;
-                    setEquipInfo(info->equipInfo);
+                    setEquipInfo(info);
                 }
             }
             break;
@@ -241,7 +243,7 @@ bool EquipInfoView::initEquipListView(EquipType type){
                 if(i == 0){
                     m_selectedEquipData = info;
                     m_selectedEquipListLabel = item;
-                    setEquipInfo(info->equipInfo);
+                    setEquipInfo(info);
                 }
             }
             break;
@@ -280,6 +282,16 @@ bool EquipInfoView::initEquipListView(EquipType type){
     this->addChild(m_EquipListView);
     
     return true;
+}
+
+void EquipInfoView::deleteEquipListData(){
+    m_labEquipName = (CCLabelTTF*)this->getChildByTag(11);
+    m_labEquipName->setString("");
+    
+    m_labEquipAttack = (CCLabelTTF*)this->getChildByTag(12);
+    m_labEquipAttack->setString("");
+    
+    m_selectedEquipData = NULL;
 }
 
 void EquipInfoView::EquipViewBtnCallback(cocos2d::CCObject *pTarget){
@@ -338,11 +350,11 @@ void EquipInfoView::equipListMenuItemCallBack(CCObject *pSender){
             break;
     }
     m_selectedEquipData = info;
-    setEquipInfo(info->equipInfo);
+    setEquipInfo(info);
 }
 
-void EquipInfoView::setEquipInfo(const stActorEquipInfo *info){
-    CCPoint point;
+void EquipInfoView::setEquipInfo(const stActorUserEquipInfo *info){
+    //CCPoint point;
     
     /*if (info == NULL) {
         m_labEquipName = (CCLabelTTF*)this->getChildByTag(11);
@@ -354,30 +366,30 @@ void EquipInfoView::setEquipInfo(const stActorEquipInfo *info){
         return;
     }*/
 
-    if (!info->equipName.empty()) {
+    if (!info->equipInfo->equipName.empty()) {
         m_labEquipName = (CCLabelTTF*)this->getChildByTag(11);
-        m_labEquipName->setString(info->equipName.c_str());
+        m_labEquipName->setString(info->equipInfo->equipName.c_str());
     }
-    if (info->equipAttack != 0) {
+    if (info->equipInfo->equipAttack != 0) {
         m_labEquipAttack = (CCLabelTTF*)this->getChildByTag(12);
-        CCString *attack = CCString::createWithFormat("%d",info->equipAttack);
+        CCString *attack = CCString::createWithFormat("%d",info->equipInfo->equipAttack);
         m_labEquipAttack->setString(attack->getCString());
-    }else if(info->equipDefence != 0 ){
+    }else if(info->equipInfo->equipDefence != 0 ){
         m_labEquipAttack = (CCLabelTTF*)this->getChildByTag(12);
-        CCString *attack = CCString::createWithFormat("%d",info->equipDefence);
+        CCString *attack = CCString::createWithFormat("%d",info->equipInfo->equipDefence);
         m_labEquipAttack->setString(attack->getCString());
-    }else if(info->equipSpeed != 0 ){
+    }else if(info->equipInfo->equipSpeed != 0 ){
         m_labEquipAttack = (CCLabelTTF*)this->getChildByTag(12);
-        CCString *attack = CCString::createWithFormat("%d",info->equipSpeed);
+        CCString *attack = CCString::createWithFormat("%d",info->equipInfo->equipSpeed);
         m_labEquipAttack->setString(attack->getCString());
-    }else if(info->equipLife != 0) {
+    }else if(info->equipInfo->equipLife != 0) {
         m_labEquipAttack = (CCLabelTTF*)this->getChildByTag(12);
-        CCString *attack = CCString::createWithFormat("%d",info->equipLife);
+        CCString *attack = CCString::createWithFormat("%d",info->equipInfo->equipLife);
         m_labEquipAttack->setString(attack->getCString());
     }
     CCMenu* menu = (CCMenu*)this->getChildByTag(kEquipMenu);
     bool havePutOn;
-    switch (m_selectedEquipData->userEquipType) {
+    switch (info->userEquipType) {
         case kEquipHead:
             havePutOn = m_bHeadHavePutOn;
             break;
@@ -394,7 +406,7 @@ void EquipInfoView::setEquipInfo(const stActorEquipInfo *info){
             break;
     }
     if (havePutOn) {
-        if (m_selectedEquipData->userPutOn) {
+        if (info->userPutOn) {
             CCMenuItemImage *puton = (CCMenuItemImage*)menu->getChildByTag(kEquipPutOn);
             puton->setEnabled(false);
             CCLabelTTF *pstring = (CCLabelTTF*)this->getChildByTag(kEquipFontPutOn);
@@ -681,16 +693,16 @@ void EquipInfoView::responsePutOnCurEquip(CCNode *pNode, void* data){
     
     switch (m_selectedEquipData->userEquipType) {
         case kEquipHead:
-            m_iEquipCurHeadId = m_selectedEquipData->userEquipId;
+            m_iEquipCurHeadId = m_selectedEquipData->userListId;
             break;
         case kEquipHand:
-            m_iEquipCurHandId = m_selectedEquipData->userEquipId;
+            m_iEquipCurHandId = m_selectedEquipData->userListId;
             break;
         case kEquipBody:
-            m_iEquipCurBodyId = m_selectedEquipData->userEquipId;
+            m_iEquipCurBodyId = m_selectedEquipData->userListId;
             break;
         case kEquipFoot:
-            m_iEquipCurFootId = m_selectedEquipData->userEquipId;
+            m_iEquipCurFootId = m_selectedEquipData->userListId;
             break;
         default:
             break;
@@ -700,14 +712,18 @@ void EquipInfoView::responsePutOnCurEquip(CCNode *pNode, void* data){
     Json::Reader reader;
     
     if(reader.parse(NetManager::shareNetManager()->processResponse(data), root)){
-        stActorUserInfo* info = PlayerInfoDataManager::sharedPlayerInfoDataManager()->getCurUserInfo();
-        if(info == NULL){
-            return;
-        }
+        //stActorUserInfo* info = PlayerInfoDataManager::sharedPlayerInfoDataManager()->getCurUserInfo();
+        //if(info == NULL){
+        //    return;
+        //}
         Json::Value now = root["meta"]["out"]["now"];
-        info->userAttack = now["attack"].asDouble();
-        info->userDefence = now["defence"].asDouble();
-        info->userSpeed = now["speed"].asDouble();
+        //info->userAttack = now["attack"].asDouble();
+        //info->userDefence = now["defence"].asDouble();
+        //info->userSpeed = now["speed"].asDouble();
+        
+        PlayerInfoDataManager::sharedPlayerInfoDataManager()->setCurUserInfoAttack(now["attack"].asDouble());
+        PlayerInfoDataManager::sharedPlayerInfoDataManager()->setCurUserInfoDefence(now["defence"].asDouble());
+        PlayerInfoDataManager::sharedPlayerInfoDataManager()->setCurUserInfoSpeed(now["speed"].asDouble());
         
         Json::Value delta = root["meta"]["out"]["delta"];
         float attack = delta["attack"].asDouble();
@@ -715,6 +731,10 @@ void EquipInfoView::responsePutOnCurEquip(CCNode *pNode, void* data){
         float speed = delta["speed"].asDouble();
         playEquipPutOnAnimation(attack,defence,speed);
         //m_bIsChangeEquip = false;
+        
+        CCScene *scene = CCDirector::sharedDirector()->getRunningScene();
+        BasicInfoView *basic = (BasicInfoView*)scene->getChildByTag(kBasicInfo);
+        basic->initBasicInfoView();
     }
     
 }
@@ -774,14 +794,18 @@ void EquipInfoView::responseTakeOffCurEquip(CCNode *pNode, void* data){
     Json::Reader reader;
     
     if(reader.parse(NetManager::shareNetManager()->processResponse(data), root)){
-        stActorUserInfo* info = PlayerInfoDataManager::sharedPlayerInfoDataManager()->getCurUserInfo();
-        if(info == NULL){
-            return;
-        }
+        //stActorUserInfo* info = PlayerInfoDataManager::sharedPlayerInfoDataManager()->getCurUserInfo();
+        //if(info == NULL){
+        //    return;
+        //}
         Json::Value now = root["meta"]["out"]["now"];
-        info->userAttack = now["attack"].asDouble();
-        info->userDefence = now["defence"].asDouble();
-        info->userSpeed = now["speed"].asDouble();
+        PlayerInfoDataManager::sharedPlayerInfoDataManager()->setCurUserInfoAttack(now["attack"].asDouble());
+        PlayerInfoDataManager::sharedPlayerInfoDataManager()->setCurUserInfoDefence(now["defence"].asDouble());
+        PlayerInfoDataManager::sharedPlayerInfoDataManager()->setCurUserInfoSpeed(now["speed"].asDouble());
+    
+        //info->userAttack = now["attack"].asDouble();
+        //info->userDefence = now["defence"].asDouble();
+        //info->userSpeed = now["speed"].asDouble();
         
         Json::Value delta = root["meta"]["out"]["delta"];
         float attack = delta["attack"].asDouble();
@@ -789,6 +813,10 @@ void EquipInfoView::responseTakeOffCurEquip(CCNode *pNode, void* data){
         float speed = delta["speed"].asDouble();
         playEquipTakeOffAnimation(attack,defence,speed);
         //m_bIsChangeEquip = true;
+        
+        CCScene *scene = CCDirector::sharedDirector()->getRunningScene();
+        BasicInfoView *basic = (BasicInfoView*)scene->getChildByTag(kBasicInfo);
+        basic->initBasicInfoView();
     }
     
 }

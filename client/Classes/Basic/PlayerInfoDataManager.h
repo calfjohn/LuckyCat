@@ -35,6 +35,10 @@ public:
     
     void setCurUserInfo(stActorUserInfo* info);
     
+    void setCurUserInfoAttack(float attack);
+    void setCurUserInfoDefence(float defence);
+    void setCurUserInfoSpeed(float speed);
+    
 protected:
     PlayerInfoDataManager();
     virtual ~PlayerInfoDataManager();

@@ -28,36 +28,36 @@ EventDataManager::XLRelease EventDataManager::Garbo;
 
 EventDataManager::EventDataManager()
 {
-    mEventMap.clear();
+//    mEventMap.clear();
     mTalkMap.clear();
     mNpcMap.clear();
-    mCurEventMap.clear();
+//    mCurEventMap.clear();
 }
 
 EventDataManager::~EventDataManager()
 {
-    this->deleteEventMap();
+//    this->deleteEventMap();
     this->deleteTalkMap();
     this->deleteNpcMap();
-    this->deleteCurEventMap();
+//    this->deleteCurEventMap();
 }
 
 void EventDataManager::init()
 {
     this->readDB();
 }
-
-void EventDataManager::deleteEventMap()
-{
-    for (std::map<int,stEvent *>::iterator _iter = mEventMap.begin(); _iter != mEventMap.end() ; _iter++ )
-    {
-        stEvent *tmpEvent = _iter->second;
-        
-        CC_SAFE_FREE(tmpEvent);
-    }
-    
-    mEventMap.clear();
-}
+//
+//void EventDataManager::deleteEventMap()
+//{
+//    for (std::map<int,stEvent *>::iterator _iter = mEventMap.begin(); _iter != mEventMap.end() ; _iter++ )
+//    {
+//        stEvent *tmpEvent = _iter->second;
+//        
+//        CC_SAFE_FREE(tmpEvent);
+//    }
+//    
+//    mEventMap.clear();
+//}
 
 void EventDataManager::deleteTalkMap()
 {
@@ -83,30 +83,30 @@ void EventDataManager::deleteNpcMap()
     mNpcMap.clear();
 }
 
-void EventDataManager::deleteCurEventMap()
-{
-    for (std::map<int,stEvent *>::iterator _iter = mCurEventMap.begin(); _iter != mCurEventMap.end() ; _iter++ )
-    {
-        stEvent *tmpEvent = _iter->second;
-        
-        CC_SAFE_FREE(tmpEvent);
-    }
-    
-    mCurEventMap.clear();
-}
+//void EventDataManager::deleteCurEventMap()
+//{
+//    for (std::map<int,stEvent *>::iterator _iter = mCurEventMap.begin(); _iter != mCurEventMap.end() ; _iter++ )
+//    {
+//        stEvent *tmpEvent = _iter->second;
+//        
+//        CC_SAFE_FREE(tmpEvent);
+//    }
+//    
+//    mCurEventMap.clear();
+//}
 
-void EventDataManager::setEventMap(std::vector<stEvent *> tmpVector)
-{
-    this->deleteEventMap();
-    
-    std::vector<stEvent *>::iterator _iter = tmpVector.begin();
-    for (; _iter != tmpVector.end(); _iter++)
-    {
-        stEvent *tmpEvent = *_iter;
-        
-        mEventMap.insert(make_pair(tmpEvent->id, tmpEvent));
-    }
-}
+//void EventDataManager::setEventMap(std::vector<stEvent *> tmpVector)
+//{
+//    this->deleteEventMap();
+//    
+//    std::vector<stEvent *>::iterator _iter = tmpVector.begin();
+//    for (; _iter != tmpVector.end(); _iter++)
+//    {
+//        stEvent *tmpEvent = *_iter;
+//        
+//        mEventMap.insert(make_pair(tmpEvent->id, tmpEvent));
+//    }
+//}
 
 void EventDataManager::setTalkMap(std::vector<stTalk *> tmpVector)
 {
@@ -134,18 +134,18 @@ void EventDataManager::setNpcMap(std::vector<stNPC *> tmpVector)
     }
 }
 
-stEvent * EventDataManager::getEvent(int EventId)
-{
-    std::map<int, stEvent*>::iterator _iter = mEventMap.find(EventId);
-    if ( _iter != mEventMap.end() )
-    {
-        stEvent *tmpEvent = _iter->second;
-        return tmpEvent;
-    }
-    else {
-        return NULL;
-    }
-}
+//stEvent * EventDataManager::getEvent(int EventId)
+//{
+//    std::map<int, stEvent*>::iterator _iter = mEventMap.find(EventId);
+//    if ( _iter != mEventMap.end() )
+//    {
+//        stEvent *tmpEvent = _iter->second;
+//        return tmpEvent;
+//    }
+//    else {
+//        return NULL;
+//    }
+//}
 
 stNPC * EventDataManager::getNPC(int npcId)
 {
@@ -174,48 +174,48 @@ stTalk * EventDataManager::getTalk(int talkId)
     }
 }
 
-stEvent * EventDataManager::getCurEvent(int EventId)
-{
-    std::map<int, stEvent *>::iterator _iter = mCurEventMap.find(EventId);
-    if ( _iter != mCurEventMap.end() )
-    {
-        stEvent *tmpTalk = _iter->second;
-        return tmpTalk;
-    }
-    else
-    {
-        return NULL;
-    }
-}
+//stEvent * EventDataManager::getCurEvent(int EventId)
+//{
+//    std::map<int, stEvent *>::iterator _iter = mCurEventMap.find(EventId);
+//    if ( _iter != mCurEventMap.end() )
+//    {
+//        stEvent *tmpTalk = _iter->second;
+//        return tmpTalk;
+//    }
+//    else
+//    {
+//        return NULL;
+//    }
+//}
 
-bool EventDataManager::removeCurEvent(int EventId)
-{
-    std::map<int, stEvent *>::iterator _iter = mCurEventMap.find(EventId);
-    if ( _iter != mCurEventMap.end() )
-    {
-        stEvent *tmpEvent = _iter->second;
-        CC_SAFE_FREE(tmpEvent);
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
+//bool EventDataManager::removeCurEvent(int EventId)
+//{
+//    std::map<int, stEvent *>::iterator _iter = mCurEventMap.find(EventId);
+//    if ( _iter != mCurEventMap.end() )
+//    {
+//        stEvent *tmpEvent = _iter->second;
+//        CC_SAFE_FREE(tmpEvent);
+//        return true;
+//    }
+//    else
+//    {
+//        return false;
+//    }
+//}
 
-bool EventDataManager::addCurEvent(stEvent *tmpEvent)
-{
-    if ( NULL != tmpEvent )
-    {
-        std::map<int, stEvent *>::iterator _iter = mCurEventMap.find(tmpEvent->id);
-        if ( _iter == mCurEventMap.end() )
-        {
-            mCurEventMap.insert(make_pair(tmpEvent->id, tmpEvent));
-            return true;
-        }
-    }
-    return false;
-}
+//bool EventDataManager::addCurEvent(stEvent *tmpEvent)
+//{
+//    if ( NULL != tmpEvent )
+//    {
+//        std::map<int, stEvent *>::iterator _iter = mCurEventMap.find(tmpEvent->id);
+//        if ( _iter == mCurEventMap.end() )
+//        {
+//            mCurEventMap.insert(make_pair(tmpEvent->id, tmpEvent));
+//            return true;
+//        }
+//    }
+//    return false;
+//}
 
 std::vector<stTalk *> EventDataManager::getAllTalk(int event_id)
 {
@@ -246,21 +246,21 @@ std::vector<stTalk *> EventDataManager::getAllTalk(int event_id)
     return retVectorTalk;
 }
 
-std::vector<stEvent *> EventDataManager::getASeriesOfEvent(int event_id)
-{
-    printf("----get a series Event-------\n");
-    std::vector<stEvent *> tVectorEvent;
-    int tmpEventId = event_id;
-    while (tmpEventId > 0 ) {
-        stEvent *tmpEvent = getEvent(tmpEventId);
-        tVectorEvent.push_back(tmpEvent);
-        tmpEventId = tmpEvent->nextEventId;
-        
-        tmpEvent->print();
-    }
-    
-    return tVectorEvent;
-}
+//std::vector<stEvent *> EventDataManager::getASeriesOfEvent(int event_id)
+//{
+//    printf("----get a series Event-------\n");
+//    std::vector<stEvent *> tVectorEvent;
+//    int tmpEventId = event_id;
+//    while (tmpEventId > 0 ) {
+//        stEvent *tmpEvent = getEvent(tmpEventId);
+//        tVectorEvent.push_back(tmpEvent);
+//        tmpEventId = tmpEvent->nextEventId;
+//        
+//        tmpEvent->print();
+//    }
+//    
+//    return tVectorEvent;
+//}
 
 std::string EventDataManager::getDialogFromTalk( stTalk * tmpTalk )
 {
@@ -289,37 +289,37 @@ void EventDataManager::readDB()
 		return;
 	}
     
-    CppSQLite3Query result = db.execQuery("select * from dict_event;");
-    
-    std::vector<stEvent *> tEventVector;
-	while(!result.eof())
-	{
-        stEvent *tEvent = new stEvent();
-        tEvent->id = result.getIntField("id");
-        tEvent->type = (LEventType)result.getIntField("type");
-        tEvent->targetId = atoi(result.getStringField("target"));
-        std::string strBonus = result.getStringField("bonus");
-        std::vector<int> tmpBonusList = separateStringToNumberVector(strBonus, ",");
-        
-        if (tmpBonusList.size() > 0)
-            CCAssert( tmpBonusList[0]*2 == tmpBonusList.size()-1, "Something error in sql field\n");
-        for (int i = 1; tmpBonusList[0] != 0 && i+1 < tmpBonusList.size(); i+=2) {
-            stGood _good;
-            _good.id = tmpBonusList[i];
-            _good.count = tmpBonusList[i+1];
-            tEvent->bonus.push_back(_good);
-        }
-        
-        tEvent->bonusRepeat = result.getIntField("bonus_repeat");
-        tEvent->nextEventId = result.getIntField("next_event_id");
-        tEvent->box_id = result.getIntField("box_id");
-        
-        tEventVector.push_back(tEvent);
-        
-        result.nextRow();
-    }
-    
-    this->setEventMap(tEventVector);
+//    CppSQLite3Query result = db.execQuery("select * from dict_event;");
+//    
+//    std::vector<stEvent *> tEventVector;
+//	while(!result.eof())
+//	{
+//        stEvent *tEvent = new stEvent();
+//        tEvent->id = result.getIntField("id");
+//        tEvent->type = (LEventType)result.getIntField("type");
+//        tEvent->targetId = atoi(result.getStringField("target"));
+//        std::string strBonus = result.getStringField("bonus");
+//        std::vector<int> tmpBonusList = separateStringToNumberVector(strBonus, ",");
+//        
+//        if (tmpBonusList.size() > 0)
+//            CCAssert( tmpBonusList[0]*2 == tmpBonusList.size()-1, "Something error in sql field\n");
+//        for (int i = 1; tmpBonusList[0] != 0 && i+1 < tmpBonusList.size(); i+=2) {
+//            stGood _good;
+//            _good.id = tmpBonusList[i];
+//            _good.count = tmpBonusList[i+1];
+//            tEvent->bonus.push_back(_good);
+//        }
+//        
+//        tEvent->bonusRepeat = result.getIntField("bonus_repeat");
+//        tEvent->nextEventId = result.getIntField("next_event_id");
+//        tEvent->box_id = result.getIntField("box_id");
+//        
+//        tEventVector.push_back(tEvent);
+//        
+//        result.nextRow();
+//    }
+//    
+//    this->setEventMap(tEventVector);
     
     CppSQLite3Query result_1 = db.execQuery("select * from dict_npc_talk;");
     

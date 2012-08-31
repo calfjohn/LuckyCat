@@ -146,7 +146,7 @@ void Page::turnToPage(int chapterId, const stPage *pPage)
     m_content->setString(m_pPage->content.c_str());
 
     m_SpriteBg->setNewTexture(m_pPage->imageId);
-    stEvent *tStEvent = EventDataManager::getShareInstance()->getEvent(m_pPage->eventId);
+    const stEvent *tStEvent = DictDataManager::shareDictDataManager()->getEvent(m_pPage->eventId);
     const stMonster * pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(tStEvent->targetId);
     m_SpriteMonster->setNewTexture(pMonster->imageId);
     
@@ -156,11 +156,6 @@ void Page::turnToPage(int chapterId, const stPage *pPage)
 
 void Page::showBattleView(CCObject *pSender)
 {
-    //load battle animation first
-    CCAnimationCache *cache = CCAnimationCache::sharedAnimationCache();
-    cache->addAnimationsWithFile("image/battle/animationsBomb.plist");
-    cache->addAnimationsWithFile("image/battle/animationsDice.plist");
-    
     if ( EventListView::getIsInEvent() == false )
     {
         EventListView *pEventListView = EventListView::create();
