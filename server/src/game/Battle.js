@@ -23,7 +23,8 @@ var actType = {
     SUCK_BLOOD2 : 6,//吸血 10% 吸伤害值的血量100%
     HURT :7,//受击 85%
     DODGE : 8,//闪避 10%
-    REVERT :9//反震 5%
+    REVERT :9,//反震 5%
+    ADD_BLOOD :10//加血
 }
 
 Battle = {
@@ -233,23 +234,28 @@ Battle = {
         round.push(actionB);
 //////////////////////////////////////////////
 
-        if(actionA.type == actType.SUCK_BLOOD1 || actionA.type == actType.SUCK_BLOOD2){
+        if(actionB.type == actType.REVERT){
+            //反震，添加攻击者受伤动作
             var action = {};
-            action.type = actionA.type;
-            action.teamId = attacker.teamId;
-            action.actId = attacker.id;
-            action.skillId = -1;
-            action.hurt = Number(tempSuckBlood.toFixed(2));
-            action.fx = -1;
-            round.push(action);
-        }
-        else if(actionB.type == actType.REVERT){
-            var action = {};
-            action.type = actType.REVERT;
+            action.type = actType.HURT;
             action.teamId = attacker.teamId;
             action.actId = attacker.id;
             action.skillId = -1;
             action.hurt = Number(tempRevertHurt.toFixed(2));
+            action.fx = -1;
+            round.push(action);
+        }
+
+        if( (actionA.type == actType.SUCK_BLOOD1 || actionA.type == actType.SUCK_BLOOD2)
+            && (actionB.type != actType.DODGE || actionB.type != actType.REVERT) )
+        {
+            //攻击者吸血时，添加加血动作
+            var action = {};
+            action.type = actType.ADD_BLOOD;
+            action.teamId = attacker.teamId;
+            action.actId = attacker.id;
+            action.skillId = -1;
+            action.hurt = Number(tempSuckBlood.toFixed(2));
             action.fx = -1;
             round.push(action);
         }
