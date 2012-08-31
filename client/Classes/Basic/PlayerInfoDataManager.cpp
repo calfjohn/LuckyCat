@@ -91,3 +91,19 @@ void PlayerInfoDataManager::setCurUserInfo(stActorUserInfo* info){
     m_curUserInfo = info;
 }
 
+void PlayerInfoDataManager::setCurUserInfoAttack(float attack){
+    if (m_curUserInfo != NULL) {
+        m_curUserInfo->userAttack = attack;
+    }
+}
+void PlayerInfoDataManager::setCurUserInfoDefence(float defence){
+    if (m_curUserInfo != NULL) {
+        m_curUserInfo->userDefence = defence;
+    }
+}
+void PlayerInfoDataManager::setCurUserInfoSpeed(float speed){
+    if (m_curUserInfo != NULL) {
+        m_curUserInfo->userSpeed = speed;
+    }
+}
+

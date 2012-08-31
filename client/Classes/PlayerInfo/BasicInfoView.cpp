@@ -275,3 +275,4 @@ void BasicInfoView::updateBasicInfo(stActorUserInfo *info){
 }
 
 
+

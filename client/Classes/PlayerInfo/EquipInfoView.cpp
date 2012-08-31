@@ -11,6 +11,7 @@
 #include "FuzzyBgView.h"
 #include "NetManager.h"
 #include "PlayerInfoView.h"
+#include "BasicInfoView.h"
 #include "PlayerInfoDataManager.h"
 #include "extensions/CCBReader/CCBSelectorResolver.h"
 #include "extensions/CCBReader/CCBReader.h"
@@ -711,14 +712,18 @@ void EquipInfoView::responsePutOnCurEquip(CCNode *pNode, void* data){
     Json::Reader reader;
     
     if(reader.parse(NetManager::shareNetManager()->processResponse(data), root)){
-        stActorUserInfo* info = PlayerInfoDataManager::sharedPlayerInfoDataManager()->getCurUserInfo();
-        if(info == NULL){
-            return;
-        }
+        //stActorUserInfo* info = PlayerInfoDataManager::sharedPlayerInfoDataManager()->getCurUserInfo();
+        //if(info == NULL){
+        //    return;
+        //}
         Json::Value now = root["meta"]["out"]["now"];
-        info->userAttack = now["attack"].asDouble();
-        info->userDefence = now["defence"].asDouble();
-        info->userSpeed = now["speed"].asDouble();
+        //info->userAttack = now["attack"].asDouble();
+        //info->userDefence = now["defence"].asDouble();
+        //info->userSpeed = now["speed"].asDouble();
+        
+        PlayerInfoDataManager::sharedPlayerInfoDataManager()->setCurUserInfoAttack(now["attack"].asDouble());
+        PlayerInfoDataManager::sharedPlayerInfoDataManager()->setCurUserInfoDefence(now["defence"].asDouble());
+        PlayerInfoDataManager::sharedPlayerInfoDataManager()->setCurUserInfoSpeed(now["speed"].asDouble());
         
         Json::Value delta = root["meta"]["out"]["delta"];
         float attack = delta["attack"].asDouble();
@@ -727,7 +732,9 @@ void EquipInfoView::responsePutOnCurEquip(CCNode *pNode, void* data){
         playEquipPutOnAnimation(attack,defence,speed);
         //m_bIsChangeEquip = false;
         
-        //CCScene* runScene = CCDriector::getRunningScene();
+        CCScene *scene = CCDirector::sharedDirector()->getRunningScene();
+        BasicInfoView *basic = (BasicInfoView*)scene->getChildByTag(kBasicInfo);
+        basic->initBasicInfoView();
     }
     
 }
@@ -787,14 +794,18 @@ void EquipInfoView::responseTakeOffCurEquip(CCNode *pNode, void* data){
     Json::Reader reader;
     
     if(reader.parse(NetManager::shareNetManager()->processResponse(data), root)){
-        stActorUserInfo* info = PlayerInfoDataManager::sharedPlayerInfoDataManager()->getCurUserInfo();
-        if(info == NULL){
-            return;
-        }
+        //stActorUserInfo* info = PlayerInfoDataManager::sharedPlayerInfoDataManager()->getCurUserInfo();
+        //if(info == NULL){
+        //    return;
+        //}
         Json::Value now = root["meta"]["out"]["now"];
-        info->userAttack = now["attack"].asDouble();
-        info->userDefence = now["defence"].asDouble();
-        info->userSpeed = now["speed"].asDouble();
+        PlayerInfoDataManager::sharedPlayerInfoDataManager()->setCurUserInfoAttack(now["attack"].asDouble());
+        PlayerInfoDataManager::sharedPlayerInfoDataManager()->setCurUserInfoDefence(now["defence"].asDouble());
+        PlayerInfoDataManager::sharedPlayerInfoDataManager()->setCurUserInfoSpeed(now["speed"].asDouble());
+    
+        //info->userAttack = now["attack"].asDouble();
+        //info->userDefence = now["defence"].asDouble();
+        //info->userSpeed = now["speed"].asDouble();
         
         Json::Value delta = root["meta"]["out"]["delta"];
         float attack = delta["attack"].asDouble();
@@ -802,6 +813,10 @@ void EquipInfoView::responseTakeOffCurEquip(CCNode *pNode, void* data){
         float speed = delta["speed"].asDouble();
         playEquipTakeOffAnimation(attack,defence,speed);
         //m_bIsChangeEquip = true;
+        
+        CCScene *scene = CCDirector::sharedDirector()->getRunningScene();
+        BasicInfoView *basic = (BasicInfoView*)scene->getChildByTag(kBasicInfo);
+        basic->initBasicInfoView();
     }
     
 }
