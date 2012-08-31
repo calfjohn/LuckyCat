@@ -2,6 +2,7 @@ ccb/basic.ccbi
 ccb/battle.ccbi
 ccb/battle_special.ccbi
 ccb/box_tips.ccbi
+ccb/chapter.ccbi
 ccb/confirm.ccbi
 ccb/cover.ccbi
 ccb/dialog.ccbi
@@ -13,7 +14,10 @@ ccb/hero_head.ccbi
 ccb/openbox.ccbi
 ccb/page.ccbi
 ccb/pageEx.ccbi
+ccb/pagelist.ccbi
+ccb/pagelist_scroll.ccbi
 ccb/pklist.ccbi
+ccb/pklist_scroll.ccbi
 ccb/playerinfo.ccbi
 ccb/skill.ccbi
 image/battle/animationsBomb.plist
@@ -29,6 +33,7 @@ image/fullscreen/full_1001.png
 image/fullscreen/fuzzy.png
 image/fullscreen/page_1001.png
 image/fullscreen/page_1002.png
+image/fullscreen/page_1003.png
 image/hero/hero_1001.png
 image/hero/hero_1002.png
 image/hero/monster_1001.png
@@ -120,6 +125,18 @@ image/mainui/mian_box_1001_d.png
 image/mainui/mian_box_1001_h.png
 image/mainui/mian_box_1001_n.png
 image/mainui/ui_goal_1001.png
+image/map/map_1001_d.png
+image/map/map_1001_h.png
+image/map/map_1001_n.png
+image/map/map_2001_d.png
+image/map/map_2001_h.png
+image/map/map_2001_n.png
+image/map/map_2002_d.png
+image/map/map_2002_h.png
+image/map/map_2002_n.png
+image/map/map_2003_d.png
+image/map/map_2003_h.png
+image/map/map_2003_n.png
 image/scene/scene_1001.png
 image/scene/scene_1002.png
 image/scene/scene_1003.png

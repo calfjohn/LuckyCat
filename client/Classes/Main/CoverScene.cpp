@@ -74,8 +74,11 @@ void Cover::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::extens
         case TAG_BUTTON_MAGIC:
             menuMagicCallback(pSender);
             break;
-        case TAG_BUTTON_DAGGER:
-            menuDaggerCallback(pSender);
+        case TAG_BUTTON_DAGGER:{
+            //menuDaggerCallback(pSender);
+            PKListView *pkView = PKListView::create(this);
+            this->addChild(pkView);
+        }
             break;
         case TAG_BUTTON_OPTION:
             menuOptionCallback(pSender);
