@@ -157,7 +157,6 @@ typedef struct {
     float                   userDefence;
     float                   userSpeed;
     int                     userMaxHp;
-    stActorUserEquipInfo    *userEquipInfo;
 }stActorUserInfo;
 
 typedef struct
