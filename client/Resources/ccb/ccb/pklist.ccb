@@ -530,7 +530,7 @@
 			</dict>
 		</array>
 		<key>customClass</key>
-		<string></string>
+		<string>PKListView</string>
 		<key>memberVarAssignmentName</key>
 		<string></string>
 		<key>memberVarAssignmentType</key>
