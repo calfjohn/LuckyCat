@@ -17,7 +17,7 @@ PlayerInfoDataManager::XLRelease PlayerInfoDataManager::Garbo;
 
 
 PlayerInfoDataManager::PlayerInfoDataManager(){
-    m_curUserInfo = new stActorUserInfo();
+    m_curUserInfo = NULL;
 }
 PlayerInfoDataManager::~PlayerInfoDataManager(){
     

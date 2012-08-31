@@ -84,7 +84,6 @@
 		FA5A00EE15DE187F00C1A9B9 /* EquipInfoView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA5A00EC15DE187F00C1A9B9 /* EquipInfoView.cpp */; };
 		FA8C106D15DA585000FF3FA4 /* PlayerInfoView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA8C106B15DA585000FF3FA4 /* PlayerInfoView.cpp */; };
 		FAC9A8D115E3954E00A5DC8C /* PlayerInfoDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FAC9A8CF15E3954E00A5DC8C /* PlayerInfoDataManager.cpp */; };
-		FACF107215EF57D0007FC107 /* main_ rim_1002.png in Resources */ = {isa = PBXBuildFile; fileRef = FACF107115EF57D0007FC107 /* main_ rim_1002.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -234,7 +233,6 @@
 		FA8C106C15DA585000FF3FA4 /* PlayerInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerInfoView.h; sourceTree = "<group>"; };
 		FAC9A8CF15E3954E00A5DC8C /* PlayerInfoDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerInfoDataManager.cpp; sourceTree = "<group>"; };
 		FAC9A8D015E3954E00A5DC8C /* PlayerInfoDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerInfoDataManager.h; sourceTree = "<group>"; };
-		FACF107115EF57D0007FC107 /* main_ rim_1002.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "main_ rim_1002.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -542,7 +540,6 @@
 		784521C214EBA449009D533B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				FACF107115EF57D0007FC107 /* main_ rim_1002.png */,
 				18DA5EB615D9FCAC000B7831 /* pub */,
 				1881484F15D37A880058DE29 /* ccb */,
 				15EC317615B8036000EA9631 /* image */,
@@ -712,7 +709,6 @@
 				15EC317715B8036000EA9631 /* image in Resources */,
 				1881485015D37A880058DE29 /* ccb in Resources */,
 				18DA5EB715D9FCAC000B7831 /* pub in Resources */,
-				FACF107215EF57D0007FC107 /* main_ rim_1002.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
