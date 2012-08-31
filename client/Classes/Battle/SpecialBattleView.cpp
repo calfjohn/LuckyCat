@@ -64,6 +64,8 @@ SpecialBattleView::SpecialBattleView()
     m_nActionNumber = 0;
     m_nCountTime = 0;
     m_nTotalRound = 0;
+    
+    m_OneRoundActionList.clear();
 }
 
 SpecialBattleView::~SpecialBattleView()
@@ -213,7 +215,10 @@ void SpecialBattleView::notificationTouchEvent(LTouchEvent tLTouchEvent)
 void SpecialBattleView::removeAndCleanSelf(float dt)
 {
     if ( m_target && m_pfnSelector )
+    {
         ((m_target)->*(m_pfnSelector))(this, NULL);
+    }
+        
 }
 
 void SpecialBattleView::menuBackCallback(CCObject* pSender)
@@ -555,6 +560,8 @@ void SpecialBattleView::showAttacker()
         this->addChild(pWhowAction);
     }
     pWhowAction->runAction(getMoveLeftToRight(CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::countDown))));
+//    pWhowAction->runAction(getMoveLeftToRight());
+//    this->runAction(CCSequence::create(CCDelayTime::create(ACTION_TIME_LABEL_SHOW_TIME),CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::countDown)),NULL));
 }
 
 void SpecialBattleView::countDown()
@@ -572,6 +579,44 @@ void SpecialBattleView::countDown()
 
 void SpecialBattleView::countDownSchedule(float tArg)
 {
+    if (m_nCountTime > 0) {
+        char strChar[512];
+        memset(strChar, 0, 512);
+        sprintf(strChar, "image/battle/count_time_%d.png",m_nCountTime);
+        
+        CCSize screanSize = CCDirector::sharedDirector()->getWinSize();
+        
+        CCPoint pos = CCPointMake(screanSize.width * 0.5f, screanSize.width * 0.5f);
+        
+        CCSprite *pNode = CCSprite::create(strChar);
+        pNode->setPosition(pos);
+        this->addChild(pNode);
+        
+        pNode->setScale(0.5f);
+        pNode->setVisible(false);
+        
+        float f_scale_time = 0.1f;
+        CCAction * seq = CCSequence::create(
+                                            CCHide::create(),
+                                            CCDelayTime::create(0.3f),
+                                            CCShow::create(),
+                                            CCSpawn::create(
+                                                            CCEaseIn::create(CCScaleTo::create(f_scale_time, 1.0f), f_scale_time),
+                                                            CCFadeIn::create(f_scale_time),
+                                                            0),
+                                            CCDelayTime::create(0.4f),
+                                            CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::callbackRemoveNodeWhenDidAction)),
+                                            0);
+        
+        pNode->runAction(seq);
+        
+        m_nCountTime--;
+    }
+    else {
+        this->showDiceResult();
+    }
+    
+    /*
     char strChar[512];
     memset(strChar, 0, 512);
     sprintf(strChar,"%d", m_nCountTime--);
@@ -601,6 +646,7 @@ void SpecialBattleView::countDownSchedule(float tArg)
                                         CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::callbackRemoveNodeWhenDidAction)),
                                         0);
     label->runAction(seq);
+    */
 }
 
 void SpecialBattleView::showDiceResult()
@@ -614,6 +660,7 @@ void SpecialBattleView::showDiceResult()
                                                                          CCShow::create(),
                                                                          pActionInterval,
                                                                          CCHide::create(),
+                                        CCDelayTime::create(0.1f),
                                                                          CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::showRoleAction)),NULL));
     
 }
@@ -745,50 +792,14 @@ CCActionInterval *SpecialBattleView::GetSkillEffect(GActionType type)
             }
             break;
         }  
+        case kGActionTypeAddBlood:
+        {
+            break;
+        }
         default:
             break;
     }
     return pAction;
-}
-
-std::string SpecialBattleView::getActionName(GActionType type)
-{
-    string actionName;
-    switch (type) {
-        case kGActionTypeAttack:
-            actionName = "攻击";
-            break;
-        case kGActionTypeCritical_1:
-            actionName = "爆击";
-            break;
-        case kGActionTypeCritical_2:
-            actionName = "爆击";
-            break;
-        case kGActionTypeCrush:
-            actionName = "破防";
-            break;
-        case kGActionTypeSuckBlood_1:
-            actionName = "吸血";
-            break;
-        case kGActionTypeSuckBlood_2:
-            actionName = "吸血";
-            break;
-            
-        case kGActionTypeHurt:
-            actionName = "受击";
-            break;
-        case kGActionTypeDodge:
-            actionName = "闪避";
-            break;
-        case kGActionTypeRevert:
-            actionName = "反震";
-            break;
-            
-        default:
-            actionName = "error";
-            break;
-    }
-    return actionName;
 }
 
 void SpecialBattleView::showSkillName(GRoleAction tAction)
@@ -873,6 +884,20 @@ void SpecialBattleView::showSkillName(GRoleAction tAction)
             pSprite->setPosition(CCPointMake(screanSize.width * argf, 100));
             break;
         }
+        case kGActionTypeAddBlood:
+        {            
+            char strChar[100];
+            memset(strChar, 0, 100);
+            sprintf(strChar, "+ %d",abs(int(tAction.hurt)));
+            
+            CCLabelTTF * label = CCLabelTTF::create(strChar, "Thonburi", 42);
+            pLayer->addChild(label,99);
+            label->setPosition(CCPointMake(screanSize.width * 0.5f + 70, 100));
+            ccColor3B color = ccRED;
+            label->setColor(color);
+            
+            break;
+        }
         default:
         {
             break;
@@ -917,13 +942,13 @@ void SpecialBattleView::showSkillName(GRoleAction tAction)
     
     this->addChild(pLayer);
     
-    float t_f_moveTime = 0.5f;
+    float t_f_moveTime = 0.2f;
     float t_f_delayTime = 0.8f;
     
     pLayer->runAction(
                       CCSequence::create(
                                          CCSpawn::create(
-                                                         CCEaseIn::create(CCMoveTo::create(t_f_moveTime, midPos), t_f_moveTime),
+                                                         CCEaseOut::create(CCMoveTo::create(t_f_moveTime, midPos), t_f_moveTime),
                                                          CCFadeIn::create(t_f_moveTime),
                                                          NULL),
                                          CCDelayTime::create(t_f_delayTime),
@@ -1056,6 +1081,11 @@ void SpecialBattleView::dealRoleAction(GRole *pRole,GRoleAction tAction)
             if (m_nActionNumber == 2) {
                 pRole->setSubHp(tAction.hurt);
             }
+            break;
+        }
+        case kGActionTypeAddBlood:
+        {
+            pRole->setPlusHp(tAction.hurt);
             break;
         }
         default:

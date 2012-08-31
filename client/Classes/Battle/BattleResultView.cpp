@@ -145,35 +145,6 @@ void BattleResultView::setSelector(cocos2d::CCObject *target, cocos2d::SEL_CallF
     m_pfnSelector = pfnSelector;
 }
 
-void BattleResultView::initView(std::vector<stGood> tGoodsList)
-{
-    CCSize screanSize = CCDirector::sharedDirector()->getWinSize();
-    
-    CCLabelTTF *resultOfBattle = static_cast<CCLabelTTF *>(this->getChildByTag(10));
-    
-    if (resultOfBattle)
-    {
-        resultOfBattle->setString("开箱结果:");
-    }
-    
-    CCLabelTTF *labtip = static_cast<CCLabelTTF *>(this->getChildByTag(11));
-    
-    CCPoint labtip_pos = labtip->getPosition();
-    
-    int i = 0;
-    for (std::vector<stGood>::iterator _iter = tGoodsList.begin(); _iter < tGoodsList.end(); _iter++,i++) {
-        stGood _goods = *_iter;
-        
-        char strChar[512];
-        sprintf(strChar, "获得%d ：%d",_goods.id,_goods.count);
-        CCLabelTTF *bonusLabel = CCLabelTTF::create(strChar, CCSizeMake(screanSize.width * 0.8f, screanSize.height * 0.15f ), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter,"Arial", 18);
-        bonusLabel->setColor(ccWHITE);
-        bonusLabel->setAnchorPoint(CCPointZero);
-        bonusLabel->setPosition(CCPointMake(labtip_pos.x, labtip_pos.y - 25*i - 40));
-        this->addChild(bonusLabel);
-    }
-}
-
 void BattleResultView::netCallBack(CCNode* pNode, void* data)
 {    
     

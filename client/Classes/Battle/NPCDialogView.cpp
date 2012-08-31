@@ -26,12 +26,12 @@ mLabelNpcName(NULL),
 mLabelDialogContent(NULL),
 mSpriteNpc(NULL)
 {
-    
+    mTalkList.clear();
 }
 
 NPCDialogView::~NPCDialogView()
 {
-    
+    mTalkList.clear();
 }
 
 NPCDialogView *NPCDialogView::create(cocos2d::CCObject * pOwner)
@@ -52,30 +52,15 @@ NPCDialogView *NPCDialogView::create(cocos2d::CCObject * pOwner)
 }
 
 cocos2d::SEL_MenuHandler NPCDialogView::onResolveCCBCCMenuItemSelector(cocos2d::CCObject * pTarget, cocos2d::CCString * pSelectorName)
-{
-    //CCB_SELECTORRESOLVER_CCMENUITEM_GLUE(this, "onMenuItemClicked", NPCDialogView::onMenuItemClicked);
-    
+{    
     return NULL;
 }
 cocos2d::extension::SEL_CCControlHandler NPCDialogView::onResolveCCBCCControlSelector(cocos2d::CCObject * pTarget, cocos2d::CCString * pSelectorName)
 {
-    //CCB_SELECTORRESOLVER_CCCONTROL_GLUE(this, "onCCControlButtonClicked", NPCDialogView::onCCControlButtonClicked );
     return NULL;
 }
 bool NPCDialogView::onAssignCCBMemberVariable(cocos2d::CCObject * pTarget, cocos2d::CCString * pMemberVariableName, cocos2d::CCNode * pNode)
 {
-//    if (!mLabelNpcName)
-//    {
-//        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "mLabelNpcName", cocos2d::CCLabelTTF *, mLabelNpcName);
-//    }
-//    if (!mLabelDialogContent)
-//    {
-//        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "mLabelDialogContent", cocos2d::CCLabelTTF *, mLabelDialogContent);
-//    }
-//    if (!mSpriteNpc)
-//    {
-//        CCB_MEMBERVARIABLEASSIGNER_GLUE(this, "mSpriteNpc", cocos2d::CCSprite *, mSpriteNpc);
-//    }
     
     return false;
 }

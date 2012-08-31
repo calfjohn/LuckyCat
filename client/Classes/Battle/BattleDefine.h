@@ -65,7 +65,8 @@ enum GActionType {
     kGActionTypeHurt            =   7,
     kGActionTypeDodge           =   8,
     kGActionTypeRevert          =   9,
-    kGActionTypeDead            =   10,
+    kGActionTypeAddBlood        =   10,
+    kGActionTypeDead            =   11,
     };
 
 enum GTeam {

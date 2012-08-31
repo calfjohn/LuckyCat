@@ -78,7 +78,7 @@ void OpenBoxView::onCCControlButtonClicked(cocos2d::CCObject *pSender, cocos2d::
 //        m_bIsOpen = true;
 //        
 //        char strChar[100];
-//        sprintf(strChar,"\"EventId\": %d,\"boxId\": %d" ,p_CurEvent->id, p_CurEvent->box_id);
+//        sprintf(strChar,"\"eventId\": %d,\"boxId\": %d" ,p_CurEvent->id, p_CurEvent->box_id);
 //        NetManager::shareNetManager()->send(kModeBox, kDoOpenBox,                                      callfuncND_selector(OpenBoxView::netCallBack), this, strChar);
 //    }
 //    else {

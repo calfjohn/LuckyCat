@@ -51,6 +51,7 @@ Actor = Class.extend({
         ret.career_id = db.career_id;
         ret.chapter_id = db.chapter_id;
         ret.page_id = db.page_id;
+        // 计算玩家累加属性
         var eqBuff = this.calculateCapability();
         ret.attack = eqBuff.attack;
         ret.defence = eqBuff.defence;
@@ -83,6 +84,7 @@ Actor = Class.extend({
         equipment.eq_hand_id = basicDB.eq_hand_id;
         equipment.eq_foot_id = basicDB.eq_foot_id;
         for (var key in equipment) {
+            // 处理此部位无装备的情况
             if (PartEmpty == equipment[key]) {
                 var value = {};
                 value.id = PartEmpty
@@ -97,7 +99,9 @@ Actor = Class.extend({
                 value.item5_id = 0;
                 ret[key] = value;
             } else {
+                // 返回这件装备
                 ret[key] = sysUtils.clone(equipDB["" + equipment[key]]);
+                // 客户端不需要actor_id
                 delete  (ret[key])["actor_id"];
             }
         }
@@ -236,10 +240,8 @@ Actor = Class.extend({
         var actor_equipped = this.getEquippedEquipment();
         for(var key in actor_equipped){
             var eq = actor_equipped[key];
-            var id = eq.id;
-            if(PartEmpty !=  id){
-                var equip_id = eq.equip_id;
-                var eq_dict_info = require("./DictManager").getEquipmentByID(equip_id);
+            if(PartEmpty !=  eq.id){
+                var eq_dict_info = require("./DictManager").getEquipmentByID(eq.equip_id);
                 var level_growth = require("./DictManager").getEquipLevelGrowthByLevel(eq.level);
                 var rank_growth = require("./DictManager").getEquipRankGrowthByRank(eq.rank);
 
@@ -265,10 +267,14 @@ Actor = Class.extend({
 
             }
         }
-        ret.attack = Number(ret.attack.toFixed(2));
-        ret.speed = Number(ret.speed.toFixed(2));
-        ret.defence = Number(ret.defence.toFixed(2));
-        ret.life = Number(ret.life.toFixed(2));
+
+
+        // 结果只保留整数
+        ret.attack = ret.attack | 0;
+        ret.speed = ret.speed | 0;
+        ret.defence = ret.defence | 0;
+        ret.life = ret.life | 0;
+
         //技能基本属性
         return ret;
     },
@@ -276,21 +282,16 @@ Actor = Class.extend({
     gainExp: function (exp){
         if (exp <=0) return;
         var actor  = this._dbBasic;
-        var curExp = actor.exp;
-        var restExp = curExp + exp;
-        while(restExp > 0){
-            //获得升级所需得XP值
+        actor.exp += exp;
+        while(1){
+            //经验不累计，到升级标准后重置
             var upgrade_table = require("./DictManager").getActorLevelUpgradeByLevel(actor.level);
-            var upgrade_need_exp = upgrade_table.xp
-            var diff  = restExp - upgrade_need_exp;
-            // 玩家升级了
-            if(diff >= 0){
-                actor.level += 1;
-                actor.exp = 0;
-            }else{
-                actor.exp += restExp;
+            if(actor.exp < upgrade_table.xp){
+                break;
             }
-            restExp = diff;
+            // 玩家升级了
+            actor.level++;
+            actor.exp -= upgrade_table.xp;
         }
 
     },
