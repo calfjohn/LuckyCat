@@ -96,7 +96,7 @@ private:
     
     
 public:
-    //1. 进入战斗 (BOSS出现 / A vs B) 
+    //1. 进入战斗 显示开始 参战双方, 开始战斗动画
     void startBattle();
     
     //2. 分析 最新一回合战斗数据
@@ -105,11 +105,13 @@ public:
     //2. 显示 第几回合
     void showRoundNumber();
     
+    // 显示 是 玩家行动, 对物行动
     void showAttacker();
     
     //3. 倒计时,
     void countDown();
     
+    //处理 色子倒计时的 Schedule
     void countDownSchedule(float tArg);
     
     //4. 按色子后, 显示色子结果.
@@ -124,20 +126,29 @@ public:
     //在动作结束时,移除对像
     void callbackRemoveNodeWhenDidAction(CCNode * pNode);
 
-    //显示Tip由上到下
+    /*
+     * 显示一个文本的Tip
+     */
     void showTip(std::string tStr, cocos2d::ccColor3B tColor, TipMotion tTipMotion = kTipMotionGeneral,unsigned int fontSize = 26,cocos2d::CCCallFuncN *callBack = NULL);
     
     CCActionInterval *GetSkillEffect(GActionType type);
     
+    /*
+     * runAction GetSkillEffect(GActionType type) 所返回的动作
+     */
     CCNode *getActionNode(GRoleAction tAction);
     
+    /*
+     * 返回 一个 从左移动到中间,停止一会, 然后, 向右移动的动作
+     */
     CCActionInterval *getMoveLeftToRight(cocos2d::CCCallFuncN *callBack = NULL);
     
-    std::string getActionName(GActionType type);
-    
+    /*
+     * 显示技能名
+     */
     void showSkillName(GRoleAction tAction);
     
-    //处理一个行为,对角色属性的影响
+    //处理一个行为,对角色属性Hp的影响
     void dealRoleAction(GRole *pRole,GRoleAction tAction);
 private:
     //第几回合

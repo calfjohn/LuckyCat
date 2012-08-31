@@ -41,7 +41,7 @@ public:
 private:
     /*
      * pop current Event and show next Event, If there is no exit any Event, remove EventListView
-     * It is work in fuctionf callbackEventWasFinished.
+     * It is work in fuction callbackEventWasFinished.
      */
     void showNextEvent(float dt);
     
@@ -63,6 +63,7 @@ private:
     
     /*
      * this function is show UI.
+     * 主要显示的 对话, 普通战斗, 特殊战斗
      */
     void showCurEvent();
     
@@ -72,11 +73,15 @@ private:
     
     void showSpecialBattleView();
     
+    /*
+     * 开箱子, 战斗结果 都依赖于以上面三个界面
+     */
     void showOpenBoxView();
+    
+    void showBattleResultView();
     
     void showHeroHeadView();
     
-    void showBattleResultView();
     
     void removeAndCleanSelf(float dt);
     
