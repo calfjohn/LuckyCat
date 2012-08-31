@@ -37,7 +37,7 @@ void BattleResultView::initView(LEventData *tEvent)
     BasicInfoView *pBasicView = (BasicInfoView *)CCDirector::sharedDirector()->getRunningScene()->getChildByTag(kBasicInfo);
     if(pBasicView)
     {
-        pBasicView->updateBasicInfo(&tEvent->basicInfo);
+   //     pBasicView->updateBasicInfo(&tEvent->basicInfo);
     }
     
     CCSize screanSize = CCDirector::sharedDirector()->getWinSize();

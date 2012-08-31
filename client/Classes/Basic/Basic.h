@@ -160,5 +160,12 @@ typedef struct {
     stActorUserEquipInfo    *userEquipInfo;
 }stActorUserInfo;
 
+typedef struct
+{
+	int	id;				//id of event.
+    int targetId;		//id of target.
+}stEvent;
+
+
 #endif
 

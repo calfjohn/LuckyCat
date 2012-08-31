@@ -76,13 +76,17 @@ void EventListView::netCallBackEventList(CCNode* pNode, void* data)
         Json::Reader reader;
         Json::Value json_root;
         if (!reader.parse(tempInfo->strResponseData.c_str(), json_root))
+        {
+            removeAndCleanSelf(0);
             return;
+        }
 
         Json::Value json_meta = json_root["meta"];
         Json::Value json_out = json_meta["out"];
         int ret = json_out["result"].asInt();
         if ( ret != 0 )
         {
+            removeAndCleanSelf(0);
             return;
         }
         
@@ -117,9 +121,9 @@ void EventListView::netCallBackEventList(CCNode* pNode, void* data)
                 tEventData.awardArray.push_back(tGoods);
             }
             
-            stEvent *tStEvent = EventDataManager::getShareInstance()->getEvent(tEventData.id);
+//            stEvent *tStEvent = EventDataManager::getShareInstance()->getEvent(tEventData.id);
             tEventData.type = (LEventType)(jEvent["type"].asInt());
-            tEventData.pStEvent = tStEvent;
+//            tEventData.pStEvent = tStEvent;
             
             tEventData.box_id = jEvent["box_id"].asInt();
             
