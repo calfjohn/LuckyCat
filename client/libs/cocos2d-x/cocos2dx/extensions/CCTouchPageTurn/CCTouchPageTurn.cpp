@@ -31,7 +31,7 @@ bool CCTouchPageTurn::init()
     
     m_action =  CCTouchPageTurn3D::create(ccg(x,y), 5);
     m_action->setUpdate(0);
-    this->runAction(CCRepeatForever::actionWithAction(m_action));
+    this->runAction(CCRepeatForever::create(m_action));
 
     this->setTouchEnabled(true);
 
