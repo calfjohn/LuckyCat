@@ -142,9 +142,6 @@ void SpecialBattleView::onCCControlButtonClicked(cocos2d::CCObject *pSender, coc
         {
             pressControlButtonDice();
         }
-        else {
-            analyseBattleData();
-        }
     }
 }
                                           
@@ -193,8 +190,6 @@ void SpecialBattleView::responseFight(CCNode *pNode, void* data)
 
 void SpecialBattleView::CreateTeam(Json::Value &data)
 {        
-//    int i = 0;
-//    m_mapTeam;
 }
 
 void SpecialBattleView::notificationTouchEvent(LTouchEvent tLTouchEvent)
@@ -204,10 +199,6 @@ void SpecialBattleView::notificationTouchEvent(LTouchEvent tLTouchEvent)
         if ( m_nCountTime > 0 )
         {
             pressControlButtonDice();
-        }
-        else {
-            if (this->getIsTouchForbidden() == false)
-                analyseBattleData();
         }
     }
 }
@@ -560,8 +551,6 @@ void SpecialBattleView::showAttacker()
         this->addChild(pWhowAction);
     }
     pWhowAction->runAction(getMoveLeftToRight(CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::countDown))));
-//    pWhowAction->runAction(getMoveLeftToRight());
-//    this->runAction(CCSequence::create(CCDelayTime::create(ACTION_TIME_LABEL_SHOW_TIME),CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::countDown)),NULL));
 }
 
 void SpecialBattleView::countDown()
@@ -598,7 +587,6 @@ void SpecialBattleView::countDownSchedule(float tArg)
         float f_scale_time = 0.1f;
         CCAction * seq = CCSequence::create(
                                             CCHide::create(),
-                                            CCDelayTime::create(0.3f),
                                             CCShow::create(),
                                             CCSpawn::create(
                                                             CCEaseIn::create(CCScaleTo::create(f_scale_time, 1.0f), f_scale_time),
@@ -1001,11 +989,11 @@ CCActionInterval * SpecialBattleView::getMoveLeftToRight(cocos2d::CCCallFuncN *c
                                                  CCFadeIn::create(0.5f),
                                                  0),
                                  CCDelayTime::create(ACTION_TIME_LABEL_SHOW_TIME),
+                                     callBack,
                                  CCSpawn::create(
                                                  CCEaseOut::create(CCMoveTo::create(ACTION_TIME_LABEL_SHOW_TIME, posRight), ACTION_TIME_LABEL_SHOW_TIME),
                                                  CCFadeOut::create(0.5f),
                                                  0),
-                                 callBack,
                                  CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::callbackRemoveNodeWhenDidAction)),
                                  NULL);
     }
