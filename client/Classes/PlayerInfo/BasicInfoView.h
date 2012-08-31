@@ -17,6 +17,8 @@
 #include "extensions/CCBReader/CCLayerLoader.h"
 #include "Basic.h"
 
+#define kBasicInfo 100
+
 class PlayerInfoView;
 
 class BasicInfoView

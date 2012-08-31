@@ -34,11 +34,11 @@ public:
         
 	}
     
-    void setEventMap(std::vector<stEvent *> tmpVector);
+ //   void setEventMap(std::vector<stEvent *> tmpVector);
     void setTalkMap(std::vector<stTalk *> tmpVector);
     void setNpcMap(std::vector<stNPC *> tmpVector);
     
-    stEvent *getEvent(int EventId);
+//    stEvent *getEvent(int EventId);
     stNPC *getNPC(int npcId);
     stTalk *getTalk(int talkId);
     
@@ -46,13 +46,13 @@ public:
      *@brief get current Event by EventId.
      *@return NULL when the the Event is not exit int current Event map.
      */
-    stEvent *getCurEvent(int EventId);
+//    stEvent *getCurEvent(int EventId);
     /*
      *@brief remove a Event in curent Event map
      *@return if return true. remove success. else failed.
      */
     bool removeCurEvent(int EventId);
-    bool addCurEvent(stEvent *tmpEvent);
+ //   bool addCurEvent(stEvent *tmpEvent);
     
     /*
      *@brief get all talk by Event id.
@@ -62,21 +62,21 @@ public:
     /*
      *@brief get a series of Event by a first Event of one page
      */
-    std::vector<stEvent *> getASeriesOfEvent(int Event_id);
+  //  std::vector<stEvent *> getASeriesOfEvent(int Event_id);
     
     std::string getDialogFromTalk( stTalk * tmpTalk );
 private:
     
-    std::map<int,stEvent *> mEventMap;    //Event map
+//    std::map<int,stEvent *> mEventMap;    //Event map
     std::map<int,stTalk *> mTalkMap;    //talk map
     std::map<int,stNPC *> mNpcMap;      //npc map
     
-    std::map<int, stEvent *> mCurEventMap;   //all working Event 
+ //   std::map<int, stEvent *> mCurEventMap;   //all working Event 
     
-    void deleteEventMap();
+//    void deleteEventMap();
     void deleteTalkMap();
     void deleteNpcMap();
-    void deleteCurEventMap();
+//    void deleteCurEventMap();
     
     void readDB();                      //read data for SQLite
     

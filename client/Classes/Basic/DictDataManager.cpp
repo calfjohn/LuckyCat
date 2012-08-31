@@ -37,6 +37,12 @@ bool DictDataManager::init( void )
     initImage();
     initMonster();
     initEquipment();
+    initEvent();
+    
+    //load battle animation first
+    CCAnimationCache *cache = CCAnimationCache::sharedAnimationCache();
+    cache->addAnimationsWithFile("image/battle/animationsBomb.plist");
+    cache->addAnimationsWithFile("image/battle/animationsDice.plist");
     
     m_db.close();
 
@@ -105,6 +111,22 @@ bool DictDataManager::initEquipment()
     }
 }
 
+bool DictDataManager::initEvent()
+{
+    CppSQLite3Query q = m_db.execQuery("select * from dict_event;");
+    
+	while(!q.eof())
+	{
+        stEvent tempEvent;
+        tempEvent.id = q.getIntField("id");
+        tempEvent.targetId = atoi(q.getStringField("target"));
+        
+        m_mapEvent[tempEvent.id] = tempEvent;
+        q.nextRow();
+    }
+
+}
+
 const stMonster *DictDataManager::getMonsterImageId(int monsterId)
 {   
     const stMonster *pRetValue = NULL;
@@ -139,6 +161,20 @@ const stActorEquipInfo *DictDataManager::getEquipment(int equipId)
     map<int, stActorEquipInfo>::iterator iterTemp;
     iterTemp = m_mapEuipment.find(equipId);
     if (iterTemp != m_mapEuipment.end()) 
+    {
+        pRetValue = &(*iterTemp).second;
+    }
+    
+    return pRetValue;
+}
+
+const stEvent *DictDataManager::getEvent(int eventId)
+{
+    const stEvent *pRetValue = NULL;
+    
+    map<int, stEvent>::iterator iterTemp;
+    iterTemp = m_mapEvent.find(eventId);
+    if (iterTemp != m_mapEvent.end()) 
     {
         pRetValue = &(*iterTemp).second;
     }

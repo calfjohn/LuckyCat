@@ -39,32 +39,32 @@ typedef struct
 	std::string image;	//name of image
 }stNPC;
 
-typedef struct
-{
-	int	id;				//id of event.
-	LEventType type;	//type of event. 
-    int targetId;		//id of target.
-	std::vector<stGood> bonus;		//bonus of event.
-	int nextEventId;		//next event follow this event.
-    int box_id;             //id of treasure chests
-	bool bonusRepeat;	//if bonusRepeat is true, player can get bonus again.
-    
-    void print()
-    {
-        printf("---- stEvent -----\n");
-        printf("id %d\n", id);
-        printf("type %d\n", type);
-        printf("target %d\n",targetId);
-        printf("bonus\n");
-        for ( int i=0; i<bonus.size(); i++ )
-        {
-            bonus[i].print();
-        }
-        printf("nextEventId %d\n", nextEventId);
-        printf("box_id %d\n", box_id);
-        printf("bonusRepeat %d\n", bonusRepeat);
-    }
-}stEvent;
+//typedef struct
+//{
+//	int	id;				//id of event.
+//	LEventType type;	//type of event. 
+//    int targetId;		//id of target.
+//	std::vector<stGood> bonus;		//bonus of event.
+//	int nextEventId;		//next event follow this event.
+//    int box_id;             //id of treasure chests
+//	bool bonusRepeat;	//if bonusRepeat is true, player can get bonus again.
+//    
+//    void print()
+//    {
+//        printf("---- stEvent -----\n");
+//        printf("id %d\n", id);
+//        printf("type %d\n", type);
+//        printf("target %d\n",targetId);
+//        printf("bonus\n");
+//        for ( int i=0; i<bonus.size(); i++ )
+//        {
+//            bonus[i].print();
+//        }
+//        printf("nextEventId %d\n", nextEventId);
+//        printf("box_id %d\n", box_id);
+//        printf("bonusRepeat %d\n", bonusRepeat);
+//    }
+//}stEvent;
 
 class stTalk
 {
@@ -120,9 +120,9 @@ typedef  struct LEventData
 {
     LEventData()
     :m_bBoxIsOpened(false),
-    m_bBattleResultIsShowed(false),
-    id(0),
-    pStEvent(NULL)
+    m_bBattleResultIsShowed(false)
+//    id(0),
+//    pStEvent(NULL)
     {
         
     }
@@ -148,7 +148,7 @@ typedef  struct LEventData
         this->m_bBattleResultIsShowed = true;
     }
     
-    stEvent *pStEvent;                //Dict Event Struct
+//    stEvent *pStEvent;                //Dict Event Struct
     
 	int	id;                   //id of event.
 	LEventType type;                //type of event.
@@ -162,6 +162,8 @@ typedef  struct LEventData
     
     bool m_bBoxIsOpened;              //The box is opened.
     bool m_bBattleResultIsShowed;
+    
+    stActorUserInfo basicInfo;
 }LEventData;
 
 enum EventLayerTag
