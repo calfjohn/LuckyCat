@@ -31,6 +31,8 @@ public:
     const stImage *getImage(int imageId);
     
     const stActorEquipInfo *getEquipment(int equipId);
+    
+    const stEvent *getEvent(int eventId);
 
 protected:
 	bool init(void);
@@ -40,6 +42,8 @@ protected:
     bool initImage();
     
     bool initEquipment();
+    
+    bool initEvent();
     
 	DictDataManager(void);
 	virtual ~DictDataManager(void);
@@ -63,7 +67,8 @@ protected:
     map<int, stMonster> m_mapMonster;
     map<int, stImage> m_mapImage; 
     map<int, stActorEquipInfo> m_mapEuipment;
-    
+    map<int, stEvent> m_mapEvent;
+
     CppSQLite3DB m_db;
 };
 

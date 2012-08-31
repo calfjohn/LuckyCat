@@ -33,6 +33,8 @@ public:
     
     stActorUserInfo* getCurUserInfo();
     
+    void setCurUserInfo(stActorUserInfo* info);
+    
 protected:
     PlayerInfoDataManager();
     virtual ~PlayerInfoDataManager();

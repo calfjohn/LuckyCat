@@ -99,7 +99,7 @@ CCScene* Page::scene(int chapterId, const stPage *pPage)
         BasicInfoView* info = (BasicInfoView*)BasicInfoView::create(scene);
         CC_BREAK_IF(! info);
         scene->addChild(info,-1000);
-        info->setTag(kPagePlayerInfo);
+        info->setTag(kBasicInfo);
         info->sendBasicInfo();
         info->initBasicMenuTargetAndSel(layer, callfuncND_selector(Page::showPlayerInfoViewCallback));
         
@@ -146,7 +146,7 @@ void Page::turnToPage(int chapterId, const stPage *pPage)
     m_content->setString(m_pPage->content.c_str());
 
     m_SpriteBg->setNewTexture(m_pPage->imageId);
-    stEvent *tStEvent = EventDataManager::getShareInstance()->getEvent(m_pPage->eventId);
+    const stEvent *tStEvent = DictDataManager::shareDictDataManager()->getEvent(m_pPage->eventId);
     const stMonster * pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(tStEvent->targetId);
     m_SpriteMonster->setNewTexture(pMonster->imageId);
     
@@ -156,11 +156,6 @@ void Page::turnToPage(int chapterId, const stPage *pPage)
 
 void Page::showBattleView(CCObject *pSender)
 {
-    //load battle animation first
-    CCAnimationCache *cache = CCAnimationCache::sharedAnimationCache();
-    cache->addAnimationsWithFile("image/battle/animationsBomb.plist");
-    cache->addAnimationsWithFile("image/battle/animationsDice.plist");
-    
     if ( EventListView::getIsInEvent() == false )
     {
         EventListView *pEventListView = EventListView::create();
@@ -207,17 +202,17 @@ void Page::nextPageCallback(CCNode* pNode, void* data)
     Page *pPageLayer = Page::create(pScene);
     pPageLayer->turnToPage(m_nChapterId,pPage);
     pScene->addChild(pPageLayer, this->getZOrder()-1);
-    BasicInfoView* pInfo = (BasicInfoView*)pScene->getChildByTag(kPagePlayerInfo);
+    BasicInfoView* pInfo = (BasicInfoView*)pScene->getChildByTag(kBasicInfo);
     pInfo->initBasicMenuTargetAndSel(pPageLayer, callfuncND_selector(Page::showPlayerInfoViewCallback));
     this->autoTurnPage();
 }
 
 void Page::showPlayerInfoViewCallback(CCNode* pNode, void* data){
-    if (this->getChildByTag(kPagePlayerInfo) == NULL && pNode != NULL) {
+    if (this->getChildByTag(kBasicInfo) == NULL && pNode != NULL) {
         BasicInfoView* pInfo = (BasicInfoView*)pNode;
         pInfo->m_playerInfoView = PlayerInfoView::create(this);
         
-        pInfo->m_playerInfoView->setTag(kPagePlayerInfo);
+        pInfo->m_playerInfoView->setTag(kBasicInfo);
         this->addChild(pInfo->m_playerInfoView);
     }
     

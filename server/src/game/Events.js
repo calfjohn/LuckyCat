@@ -78,6 +78,7 @@ Events = {
                 tEvent.box_id = rows[i].box_id;
                 tEvent.bonusRepeat = rows[i].bonus_repeat;
                 tEvent.awardArray = [];//战斗奖励
+                tEvent.basicInfo = {};//个人信息
 
                 that._mMapEvent[tEvent.id] = tEvent;
             }
@@ -168,6 +169,7 @@ Events = {
                     tEvent.boxAward = null;
                 }
 
+                tEvent.basicInfo = require("./Actors").getActor(uuid).getBasicInfo();
                 tEventList.push(tEvent);
                 tEventId = tEvent.nextEventId;
             }

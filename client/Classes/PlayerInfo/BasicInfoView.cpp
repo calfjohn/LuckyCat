@@ -149,7 +149,7 @@ void BasicInfoView::initBasicInfoView(){
     cocos2d::CCString* strAttack = cocos2d::CCString::createWithFormat("攻击：%d",(int)info->userAttack);
     setBasicInfoLabelForTag(kAttackInfo, strAttack);
     
-    cocos2d::CCString* strDefence = cocos2d::CCString::createWithFormat("防御：%d",(int)info->userReference);
+    cocos2d::CCString* strDefence = cocos2d::CCString::createWithFormat("防御：%d",(int)info->userDefence);
     setBasicInfoLabelForTag(kRefenshInfo, strDefence);
     
     cocos2d::CCString* strSpeed = cocos2d::CCString::createWithFormat("速度：%d",(int)info->userSpeed);
@@ -255,8 +255,8 @@ void BasicInfoView::responesBasicInfo(CCNode *pNode, void* data){
             //cocos2d::CCString* strAttack = cocos2d::CCString::createWithFormat("攻击：%d",(int)info->userAttack);
             //setBasicInfoLabelForTag(kAttackInfo, strAttack);
             
-            info->userReference = root["meta"]["out"]["defence"].asDouble();
-            //cocos2d::CCString* strDefence = cocos2d::CCString::createWithFormat("防御：%d",(int)info->userReference);
+            info->userDefence = root["meta"]["out"]["defence"].asDouble();
+            //cocos2d::CCString* strDefence = cocos2d::CCString::createWithFormat("防御：%d",(int)info->userDefence);
             //setBasicInfoLabelForTag(kRefenshInfo, strDefence);
             
             info->userSpeed = root["meta"]["out"]["speed"].asDouble();
@@ -266,6 +266,11 @@ void BasicInfoView::responesBasicInfo(CCNode *pNode, void* data){
             initBasicInfoView();
         }
     }
+}
+
+void BasicInfoView::updateBasicInfo(stActorUserInfo *info){
+    PlayerInfoDataManager::sharedPlayerInfoDataManager()->setCurUserInfo(info);
+    initBasicInfoView();
 }
 
 

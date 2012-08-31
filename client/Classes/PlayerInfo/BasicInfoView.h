@@ -15,6 +15,9 @@
 #include "extensions/CCBReader/CCBSelectorResolver.h"
 #include "extensions/CCBReader/CCBMemberVariableAssigner.h"
 #include "extensions/CCBReader/CCLayerLoader.h"
+#include "Basic.h"
+
+#define kBasicInfo 100
 
 class PlayerInfoView;
 
@@ -57,6 +60,8 @@ public:
     void sendBasicInfo();
     void responesBasicInfo(CCNode *pNode, void* data);
     void setBasicInfoLabelForTag(const int tag, cocos2d::CCString *infomation);
+    
+    void updateBasicInfo(stActorUserInfo *info);
 private:
     cocos2d::CCLabelTTF *m_labNickName;
     cocos2d::CCLabelTTF *m_labLevel;

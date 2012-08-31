@@ -154,11 +154,18 @@ typedef struct {
     int                     userChapterId;
     int                     userPageId;
     float                   userAttack;
-    float                   userReference;
+    float                   userDefence;
     float                   userSpeed;
     int                     userMaxHp;
     stActorUserEquipInfo    *userEquipInfo;
 }stActorUserInfo;
+
+typedef struct
+{
+	int	id;				//id of event.
+    int targetId;		//id of target.
+}stEvent;
+
 
 #endif
 

@@ -15,6 +15,7 @@
 #include "extensions/CCBReader/CCBReader.h"
 #include "extensions/CCBReader/CCNodeLoaderLibrary.h"
 #include "BasicFunction.h"
+#include "PKListView.h"
 
 #define TAG_BUTTON_BOOK 1
 #define TAG_BUTTON_MAGIC 2
