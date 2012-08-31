@@ -559,7 +559,9 @@ void SpecialBattleView::showAttacker()
         pWhowAction = CCSprite::create("image/battle/battle_enemy_move.png");
         this->addChild(pWhowAction);
     }
-    pWhowAction->runAction(CCSequence::create(CCDelayTime::create(ACTION_TIME_LABEL_SHOW_TIME),CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::countDown)),NULL));
+    pWhowAction->runAction(getMoveLeftToRight(CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::countDown))));
+//    pWhowAction->runAction(getMoveLeftToRight());
+//    this->runAction(CCSequence::create(CCDelayTime::create(ACTION_TIME_LABEL_SHOW_TIME),CCCallFuncN::create(this, callfuncN_selector(SpecialBattleView::countDown)),NULL));
 }
 
 void SpecialBattleView::countDown()
