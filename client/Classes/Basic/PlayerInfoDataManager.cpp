@@ -45,17 +45,17 @@ bool PlayerInfoDataManager::init(){
         tempInfo.userEquipType = q.getIntField("class");
         tempInfo.userPutOn = false;
         
-        stActorEquipInfo *equipInfo = new stActorEquipInfo();
-        equipInfo->equipName = q.getStringField("name");
-        equipInfo->equipImageId = q.getIntField("image_id");
-        equipInfo->equipLife = q.getIntField("life");
-        equipInfo->equipLevelLimit = q.getIntField("level_limit");
-        equipInfo->equipAttack = q.getIntField("attack");
-        equipInfo->equipDefence = q.getIntField("defence");
-        equipInfo->equipSpeed = q.getIntField("speed");
-        equipInfo->equipDescription = q.getStringField("description");
+        stActorEquipInfo equipInfo;// = new stActorEquipInfo();
+        equipInfo.equipName = q.getStringField("name");
+        equipInfo.equipImageId = q.getIntField("image_id");
+        equipInfo.equipLife = q.getIntField("life");
+        equipInfo.equipLevelLimit = q.getIntField("level_limit");
+        equipInfo.equipAttack = q.getIntField("attack");
+        equipInfo.equipDefence = q.getIntField("defence");
+        equipInfo.equipSpeed = q.getIntField("speed");
+        equipInfo.equipDescription = q.getStringField("description");
         
-        tempInfo.equipInfo = equipInfo;
+        tempInfo.equipInfo = &equipInfo;
 
         m_vecUserEquipInfos.push_back(tempInfo);
         
