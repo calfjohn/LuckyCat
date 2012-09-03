@@ -40,10 +40,9 @@ public:
 
 private:
     /*
-     * pop current Event and show next Event, If there is no exit any Event, remove EventListView
-     * It is work in fuction callbackEventWasFinished.
+     * 显示当前事件的分支事件, 战斗结果, 开宝箱
      */
-    void showNextEvent(float dt);
+    void showSideEvent(float dt);
     
     /*
      *@brief get current Event

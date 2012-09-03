@@ -14,28 +14,34 @@ require("../system/Log");
 
 require("../system/Class");
 
+//宝箱的结构
 stBox = function (id, rewardMin, rewardMax, range) {
     var that = new Object();
-    that.id = id;
-    that.rewardMin = rewardMin;
-    that.rewardMax = rewardMax;
-    that.range = range;
+    that.id = id;                   //宝箱id
+    that.rewardMin = rewardMin;     //宝箱的开出物品至少有几个
+    that.rewardMax = rewardMax;     //宝箱的开出物品至多有几个
+    that.range = range;             //奖励物品的范围, 值为BoxReward中的id组成的数组
 
     return that;
 };
 
+//宝箱所奖励的物品
 stBoxReward = function (id, rewardType, rewardId, rewardNum, probability)
 {
     var that = new Object();
-    that.id = id;
-    that.rewardType = rewardType;
-    that.rewardId = rewardId;
-    that.rewardNum = rewardNum;
-    that.probability = probability;
+    that.id = id;                       //这一个奖励的id,要在stBox.range中用到
+    that.rewardType = rewardType;       //奖励的类型, 金钱,经验,物品 之类的
+    that.rewardId = rewardId;           //奖励的物品在设计中约定的id
+    that.rewardNum = rewardNum;         //奖励的物品的数量
+    that.probability = probability;     //这个奖励出现的概率, 值越小,出现的可能性越小
 
     return that;
 };
 
+//Box用于处理,宝箱相关的具体工作
+//1. 读数据库 dict_box, dict_box_reward
+//2. 取数据
+//3. 开宝箱过程处理
 Box = {
     _dbAgent : null,
     _mMapBox : null,
@@ -55,6 +61,7 @@ Box = {
             that.queryDBBoxReward(callback);
         });
     },
+    //从数据库读取 dict_box 表, 把数据存在 _mMapBox 中
     queryDBBox:function (callback)
     {
         var that = this;
@@ -101,6 +108,7 @@ Box = {
             }
         });
     },
+    //从数据库中读取 dict_box_reward ,存在 _mMapBoxReward 中
     queryDBBoxReward:function (callback)
     {
         var that = this;
@@ -142,20 +150,11 @@ Box = {
             }
         });
     },
+    // 根据宝箱id, 从 _mMapBox 中 ,获取一个stBox
     getBox:function (boxId)
     {
         if ( this._mMapBox != null )
         {
-            /*
-            for ( var i = 0; i < this._mMapBox.length ; i++ )
-            {
-                var tmp = this._mMapBox[i];
-                if ( tmp && tmp.id == boxId )
-                {
-                    return tmp;
-                }
-            }
-             */
             var t = this._mMapBox[boxId];
             if ( t != null )
             {
@@ -166,19 +165,9 @@ Box = {
 
         return null;
     },
+    //根据一个奖励id, 从_mMapBoxReward中获取一个奖励stBoxReward
     getBoxRewardById:function (tRewardId)
     {
-        /*
-        for ( var i = 0; i < this._mMapBoxReward.length; i++ )
-        {
-            var tmp = this._mMapBoxReward[i];
-            if ( tmp && tmp.id == tRewardId )
-            {
-                return tmp;
-            }
-        }
-        return null;
-        */
         if ( this._mMapBoxReward != null )
         {
             var t = this._mMapBoxReward[tRewardId];
@@ -190,19 +179,21 @@ Box = {
         }
         else return null;
     },
+    //开宝箱的业务流程
     openBox:function (tBoxId)
     {
+        //先获取一个宝箱
+        //如果,这个宝箱不存在,直接返回,null
         var tStBox = this.getBox(tBoxId);
         if ( tStBox == null )
         {
             //the box is no exit.
             return null;
         }
-        var rewardRange = new Array();
-        var rewardArray = new Array();
+        var rewardRange = new Array();  //奖励的范围,可能出现的奖励放在这个数组中
+        var rewardArray = new Array();  //奖励的数组,宝箱开出来的奖励出现在这个数组中, 以上两个组组中的元素不可重复
 
-
-
+        //获取 宝箱的奖励范围 rewardRange
         for ( var i = 0; i < tStBox.range.length; i++)
         {
             var tRId = tStBox.range[i];
@@ -211,6 +202,7 @@ Box = {
         }
 
         var rewardCount;
+        //计算要给几个奖励
         if (tStBox.rewardMax != tStBox.rewardMin)
         {
             rewardCount = parseInt((Math.random() * 100)) % (tStBox.rewardMax - tStBox.rewardMin + 1) + tStBox.rewardMin;
@@ -229,8 +221,10 @@ Box = {
             rewardCount = rewardRange.length();
         }
         var curRewwardCount = 0;
+        //下面要在 rewardRange 中获取范围
         while ( curRewwardCount < rewardCount && rewardRange.length > 0)
         {
+            //从 rewardRange 中随机获取一个奖励
             var index = (Math.random() * 100) % (rewardRange.length) | 0;
 
             if (index >= rewardRange.length)
@@ -243,6 +237,8 @@ Box = {
             }
 
             var tReward = rewardRange[index];
+            //刷一下是否满足概率
+            //满足 把奖励放入 rewardArray表中,并从rewardRange中移除
             if (Math.random() < tReward.probability)
             {
                 rewardArray.push(tReward);
@@ -253,6 +249,7 @@ Box = {
 
         var ret = new Array();
 
+        //最后把, rewardArray 中的物品转存一下,并返回给调用者
         for ( var i = 0; i < rewardArray.length; i++ )
         {
             var tBox = rewardArray[i];

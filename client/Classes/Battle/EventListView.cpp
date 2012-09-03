@@ -281,7 +281,7 @@ void EventListView::removeAndCleanSelf(float dt)
 
 void EventListView::callbackEventWasFinished(CCNode* node, void* data)
 {
-    this->scheduleOnce(schedule_selector(EventListView::showNextEvent), 0.01f);
+    this->scheduleOnce(schedule_selector(EventListView::showSideEvent), 0.01f);
 }
 
 void EventListView::showCurEvent()
@@ -389,7 +389,7 @@ void EventListView::showBattleResultView()
     this->addChild(p_CurLayer,kTagLayerBattleResult);
 }
 
-void EventListView::showNextEvent(float dt)
+void EventListView::showSideEvent(float dt)
 {
     if ( p_CurEvent && p_CurEvent->getBattleResultIsShowed() == false )
     {
