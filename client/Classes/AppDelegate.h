@@ -1,8 +1,15 @@
-#ifndef __APP_DELEGATE_H__
-#define __APP_DELEGATE_H__
+//
+//  GCTestAppDelegate.h
+//  GCTest
+//
+//  Created by Rohan Kuruvilla on 06/08/2012.
+//  Copyright __MyCompanyName__ 2012. All rights reserved.
+//
 
-#include "cocos2d.h"
+#ifndef  _APP_DELEGATE_H_
+#define  _APP_DELEGATE_H_
 
+#include "CCApplication.h"
 /**
 @brief    The cocos2d Application.
 
@@ -34,5 +41,5 @@ public:
     virtual void applicationWillEnterForeground();
 };
 
-#endif  // __APP_DELEGATE_H__
+#endif // _APP_DELEGATE_H_
 
