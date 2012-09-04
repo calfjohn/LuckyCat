@@ -44242,29 +44242,7 @@ JSBool js_cocos2dx_CCTMXLayer_setProperties(JSContext *cx, uint32_t argc, jsval 
 	JS_ReportError(cx, "wrong number of arguments: %d, was expecting %d", argc, 1);
 	return JS_FALSE;
 }
-JSBool js_cocos2dx_CCTMXLayer_listenBackToForeground(JSContext *cx, uint32_t argc, jsval *vp)
-{
-	jsval *argv = JS_ARGV(cx, vp);
-	JSObject *obj = JS_THIS_OBJECT(cx, vp);
-	js_proxy_t *proxy; JS_GET_NATIVE_PROXY(proxy, obj);
-	cocos2d::CCTMXLayer* cobj = (cocos2d::CCTMXLayer *)(proxy ? proxy->ptr : NULL);
-	TEST_NATIVE_OBJECT(cx, cobj)
 
-	if (argc == 1) {
-		cocos2d::CCObject* arg0;
-		do {
-			js_proxy_t *proxy;
-			JSObject *tmpObj = JSVAL_TO_OBJECT(argv[0]);
-			JS_GET_NATIVE_PROXY(proxy, tmpObj);
-			arg0 = (cocos2d::CCObject*)(proxy ? proxy->ptr : NULL);
-			TEST_NATIVE_OBJECT(cx, arg0)
-		} while (0);
-		cobj->listenBackToForeground(arg0);
-		return JS_TRUE;
-	}
-	JS_ReportError(cx, "wrong number of arguments: %d, was expecting %d", argc, 1);
-	return JS_FALSE;
-}
 JSBool js_cocos2dx_CCTMXLayer_removeTileAt(JSContext *cx, uint32_t argc, jsval *vp)
 {
 	jsval *argv = JS_ARGV(cx, vp);
@@ -44282,6 +44260,7 @@ JSBool js_cocos2dx_CCTMXLayer_removeTileAt(JSContext *cx, uint32_t argc, jsval *
 	JS_ReportError(cx, "wrong number of arguments: %d, was expecting %d", argc, 1);
 	return JS_FALSE;
 }
+
 JSBool js_cocos2dx_CCTMXLayer_initWithTilesetInfo(JSContext *cx, uint32_t argc, jsval *vp)
 {
 	jsval *argv = JS_ARGV(cx, vp);
@@ -44710,7 +44689,6 @@ void js_register_cocos2dx_CCTMXLayer(JSContext *cx, JSObject *global) {
 		JS_FN("setMapTileSize", js_cocos2dx_CCTMXLayer_setMapTileSize, 1, JSPROP_PERMANENT | JSPROP_SHARED),
 		JS_FN("getLayerOrientation", js_cocos2dx_CCTMXLayer_getLayerOrientation, 0, JSPROP_PERMANENT | JSPROP_SHARED),
 		JS_FN("setProperties", js_cocos2dx_CCTMXLayer_setProperties, 1, JSPROP_PERMANENT | JSPROP_SHARED),
-		JS_FN("listenBackToForeground", js_cocos2dx_CCTMXLayer_listenBackToForeground, 1, JSPROP_PERMANENT | JSPROP_SHARED),
 		JS_FN("removeTileAt", js_cocos2dx_CCTMXLayer_removeTileAt, 1, JSPROP_PERMANENT | JSPROP_SHARED),
 		JS_FN("initWithTilesetInfo", js_cocos2dx_CCTMXLayer_initWithTilesetInfo, 3, JSPROP_PERMANENT | JSPROP_SHARED),
 		JS_FN("setupTiles", js_cocos2dx_CCTMXLayer_setupTiles, 0, JSPROP_PERMANENT | JSPROP_SHARED),

@@ -2842,7 +2842,6 @@ JSBool js_cocos2dx_CCTMXLayer_getLayerSize(JSContext *cx, uint32_t argc, jsval *
 JSBool js_cocos2dx_CCTMXLayer_setMapTileSize(JSContext *cx, uint32_t argc, jsval *vp);
 JSBool js_cocos2dx_CCTMXLayer_getLayerOrientation(JSContext *cx, uint32_t argc, jsval *vp);
 JSBool js_cocos2dx_CCTMXLayer_setProperties(JSContext *cx, uint32_t argc, jsval *vp);
-JSBool js_cocos2dx_CCTMXLayer_listenBackToForeground(JSContext *cx, uint32_t argc, jsval *vp);
 JSBool js_cocos2dx_CCTMXLayer_removeTileAt(JSContext *cx, uint32_t argc, jsval *vp);
 JSBool js_cocos2dx_CCTMXLayer_initWithTilesetInfo(JSContext *cx, uint32_t argc, jsval *vp);
 JSBool js_cocos2dx_CCTMXLayer_setupTiles(JSContext *cx, uint32_t argc, jsval *vp);
