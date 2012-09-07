@@ -11,14 +11,8 @@ var lc = lc = lc || {};
 lc.LevelDataManager = cc.Class.extend({
     m_mapBible : [],
     m_mapActorLevelUpgrade : [],
-    ctor:function () {
-        this._super();
-    },
     //在这里初始化数据,读取数据库
     init:function () {
-        this._super();
-
-
         return true;
     },
     reload:function () {
@@ -181,7 +175,7 @@ lc.LevelDataManager = cc.Class.extend({
     {
         var pRetValue = null;
         var _iter = this.m_mapActorLevelUpgrade.find(tLevel);
-        for (var _index = 0, _index < this.m_mapActorLevelUpgrade.length; _index++)
+        for (var _index = 0; _index < this.m_mapActorLevelUpgrade.length; _index++)
         {
             var tActorLevelUpgrade = this.m_mapActorLevelUpgrade[_index];
             if (tActorLevelUpgrade.level == tLevel)
@@ -199,7 +193,7 @@ lc.fristLevelDataManager = true;
 lc.s_SharedLevelDataManager = null;
 
 lc.LevelDataManager.shareLevelDataManager = function (pOwner) {
-    if (lc.s_SharedLevelDataManager) {
+    if (lc.fristLevelDataManager) {
         lc.fristLevelDataManager = false;
         lc.s_SharedLevelDataManager = new lc.LevelDataManager();
         lc.s_SharedLevelDataManager.init();
