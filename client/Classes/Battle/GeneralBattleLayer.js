@@ -14,23 +14,40 @@ lc.GeneralBattleLayer = lc.TouchLayer.extend({
 
         var size = cc.Director.getInstance().getWinSize();
 
-        var lazyLayer = new cc.LazyLayer();
-        this.addChild(lazyLayer);
+        var tColorLayer = cc.LayerColor.create(cc.c4b(200,200,187,255),size.width*0.5 , size.height*0.1);
+        tColorLayer.setAnchorPoint(cc.p(0.5,0.5));
+        tColorLayer.setPosition(cc.PointMake(size.width * 0.5 , size.height * 0.7));
+        tColorLayer.ignoreAnchorPointForPosition(false);
+        tColorLayer.setColor(cc.orange());
+        this.addChild(tColorLayer,8);
+        this.registerTouchNode(tColorLayer);
+
+        tColorLayer = cc.LayerColor.create(cc.c4b(200,200,187,255),size.width*0.8 , size.height*0.4);
+        tColorLayer.setAnchorPoint(cc.p(0.5,0.5));
+        tColorLayer.setPosition(cc.PointMake(size.width * 0.5 , size.height * 0.5));
+        tColorLayer.ignoreAnchorPointForPosition(false);
+        tColorLayer.setColor(cc.red());
+        this.addChild(tColorLayer,7);
+        this.registerTouchNode(tColorLayer);
 
         var sprite = cc.Sprite.create("../Resources/HelloWorld.png");
         sprite.setAnchorPoint(cc.p(0.5, 0.5));
         sprite.setPosition(cc.p(size.width / 2, size.height / 2));
         sprite.setScale(0.5);
 
-        lazyLayer.addChild(sprite, 0);
+        this.addChild(sprite, 9);
 
 
-        var helloLabel = cc.LabelTTF.create("GeneralBattleLayer", "Arial", 38);
+        var helloLabel = cc.LabelTTF.create("GeneralBattleLayer", "Arial", 28);
         helloLabel.setPosition(cc.p(size.width / 2, size.height /2));
-        lazyLayer.addChild(helloLabel, 9);
+        this.addChild(helloLabel, 15);
+        helloLabel.setTag(1);
 
         this.setIsTouchAreaEnabled(true);
         this.registerTouchNode(sprite);
+
+//        var animation = cc.AnimationCache.getInstance().getAnimation("purpleBomb");
+//        this.m_action = cc.Animate.create(animation);
 
         return true;
     },
@@ -54,7 +71,16 @@ lc.GeneralBattleLayer = lc.TouchLayer.extend({
     },
     onCCControlButtonClicked : function ( pSender, pCCControlEvent)
     {
+        if (tLTouchEvent == kLTouchEventSingleClick)
+        {
+            getChildByTag(1).runAction(cc.Sequence.create(
+                cc.Show.create(),
+                this.m_action,
+                cc.Hide.create(),
+                cc.CallFunc.create(this.m_target, this.m_pfnSelector)) );
 
+            //this.setIsTouchForbidden(true);
+        }
     },
     notificationTouchEvent : function ( tLTouchEvent )
     {
@@ -74,10 +100,12 @@ lc.GeneralBattleLayer = lc.TouchLayer.extend({
         if ( tLTouchEvent == lc.kLTouchEventOutsideTouchArea )
         {
             cc.log("kLTouchEvent Outside TouchArea");
+            this.getChildByTag(1).setString("Touch Outside");
         }
         else if ( tLTouchEvent == lc.kLTouchEventInsideTouchArea )
         {
             cc.log("kLTouchEvent Inside TouchArea");
+            this.getChildByTag(1).setString("Touch Inside");
         }
         else if (tLTouchEvent == lc.kLTouchEventSingleClick)
         {
@@ -109,7 +137,7 @@ lc.GeneralBattleLayer = lc.TouchLayer.extend({
     }
 });
 
-lc.GeneralBattleLayer.create = function (pOwner) {
+lc.GeneralBattleLayer.create = function () {
     var ret = new lc.GeneralBattleLayer();
     if (ret && ret.init()) {
         return ret;

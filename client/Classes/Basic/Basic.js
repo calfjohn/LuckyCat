@@ -3,7 +3,7 @@ var lc = lc = lc || {};
 //a page is a game level
 lc.stPage = function (){
     var obj = new Object();
-
+    
     obj.id = 0;                     //index of page
     obj.name = 0;                   //page's titlecontent;
     obj.content = "";               //page's content

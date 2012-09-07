@@ -30,7 +30,7 @@ lc.BattleResultLayer = lc.TouchLayer.extend({
     {
          if (tLTouchEvent == lc.kLTouchEventSingleClick)
          {
-             this.removeAndCleanSelf();
+             this.removeAndCleanSelf(0);
          }
     },
     setData : function ( tEvent, target, pfnSelector)

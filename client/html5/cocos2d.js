@@ -37,6 +37,11 @@
         appFiles:[
             '../Classes/resource.js',
             '../Classes/myApp.js',
+
+            "../Classes/Basic/Basic.js",
+            "../Classes/Basic/DictDataManager.js",
+            "../Classes/Basic/LevelDataManager.js",
+
             "../Classes/Event/EventDataManager.js",
             "../Classes/Event/TouchLayer.js",
             "../Classes/Event/EventListLayer.js",
