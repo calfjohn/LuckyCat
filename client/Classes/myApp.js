@@ -78,6 +78,9 @@ var MyLayer = cc.Layer.extend({
 
         lazyLayer.addChild(this.sprite, 0);
 
+        var equip = lc.DictDataManager.getInstance().getEquipment(1);
+        this.helloLabel.setString(equip.name);
+
         return true;
     }
 

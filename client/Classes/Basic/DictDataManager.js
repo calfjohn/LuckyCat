@@ -5,6 +5,10 @@
  * Time: 下午4:33
  * To change this template use File | Settings | File Templates.
  */
+
+
+lc.g_SharedDictDataManager = null;
+
 lc.DictDataManager = cc.Class.extend({
     _mapMonster : [],
     _mapImage : [],
@@ -27,19 +31,19 @@ lc.DictDataManager = cc.Class.extend({
     },
     getMonsterImageId:function (monsterId)
     {
-        return this.mapMonster["" + monsterId];
+        return this._mapMonster["" + monsterId];
     },
     getImage:function (imageId)
     {
-        return this.mapImage["" + imageId];
+        return this._mapImage["" + imageId];
     },
     getEquipment:function (equipId)
     {
-        return this.mapEuipment["" + equipId];
+        return this._mapEuipment["" + equipId];
     },
     getEvent:function (eventId)
     {
-        return this.mapEvent["" + eventId];
+        return this._mapEvent["" + eventId];
     },
     _initMonster:function ()
     {
@@ -51,21 +55,17 @@ lc.DictDataManager = cc.Class.extend({
     },
     _initEquipment:function()
     {
-        this.mapEuipment = cc.SAXParser.shareParser().getList(s_dictEquipment);
+        this._mapEuipment = JSON.parse(cc.SAXParser.shareParser().getList(s_dictEquipment));
     },
     _initEvent:function()
     {
     }
 });
 
-lc.fristDictDataManager = true;
-lc.s_SharedDictDataManager = null;
-
 lc.DictDataManager.getInstance = function () {
-    if (lc.fristDictDataManager) {
-        lc.fristDictDataManager = false;
-        lc.s_SharedDictDataManager = new lc.DictDataManager();
-        lc.s_SharedDictDataManager._init();
+    if (!lc.g_SharedDictDataManager){
+        lc.g_SharedDictDataManager = new lc.DictDataManager();
+        lc.g_SharedDictDataManager._init();
     }
-    return cc.s_SharedDictDataManager;
+    return lc.g_SharedDictDataManager;
 };

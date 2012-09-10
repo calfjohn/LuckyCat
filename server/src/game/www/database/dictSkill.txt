@@ -1,1 +1,1 @@
-null
+{"1":{"id":1,"icon_id":62,"effect_id":1,"name":"奋力一击","description":"普通攻击"},"2":{"id":2,"icon_id":64,"effect_id":3,"name":"夺命一击","description":"1.5倍攻击"},"3":{"id":3,"icon_id":66,"effect_id":6,"name":"雷霆万钧","description":"3倍爆击"},"4":{"id":4,"icon_id":67,"effect_id":4,"name":"勇往直前","description":"无视敌人防御"},"5":{"id":5,"icon_id":63,"effect_id":2,"name":"攻守兼备","description":"50％伤害变为自己的HP"},"6":{"id":6,"icon_id":70,"effect_id":5,"name":"斗转星移","description":"100％伤害变为自己的HP"}}
