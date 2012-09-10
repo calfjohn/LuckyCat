@@ -15,8 +15,6 @@ lc.GeneralBattleLayer = lc.TouchLayer.extend({
     init:function () {
         this._super();
 
-        this.setIsTouchAreaEnabled(true);
-
         var size = cc.Director.getInstance().getWinSize();
 
         var sprite = cc.Sprite.create("../Resources/HelloWorld.png");

@@ -53,16 +53,19 @@ lc.TouchLayer = cc.Layer.extend({
                 this.notificationTouchEvent(lc.kLTouchEventInsideTouchArea);
             }
         }
-        else if ( this.getIsTouchForbidden() )
+
+        if ( this.getIsTouchForbidden() )
         {
-            this.mBeginPoint = cc.PointZero();
+            this.mBeginPoint.x = 0;
+            this.mBeginPoint.y = 0;
+
+            cc.log("Begin Touch Forbidden.");
 
             return false;
         }
 
-        this.mBeginPoint = touch._point;
-
-        cc.log("-->>TouchBegin point x :" + this.mBeginPoint.x + " y :" + this.mBeginPoint.y);
+        this.mBeginPoint.x = touch._point.x;
+        this.mBeginPoint.y = touch._point.y;
 
         return true;
     },
@@ -74,9 +77,11 @@ lc.TouchLayer = cc.Layer.extend({
         if ( this.mBeginPoint.x != 0 && this.mBeginPoint.y != 0 )
         {
             this.notificationTouchEvent(lc.kLTouchEventSingleClick);
+            cc.log("onTouchEnded Touch kLTouchEventSingleClick.");
         }
 
-        this.mBeginPoint = cc.PointZero();
+        this.mBeginPoint.x = 0;
+        this.mBeginPoint.y = 0;
     },
     /**
      * 想要获得Touch事件的通知,必须重写这个函数
