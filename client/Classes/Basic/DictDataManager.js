@@ -6,107 +6,60 @@
  * To change this template use File | Settings | File Templates.
  */
 lc.DictDataManager = cc.Class.extend({
-    m_mapMonster : [],
-    m_mapImage : [],
-    m_mapEuipment : [],
-    m_mapEvent : [],
+    _mapMonster : [],
+    _mapImage : [],
+    _mapEuipment : [],
+    _mapEvent : [],
 
     //在这里初始化数据,读取数据库
-    init:function () {
+    _init:function () {
         //load battle animation first
-        var cache = cc.AnimationCache.getInstance();
-        cache.addAnimationsWithFile("image/battle/animationsBomb.plist");
-        cache.addAnimationsWithFile("image/battle/animationsDice.plist");
+//        var cache = cc.AnimationCache.getInstance();
+//        cache.addAnimationsWithFile(s_animationsBomb.plist);
+//        cache.addAnimationsWithFile(s_animationsDice.plist);
 
-        this.initMonster();
-        this.initImage();
-        this.initEquipment();
-        this.initEvent();
-
-        return true;
+        this._initMonster();
+        this._initImage();
+        this._initEquipment();
+        this._initEvent();
     },
     getMonsterImageId:function (monsterId)
     {
-        var pRetValue = null;
-        for (var i = 0; i < this.m_mapMonster.length; i++)
-        {
-            var tMonster = this.m_mapMonster[i];
-            if (tMonster.id == monsterId)
-            {
-                pRetValue = tMonster;
-                break;
-            }
-        }
-
-        return pRetValue;
+        return this.mapMonster["" + monsterId];
     },
     getImage:function (imageId)
     {
-        var pRetValue = null;
-        for (var i = 0; i < this.m_mapImage.length; i++)
-        {
-            var tImage = this.m_mapImage[i];
-            if (tImage.id == imageId)
-            {
-                pRetValue = tImage;
-                break;
-            }
-        }
-
-        return pRetValue;
+        return this.mapImage["" + imageId];
     },
     getEquipment:function (equipId)
     {
-        var pRetValue = null;
-        for (var i = 0; i < this.m_mapEuipment.length; i++)
-        {
-            var tEquip = this.m_mapEuipment[i];
-            if (tEquip.equipId == equipId)
-            {
-                pRetValue = tEquip;
-                break;
-            }
-        }
-
-        return pRetValue;
+        return this.mapEuipment["" + equipId];
     },
     getEvent:function (eventId)
     {
-        var pRetValue = null;
-        for (var i = 0; i < this.m_mapEvent.length; i++)
-        {
-            var tmp = this.m_mapEvent[i];
-            if (tmp.id == eventId)
-            {
-                pRetValue = tmp;
-                break;
-            }
-        }
-
-        return pRetValue;
+        return this.mapEvent["" + eventId];
     },
-    initMonster:function ()
+    _initMonster:function ()
     {
 
     },
-    initImage:function ()
+    _initImage:function ()
     {
 
     },
-    initEquipment:function()
+    _initEquipment:function()
     {
-        var temp = cc.SAXParser.shareParser().getList(s_dictEquipment);
+        this.mapEuipment = cc.SAXParser.shareParser().getList(s_dictEquipment);
     },
-    initEvent:function()
+    _initEvent:function()
     {
-
     }
 });
 
 lc.fristDictDataManager = true;
 lc.s_SharedDictDataManager = null;
 
-lc.DictDataManager.shareLevelDataManager = function () {
+lc.DictDataManager.getInstance = function () {
     if (lc.fristDictDataManager) {
         lc.fristDictDataManager = false;
         lc.s_SharedDictDataManager = new lc.DictDataManager();

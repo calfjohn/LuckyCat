@@ -240,7 +240,7 @@ DictManager = {
 
     dictToFiles: function() {
         var fs = require('fs');
-        var filePath = '/Users/cocos2d/Documents/luckycat/LuckyCat/server/src/game/www/database/';
+        var filePath = process.cwd() + '/server/src/game/www/database/';
 
         var dictEquipment = JSON.stringify(DictManager._cacheEquipment);
         fs.writeFile(filePath + 'dictEquipment.txt', dictEquipment,function(err){
@@ -292,5 +292,5 @@ DictManager = {
     }
 };
 
-module.exports = DictManager;
+    module.exports = DictManager;
 })();
