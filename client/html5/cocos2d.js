@@ -36,8 +36,24 @@
         //SingleEngineFile:'',
         appFiles:[
             '../Classes/resource.js',
-            '../Classes/myApp.js',//add your own files in order here
-            '../Classes/PlayerInfo/PlayerInfoView.js'
+            '../Classes/myApp.js',
+
+            "../Classes/Basic/Basic.js",
+            "../Classes/Basic/DictDataManager.js",
+            "../Classes/Basic/LevelDataManager.js",
+
+            "../Classes/Event/EventDataManager.js",
+            "../Classes/Event/TouchLayer.js",
+            "../Classes/Event/EventListLayer.js",
+            "../Classes/Event/HeroHeadLayer.js",
+            "../Classes/Event/NPCDialogLayer.js",
+            "../Classes/Event/OpenBoxResultLayer.js",
+            "../Classes/Event/OpenBoxLayer.js",
+            "../Classes/Battle/SpecialBattleLayer.js",
+            "../Classes/Battle/BattleResultLayer.js",
+            "../Classes/Battle/GeneralBattleLayer.js",
+
+            //add your own files in order here
         ]
     };
     window.addEventListener('DOMContentLoaded', function () {
