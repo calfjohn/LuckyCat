@@ -58,7 +58,46 @@ var cocos2dApp = cc.Application.extend({
         // run
         director.runWithScene(new this.startScene());
 
+        window.addEventListener("resize", function (event) {
+            //cc.log("change windows rect!!!");
+        });
+
         return true;
     }
 });
 var myApp = new cocos2dApp(MyScene);
+
+cc.adjustSizeForWindow = function () {
+    var margin = document.documentElement.clientWidth - document.body.clientWidth;
+    if (document.documentElement.clientWidth < cc.originalCanvasSize.width) {
+        cc.canvas.width = cc.originalCanvasSize.width;
+    } else {
+        cc.canvas.width = document.documentElement.clientWidth - margin;
+    }
+    if (document.documentElement.clientHeight < cc.originalCanvasSize.height) {
+        cc.canvas.height = cc.originalCanvasSize.height;
+    } else {
+        cc.canvas.height = document.documentElement.clientHeight - margin;
+    }
+
+    var xScale = cc.canvas.width / cc.originalCanvasSize.width;
+    var yScale = cc.canvas.height / cc.originalCanvasSize.height;
+    if (xScale > yScale) {
+        xScale = yScale;
+    }
+    cc.canvas.width = cc.originalCanvasSize.width * xScale;
+    cc.canvas.height = cc.originalCanvasSize.height * xScale;
+    var divContainer = document.getElementById("Container");
+    var parentDiv = document.getElementById("Cocos2dGameContainer");
+    if (parentDiv) {
+        parentDiv.style.width = cc.canvas.width + "px";
+        parentDiv.style.height = cc.canvas.height + "px";
+    }
+    if (divContainer) {
+        divContainer.style.width = cc.canvas.width + "px";
+        divContainer.style.height = cc.canvas.height + "px";
+    }
+    cc.renderContext.translate(0, cc.canvas.height);
+    cc.renderContext.scale(xScale, xScale);
+    cc.Director.getInstance().setContentScaleFactor(xScale);
+}

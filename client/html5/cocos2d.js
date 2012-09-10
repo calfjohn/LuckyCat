@@ -36,7 +36,8 @@
         //SingleEngineFile:'',
         appFiles:[
             '../Classes/resource.js',
-            '../Classes/myApp.js'//add your own files in order here
+            '../Classes/myApp.js',//add your own files in order here
+            '../Classes/PlayerInfo/PlayerInfoView.js'
         ]
     };
     window.addEventListener('DOMContentLoaded', function () {
