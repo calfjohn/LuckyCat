@@ -10,8 +10,8 @@ var s_pngPurpleBomb = "../Resources/image/battle/purpleBomb.png";
 var s_pngYellowBomb = "../Resources/image/battle/yellowBomb.png";
 
 var s_dictEquipment = "../../server/src/game/www/database/dictEquipment.txt";
-var s_dictCareer = "../Resources/database/dictCareer.txt";
-var s_dictLevel = "../Resources/database/dictLevel.txt";
+var s_dictCareer = "../../server/src/game/www/database/dictCareer.txt";
+var s_dictLevel = "../../server/src/game/www/database/dictLevel.txt";
 var s_plistAnimationsBomb = "../Resources/image/battle/animationsBomb.plist";
 var s_plistAnimationsDice = "../Resources/image/battle/animationsDice.plist";
 var s_plistGreenBomb = "../Resources/image/battle/greenBomb.plist";

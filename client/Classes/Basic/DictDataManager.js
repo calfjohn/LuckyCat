@@ -65,7 +65,7 @@ lc.DictDataManager.getInstance = function () {
     if (lc.fristDictDataManager) {
         lc.fristDictDataManager = false;
         lc.s_SharedDictDataManager = new lc.DictDataManager();
-        lc.s_SharedDictDataManager.init();
+        lc.s_SharedDictDataManager._init();
     }
     return cc.s_SharedDictDataManager;
 };

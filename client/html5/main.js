@@ -54,7 +54,7 @@ var cocos2dApp = cc.Application.extend({
         director.setAnimationInterval(1.0 / this.config['frameRate']);
 
         //init some data for game
-        lc.DictDataManager.shareDictDataManager();
+        lc.DictDataManager.getInstance();
         lc.LevelDataManager.shareLevelDataManager();
 
         // create a scene. it's an autorelease object
