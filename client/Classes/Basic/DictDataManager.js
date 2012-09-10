@@ -14,9 +14,11 @@ lc.DictDataManager = cc.Class.extend({
     //在这里初始化数据,读取数据库
     _init:function () {
         //load battle animation first
-//        var cache = cc.AnimationCache.getInstance();
-//        cache.addAnimationsWithFile(s_animationsBomb.plist);
-//        cache.addAnimationsWithFile(s_animationsDice.plist);
+
+        cc.AnimationCache.purgeSharedAnimationCache();
+        var cache = cc.AnimationCache.getInstance();
+        cache.addAnimationsWithFile(s_plistAnimationsBomb);
+        cache.addAnimationsWithFile(s_plistAnimationsDice);
 
         this._initMonster();
         this._initImage();
