@@ -73,7 +73,7 @@
 	<dict>
 		<key>spritesheets</key>
 		<array>
-			<string>image/battle/dice.plist</string>
+			<string>../Resources/image/battle/dice.plist</string>
 		</array>
 		<key>format</key>
 		<integer>2</integer>

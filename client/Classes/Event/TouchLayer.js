@@ -102,7 +102,7 @@ lc.TouchLayer = cc.Layer.extend({
         {
             for (var i = 0; this.m_TouchNodeList && i < this.m_TouchNodeList.length ; i++)
             {
-                var pN = m_TouchNodeList[i];
+                var pN = this.m_TouchNodeList[i];
                 if ( pN == pNode )
                 {
                     return false;

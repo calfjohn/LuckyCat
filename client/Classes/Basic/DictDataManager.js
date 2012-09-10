@@ -13,9 +13,10 @@ lc.DictDataManager = cc.Class.extend({
     //在这里初始化数据,读取数据库
     init:function () {
         //load battle animation first
+        cc.AnimationCache.purgeSharedAnimationCache();
         var cache = cc.AnimationCache.getInstance();
-        cache.addAnimationsWithFile(s_AnimationsBomb);
-        cache.addAnimationsWithFile(s_AnimationsDice);
+        cache.addAnimationsWithFile(s_plistAnimationsBomb);
+        cache.addAnimationsWithFile(s_plistAnimationsDice);
 
         return true;
     },
@@ -100,7 +101,7 @@ lc.DictDataManager = cc.Class.extend({
 lc.fristDictDataManager = true;
 lc.s_SharedDictDataManager = null;
 
-lc.DictDataManager.shareLevelDataManager = function () {
+lc.DictDataManager.shareDictDataManager = function () {
     if (lc.fristDictDataManager) {
         lc.fristDictDataManager = false;
         lc.s_SharedDictDataManager = new lc.DictDataManager();
