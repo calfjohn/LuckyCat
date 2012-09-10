@@ -1,1 +1,1 @@
-{"1":{"level":1,"growth":0.1},"2":{"level":2,"growth":0.15},"3":{"level":3,"growth":0.23},"50":{"level":50,"growth":0.7},"100":{"level":100,"growth":2.3}}
+null

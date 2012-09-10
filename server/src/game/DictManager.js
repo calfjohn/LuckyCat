@@ -156,7 +156,7 @@ DictManager = {
             });
         });
 
-        dictToFiles();
+       this.dictToFiles();
     },
 
     getEquipmentByID: function(id) {
