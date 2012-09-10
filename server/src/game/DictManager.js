@@ -155,6 +155,8 @@ DictManager = {
                 });
             });
         });
+
+        dictToFiles();
     },
 
     getEquipmentByID: function(id) {
@@ -234,9 +236,60 @@ DictManager = {
             ret = null;
         }
         return ret;
+    },
+
+    dictToFiles: function() {
+        var fs = require('fs');
+        var filePath = '/Users/cocos2d/Documents/luckycat/LuckyCat/server/src/game/www/database/';
+
+        var dictEquipment = JSON.stringify(DictManager._cacheEquipment);
+        fs.writeFile(filePath + 'dictEquipment.txt', dictEquipment,function(err){
+                if(err) throw err;
+                console.log('has finished');
+            });
+
+        var dictCareer = JSON.stringify(DictManager._cacheCareer);
+        fs.writeFile(filePath + 'dictCareer.txt', dictCareer,function(err){
+            if(err) throw err;
+            console.log('has finished');
+        });
+
+        var dictMonster = JSON.stringify(DictManager._cacheMonster);
+        fs.writeFile(filePath + 'dictMonster.txt', dictMonster,function(err){
+            if(err) throw err;
+            console.log('has finished');
+        });
+
+        var dictLevel= JSON.stringify(DictManager._cacheLevel);
+        fs.writeFile(filePath + 'dictLevel.txt', dictLevel,function(err){
+            if(err) throw err;
+            console.log('has finished');
+        });
+
+        var dictEquipmentLevelGrowth = JSON.stringify(DictManager._cacheEquipmentLevelGrowth);
+        fs.writeFile(filePath + 'dictEquipmentLevelGrowth.txt', dictEquipmentLevelGrowth,function(err){
+            if(err) throw err;
+            console.log('has finished');
+        });
+
+        var dictEquipmentRankGrowth = JSON.stringify(DictManager._cacheEquipmentRankGrowth);
+        fs.writeFile(filePath + 'dictEquipmentRankGrowth.txt', dictEquipmentRankGrowth,function(err){
+            if(err) throw err;
+            console.log('has finished');
+        });
+
+        var dictActorLevelUpgrade = JSON.stringify(DictManager._cacheActorLevelUpgrade);
+        fs.writeFile(filePath + 'dictActorLevelUpgrade.txt', dictActorLevelUpgrade,function(err){
+            if(err) throw err;
+            console.log('has finished');
+        });
+
+        var dictSkill = JSON.stringify(DictManager._cacheSkill);
+        fs.writeFile(filePath + 'dictSkill.txt', dictSkill,function(err){
+            if(err) throw err;
+            console.log('has finished');
+        });
     }
-
-
 };
 
 module.exports = DictManager;

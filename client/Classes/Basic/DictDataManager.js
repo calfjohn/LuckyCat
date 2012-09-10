@@ -10,12 +10,18 @@ lc.DictDataManager = cc.Class.extend({
     m_mapImage : [],
     m_mapEuipment : [],
     m_mapEvent : [],
+
     //在这里初始化数据,读取数据库
     init:function () {
         //load battle animation first
         var cache = cc.AnimationCache.getInstance();
-        cache.addAnimationsWithFile(s_AnimationsBomb);
-        cache.addAnimationsWithFile(s_AnimationsDice);
+        cache.addAnimationsWithFile("image/battle/animationsBomb.plist");
+        cache.addAnimationsWithFile("image/battle/animationsDice.plist");
+
+        this.initMonster();
+        this.initImage();
+        this.initEquipment();
+        this.initEvent();
 
         return true;
     },
@@ -89,7 +95,7 @@ lc.DictDataManager = cc.Class.extend({
     },
     initEquipment:function()
     {
-
+        var temp = cc.SAXParser.shareParser().getList(s_dictEquipment);
     },
     initEvent:function()
     {
