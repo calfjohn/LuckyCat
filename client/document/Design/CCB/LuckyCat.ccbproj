@@ -12,10 +12,8 @@
 	<false/>
 	<key>javascriptBased</key>
 	<false/>
-	<key>onlyPublishCCBs</key>
-	<false/>
 	<key>publishDirectory</key>
-	<string></string>
+	<string>../pub</string>
 	<key>publishToZipFile</key>
 	<false/>
 	<key>resourcePaths</key>
