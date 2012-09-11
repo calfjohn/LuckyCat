@@ -19,6 +19,7 @@ var s_plistOrangeBomb = "../Resources/image/battle/orangeBomb.plist";
 var s_plistPurpleBomb = "../Resources/image/battle/purpleBomb.plist";
 var s_plistYellowBomb = "../Resources/image/battle/yellowBomb.plist";
 var s_plistDice = "../Resources/image/battle/dice.plist";
+var s_ccbiBasic =  "../../server/src/game/www/basic.ccbi";
 
 var g_ressources = [
     //image
@@ -42,7 +43,7 @@ var g_ressources = [
     {type:"plist", src:s_plistYellowBomb},
     {type:"plist", src:s_plistDice},
     {type:"plist", src:s_plistAnimationsDice},
-    {type:"plist", src:s_plistAnimationsBomb}
+    {type:"plist", src:s_plistAnimationsBomb},
     //fnt
 
     //tmx
@@ -50,4 +51,7 @@ var g_ressources = [
     //bgm
 
     //effect
+
+    //ccbi
+    {type:"ccbi", src:s_ccbiBasic}
 ];
