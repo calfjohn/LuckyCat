@@ -78,6 +78,13 @@ var MyLayer = cc.Layer.extend({
 
         lazyLayer.addChild(this.sprite, 0);
 
+        var equip = lc.DictDataManager.getInstance().getEquipment(1);
+        this.helloLabel.setString(equip.name);
+
+//        var newReader = new cc.CCBReader();
+//        newReader.readNodeGraphFromFile(s_ccbiBasic)
+        console.log(cc.FileUtils.getInstance()._fileDataCache[s_ccbiBasic]);
+
         return true;
     }
 

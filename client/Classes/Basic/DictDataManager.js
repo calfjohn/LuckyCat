@@ -5,107 +5,67 @@
  * Time: 下午4:33
  * To change this template use File | Settings | File Templates.
  */
+
+
+lc.g_SharedDictDataManager = null;
+
 lc.DictDataManager = cc.Class.extend({
-    m_mapMonster : [],
-    m_mapImage : [],
-    m_mapEuipment : [],
-    m_mapEvent : [],
+    _mapMonster : [],
+    _mapImage : [],
+    _mapEuipment : [],
+    _mapEvent : [],
+
     //在这里初始化数据,读取数据库
-    init:function () {
+    _init:function () {
         //load battle animation first
+
         cc.AnimationCache.purgeSharedAnimationCache();
         var cache = cc.AnimationCache.getInstance();
         cache.addAnimationsWithFile(s_plistAnimationsBomb);
         cache.addAnimationsWithFile(s_plistAnimationsDice);
 
-        return true;
+        this._initMonster();
+        this._initImage();
+        this._initEquipment();
+        this._initEvent();
     },
     getMonsterImageId:function (monsterId)
     {
-        var pRetValue = null;
-        for (var i = 0; i < this.m_mapMonster.length; i++)
-        {
-            var tMonster = this.m_mapMonster[i];
-            if (tMonster.id == monsterId)
-            {
-                pRetValue = tMonster;
-                break;
-            }
-        }
-
-        return pRetValue;
+        return this._mapMonster["" + monsterId];
     },
     getImage:function (imageId)
     {
-        var pRetValue = null;
-        for (var i = 0; i < this.m_mapImage.length; i++)
-        {
-            var tImage = this.m_mapImage[i];
-            if (tImage.id == imageId)
-            {
-                pRetValue = tImage;
-                break;
-            }
-        }
-
-        return pRetValue;
+        return this._mapImage["" + imageId];
     },
     getEquipment:function (equipId)
     {
-        var pRetValue = null;
-        for (var i = 0; i < this.m_mapEuipment.length; i++)
-        {
-            var tEquip = this.m_mapEuipment[i];
-            if (tEquip.equipId == equipId)
-            {
-                pRetValue = tEquip;
-                break;
-            }
-        }
-
-        return pRetValue;
+        return this._mapEuipment["" + equipId];
     },
     getEvent:function (eventId)
     {
-        var pRetValue = null;
-        for (var i = 0; i < this.m_mapEvent.length; i++)
-        {
-            var tmp = this.m_mapEvent[i];
-            if (tmp.id == eventId)
-            {
-                pRetValue = tmp;
-                break;
-            }
-        }
-
-        return pRetValue;
+        return this._mapEvent["" + eventId];
     },
-    initMonster:function ()
+    _initMonster:function ()
     {
 
     },
-    initImage:function ()
+    _initImage:function ()
     {
 
     },
-    initEquipment:function()
+    _initEquipment:function()
     {
-
+        this._mapEuipment = JSON.parse(cc.SAXParser.shareParser().getList(s_dictEquipment));
     },
-    initEvent:function()
+    _initEvent:function()
     {
-
     }
 });
 
-lc.fristDictDataManager = true;
-lc.s_SharedDictDataManager = null;
-
-lc.DictDataManager.shareDictDataManager = function () {
-    if (lc.fristDictDataManager) {
-        lc.fristDictDataManager = false;
-        lc.s_SharedDictDataManager = new lc.DictDataManager();
-        lc.s_SharedDictDataManager.init();
+lc.DictDataManager.getInstance = function () {
+    if (!lc.g_SharedDictDataManager){
+        lc.g_SharedDictDataManager = new lc.DictDataManager();
+        lc.g_SharedDictDataManager._init();
     }
-    return cc.s_SharedDictDataManager;
+    return lc.g_SharedDictDataManager;
 };
