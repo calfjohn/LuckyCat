@@ -31,6 +31,7 @@
         box2d:false,
         showFPS:true,
         frameRate:60,
+        loadExtension:true,
         tag:'gameCanvas', //the dom element to run cocos2d on
         engineDir:'../libs/cocos2d-html5/cocos2d/',
         //SingleEngineFile:'',
