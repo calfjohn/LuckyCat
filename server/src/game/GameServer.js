@@ -18,6 +18,10 @@ var httpHandlers = { "/game/combat":      "./handler/combat"
     , "/game/pk/getPKList":             "./handler/pk.getPKList"
 };
 
+//var dataHandlers = { "/database/dbEquipment":       "./dataHandler/dict.equipment"
+//};
+
+
 var wsHandlers = [
     "./socket/GameServerAgent"
 ];
@@ -119,6 +123,15 @@ app.initHandlers = function () {
         }
         app.post(key, handler.handler);
     }
+
+    //just for client get
+//    for (var key in dataHandlers) {
+//        handler = require(dataHandlers[key]);
+//        if (handler.initReference) {
+//            handler.initReference(reference.getReference(key));
+//        }
+//        app.get(key, handler.handler);
+//    }
 };
 
 // start server, begin listening

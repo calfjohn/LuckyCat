@@ -31,4 +31,12 @@ if (1) {
     });
 };
 
+// start browser server
+if (1) {
+    var browserServer = require("./browser/BrowserServer").initInstance(function() {
+        console.log("browser server begin listen...");
+        browserServer.start();
+    });
+};
+
 console.log("create ok");

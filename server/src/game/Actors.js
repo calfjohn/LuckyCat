@@ -10,7 +10,7 @@
 require("../system/DBAgent");
 require("../system/Log");
 require("./Actor");
-require("./DictManager")
+require("./DictManager");
 
 var log, util;
 log = new Log("Actors");
