@@ -98,7 +98,7 @@
 								<key>type</key>
 								<string>Integer</string>
 								<key>value</key>
-								<integer>1</integer>
+								<integer>-1</integer>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -123,8 +123,8 @@
 								<string>Block</string>
 								<key>value</key>
 								<array>
-									<string>onMenuItemClicked</string>
-									<integer>1</integer>
+									<string></string>
+									<integer>0</integer>
 								</array>
 							</dict>
 							<dict>
@@ -245,7 +245,7 @@
 								<key>type</key>
 								<string>Integer</string>
 								<key>value</key>
-								<integer>2</integer>
+								<integer>-1</integer>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -270,8 +270,8 @@
 								<string>Block</string>
 								<key>value</key>
 								<array>
-									<string>onMenuItemClicked</string>
-									<integer>1</integer>
+									<string></string>
+									<integer>0</integer>
 								</array>
 							</dict>
 							<dict>
@@ -450,7 +450,7 @@
 			</dict>
 		</array>
 		<key>customClass</key>
-		<string>HeroHeadView</string>
+		<string></string>
 		<key>memberVarAssignmentName</key>
 		<string></string>
 		<key>memberVarAssignmentType</key>
