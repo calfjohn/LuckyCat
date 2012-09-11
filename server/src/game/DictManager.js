@@ -122,7 +122,9 @@ DictManager = {
 
         var dictToFiles = function() {
             var fs = require('fs');
-            var filePath = process.cwd() + '/server/src/game/www/database/';
+            //var filePath = process.cwd() + '/server/src/game/www/database/';
+            console.log(__dirname);
+            var filePath = __dirname + '/../browser/client/Resources/database/';
 
             var dictEquipment = JSON.stringify(DictManager._cacheEquipment);
             fs.writeFile(filePath + 'dictEquipment.txt', dictEquipment,function(err){

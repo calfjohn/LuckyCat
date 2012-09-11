@@ -9,9 +9,9 @@ var s_pngOrangeBomb = "../Resources/image/battle/orangeBomb.png";
 var s_pngPurpleBomb = "../Resources/image/battle/purpleBomb.png";
 var s_pngYellowBomb = "../Resources/image/battle/yellowBomb.png";
 
-var s_dictEquipment = "../../server/src/game/www/database/dictEquipment.txt";
-var s_dictCareer = "../../server/src/game/www/database/dictCareer.txt";
-var s_dictLevel = "../../server/src/game/www/database/dictLevel.txt";
+var s_dictEquipment = "../Resources/database/dictEquipment.txt";
+var s_dictCareer = "../Resources/database/dictCareer.txt";
+var s_dictLevel = "../Resources/database/dictLevel.txt";
 var s_plistAnimationsBomb = "../Resources/image/battle/animationsBomb.plist";
 var s_plistAnimationsDice = "../Resources/image/battle/animationsDice.plist";
 var s_plistGreenBomb = "../Resources/image/battle/greenBomb.plist";
@@ -19,7 +19,8 @@ var s_plistOrangeBomb = "../Resources/image/battle/orangeBomb.plist";
 var s_plistPurpleBomb = "../Resources/image/battle/purpleBomb.plist";
 var s_plistYellowBomb = "../Resources/image/battle/yellowBomb.plist";
 var s_plistDice = "../Resources/image/battle/dice.plist";
-var s_ccbiBasic =  "../../server/src/game/www/basic.ccbi";
+
+var s_ccbiBasic =  "../Resources/ccb/basic.ccbi";
 
 var g_ressources = [
     //image
