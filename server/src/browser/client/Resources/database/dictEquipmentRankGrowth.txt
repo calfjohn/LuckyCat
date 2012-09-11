@@ -1,0 +1,1 @@
+{"1":{"rank":1,"growth":0.1},"2":{"rank":2,"growth":0.15},"3":{"rank":3,"growth":0.2},"4":{"rank":4,"growth":0.25},"5":{"rank":5,"growth":0.3}}
