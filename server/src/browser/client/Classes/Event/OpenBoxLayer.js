@@ -71,10 +71,33 @@ lc.OpenBoxLayer = lc.TouchLayer.extend({
     }
 });
 
-lc.OpenBoxLayer.create = function (pOwner) {
+lc.OpenBoxLayerLoader = cc.LayerLoader.extend({
+                                                _createCCNode:function (parent, ccbReader) {
+                                                return lc.OpenBoxLayer.create();
+                                                }
+                                                });
+
+lc.OpenBoxLayerLoader.loader = function () {
+    return new lc.OpenBoxLayerLoader();
+};
+
+lc.OpenBoxLayer.create = function ()
+{
     var ret = new lc.OpenBoxLayer();
     if (ret && ret.init()) {
         return ret;
     }
     return null;
+};
+
+lc.OpenBoxLayer.createLoader = function (pOwner) {
+    var ccNodeLoaderLibrary = cc.NodeLoaderLibrary.newDefaultCCNodeLoaderLibrary();
+    
+    ccNodeLoaderLibrary.registerCCNodeLoader("OpenBoxLayer", lc.OpenBoxLayerLoader.loader());
+    
+    var ccbReader = new cc.CCBReader(ccNodeLoaderLibrary);
+    
+    var pNode = ccbReader.readNodeGraphFromFile("",s_ccbiOpenBox);
+    
+    return pNode;
 };

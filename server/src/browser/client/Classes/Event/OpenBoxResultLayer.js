@@ -67,7 +67,18 @@ lc.OpenBoxResultLayer = cc.Layer.extend({
     }
 });
 
-lc.OpenBoxResultLayer.create = function (pOwner) {
+lc.OpenBoxResultLayerLoader = cc.LayerLoader.extend({
+    _createCCNode:function (parent, ccbReader) {
+        return lc.OpenBoxResultLayer.create();
+    }
+});
+
+lc.OpenBoxResultLayerLoader.loader = function () {
+    return new lc.OpenBoxResultLayerLoader();
+};
+
+lc.OpenBoxResultLayer.create = function ()
+{
     var ret = new lc.OpenBoxResultLayer();
     if (ret && ret.init()) {
         return ret;
@@ -75,3 +86,14 @@ lc.OpenBoxResultLayer.create = function (pOwner) {
     return null;
 };
 
+lc.OpenBoxResultLayer.createLoader = function (pOwner) {
+    var ccNodeLoaderLibrary = cc.NodeLoaderLibrary.newDefaultCCNodeLoaderLibrary();
+
+    ccNodeLoaderLibrary.registerCCNodeLoader("OpenBoxResultLayer", lc.OpenBoxResultLayerLoader.loader());
+
+    var ccbReader = new cc.CCBReader(ccNodeLoaderLibrary);
+
+    var pNode = ccbReader.readNodeGraphFromFile("",s_ccbiOpenBoxResult);
+
+    return pNode;
+};

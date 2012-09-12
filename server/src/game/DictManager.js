@@ -27,6 +27,10 @@ DictManager = {
     _cacheEquipmentRankGrowth: null,
     _cacheActorLevelUpgrade: null,
     _cacheSkill: null,
+    _cacheEvent: null,
+    _cacheNpcDialog: null,
+    _cacheImage: null,
+    _cacheBible: null,
     initInstance:function (dbConfig, callback) {
         DictManager._dbAgent = new DBAgent(dbConfig);
         DictManager._dbAgent.connect(true);
@@ -109,6 +113,50 @@ DictManager = {
             }
         };
 
+        var getEvent = function(err, rows){
+            if(!err){
+                DictManager._cacheEvent = {};
+                for(var i = 0; i < rows.length; ++i){
+                    var data = rows[i];
+                    var id = "" + data.id;
+                    DictManager._cacheEvent[id] = data;
+                }
+            }
+        };
+
+        var getImage = function(err, rows){
+            if(!err){
+                DictManager._cacheImage = {};
+                for(var i = 0; i < rows.length; ++i){
+                    var data = rows[i];
+                    var id = "" + data.id;
+                    DictManager._cacheImage[id] = data;
+                }
+            }
+        };
+
+        var getBible = function(err, rows){
+            if(!err){
+                DictManager._cacheBible = {};
+                for(var i = 0; i < rows.length; ++i){
+                    var data = rows[i];
+                    var id = "" + data.id;
+                    DictManager._cacheBible[id] = data;
+                }
+            }
+        };
+
+        var getNpcDialog = function(err, rows){
+            if(!err){
+                DictManager._cacheNpcDialog = {};
+                for(var i = 0; i < rows.length; ++i){
+                    var data = rows[i];
+                    var id = "" + data.id;
+                    DictManager._cacheNpcDialog[id] = data;
+                }
+            }
+        };
+
         var getSkill = function(err, rows){
             if(!err){
                 DictManager._cacheSkill = {};
@@ -173,6 +221,30 @@ DictManager = {
                 if(err) throw err;
                 console.log('has finished');
             });
+
+            var dictEvent = JSON.stringify(DictManager._cacheEvent);
+            fs.writeFile(filePath + 'dictEvent.txt', dictEvent,function(err){
+                if(err) throw err;
+                console.log('dictEvent has finished');
+            });
+
+            var dictNpcDialog = JSON.stringify(DictManager._cacheNpcDialog);
+            fs.writeFile(filePath + 'dictNpcDialog.txt', dictNpcDialog,function(err){
+                if(err) throw err;
+                console.log('dictNpcDialog has finished');
+            });
+
+            var dictImage = JSON.stringify(DictManager._cacheImage);
+            fs.writeFile(filePath + 'dictImage.txt', dictImage,function(err){
+                if(err) throw err;
+                console.log('dictImage has finished');
+            });
+
+            var dictBible = JSON.stringify(DictManager._cacheBible);
+            fs.writeFile(filePath + 'dictBible.txt', dictImage,function(err){
+                if(err) throw err;
+                console.log('dictBible has finished');
+            });
         };
 
 
@@ -198,9 +270,21 @@ DictManager = {
                                     getActorLevelUpgrade(err, rows);
                                     DictManager._dbAgent.query("SELECT * FROM `dict_skill`", function (err, rows) {
                                         getSkill(err, rows);
-                                        // all data cached, call callback
-                                        dictToFiles();
-                                        callback(err);
+                                        DictManager._dbAgent.query("SELECT * FROM `dict_event`", function (err, rows) {
+                                            getEvent(err, rows);
+                                            DictManager._dbAgent.query("SELECT * FROM `dict_npc_talk`", function (err, rows) {
+                                                getNpcDialog(err, rows);
+                                                DictManager._dbAgent.query("SELECT * FROM `dict_image`", function (err, rows) {
+                                                    getImage(err, rows);
+                                                    DictManager._dbAgent.query("SELECT * FROM `dict_bible`", function (err, rows) {
+                                                        getBible(err, rows);
+                                                        // all data cached, call callback
+                                                        dictToFiles();
+                                                        callback(err);
+                                                    });
+                                                });
+                                            });
+                                        });
                                     });
                                 });
                             });

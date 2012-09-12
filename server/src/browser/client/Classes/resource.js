@@ -1,6 +1,7 @@
 var s_HelloWorld = "../Resources/HelloWorld.png";
 var s_CloseNormal = "../Resources/CloseNormal.png";
 var s_CloseSelected = "../Resources/CloseSelected.png";
+var s_pngMonster_1003 = "../Resources/image/hero/monster_1003.png";
 
 
 var s_pngDice = "../Resources/image/battle/dice.png";
@@ -12,6 +13,13 @@ var s_pngYellowBomb = "../Resources/image/battle/yellowBomb.png";
 var s_dictEquipment = "../Resources/database/dictEquipment.txt";
 var s_dictCareer = "../Resources/database/dictCareer.txt";
 var s_dictLevel = "../Resources/database/dictLevel.txt";
+var s_dictEvent = "../Resources/database/dictEvent.txt";
+var s_dictNpcDialog = "../Resources/database/dictNpcDialog.txt";
+var s_dictMonster = "../Resources/database/dictMonster.txt";
+var s_dictImage = "../Resources/database/dictImage.txt";
+var s_dictBible = "../Resources/database/dictBible.txt";
+var s_dictActorLevelUpgrade = "../Resources/database/dictActorLevelUpgrade.txt";
+
 var s_plistAnimationsBomb = "../Resources/image/battle/animationsBomb.plist";
 var s_plistAnimationsDice = "../Resources/image/battle/animationsDice.plist";
 var s_plistGreenBomb = "../Resources/image/battle/greenBomb.plist";
@@ -21,6 +29,20 @@ var s_plistYellowBomb = "../Resources/image/battle/yellowBomb.plist";
 var s_plistDice = "../Resources/image/battle/dice.plist";
 
 var s_ccbiBasic =  "../Resources/ccb/basic.ccbi";
+var s_ccbiDialog =  "../Resources/ccb/dialog.ccbi";
+var s_ccbiHeroHead =  "../Resources/ccb/hero_head.ccbi";
+var s_ccbiBattle =  "../Resources/ccb/battle.ccbi";
+var s_ccbiOpenBoxResult =  "../Resources/ccb/box_tips.ccbi";
+var s_ccbiOpenBox =  "../Resources/ccb/openbox.ccbi";
+var s_ccbiBattleResult =  "../Resources/ccb/fullscreen_tips.ccbi";
+
+
+//var s_ccbiOpenBox =  "../Resources/ccb/openBox.ccbi";
+//var s_ccbiBoxTip =  "../Resources/ccb/box_tips.ccbi";
+//var s_ccbi =  "../Resources/ccb/.ccbi";
+//var s_ccbi =  "../Resources/ccb/.ccbi";
+//var s_ccbi =  "../Resources/ccb/.ccbi";
+//var s_ccbi =  "../Resources/ccb/.ccbi";
 
 var g_ressources = [
     //image
@@ -32,11 +54,18 @@ var g_ressources = [
     {type:"image", src:s_pngOrangeBomb},
     {type:"image", src:s_pngPurpleBomb},
     {type:"image", src:s_pngYellowBomb},
+    {type:"image", src:s_pngMonster_1003},
 
     //plist
     {type:"plist", src: s_dictEquipment},
     {type:"plist", src: s_dictCareer},
     {type:"plist", src: s_dictLevel},
+    {type:"plist", src: s_dictEvent},
+    {type:"plist", src: s_dictNpcDialog},
+    {type:"plist", src: s_dictMonster},
+    {type:"plist", src: s_dictImage},
+    {type:"plist", src: s_dictBible},
+    {type:"plist", src: s_dictActorLevelUpgrade},
 
     {type:"plist", src:s_plistGreenBomb},
     {type:"plist", src:s_plistOrangeBomb},
@@ -54,5 +83,11 @@ var g_ressources = [
     //effect
 
     //ccbi
-    {type:"ccbi", src:s_ccbiBasic}
+    {type:"ccbi", src:s_ccbiBasic},
+    {type:"ccbi", src:s_ccbiDialog},
+    {type:"ccbi", src:s_ccbiHeroHead},
+    {type:"ccbi", src:s_ccbiBattle},
+    {type:"ccbi", src:s_ccbiOpenBoxResult},
+    {type:"ccbi", src:s_ccbiOpenBox},
+    {type:"ccbi", src:s_ccbiBattleResult}
 ];

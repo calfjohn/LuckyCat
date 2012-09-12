@@ -7,9 +7,11 @@ lc.stPage = function (){
     obj.id = 0;                     //index of page
     obj.name = 0;                   //page's titlecontent;
     obj.content = "";               //page's content
-    obj.imageId = 0;                //page's image
-    obj.eventId = 0;                //page's event
+    obj.image_id = 0;                //page's image
+    obj.event_id = 0;                //page's event
     obj.position = cc.PointZero();  //position on page map
+    obj.postion_x = 0;
+    obj.postion_y = 0;
     obj.state = 0;                  //fight result 0:new 1:success 2: failed
     obj.image = "";                 //the background of page
     obj.end = false;                //is last page of chapter
@@ -22,9 +24,12 @@ lc.stChapter = function (){
     var obj = new Object();
 
     obj.id = 0;                         //index of chapter
+    obj.bible_id = 0;
     obj.name = "";                      //chapter's title
-    obj.imageId = 0;                    //chapter's image
+    obj.image_id = 0;                    //chapter's image
     obj.position = cc.PointZero();      //position on chapter scene
+    obj.position_x = 0;
+    obj.position_y = 0;
     obj.listPage = new Array();         //a set of pages in chapter
 
     return obj;
@@ -36,8 +41,8 @@ lc.stBible = function () {
 
     obj.id = 0;                         //index of bible
     obj.name = "";                      //bible name
-    obj.bgId = 0;                       //bible background image
-    obj.chapterBgId = 0;                //chapter background image
+    obj.bg_id = 0;                       //bible background image
+    obj.chapter_bg_id = 0;                //chapter background image
     obj.listChapter = new Array();
 
     return obj;
@@ -48,7 +53,9 @@ lc.stMonster = function () {
 
     obj.id = 0;                 //monster id
     obj.name = "";              //monster name
-    obj.imageId = 0;            //monster image id
+    obj.image_id = 0;            //monster image id
+    obj.rank = 0;               //rank of monster
+    obj.career_id = 0;
 
     return obj;
 };
@@ -59,8 +66,9 @@ lc.stImage = function () {
     obj.id = 0;
     obj.type = 0;
     obj.name = "";
-    obj.filePath = "";
-    obj.plistPath = "";
+    obj.file_path = "";
+    obj.plist_path = "";
+    obj.description = "";
 
     return obj;
 };
@@ -79,6 +87,11 @@ lc.stActorLevelUpgrade = function () {
     var obj = new Object();
 
     obj.level = 0;                  //level of actor
+    obj.xp = 0;
+    obj.attack = 0;
+    obj.defence = 0;
+    obj.life = 0;
+    obj.speed = 0;
     obj.title = "";                 //title of notification
     obj.content = "";               //content of notification
     obj.bonus = new Array();        //bouns of level upgrade reaward
@@ -89,16 +102,16 @@ lc.stActorLevelUpgrade = function () {
 lc.stActorEquipInfo = function () {
     var obj = new Object();
 
-    obj.equipId = 0;
-    obj.equipName = "";
-    obj.equipImageId = 0;
-    obj.equipType = 0;
-    obj.equipLife = 0;
-    obj.equipLevelLimit = 0;
-    obj.equipAttack = 0;
-    obj.equipDefence = 0;
-    obj.equipSpeed = 0;
-    obj.equipDescription = "";
+    obj.id = 0;             //equipId
+    obj.name = "";          //equipName
+    obj.image_id = 0;       //equipImageId
+    obj.class = 0;          //equipType
+    obj.life = 0;           //equipLife
+    obj.level_limit = 0;   //equipLevelLimit
+    obj.attack = 0;         //equipAttack
+    obj.defence = 0;        //equipDefence
+    obj.speed = 0;          //equipSpeed
+    obj.description = "";   //equipDescription
 
     return obj;
 };

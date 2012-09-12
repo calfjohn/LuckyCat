@@ -1,6 +1,10 @@
 
 var lc = lc = lc || {};
 
+lc.TAG_DIALOG_MONSTER       =   91;
+lc.TAG_DIALOG_NPC_NAME      =   10.5;
+lc.TAG_DIALOG_NPC_DIALOG    =   11.5;
+
 lc.NPCDialogLayer = lc.TouchLayer.extend({
     mLabelNpcName : null,
     mLabelDialogContent : null,
@@ -14,15 +18,6 @@ lc.NPCDialogLayer = lc.TouchLayer.extend({
     },
     init:function () {
         this._super();
-
-        var size = cc.Director.getInstance().getWinSize();
-
-        this.mLabelNpcName = cc.LabelTTF.create("NPC Dialog", "Arial", 38);
-        this.mLabelNpcName.setPosition(cc.p(size.width / 2, size.height /2));
-        this.addChild(this.mLabelNpcName, 9);
-
-        this.setIsTouchAreaEnabled(true);
-
         return true;
     },
     onMenuItemClicked : function ( pTarget )
@@ -41,11 +36,11 @@ lc.NPCDialogLayer = lc.TouchLayer.extend({
             this.showDialog();
         }
     },
-    setDialog : function ( talk )
+    setDialogByStTalk : function ( tTalk )
     {
-        var dialog = lc.EventDataManager.getShareInstance().getDialogFromTalk(tTalk);
+        var dialog = lc.EventDataManager.getInstance().getDialogFromTalk(tTalk);
         this.mLabelNpcName.setString(tTalk.npcName);
-        mLabelDialogContent.setString(dialog);
+        this.mLabelDialogContent.setString(dialog);
     },
     setData : function ( tEvent, target, pfnSelector)
     {
@@ -53,14 +48,14 @@ lc.NPCDialogLayer = lc.TouchLayer.extend({
         this.m_target = target;
         this.m_pfnSelector = pfnSelector;
 
-        this.mLabelNpcName = this.getChildByTag(10);
-        this.mLabelDialogContent = this.getChildByTag(11);
-        this.mSpriteNpc = this.getChildByTag(91);
+        this.mLabelNpcName = this.getChildByTag(lc.TAG_DIALOG_NPC_NAME);
+        this.mLabelDialogContent = this.getChildByTag(lc.TAG_DIALOG_NPC_DIALOG);
+        this.mSpriteNpc = this.getChildByTag(lc.TAG_DIALOG_MONSTER);
 
-        this.mTalkList.clear();
+        this.mTalkList.length = 0;
 
-        this.mTalkList = lc.EventDataManager.getShareInstance().getAllTalk(p_CurEvent.id);
-
+        //this.mTalkList = lc.EventDataManager.getInstance().getAllTalk(5);//getAllTalk(this.p_CurEvent.id);
+        this.mTalkList = lc.EventDataManager.getInstance().getAllTalk(5);
 
 //        LuckySprite *pSpriteMonster = static_cast<LuckySprite *>(this->getChildByTag(TAG_MONSTER));
 //        if (pSpriteMonster)
@@ -99,7 +94,7 @@ lc.NPCDialogLayer = lc.TouchLayer.extend({
 
         if (tTalk)
         {
-            this.setDialog(tTalk);
+            this.setDialogByStTalk(tTalk);
         }
         else {
             //Dialog was end.
@@ -109,17 +104,40 @@ lc.NPCDialogLayer = lc.TouchLayer.extend({
     },
     removeAndCleanSelf : function ()
     {
+        cc.log("Dialog is ending. remove this Layer.");
         if (this.m_target && (typeof(this.m_pfnSelector) == "function")) {
             this.m_pfnSelector.call(this.m_target, this);
         }
     }
 });
 
+lc.NPCDialogLayerLoader = cc.LayerLoader.extend({
+    _createCCNode:function (parent, ccbReader) {
+        return lc.NPCDialogLayer.create();
+    }
+});
 
-lc.NPCDialogLayer.create = function (pOwner) {
+lc.NPCDialogLayerLoader.loader = function () {
+    return new lc.NPCDialogLayerLoader();
+};
+
+lc.NPCDialogLayer.create = function ()
+{
     var ret = new lc.NPCDialogLayer();
     if (ret && ret.init()) {
         return ret;
     }
     return null;
+};
+
+lc.NPCDialogLayer.createLoader = function (pOwner) {
+    var ccNodeLoaderLibrary = cc.NodeLoaderLibrary.newDefaultCCNodeLoaderLibrary();
+
+    ccNodeLoaderLibrary.registerCCNodeLoader("NPCDialogLayer", lc.NPCDialogLayerLoader.loader());
+
+    var ccbReader = new cc.CCBReader(ccNodeLoaderLibrary);
+
+    var pNode = ccbReader.readNodeGraphFromFile("",s_ccbiDialog);
+
+    return pNode;
 };

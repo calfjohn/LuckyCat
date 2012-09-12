@@ -98,10 +98,33 @@ lc.GeneralBattleLayer = lc.TouchLayer.extend({
     }
 });
 
-lc.GeneralBattleLayer.create = function () {
+lc.GeneralBattleLayerLoader = cc.LayerLoader.extend({
+                                                _createCCNode:function (parent, ccbReader) {
+                                                return lc.GeneralBattleLayer.create();
+                                                }
+                                                });
+
+lc.GeneralBattleLayerLoader.loader = function () {
+    return new lc.GeneralBattleLayerLoader();
+};
+
+lc.GeneralBattleLayer.create = function ()
+{
     var ret = new lc.GeneralBattleLayer();
     if (ret && ret.init()) {
         return ret;
     }
     return null;
+};
+
+lc.GeneralBattleLayer.createLoader = function (pOwner) {
+    var ccNodeLoaderLibrary = cc.NodeLoaderLibrary.newDefaultCCNodeLoaderLibrary();
+    
+    ccNodeLoaderLibrary.registerCCNodeLoader("GeneralBattleLayer", lc.GeneralBattleLayerLoader.loader());
+    
+    var ccbReader = new cc.CCBReader(ccNodeLoaderLibrary);
+    
+    var pNode = ccbReader.readNodeGraphFromFile("",s_ccbiBattle);
+    
+    return pNode;
 };

@@ -53,7 +53,7 @@
             "../Classes/Event/OpenBoxLayer.js",
             "../Classes/Battle/SpecialBattleLayer.js",
             "../Classes/Battle/BattleResultLayer.js",
-            "../Classes/Battle/GeneralBattleLayer.js",
+            "../Classes/Battle/GeneralBattleLayer.js"
 
             //add your own files in order here
         ]

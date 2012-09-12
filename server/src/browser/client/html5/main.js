@@ -55,7 +55,8 @@ var cocos2dApp = cc.Application.extend({
 
         //init some data for game
         lc.DictDataManager.getInstance();
-        lc.LevelDataManager.shareLevelDataManager();
+        lc.LevelDataManager.getInstance();
+        lc.EventDataManager.getInstance();
 
         // create a scene. it's an autorelease object
 

@@ -13,7 +13,28 @@ lc.LevelDataManager = cc.Class.extend({
     m_mapActorLevelUpgrade : [],
     //在这里初始化数据,读取数据库
     init:function () {
+        this._initBible();
+        this._initActorLevelUpgrade();
         return true;
+    },
+    _initBible: function () {
+        var _tempMapBible = JSON.parse(cc.SAXParser.shareParser().getList(s_dictBible));
+
+        for ( var key in _tempMapBible )
+        {
+            var temp = _tempMapBible[key];
+            temp.position = cc.PointMake(temp.position_x,temp.position_y);
+            this.m_mapBible.push(temp);
+        }
+    },
+    _initActorLevelUpgrade : function () {
+        this.m_mapActorLevelUpgrade = JSON.parse(cc.SAXParser.shareParser().getList(s_dictActorLevelUpgrade));
+        for (var key in this.m_mapActorLevelUpgrade )
+        {
+            var temp = this.m_mapActorLevelUpgrade[key];
+            if (temp.bonus)
+                temp.bonus = JSON.parse(temp.bonus);
+        }
     },
     reload:function () {
         this.m_mapBible.length = 0;
@@ -24,10 +45,10 @@ lc.LevelDataManager = cc.Class.extend({
     {
         var pPage = null;
         for (var iterTemp = 0;
-             iterTemp != this.m_mapBible[1].listChapter.length;
+             iterTemp != this.m_mapBible["" + 1].listChapter.length;
              iterTemp++)
         {
-            var tChapter = this.m_mapBible[1].listChapter[iterTemp];
+            var tChapter = this.m_mapBible["" + 1].listChapter[iterTemp];
             if (tChapter.id == chapterId)
             {
                 for (var iterPage = 0;
@@ -192,11 +213,11 @@ lc.LevelDataManager = cc.Class.extend({
 lc.fristLevelDataManager = true;
 lc.s_SharedLevelDataManager = null;
 
-lc.LevelDataManager.shareLevelDataManager = function (pOwner) {
+lc.LevelDataManager.getInstance = function (pOwner) {
     if (lc.fristLevelDataManager) {
         lc.fristLevelDataManager = false;
         lc.s_SharedLevelDataManager = new lc.LevelDataManager();
         lc.s_SharedLevelDataManager.init();
     }
-    return cc.s_SharedLevelDataManager;
+    return lc.s_SharedLevelDataManager;
 };
