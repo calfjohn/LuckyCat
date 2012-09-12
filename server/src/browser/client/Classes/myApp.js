@@ -85,10 +85,18 @@ var MyLayer = cc.Layer.extend({
 //        newReader.readNodeGraphFromFile(s_ccbiBasic)
         console.log(cc.FileUtils.getInstance()._fileDataCache[s_ccbiBasic]);
 
+        var url = "http://localhost:22222/game/pk/getPKList/";
+        var parameter = "{\"header\":{\"token\": \"3\", \"index\": 1}, \"meta\":{\"mod\": \"pk\", \"do\": \"getPKList\", \"ver\":1, \"in\":{}}}"
+        lc.NetManager.sharedNetManager().sendRequest(url,parameter,responsePKListCallback);
+
         return true;
     }
 
 });
+
+function responsePKListCallback(responseText){
+    cc.log("responsePKListCallback=" + responseText);
+}
 
 var MyScene = cc.Scene.extend({
     onEnter:function () {

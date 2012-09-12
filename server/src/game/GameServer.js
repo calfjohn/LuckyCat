@@ -38,7 +38,8 @@ app.configure(function() {
     //app.use(express.bodyParser());    // This cause handler' on data function doesn't be called.
     app.use(express.methodOverride());
     app.use(app.router);
-    app.use(express.static(__dirname + "/www"));  //设定静态网页服务目录
+    //app.use(express.static(__dirname + "/www"));  //设定静态网页服务目录
+    app.use(express.static(__dirname + "/../browser/client"));  //设定静态网页服务目录
     app.set("views", __dirname + "/");
     app.set("view engine", "jade");
 
