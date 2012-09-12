@@ -1,39 +1,68 @@
 var lc = lc = lc || {};
 
-var xmlHttp;
-function createXMLHttpRequest(){
-    //Mozilla 浏览器（将XMLHttpRequest对象作为本地浏览器对象来创建）
-    if(window.XMLHttpRequest){ //Mozilla 浏览器
-        xmlHttp = new XMLHttpRequest();
-    }else if(window.ActiveXObject) { //IE浏览器
-        //IE浏览器（将XMLHttpRequest对象作为ActiveX对象来创建）
-        try{
-            xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
-        }catch(e){
-            try {
-                xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
-            }catch(e){}
+g_sharedNetManager = null;
+
+lc.NetManager = cc.Class.extend({
+    _init:function(){
+
+    },
+    createXMLHttpRequest:function(){
+        var xmlhttp;
+        //Mozilla 浏览器（将XMLHttpRequest对象作为本地浏览器对象来创建）
+        if(window.XMLHttpRequest){ //Mozilla 浏览器
+            xmlhttp = new XMLHttpRequest();
+        }else if(window.ActiveXObject) { //IE浏览器
+            //IE浏览器（将XMLHttpRequest对象作为ActiveX对象来创建）
+            try{
+                xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+            }catch(e){
+                try {
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }catch(e){}
+            }
+        }
+        if(xmlhttp == null){
+            alert("不能创建XMLHttpRequest对象");
+            return false;
+        }
+        return xmlhttp;
+    },
+    sendRequest:function(url,parameter,responseCallback,errorCallback){
+        var xhr = this.createXMLHttpRequest();
+        if(parameter == null){
+            //设置一个事件处理器，当XMLHttp状态发生变化，就会出发该事件处理器，由他调用
+            //callback指定的javascript函数
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState == 4){
+                    if(xhr.status == 200){
+                        responseCallback(xhr.responseText);
+                    }
+                }
+            };
+            //设置对其调用的参数（提交的方式，请求的的url，请求的类型（异步请求））
+            xhr.open("GET",url,true);//true表示发出一个异步的请求。
+            xhr.send(null);
+        }else{
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState == 4){
+                    if(xhr.status == 200){
+                        responseCallback(xhr.responseText);
+                    }
+                }
+            };
+            xhr.open("POST",url,true);
+            xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded;");
+            xhr.send(parameter);
         }
     }
-    if(xmlHttp == null){
-        alert("不能创建XMLHttpRequest对象");
-        return false;
+});
+
+lc.NetManager.sharedNetManager = function(){
+    if(g_sharedNetManager == null){
+        g_sharedNetManager = new lc.NetManager();
+        g_sharedNetManager._init();
     }
-}
-//用于发出异步请求的方法
-lc.sendAsynchronRequest = function sendAsynchronRequest(url,parameter,callback){
-    createXMLHttpRequest();
-    if(parameter == null){
-        //设置一个事件处理器，当XMLHttp状态发生变化，就会出发该事件处理器，由他调用
-        //callback指定的javascript函数
-        xmlHttp.onreadystatechange = callback;
-        //设置对拂去其调用的参数（提交的方式，请求的的url，请求的类型（异步请求））
-        xmlHttp.open("GET",url,true);//true表示发出一个异步的请求。
-        xmlHttp.send(null);
-    }else{
-        xmlHttp.onreadystatechange = callback;
-        xmlHttp.open("POST",url,true);
-        xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded;");
-        xmlHttp.send(parameter);
-    }
-}
+    return g_sharedNetManager;
+};
+
+
