@@ -38,8 +38,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>309</real>
-							<real>240</real>
+							<real>320</real>
+							<real>480</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -307,13 +307,13 @@
 			<key>ext</key>
 			<string> </string>
 			<key>height</key>
-			<integer>480</integer>
+			<integer>960</integer>
 			<key>name</key>
 			<string>iPhone Portrait</string>
 			<key>scale</key>
 			<real>1</real>
 			<key>width</key>
-			<integer>320</integer>
+			<integer>640</integer>
 		</dict>
 	</array>
 </dict>

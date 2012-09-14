@@ -2,8 +2,8 @@
 var lc = lc = lc || {};
 
 lc.TAG_DIALOG_MONSTER       =   91;
-lc.TAG_DIALOG_NPC_NAME      =   10.5;
-lc.TAG_DIALOG_NPC_DIALOG    =   11.5;
+lc.TAG_DIALOG_NPC_NAME      =   10;
+lc.TAG_DIALOG_NPC_DIALOG    =   11;
 
 lc.NPCDialogLayer = lc.TouchLayer.extend({
     mLabelNpcName : null,
@@ -133,11 +133,46 @@ lc.NPCDialogLayer.create = function ()
 lc.NPCDialogLayer.createLoader = function (pOwner) {
     var ccNodeLoaderLibrary = cc.NodeLoaderLibrary.newDefaultCCNodeLoaderLibrary();
 
+    ccNodeLoaderLibrary.registerCCNodeLoader("FuzzyBgLayer", lc.FuzzyBgLayerLoader.loader());
+
     ccNodeLoaderLibrary.registerCCNodeLoader("NPCDialogLayer", lc.NPCDialogLayerLoader.loader());
 
     var ccbReader = new cc.CCBReader(ccNodeLoaderLibrary);
 
-    var pNode = ccbReader.readNodeGraphFromFile("",s_ccbiDialog);
+    var pNode = ccbReader.readNodeGraphFromFile("../Resources/","/ccb/dialog.ccbi");
+
+    return pNode;
+};
+
+lc.FuzzyBgLayer = cc.Layer.extend({});
+
+lc.FuzzyBgLayerLoader = cc.LayerLoader.extend({
+    _createCCNode:function (parent, ccbReader) {
+        return lc.FuzzyBgLayer.create();
+    }
+});
+
+lc.FuzzyBgLayerLoader.loader = function () {
+    return new lc.FuzzyBgLayerLoader();
+};
+
+lc.FuzzyBgLayer.create = function ()
+{
+    var ret = new lc.FuzzyBgLayer();
+    if (ret && ret.init()) {
+        return ret;
+    }
+    return null;
+};
+
+lc.FuzzyBgLayer.createLoader = function (pOwner) {
+    var ccNodeLoaderLibrary = cc.NodeLoaderLibrary.newDefaultCCNodeLoaderLibrary();
+
+    ccNodeLoaderLibrary.registerCCNodeLoader("FuzzyBgLayer", lc.FuzzyBgLayerLoader.loader());
+
+    var ccbReader = new cc.CCBReader(ccNodeLoaderLibrary);
+
+    var pNode = ccbReader.readNodeGraphFromFile("../Resources/","/ccb/fuzzy.ccbi");
 
     return pNode;
 };

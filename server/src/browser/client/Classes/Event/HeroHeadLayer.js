@@ -73,7 +73,7 @@ lc.HeroHeadLayer.createLoader = function (pOwner) {
 
     var ccbReader = new cc.CCBReader(ccNodeLoaderLibrary);
 
-    var pNode = ccbReader.readNodeGraphFromFile("",s_ccbiHeroHead);
+    var pNode = ccbReader.readNodeGraphFromFile("../Resources/",s_ccbiHeroHead);
 
     return pNode;
 };

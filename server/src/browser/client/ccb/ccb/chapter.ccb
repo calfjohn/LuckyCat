@@ -39,7 +39,7 @@
 						<key>value</key>
 						<array>
 							<real>0.0</real>
-							<real>120</real>
+							<real>240</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -50,8 +50,8 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>320</real>
-							<real>360</real>
+							<real>640</real>
+							<real>720</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -129,8 +129,8 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>320</real>
-							<real>360</real>
+							<real>640</real>
+							<real>720</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -213,8 +213,8 @@
 								<string>Position</string>
 								<key>value</key>
 								<array>
-									<real>237</real>
-									<real>300</real>
+									<real>475</real>
+									<real>600</real>
 									<integer>0</integer>
 								</array>
 							</dict>
@@ -268,7 +268,7 @@
 								<key>type</key>
 								<string>Integer</string>
 								<key>value</key>
-								<integer>-1</integer>
+								<integer>1</integer>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -293,8 +293,8 @@
 								<string>Block</string>
 								<key>value</key>
 								<array>
-									<string></string>
-									<integer>0</integer>
+									<string>onMenuItemClicked</string>
+									<integer>1</integer>
 								</array>
 							</dict>
 							<dict>
@@ -360,8 +360,8 @@
 								<string>Position</string>
 								<key>value</key>
 								<array>
-									<real>177</real>
-									<real>315</real>
+									<real>355</real>
+									<real>625</real>
 									<integer>0</integer>
 								</array>
 							</dict>
@@ -415,7 +415,7 @@
 								<key>type</key>
 								<string>Integer</string>
 								<key>value</key>
-								<integer>-1</integer>
+								<integer>2</integer>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -440,8 +440,8 @@
 								<string>Block</string>
 								<key>value</key>
 								<array>
-									<string></string>
-									<integer>0</integer>
+									<string>onMenuItemClicked</string>
+									<integer>1</integer>
 								</array>
 							</dict>
 							<dict>
@@ -507,8 +507,8 @@
 								<string>Position</string>
 								<key>value</key>
 								<array>
-									<real>163</real>
-									<real>274</real>
+									<real>327</real>
+									<real>540</real>
 									<integer>0</integer>
 								</array>
 							</dict>
@@ -562,7 +562,7 @@
 								<key>type</key>
 								<string>Integer</string>
 								<key>value</key>
-								<integer>-1</integer>
+								<integer>3</integer>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -587,8 +587,8 @@
 								<string>Block</string>
 								<key>value</key>
 								<array>
-									<string></string>
-									<integer>0</integer>
+									<string>onMenuItemClicked</string>
+									<integer>1</integer>
 								</array>
 							</dict>
 							<dict>
@@ -785,8 +785,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>24</real>
-							<real>135</real>
+							<real>28</real>
+							<real>251</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -797,8 +797,8 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>163</real>
-							<real>40</real>
+							<real>320</real>
+							<real>80</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -866,7 +866,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>image/mainui/main_ rim_1003.png</string>
+							<string>image/mainui/main_rim_1003.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -876,8 +876,8 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>163</real>
-							<real>40</real>
+							<real>320</real>
+							<real>80</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -907,7 +907,7 @@
 						<key>type</key>
 						<string>Float</string>
 						<key>value</key>
-						<real>0.0</real>
+						<real>10</real>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -915,7 +915,7 @@
 						<key>type</key>
 						<string>Float</string>
 						<key>value</key>
-						<real>0.0</real>
+						<real>10</real>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -923,7 +923,7 @@
 						<key>type</key>
 						<string>Float</string>
 						<key>value</key>
-						<real>0.0</real>
+						<real>10</real>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -931,7 +931,7 @@
 						<key>type</key>
 						<string>Float</string>
 						<key>value</key>
-						<real>0.0</real>
+						<real>10</real>
 					</dict>
 				</array>
 			</dict>
@@ -955,8 +955,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>57</real>
-							<real>170.5</real>
+							<real>87</real>
+							<real>320.5</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -967,8 +967,8 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>96</real>
-							<real>30</real>
+							<real>192</real>
+							<real>59</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -1043,7 +1043,7 @@
 						<string>FloatScale</string>
 						<key>value</key>
 						<array>
-							<real>24</real>
+							<real>48</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -1105,9 +1105,112 @@
 					</dict>
 				</array>
 			</dict>
+			<dict>
+				<key>baseClass</key>
+				<string>CCBFile</string>
+				<key>children</key>
+				<array/>
+				<key>customClass</key>
+				<string></string>
+				<key>memberVarAssignmentName</key>
+				<string></string>
+				<key>memberVarAssignmentType</key>
+				<integer>0</integer>
+				<key>properties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>position</string>
+						<key>type</key>
+						<string>Position</string>
+						<key>value</key>
+						<array>
+							<real>0.0</real>
+							<real>0.0</real>
+							<integer>0</integer>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>contentSize</string>
+						<key>type</key>
+						<string>Size</string>
+						<key>value</key>
+						<array>
+							<real>320</real>
+							<real>0.0</real>
+							<integer>0</integer>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>anchorPoint</string>
+						<key>type</key>
+						<string>Point</string>
+						<key>value</key>
+						<array>
+							<real>0.0</real>
+							<real>0.0</real>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>scale</string>
+						<key>type</key>
+						<string>ScaleLock</string>
+						<key>value</key>
+						<array>
+							<real>1</real>
+							<real>1</real>
+							<false/>
+							<integer>0</integer>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>rotation</string>
+						<key>type</key>
+						<string>Degrees</string>
+						<key>value</key>
+						<real>0.0</real>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>tag</string>
+						<key>type</key>
+						<string>Integer</string>
+						<key>value</key>
+						<integer>-1</integer>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>ignoreAnchorPointForPosition</string>
+						<key>type</key>
+						<string>Check</string>
+						<key>value</key>
+						<false/>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>visible</string>
+						<key>type</key>
+						<string>Check</string>
+						<key>value</key>
+						<true/>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>ccbFile</string>
+						<key>type</key>
+						<string>CCBFile</string>
+						<key>value</key>
+						<string>ccb/basic.ccb</string>
+					</dict>
+				</array>
+			</dict>
 		</array>
 		<key>customClass</key>
-		<string></string>
+		<string>Chapter</string>
 		<key>memberVarAssignmentName</key>
 		<string></string>
 		<key>memberVarAssignmentType</key>
@@ -1246,13 +1349,13 @@
 			<key>ext</key>
 			<string> </string>
 			<key>height</key>
-			<integer>480</integer>
+			<integer>960</integer>
 			<key>name</key>
 			<string>iPhone Portrait</string>
 			<key>scale</key>
 			<real>1</real>
 			<key>width</key>
-			<integer>320</integer>
+			<integer>640</integer>
 		</dict>
 	</array>
 </dict>

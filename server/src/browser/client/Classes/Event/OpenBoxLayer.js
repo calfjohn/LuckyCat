@@ -13,12 +13,6 @@ lc.OpenBoxLayer = lc.TouchLayer.extend({
     init:function () {
         this._super();
 
-        var size = cc.Director.getInstance().getWinSize();
-        var helloLabel = cc.LabelTTF.create("OpenBox", "Arial", 22);
-        helloLabel.setColor(cc.red());
-        helloLabel.setPosition(cc.p(size.width / 2, size.height /2));
-        this.addChild(helloLabel, 9);
-
         return true;
     },
     onMenuItemClicked : function ( pTarget )
@@ -27,6 +21,8 @@ lc.OpenBoxLayer = lc.TouchLayer.extend({
     },
     onCCControlButtonClicked : function ( pSender, pCCControlEvent)
     {
+        cc.log("onCCControlButtonClicked  + " + pSender.getTag());
+        /*
         if ( this.m_bIsOpen == false && this.p_CurEvent.m_bBoxIsOpened == false && this.p_CurEvent && this.p_CurEvent.box_id != -1)
         {
             var pOpenBoxResult = lc.OpenBoxResultLayer.create();
@@ -48,13 +44,13 @@ lc.OpenBoxLayer = lc.TouchLayer.extend({
             }
         }else {
             this.removeAndCleanSelf();
-        }
+        }*/
     },
     notificationTouchEvent : function ( tLTouchEvent )
     {
         if (tLTouchEvent == lc.kLTouchEventSingleClick)
         {
-            this.onCCControlButtonClicked(null,null);
+            //this.onCCControlButtonClicked(null,null);
         }
     },
     setData : function ( tEvent, target, pfnSelector)
@@ -68,6 +64,14 @@ lc.OpenBoxLayer = lc.TouchLayer.extend({
         if (this.m_target && (typeof(this.m_pfnSelector) == "function")) {
             this.m_pfnSelector.call(this.m_target, this);
         }
+    },
+    onResolveCCBCCControlSelector:function (cpTarget,pSelectorName)
+    {
+        if (pSelectorName == "onCCControlButtonClicked")
+        {
+            return this.onCCControlButtonClicked;
+        }
+        return null;
     }
 });
 
@@ -76,6 +80,35 @@ lc.OpenBoxLayerLoader = cc.LayerLoader.extend({
                                                 return lc.OpenBoxLayer.create();
                                                 }
                                                 });
+
+lc.OpenBoxLayerLoader.loader = function () {
+    return new lc.OpenBoxLayerLoader();
+};
+
+lc.OpenBoxLayer.createLoader = function (pOwner) {
+    var ccNodeLoaderLibrary = cc.NodeLoaderLibrary.newDefaultCCNodeLoaderLibrary();
+    
+    ccNodeLoaderLibrary.registerCCNodeLoader("OpenBoxLayer", lc.OpenBoxLayerLoader.loader());
+    
+    var ccbReader = new cc.CCBReader(ccNodeLoaderLibrary);
+    
+    var pNode = ccbReader.readNodeGraphFromFile("",s_ccbiOpenBox);
+    
+    return pNode;
+};
+lc.OpenBoxLayer.create = function (pOwner) {
+    var ret = new lc.OpenBoxLayer();
+    if (ret && ret.init()) {
+        return ret;
+    }
+    return null;
+};
+
+lc.OpenBoxLayerLoader = cc.LayerLoader.extend({
+    _createCCNode:function (parent, ccbReader) {
+        return lc.OpenBoxLayer.create();
+    }
+});
 
 lc.OpenBoxLayerLoader.loader = function () {
     return new lc.OpenBoxLayerLoader();
@@ -92,12 +125,14 @@ lc.OpenBoxLayer.create = function ()
 
 lc.OpenBoxLayer.createLoader = function (pOwner) {
     var ccNodeLoaderLibrary = cc.NodeLoaderLibrary.newDefaultCCNodeLoaderLibrary();
-    
+
+    ccNodeLoaderLibrary.registerCCNodeLoader("FuzzyBgLayer", lc.FuzzyBgLayerLoader.loader());
+
     ccNodeLoaderLibrary.registerCCNodeLoader("OpenBoxLayer", lc.OpenBoxLayerLoader.loader());
-    
+
     var ccbReader = new cc.CCBReader(ccNodeLoaderLibrary);
-    
-    var pNode = ccbReader.readNodeGraphFromFile("",s_ccbiOpenBox);
-    
+
+    var pNode = ccbReader.readNodeGraphFromFile("../Resources/",s_ccbiOpenBox);
+
     return pNode;
 };

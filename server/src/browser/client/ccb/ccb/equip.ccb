@@ -20,7 +20,7 @@
 		<array>
 			<dict>
 				<key>baseClass</key>
-				<string>CCScale9Sprite</string>
+				<string>CCBFile</string>
 				<key>children</key>
 				<array/>
 				<key>customClass</key>
@@ -38,8 +38,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>81</real>
-							<real>106</real>
+							<real>0.0</real>
+							<real>720</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -50,8 +50,8 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>200</real>
-							<real>300</real>
+							<real>320</real>
+							<real>0.0</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -101,7 +101,7 @@
 						<key>type</key>
 						<string>Check</string>
 						<key>value</key>
-						<true/>
+						<false/>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -113,78 +113,11 @@
 					</dict>
 					<dict>
 						<key>name</key>
-						<string>spriteFrame</string>
+						<string>ccbFile</string>
 						<key>type</key>
-						<string>SpriteFrame</string>
+						<string>CCBFile</string>
 						<key>value</key>
-						<array>
-							<string></string>
-							<string>image/mainui/main_ rim_1002.png</string>
-						</array>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>preferedSize</string>
-						<key>type</key>
-						<string>Size</string>
-						<key>value</key>
-						<array>
-							<real>200</real>
-							<real>300</real>
-							<integer>0</integer>
-						</array>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>opacity</string>
-						<key>type</key>
-						<string>Byte</string>
-						<key>value</key>
-						<integer>255</integer>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>color</string>
-						<key>type</key>
-						<string>Color3</string>
-						<key>value</key>
-						<array>
-							<integer>255</integer>
-							<integer>255</integer>
-							<integer>255</integer>
-						</array>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>insetLeft</string>
-						<key>type</key>
-						<string>Float</string>
-						<key>value</key>
-						<real>30</real>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>insetTop</string>
-						<key>type</key>
-						<string>Float</string>
-						<key>value</key>
-						<real>45</real>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>insetRight</string>
-						<key>type</key>
-						<string>Float</string>
-						<key>value</key>
-						<real>30</real>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>insetBottom</string>
-						<key>type</key>
-						<string>Float</string>
-						<key>value</key>
-						<real>50</real>
+						<string>ccb/basic.ccb</string>
 					</dict>
 				</array>
 			</dict>
@@ -208,8 +141,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>103</real>
-							<real>387</real>
+							<real>0.0</real>
+							<real>0.0</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -220,8 +153,8 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>163</real>
-							<real>40</real>
+							<real>640</real>
+							<real>710</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -289,7 +222,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>image/mainui/main_ rim_1003.png</string>
+							<string>image/mainui/main_rim_1002.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -299,8 +232,8 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>163</real>
-							<real>40</real>
+							<real>640</real>
+							<real>710</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -330,7 +263,7 @@
 						<key>type</key>
 						<string>Float</string>
 						<key>value</key>
-						<real>0.0</real>
+						<real>30</real>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -338,7 +271,7 @@
 						<key>type</key>
 						<string>Float</string>
 						<key>value</key>
-						<real>0.0</real>
+						<real>40</real>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -346,7 +279,7 @@
 						<key>type</key>
 						<string>Float</string>
 						<key>value</key>
-						<real>0.0</real>
+						<real>30</real>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -354,7 +287,7 @@
 						<key>type</key>
 						<string>Float</string>
 						<key>value</key>
-						<real>0.0</real>
+						<real>50</real>
 					</dict>
 				</array>
 			</dict>
@@ -459,7 +392,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>image/mainui/main_ rim_1003.png</string>
+							<string>image/mainui/main_rim_1003.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -3682,13 +3615,13 @@
 			<key>ext</key>
 			<string> </string>
 			<key>height</key>
-			<integer>480</integer>
+			<integer>960</integer>
 			<key>name</key>
 			<string>iPhone Portrait</string>
 			<key>scale</key>
 			<real>1</real>
 			<key>width</key>
-			<integer>320</integer>
+			<integer>640</integer>
 		</dict>
 	</array>
 </dict>

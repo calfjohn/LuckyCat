@@ -124,7 +124,7 @@ lc.GeneralBattleLayer.createLoader = function (pOwner) {
     
     var ccbReader = new cc.CCBReader(ccNodeLoaderLibrary);
     
-    var pNode = ccbReader.readNodeGraphFromFile("",s_ccbiBattle);
+    var pNode = ccbReader.readNodeGraphFromFile("../Resources/",s_ccbiBattle);
     
     return pNode;
 };

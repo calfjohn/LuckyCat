@@ -9,13 +9,6 @@ lc.BattleResultLayer = lc.TouchLayer.extend({
     },
     init:function () {
         this._super();
-
-        var size = cc.Director.getInstance().getWinSize();
-        var helloLabel = cc.LabelTTF.create("Battle Result", "Arial", 22);
-        helloLabel.setColor(cc.red());
-        helloLabel.setPosition(cc.p(size.width / 2, size.height /2));
-        this.addChild(helloLabel, 9);
-
         return true;
     },
     onMenuItemClicked : function ( pTarget )
@@ -172,7 +165,7 @@ lc.BattleResultLayer.createLoader = function (pOwner) {
     
     var ccbReader = new cc.CCBReader(ccNodeLoaderLibrary);
     
-    var pNode = ccbReader.readNodeGraphFromFile("",s_ccbiBattleResult);
+    var pNode = ccbReader.readNodeGraphFromFile("../Resources/",s_ccbiBattleResult);
     
     return pNode;
 };

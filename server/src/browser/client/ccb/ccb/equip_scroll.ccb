@@ -1339,13 +1339,13 @@
 			<key>ext</key>
 			<string> </string>
 			<key>height</key>
-			<integer>320</integer>
+			<integer>960</integer>
 			<key>name</key>
-			<string>iPhone Landscape</string>
+			<string>iPhone Portrait</string>
 			<key>scale</key>
 			<real>1</real>
 			<key>width</key>
-			<integer>480</integer>
+			<integer>640</integer>
 		</dict>
 		<dict>
 			<key>centeredOrigin</key>

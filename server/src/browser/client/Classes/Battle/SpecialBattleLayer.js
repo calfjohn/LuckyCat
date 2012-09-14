@@ -103,12 +103,14 @@ lc.SpecialBattleLayer.create = function ()
 
 lc.SpecialBattleLayer.createLoader = function (pOwner) {
     var ccNodeLoaderLibrary = cc.NodeLoaderLibrary.newDefaultCCNodeLoaderLibrary();
-    
+
+    ccNodeLoaderLibrary.registerCCNodeLoader("BasicInfoLayer", lc.BasicInfoLayerLoader.loader());
+
     ccNodeLoaderLibrary.registerCCNodeLoader("SpecialBattleLayer", lc.SpecialBattleLayerLoader.loader());
-    
+
     var ccbReader = new cc.CCBReader(ccNodeLoaderLibrary);
     
-    var pNode = ccbReader.readNodeGraphFromFile("",s_ccbiBattle);
+    var pNode = ccbReader.readNodeGraphFromFile("../Resources/",s_ccbiBattle);
     
     return pNode;
 };

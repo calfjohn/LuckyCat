@@ -44,6 +44,10 @@ lc.TouchLayer = cc.Layer.extend({
         if ( this.getIsTouchAreaEnabled() )
         {
             var tPoint = touch._point;
+            var _tPoint = this.convertTouchToNodeSpace(touch);
+
+            cc.log("Orign x : " + tPoint.x + ", y: " + tPoint.y);
+            cc.log("Conve x : " + _tPoint.x + ", y: " + _tPoint.y);
             if ( this.TouchAreaContainsPoint(tPoint) == false )
             {
                 this.notificationTouchEvent(lc.kLTouchEventOutsideTouchArea);

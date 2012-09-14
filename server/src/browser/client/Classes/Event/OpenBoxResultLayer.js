@@ -89,11 +89,13 @@ lc.OpenBoxResultLayer.create = function ()
 lc.OpenBoxResultLayer.createLoader = function (pOwner) {
     var ccNodeLoaderLibrary = cc.NodeLoaderLibrary.newDefaultCCNodeLoaderLibrary();
 
+    ccNodeLoaderLibrary.registerCCNodeLoader("FuzzyBgLayer", lc.FuzzyBgLayerLoader.loader());
+
     ccNodeLoaderLibrary.registerCCNodeLoader("OpenBoxResultLayer", lc.OpenBoxResultLayerLoader.loader());
 
     var ccbReader = new cc.CCBReader(ccNodeLoaderLibrary);
 
-    var pNode = ccbReader.readNodeGraphFromFile("",s_ccbiOpenBoxResult);
+    var pNode = ccbReader.readNodeGraphFromFile("../Resources/",s_ccbiOpenBoxResult);
 
     return pNode;
 };

@@ -1,0 +1,1 @@
+{"1":{"id":1,"event_id":5,"content":"哈哈，终于到我出场了||赶紧的，配合我打劫吧||呼呼，终于有玩家来虐了","npc_id":35,"npc_name":"？？？"},"2":{"id":2,"event_id":5,"content":"你是谁？||Who a u?||你是哪只?","npc_id":38,"npc_name":"玩家"},"3":{"id":3,"event_id":5,"content":"你不认识我？||气死我了||作为第一个出场的Boss，居然不知道我？","npc_id":35,"npc_name":"软泥怪大队长"}}

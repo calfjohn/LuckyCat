@@ -141,8 +141,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>32</real>
-							<real>62</real>
+							<real>122</real>
+							<real>181</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -153,8 +153,8 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>265</real>
-							<real>120</real>
+							<real>430</real>
+							<real>240</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -222,7 +222,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>image/mainui/main_ rim_1003.png</string>
+							<string>image/mainui/main_rim_1003.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -232,8 +232,8 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>265</real>
-							<real>120</real>
+							<real>430</real>
+							<real>240</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -263,7 +263,7 @@
 						<key>type</key>
 						<string>Float</string>
 						<key>value</key>
-						<real>10</real>
+						<real>30</real>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -271,7 +271,7 @@
 						<key>type</key>
 						<string>Float</string>
 						<key>value</key>
-						<real>10</real>
+						<real>30</real>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -279,7 +279,7 @@
 						<key>type</key>
 						<string>Float</string>
 						<key>value</key>
-						<real>10</real>
+						<real>30</real>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -287,7 +287,7 @@
 						<key>type</key>
 						<string>Float</string>
 						<key>value</key>
-						<real>10</real>
+						<real>30</real>
 					</dict>
 				</array>
 			</dict>
@@ -311,8 +311,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>155.35546875</real>
-							<real>254.078125</real>
+							<real>320</real>
+							<real>597.078125</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -459,8 +459,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>52</real>
-							<real>172</real>
+							<real>273</real>
+							<real>404</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -471,8 +471,8 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>60</real>
-							<real>25</real>
+							<real>120</real>
+							<real>49</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -547,7 +547,7 @@
 						<string>FloatScale</string>
 						<key>value</key>
 						<array>
-							<real>20</real>
+							<real>40</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -629,8 +629,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>54</real>
-							<real>-138</real>
+							<real>210</real>
+							<real>-339</real>
 							<integer>1</integer>
 						</array>
 					</dict>
@@ -641,8 +641,8 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>96</real>
-							<real>20</real>
+							<real>192</real>
+							<real>39</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -717,7 +717,7 @@
 						<string>FloatScale</string>
 						<key>value</key>
 						<array>
-							<real>16</real>
+							<real>32</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -781,7 +781,7 @@
 			</dict>
 		</array>
 		<key>customClass</key>
-		<string>NPCDialogView</string>
+		<string>NPCDialogLayer</string>
 		<key>memberVarAssignmentName</key>
 		<string></string>
 		<key>memberVarAssignmentType</key>
@@ -920,13 +920,13 @@
 			<key>ext</key>
 			<string> </string>
 			<key>height</key>
-			<integer>480</integer>
+			<integer>960</integer>
 			<key>name</key>
 			<string>iPhone Portrait</string>
 			<key>scale</key>
 			<real>1</real>
 			<key>width</key>
-			<integer>320</integer>
+			<integer>640</integer>
 		</dict>
 	</array>
 </dict>
