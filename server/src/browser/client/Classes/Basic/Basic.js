@@ -1,5 +1,13 @@
 var lc = lc = lc || {};
 
+lc.platfrom = function(){
+    var obj = new Object();
+    obj.desktop = "desktop";
+    obj.mobile = "mobile";
+
+    return obj;
+};
+
 //a page is a game level
 lc.stPage = function (){
     var obj = new Object();

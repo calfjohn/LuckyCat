@@ -42,6 +42,7 @@
             "../Classes/Basic/Basic.js",
             "../Classes/Basic/NetBasic.js",
             "../Classes/Basic/NetManager.js",
+            "../Classes/Basic/CustomXMLHTTPRequest.js",
             "../Classes/Basic/DictDataManager.js",
             "../Classes/Basic/LevelDataManager.js",
 

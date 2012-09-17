@@ -50,6 +50,8 @@ var MyLayer = cc.Layer.extend({
             this,
             function () {
                 history.go(-1);
+                //lc.NetManager.sharedNetManager().sendRequest(ModeRequestType.kModePK,DoRequestType.kDoGetPKList,null,responsePKListCallback);
+
             });
         closeItem.setAnchorPoint(cc.p(0.5, 0.5));
 
@@ -85,7 +87,7 @@ var MyLayer = cc.Layer.extend({
 //        newReader.readNodeGraphFromFile(s_ccbiBasic)
         console.log(cc.FileUtils.getInstance()._fileDataCache[s_ccbiBasic]);
 
-        lc.NetManager.sharedNetManager().sendRequest(ModeRequestType.kModePK,DoRequestType.kDoGetPKList,null,responsePKListCallback);
+        //lc.NetManager.sharedNetManager().sendRequest(ModeRequestType.kModePK,DoRequestType.kDoGetPKList,null,responsePKListCallback);
 
         return true;
     }
