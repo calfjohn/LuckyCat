@@ -1,11 +1,13 @@
 var lc = lc = lc || {};
 
-lc.platfrom = function(){
-    var obj = new Object();
-    obj.desktop = "desktop";
-    obj.mobile = "mobile";
+lc.g_platfromNames = Array(
+    "desktop",
+    "mobile"
+);
 
-    return obj;
+lc.modePlatfromType = {
+    kModeDesktop:0,
+    kModeMobile:1
 };
 
 //a page is a game level

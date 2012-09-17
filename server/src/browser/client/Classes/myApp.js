@@ -49,8 +49,8 @@ var MyLayer = cc.Layer.extend({
             "../Resources/CloseSelected.png",
             this,
             function () {
-                history.go(-1);
-                //lc.NetManager.sharedNetManager().sendRequest(ModeRequestType.kModePK,DoRequestType.kDoGetPKList,null,responsePKListCallback);
+                //history.go(-1);
+                lc.NetManager.sharedNetManager().sendRequest(ModeRequestType.kModePK,DoRequestType.kDoGetPKList,null,responsePKListCallback);
 
             });
         closeItem.setAnchorPoint(cc.p(0.5, 0.5));
@@ -80,8 +80,8 @@ var MyLayer = cc.Layer.extend({
 
         lazyLayer.addChild(this.sprite, 0);
 
-        var equip = lc.DictDataManager.getInstance().getEquipment(1);
-        this.helloLabel.setString(equip.name);
+        //var equip = lc.DictDataManager.getInstance().getEquipment(1);
+        //this.helloLabel.setString(equip.name);
 
 //        var newReader = new cc.CCBReader();
 //        newReader.readNodeGraphFromFile(s_ccbiBasic)

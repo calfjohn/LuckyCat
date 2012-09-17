@@ -16,7 +16,7 @@ lc.NetManager = cc.Class.extend({
     createRequest:function(){
         var request;
         var platfrom = this.getPlatfrom();
-        if(platfrom == lc.platform.desktop){
+        if(platfrom == lc.g_platfromNames[lc.modePlatfromType.kModeDesktop]){
             request = new lc.CustomXMLHTTPRequest();
         }else{
             // new js binding object for ccnetwork;
@@ -32,7 +32,7 @@ lc.NetManager = cc.Class.extend({
             //send a get request;
         }else{
             //send a post request;
-            request.sendRequest(modEnum,doEnum,requestData,responseCallback,errorCallback);
+            request.sendRequest(url,parameter,responseCallback,errorCallback);
         }
     },
     generatePostJsonData:function(modEnum,doEnum,requestData){
