@@ -57,6 +57,14 @@
             "../Classes/Battle/BattleResultLayer.js",
             "../Classes/Battle/GeneralBattleLayer.js",
 
+            "../Classes/Main/CoverScene.js",
+            "../Classes/Chapter/ChapterScene.js",
+            "../Classes/Page/PageMapScene.js",
+            "../Classes/Page/PageCellLayer.js",
+            "../Classes/Page/PageScene.js",
+
+            "../Classes/PlayerInfo/BasicInfoLayer.js"
+
             //add your own files in order here
         ]
     };

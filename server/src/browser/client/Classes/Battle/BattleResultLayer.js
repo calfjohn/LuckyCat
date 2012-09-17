@@ -9,13 +9,6 @@ lc.BattleResultLayer = lc.TouchLayer.extend({
     },
     init:function () {
         this._super();
-
-        var size = cc.Director.getInstance().getWinSize();
-        var helloLabel = cc.LabelTTF.create("Battle Result", "Arial", 22);
-        helloLabel.setColor(cc.red());
-        helloLabel.setPosition(cc.p(size.width / 2, size.height /2));
-        this.addChild(helloLabel, 9);
-
         return true;
     },
     onMenuItemClicked : function ( pTarget )
@@ -146,10 +139,33 @@ lc.BattleResultLayer = lc.TouchLayer.extend({
     }
 });
 
-lc.BattleResultLayer.create = function (pOwner) {
+lc.BattleResultLayerLoader = cc.LayerLoader.extend({
+                                                _createCCNode:function (parent, ccbReader) {
+                                                return lc.BattleResultLayer.create();
+                                                }
+                                                });
+
+lc.BattleResultLayerLoader.loader = function () {
+    return new lc.BattleResultLayerLoader();
+};
+
+lc.BattleResultLayer.create = function ()
+{
     var ret = new lc.BattleResultLayer();
     if (ret && ret.init()) {
         return ret;
     }
     return null;
+};
+
+lc.BattleResultLayer.createLoader = function (pOwner) {
+    var ccNodeLoaderLibrary = cc.NodeLoaderLibrary.newDefaultCCNodeLoaderLibrary();
+    
+    ccNodeLoaderLibrary.registerCCNodeLoader("BattleResultLayer", lc.BattleResultLayerLoader.loader());
+    
+    var ccbReader = new cc.CCBReader(ccNodeLoaderLibrary);
+    
+    var pNode = ccbReader.readNodeGraphFromFile("../Resources/",s_ccbiBattleResult);
+    
+    return pNode;
 };

@@ -49,7 +49,7 @@ lc.LuckySprite = cc.Sprite.extend({
 
         if (pImage.type == 0)
         {
-            var pTexture = cc.SpriteFrameCache.getInstance().getSpriteFrame(pImage.filePath);
+            var pTexture = cc.TextureCache.getInstance().addImage(pImage.filePath);
             if (!pTexture)
             {
                 return false;

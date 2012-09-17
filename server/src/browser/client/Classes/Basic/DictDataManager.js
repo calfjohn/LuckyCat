@@ -14,6 +14,7 @@ lc.DictDataManager = cc.Class.extend({
     _mapImage : [],
     _mapEuipment : [],
     _mapEvent : [],
+    _mapNpcDialog : [],
 
     //在这里初始化数据,读取数据库
     _init:function () {
@@ -28,6 +29,7 @@ lc.DictDataManager = cc.Class.extend({
         this._initImage();
         this._initEquipment();
         this._initEvent();
+        this._initNpcDialog();
     },
     getMonsterImageId:function (monsterId)
     {
@@ -45,13 +47,17 @@ lc.DictDataManager = cc.Class.extend({
     {
         return this._mapEvent["" + eventId];
     },
+    getNpcDialog:function (dialogId)
+    {
+        return this._mapNpcDialog["" + dialogId];
+    },
     _initMonster:function ()
     {
-
+        this._mapMonster = JSON.parse(cc.SAXParser.shareParser().getList(s_dictMonster));
     },
     _initImage:function ()
     {
-
+        this._mapImage = JSON.parse(cc.SAXParser.shareParser().getList(s_dictImage));
     },
     _initEquipment:function()
     {
@@ -59,6 +65,11 @@ lc.DictDataManager = cc.Class.extend({
     },
     _initEvent:function()
     {
+        this._mapEvent = JSON.parse(cc.SAXParser.shareParser().getList(s_dictEvent));
+    },
+    _initNpcDialog:function()
+    {
+        this._mapNpcDialog = JSON.parse(cc.SAXParser.shareParser().getList(s_dictNpcDialog));
     }
 });
 

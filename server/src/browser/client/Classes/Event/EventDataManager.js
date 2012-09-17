@@ -33,15 +33,16 @@ lc.stTalk = function (){
 
 lc.randNumber = function ( begin, end )
 {
+    var ret = 0;
     if ( begin > end )
     {
-        return 0;
     }
     else
     {
-        var ret1 = ( Math.random() * (end - begin) + begin ) | 0;
-        return ret1;
+        ret1 = ( Math.random() * (end - begin) + begin ) | 0;
     }
+    cc.log("rand Number " + ret1);
+    return ret1;
 }
 
 lc.sortTalkById = function ( value1 , value2 )
@@ -52,11 +53,11 @@ lc.sortTalkById = function ( value1 , value2 )
     }
     if ( value1.id > value2.id )
     {
-        return -1;
+        return 1;
     }
     else if ( value1.id < value2.id )
     {
-        return 1;
+        return -1;
     }
     else
     {
@@ -95,20 +96,33 @@ lc.BattleProcess = function ()
 }
 
 lc.EventDataManager = cc.Class.extend({
-    _mTalkMap : null,
-    _mNpcMap : null,
-    ctor:function () {
-        this._super();
-    },
+    _mTalkMap : [],
     init:function () {
-        this._super();
+        this.initData();
+
         return true;
+    },
+    initData:function () {
+        var _dictManager = lc.DictDataManager.getInstance();
+        var _mapDictNpc = _dictManager._mapNpcDialog;
+
+        for (var key in _mapDictNpc) {
+            var temp = _mapDictNpc[key];
+            var tTalk = new lc.stTalk();
+            tTalk.id = temp.id;
+            tTalk.npcId = temp.npc_id;
+            tTalk.npcName = temp.npc_name;
+            tTalk.eventId = temp.event_id;
+            tTalk.dialogList = temp.content.split("||");
+
+            this._mTalkMap.push(tTalk);
+        }
     },
     //获取一个事件相关的所有对话
     getAllTalk : function (tEvent_Id) {
         var tRetTalk = new Array();
 
-        for ( var i = 0; i < tRetTalk.length ; i ++ )
+        for ( var i = 0; i < this._mTalkMap.length ; i ++ )
         {
             var tStTalk = this._mTalkMap[i];
             if ( tStTalk && tStTalk.eventId == tEvent_Id )
@@ -127,7 +141,7 @@ lc.EventDataManager = cc.Class.extend({
     //从获取一个对话
     getDialogFromTalk : function ( tTalk ) {
         var strDialog = null;
-        if ( !tTalk || tTalk.dialogList || tTalk.dialogList.length == 0 )
+            if ( !tTalk || tTalk.dialogList.length == 0 )
         {
             strDialog = "";
         }
@@ -136,7 +150,8 @@ lc.EventDataManager = cc.Class.extend({
             strDialog = tTalk.dialogList[0];
         }
         else{
-            var pos = lc.randNumber(0,tTalk.dialogList.length);
+            var end = tTalk.dialogList.length;
+            var pos = lc.randNumber(0,end);
             strDialog = tTalk.dialogList[pos];
         }
         return strDialog;
@@ -152,23 +167,17 @@ lc.EventDataManager = cc.Class.extend({
             }
         }
         return null;
-    },
-    //读取数据库
-    readDB : function () {
-        //
-        var str = "A 1||B 2||C 3||D 4";
-        var strArray = str.split("||");
     }
 });
 
 lc.fristEventDataManager = true;
 lc.s_SharedEventDataManager = null;
 
-lc.EventDataManager.getShareInstance = function (pOwner) {
+lc.EventDataManager.getInstance = function () {
     if (lc.fristEventDataManager) {
         lc.fristEventDataManager = false;
         lc.s_SharedEventDataManager = new lc.EventDataManager();
         lc.s_SharedEventDataManager.init();
     }
-    return cc.s_SharedDirector;
+    return lc.s_SharedEventDataManager;
 };

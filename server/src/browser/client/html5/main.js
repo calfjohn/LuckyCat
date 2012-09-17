@@ -31,6 +31,7 @@ var cocos2dApp = cc.Application.extend({
         this.startScene = scene;
         cc.COCOS2D_DEBUG = this.config['COCOS2D_DEBUG'];
         cc.setup(this.config['tag']);
+        //cc.SPRITE_DEBUG_DRAW = 1;
         cc.AudioEngine.getInstance().init("mp3,ogg");
         cc.Loader.shareLoader().onloading = function () {
             cc.LoaderScene.shareLoaderScene().draw();
@@ -55,7 +56,13 @@ var cocos2dApp = cc.Application.extend({
 
         //init some data for game
         lc.DictDataManager.getInstance();
-        lc.LevelDataManager.shareLevelDataManager();
+        lc.LevelDataManager.getInstance();
+        lc.EventDataManager.getInstance();
+
+        var ccNodeLoaderLibrary = cc.NodeLoaderLibrary.newDefaultCCNodeLoaderLibrary();
+        ccNodeLoaderLibrary.registerCCNodeLoader("FuzzyBgLayer", lc.FuzzyBgLayerLoader.loader());
+
+        //cc.SpriteFrameCache.getInstance().addSpriteFrameWithFileName("../Resources/image/scene/scene.plist");
 
         // create a scene. it's an autorelease object
 

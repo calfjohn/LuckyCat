@@ -141,8 +141,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>167</real>
-							<real>251</real>
+							<real>334</real>
+							<real>502</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -373,7 +373,7 @@
 			</dict>
 		</array>
 		<key>customClass</key>
-		<string>OpenBoxView</string>
+		<string>OpenBoxLayer</string>
 		<key>memberVarAssignmentName</key>
 		<string></string>
 		<key>memberVarAssignmentType</key>
@@ -512,13 +512,13 @@
 			<key>ext</key>
 			<string> </string>
 			<key>height</key>
-			<integer>480</integer>
+			<integer>960</integer>
 			<key>name</key>
 			<string>iPhone Portrait</string>
 			<key>scale</key>
 			<real>1</real>
 			<key>width</key>
-			<integer>320</integer>
+			<integer>640</integer>
 		</dict>
 	</array>
 </dict>
