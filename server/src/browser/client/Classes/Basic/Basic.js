@@ -1,5 +1,15 @@
 var lc = lc = lc || {};
 
+lc.g_platfromNames = Array(
+    "desktop",
+    "mobile"
+);
+
+lc.modePlatfromType = {
+    kModeDesktop:0,
+    kModeMobile:1
+};
+
 //a page is a game level
 lc.stPage = function (){
     var obj = new Object();
