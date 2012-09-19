@@ -38,8 +38,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>65</real>
-							<real>100</real>
+							<real>130</real>
+							<real>200</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -50,8 +50,8 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>200</real>
-							<real>250</real>
+							<real>400</real>
+							<real>500</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -129,8 +129,8 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>200</real>
-							<real>250</real>
+							<real>400</real>
+							<real>500</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -208,8 +208,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>107</real>
-							<real>314</real>
+							<real>298</real>
+							<real>633</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -378,8 +378,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>85</real>
-							<real>273</real>
+							<real>161</real>
+							<real>579</real>
 							<integer>0</integer>
 						</array>
 					</dict>

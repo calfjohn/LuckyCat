@@ -30,7 +30,7 @@ lc.NetManager = cc.Class.extend({
         }
         return xmlhttp;
     },
-    sendRequest:function(modEnum,doEnum,requestData,responseCallback,errorCallback){
+    sendRequest:function(modEnum,doEnum,requestData,responseCallback,errorCallback,target){
         var xhr = this.createXMLHttpRequest();
         var url = this.generatePostURL(modEnum,doEnum);
         var parameter = this.generatePostJsonData(modEnum,doEnum,requestData);
@@ -40,7 +40,8 @@ lc.NetManager = cc.Class.extend({
             xhr.onreadystatechange = function(){
                 if(xhr.readyState == 4){
                     if(xhr.status == 200){
-                        responseCallback(xhr.responseText);
+                        //responseCallback(xhr.responseText);
+                        responseCallback.call(target,xhr.responseText)
                     }
                 }
             };
@@ -51,7 +52,7 @@ lc.NetManager = cc.Class.extend({
             xhr.onreadystatechange = function(){
                 if(xhr.readyState == 4){
                     if(xhr.status == 200){
-                        responseCallback(xhr.responseText);
+                        responseCallback.call(target,xhr.responseText)
                     }
                 }
             };

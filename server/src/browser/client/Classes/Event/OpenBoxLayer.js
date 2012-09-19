@@ -21,11 +21,11 @@ lc.OpenBoxLayer = lc.TouchLayer.extend({
     },
     onCCControlButtonClicked : function ( pSender, pCCControlEvent)
     {
-        cc.log("onCCControlButtonClicked  + " + pSender.getTag());
-        /*
-        if ( this.m_bIsOpen == false && this.p_CurEvent.m_bBoxIsOpened == false && this.p_CurEvent && this.p_CurEvent.box_id != -1)
+
+        if ( this.m_bIsOpen == false && this.p_CurEvent.boxIsOpened == false && this.p_CurEvent && this.p_CurEvent.box_id != -1)
         {
-            var pOpenBoxResult = lc.OpenBoxResultLayer.create();
+            var pOpenBoxResult = lc.OpenBoxResultLayer.createLoader(this);
+            var pOpenBoxResult = lc.OpenBoxResultLayer.createLoader(this);
             pOpenBoxResult.initLayer(this.p_CurEvent.boxAward);
             this.addChild(pOpenBoxResult,99);
 
@@ -37,20 +37,16 @@ lc.OpenBoxLayer = lc.TouchLayer.extend({
                 pControlButton.setEnabled(false);
             }
 
-
-            if (this.p_CurEvent)
-            {
-                this.p_CurEvent.m_bBoxIsOpened = true;
-            }
+            this.p_CurEvent.boxIsOpened = true;
         }else {
             this.removeAndCleanSelf();
-        }*/
+        }
     },
     notificationTouchEvent : function ( tLTouchEvent )
     {
         if (tLTouchEvent == lc.kLTouchEventSingleClick)
         {
-            //this.onCCControlButtonClicked(null,null);
+            this.onCCControlButtonClicked(null,null);
         }
     },
     setData : function ( tEvent, target, pfnSelector)

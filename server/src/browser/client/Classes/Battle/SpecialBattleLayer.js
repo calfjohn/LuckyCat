@@ -12,12 +12,6 @@ lc.SpecialBattleLayer = lc.TouchLayer.extend({
     init:function () {
         this._super();
 
-        var size = cc.Director.getInstance().getWinSize();
-        var helloLabel = cc.LabelTTF.create("Special Battle Resuit", "Arial", 22);
-        helloLabel.setColor(cc.red());
-        helloLabel.setPosition(cc.p(size.width / 2, size.height /2));
-        this.addChild(helloLabel, 9);
-
         return true;
     },
     onMenuItemClicked : function ( pTarget )

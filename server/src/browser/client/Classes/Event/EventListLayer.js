@@ -25,12 +25,6 @@ lc.EventListLayer = cc.Layer.extend({
     },
     init:function () {
 
-        var size = cc.Director.getInstance().getWinSize();
-        var helloLabel = cc.LabelTTF.create("EventList", "Arial", 22);
-        helloLabel.setColor(cc.green());
-        helloLabel.setPosition(cc.p(size.width / 2, size.height /2));
-        this.addChild(helloLabel, 9);
-
         return true;
     },
     initLayer : function (tChapterId,p_page,target,pfnSelector)
@@ -75,15 +69,36 @@ lc.EventListLayer = cc.Layer.extend({
     },
     isNeedShowBattleResult:function ()
     {
-        return false;
+        if ( this.p_CurEvent && this.p_CurEvent.type != lc.kLEventTypeDialogue && this.p_CurEvent.battleResultIsShowed == false )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     },
     isNeedShowOpenBoxLayer:function ()
     {
-        return false;
+        if ( this.p_CurEvent && this.p_CurEvent.battleResult == lc.kBattleResultWin && this.p_CurEvent.box_id != -1 && this.p_CurEvent.boxIsOpened == false )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     },
     isLostBattle:function ()
     {
-        return false;
+        if ( this.p_CurEvent && this.p_CurEvent.type != lc.kLEventTypeDialogue && this.p_CurEvent.battleResult == lc.kBattleResultLost )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     },
     getCurEvent : function ()
     {
@@ -226,7 +241,7 @@ lc.EventListLayer = cc.Layer.extend({
     //开箱子, 战斗结果 都依赖于以上面三个界面
     showOpenBoxLayer  : function ()
     {
-        if ( this.p_CurEvent && this.p_CurEvent.m_bBoxIsOpened == false && this.p_CurEvent.box_id != -1 )
+        if ( this.p_CurEvent && this.p_CurEvent.boxIsOpened == false && this.p_CurEvent.box_id != -1 )
         {
             this.removeAllChildLayer();
 
@@ -243,7 +258,7 @@ lc.EventListLayer = cc.Layer.extend({
 
         var pLayer = lc.BattleResultLayer.createLoader(this);
         pLayer.setData(this.p_CurEvent,this, this.callbackEventWasFinished);
-        this.p_CurEvent.m_bBattleResultIsShowed = true;
+        this.p_CurEvent.battleResultIsShowed = true;
         pLayer.initLayer();
 
         this.p_CurLayer = pLayer;
@@ -279,13 +294,15 @@ lc.EventListLayer = cc.Layer.extend({
     {
         //NetManager::shareNetManager()->sendEx(kModeEvent, kDoGetEventList, callfuncND_selector(EventListLayer::netCallBackEventList), this, "\"chapterId\": %d, \"pageId\": %d, \"eventId\": %d", mChapterId, p_pPage->id, p_pPage->eventId);
         var str = "\"chapterId\":" + this.mChapterId + ",\"pageId\":"  + this.p_pPage.id  + ",\"eventId\":" + this.p_pPage.event_id;
-        lc.NetManager.sharedNetManager().sendRequest(ModeRequestType.kModeEvent,DoRequestType.kDoGetEventList,str,lc.EventListLayer.getInstance().netCallBackEventList,lc.EventListLayer.getInstance().netErrorCallBackEventList);
+        //var str = "\"chapterId\":" + this.mChapterId + ",\"pageId\":"  + 13  + ",\"eventId\":" + 5;
+        lc.NetManager.sharedNetManager().sendRequest(ModeRequestType.kModeEvent,DoRequestType.kDoGetEventList,str,lc.EventListLayer.getInstance().netCallBackEventList,lc.EventListLayer.getInstance().netErrorCallBackEventList,this);
     },
     netCallBackEventList : function (data)
     {
         if ( data )
         {
-            var that = lc.EventListLayer.getInstance();
+            //var that = lc.EventListLayer.getInstance();
+            var that = this;
             var retData = JSON.parse(data);
             that.mEventDataList = retData.meta.out.eventList;
 

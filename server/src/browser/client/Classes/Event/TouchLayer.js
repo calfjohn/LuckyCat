@@ -46,8 +46,6 @@ lc.TouchLayer = cc.Layer.extend({
             var tPoint = touch._point;
             var _tPoint = this.convertTouchToNodeSpace(touch);
 
-            cc.log("Orign x : " + tPoint.x + ", y: " + tPoint.y);
-            cc.log("Conve x : " + _tPoint.x + ", y: " + _tPoint.y);
             if ( this.TouchAreaContainsPoint(tPoint) == false )
             {
                 this.notificationTouchEvent(lc.kLTouchEventOutsideTouchArea);
@@ -56,6 +54,11 @@ lc.TouchLayer = cc.Layer.extend({
             {
                 this.notificationTouchEvent(lc.kLTouchEventInsideTouchArea);
             }
+
+            this.mBeginPoint.x = touch._point.x;
+            this.mBeginPoint.y = touch._point.y;
+
+            return true;
         }
 
         if ( this.getIsTouchForbidden() )
@@ -63,15 +66,15 @@ lc.TouchLayer = cc.Layer.extend({
             this.mBeginPoint.x = 0;
             this.mBeginPoint.y = 0;
 
-            cc.log("Begin Touch Forbidden.");
-
             return false;
         }
+        else
+        {
+            this.mBeginPoint.x = touch._point.x;
+            this.mBeginPoint.y = touch._point.y;
 
-        this.mBeginPoint.x = touch._point.x;
-        this.mBeginPoint.y = touch._point.y;
-
-        return true;
+            return true;
+        }
     },
     onTouchMoved:function (touch, event) {
     },
@@ -81,7 +84,15 @@ lc.TouchLayer = cc.Layer.extend({
         if ( this.mBeginPoint.x != 0 && this.mBeginPoint.y != 0 )
         {
             this.notificationTouchEvent(lc.kLTouchEventSingleClick);
-            cc.log("onTouchEnded Touch kLTouchEventSingleClick.");
+
+            if (this.m_bTouchForbidden == true)
+            {
+                cc.log("m_bTouchForbidden == true");
+            }
+            else
+            {
+                cc.log("m_bTouchForbidden == true");
+            }
         }
 
         this.mBeginPoint.x = 0;

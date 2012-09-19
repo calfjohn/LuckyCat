@@ -49,7 +49,16 @@ lc.GeneralBattleLayer = lc.TouchLayer.extend({
     },
     onCCControlButtonClicked : function ( pSender, pCCControlEvent)
     {
-        cc.Blink.create(0.5,6);
+        this.getChildByTag(1).setVisible(true);
+        this.getChildByTag(1).runAction(cc.Blink.create(0.3,4));
+//        this.getChildByTag(1).runAction(
+//            cc.Sequence.create(
+//                cc.Show.create(),
+//                cc.Blink.create(0.3,4),
+//                cc.Hide.create()
+//            )
+//        );
+
         this.getChildByTag(lc.TAG_EFFECT_NODE).runAction(cc.Sequence.create(
             cc.Show.create(),
             this.m_action,

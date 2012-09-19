@@ -1,5 +1,7 @@
 var lc = lc = lc || {};
 
+lc.argH = 2;
+
 lc.BattleResultLayer = lc.TouchLayer.extend({
     p_CurEvent : null,
     m_target : null,         //callback listener
@@ -23,7 +25,7 @@ lc.BattleResultLayer = lc.TouchLayer.extend({
     {
          if (tLTouchEvent == lc.kLTouchEventSingleClick)
          {
-             this.removeAndCleanSelf(0);
+             this.removeAndCleanSelf();
          }
     },
     setData : function ( tEvent, target, pfnSelector)
@@ -40,7 +42,7 @@ lc.BattleResultLayer = lc.TouchLayer.extend({
 
         if (resultOfBattle)
         {
-            if ( this.p_CurEvent.batleProcess.m_battleResult == lc.kBattleResultWin )
+            if ( this.p_CurEvent.battleResult == lc.kBattleResultWin )
             {
                 resultOfBattle.setString("战斗胜利");
             }
@@ -55,14 +57,14 @@ lc.BattleResultLayer = lc.TouchLayer.extend({
 
         var basePosition = labtip.getPosition();
 
-        var bonusLabel = cc.LabelTTF.create("过关奖励", cc.SizeMake(screanSize.width * 0.8, screanSize.height * 0.15 ), cc.TEXT_ALIGNMENT_LEFT, cc.TEXT_ALIGNMENT_CENTER,"Arial", 18);
+        var bonusLabel = cc.LabelTTF.create("过关奖励","Arial", 18);
         bonusLabel.setColor(cc.orange());
         bonusLabel.setAnchorPoint(cc.PointZero());
-        bonusLabel.setPosition(cc.SizeMake(basePosition.x, basePosition.y - 40));
+        bonusLabel.setPosition(cc.PointMake(basePosition.x, basePosition.y - 40*lc.argH));
         this.addChild(bonusLabel);
 
         basePosition = bonusLabel.getPosition();
-        for (var _iter = 0; _iter < tEvent.bonus.length; _iter++)
+        for (var _iter = 0; _iter < this.p_CurEvent.bonus.length; _iter++)
         {
             var _goods = this.p_CurEvent.bonus[_iter];
 
@@ -79,28 +81,27 @@ lc.BattleResultLayer = lc.TouchLayer.extend({
                 strChar = "获得物品 ：" + _goods.count;
             }
             else if (_goods.type == 4){
-                /*todo
-                var pTempEquip = DictDataManager::shareDictDataManager()->getEquipment(_goods.id);
-                if (pTempEquip) {
-                    strChar = "获得装备 ：" + pTempEquip.equipName + " " + _goods.count + "件";
-                }
-                else {
-                    strChar= "获得装备 ：错误id " + _goods.id;
-                }
-                */
+                 var pTempEquip = lc.DictDataManager.getInstance().getEquipment(_goods.id);
+                 if (pTempEquip)
+                 {
+                 strChar = "获得装备 ：" + pTempEquip.name + " " + _goods.count + "件";
+                 }
+                 else {
+                 strChar= "获得装备 ：错误id " + _goods.id;
+                 }
             }
-            bonusLabel = cc.LabelTTF.create(strChar, cc.SizeMake(screanSize.width * 0.8, screanSize.height * 0.15 ), cc.TEXT_ALIGNMENT_LEFT, cc.TEXT_ALIGNMENT_CENTER,"Arial", 18);
+            bonusLabel = cc.LabelTTF.create(strChar, "Arial", 18);
             bonusLabel.setColor(cc.white());
             bonusLabel.setAnchorPoint(cc.PointZero());
-            bonusLabel.setPosition(cc.PointMake(basePosition.x, basePosition.y  - 18));
+            bonusLabel.setPosition(cc.PointMake(basePosition.x, basePosition.y  - 18*lc.argH));
             this.addChild(bonusLabel);
             basePosition = bonusLabel.getPosition();
         }
 
-        bonusLabel = cc.LabelTTF.create("战斗奖励", cc.SizeMake(screanSize.width * 0.8, screanSize.height * 0.15 ), cc.TEXT_ALIGNMENT_LEFT, cc.TEXT_ALIGNMENT_CENTER,"Arial", 18);
+        bonusLabel = cc.LabelTTF.create("战斗奖励","Arial", 18);
         bonusLabel.setColor(cc.orange());
         bonusLabel.setAnchorPoint(cc.PointZero());
-        bonusLabel.setPosition(cc.PointMake(basePosition.x, basePosition.y - 18));
+        bonusLabel.setPosition(cc.PointMake(basePosition.x, basePosition.y - 18*lc.argH));
         this.addChild(bonusLabel);
 
         basePosition = bonusLabel.getPosition();
@@ -123,19 +124,17 @@ lc.BattleResultLayer = lc.TouchLayer.extend({
             else if (_goods.type == 4){
                 strChar = "获得装备 ：" + _goods.count;
             }
-            bonusLabel = cc.LabelTTF.create(strChar, cc.SizeMake(screanSize.width * 0.8, screanSize.height * 0.15 ), cc.TEXT_ALIGNMENT_LEFT, cc.TEXT_ALIGNMENT_CENTER,"Arial", 18);
+            bonusLabel = cc.LabelTTF.create(strChar,"Arial", 18);
             bonusLabel.setColor(cc.white());
             bonusLabel.setAnchorPoint(cc.PointZero());
-            bonusLabel.setPosition(cc.PointMake(basePosition.x, basePosition.y  - 18));
+            bonusLabel.setPosition(cc.PointMake(basePosition.x, basePosition.y  - 18*lc.argH));
             this.addChild(bonusLabel);
             basePosition = bonusLabel.getPosition();
         }
     },
     removeAndCleanSelf : function ()
     {
-        if (this.m_target && (typeof(this.m_pfnSelector) == "function")) {
-            this.m_pfnSelector.call(this.m_target, this);
-        }
+        this.m_pfnSelector.call(this.m_target);
     }
 });
 

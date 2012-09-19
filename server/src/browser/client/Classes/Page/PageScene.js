@@ -88,15 +88,21 @@ lc.Page = lc.TouchLayer.extend({
     },
     nextPageCallback : function ()
     {
-        //
         lc.LevelDataManager.getInstance().changePageState(this._nChapterId, this._stPage.id);
-
-        var pPage = lc.LevelDataManager.getInstance().getNewPage(this._nChapterId);
 
         lc.fristEventListLayer = true;
 
-        var pScene = lc.Page.scene(this._nChapterId,pPage);
-        cc.Director.getInstance().replaceScene(pScene);
+        if ( lc.LevelDataManager.getInstance().isChapterEnd(this._nChapterId) ) //已经是最后一页了
+        {
+            var pScene = lc.Chapter.scene();
+            cc.Director.getInstance().replaceScene(pScene);
+        }
+        else
+        {
+            var pPage = lc.LevelDataManager.getInstance().getNewPage(this._nChapterId);
+            var pScene = lc.Page.scene(this._nChapterId,pPage);
+            cc.Director.getInstance().replaceScene(pScene);
+        }
     }
 });
 

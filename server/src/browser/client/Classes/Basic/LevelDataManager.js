@@ -169,22 +169,18 @@ lc.LevelDataManager = cc.Class.extend({
     isChapterEnd:function (chapterId)
     {
         var bRetValue = false;
-        for (var iterTemp = 0;
-             iterTemp != this._m_mapBible[""+1].list_chapter.length;
-             iterTemp++)
+        var tChapter = this.getChapter(chapterId);
+        if (tChapter)
         {
-            var tChapter = this._m_mapBible[""+1].list_chapter[iterTemp];
-            if (tChapter.id == chapterId && tChapter.list_page.length > 0)
+            if (tChapter.list_page.length > 0)
             {
-                var lastIndex = tChapter.list_page.length == 0 ? 0 : (tChapter.list_page.length - 1);
-                if (tChapter.list_page[lastIndex].state == 1)
+                var tPage = tChapter.list_page[tChapter.list_page.length-1];
+                if (tPage.state == 1)
                 {
                     bRetValue = true;
-                    break;
                 }
             }
         }
-
         return bRetValue;
     },
     isLastPageOfChapter:function (chapterId, pageId)
