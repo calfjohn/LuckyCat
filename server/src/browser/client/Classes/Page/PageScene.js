@@ -5,7 +5,9 @@ lc.TAG_BUTTON_MAGIC = 2;
 lc.TAG_BUTTON_DAGGER = 3;
 lc.TAG_BUTTON_OPTION = 4;
 
-lc.Page = cc.Layer.extend({
+lc.Page = lc.TouchLayer.extend({
+    _stPage: null,
+    _nChapterId: null,
     ctor:function () {
         this._super();
     },
@@ -13,6 +15,19 @@ lc.Page = cc.Layer.extend({
         this._super();
 
         return true;
+    },
+    setData:function (tChapterId,tPage) {
+        this._stPage = tPage;
+        this._nChapterId = tChapterId;
+
+        var tlabTitle = this.getChildByTag(6);
+        var tlabContent = this.getChildByTag(7);
+        var tSpriteBg = this.getChildByTag(8);
+        var tSpriteMonster = this.getChildByTag(91);
+
+        tlabTitle.setString(this._stPage.name);
+        tlabContent.setString(this._stPage.content);
+
     },
     onResolveCCBCCMenuItemSelector:function ( pTarget, pSelectorName)
     {
@@ -45,6 +60,43 @@ lc.Page = cc.Layer.extend({
     registerWithTouchDispatcher:function()
     {
         cc.Director.getInstance().getTouchDispatcher().addTargetedDelegate(this,0 , false);
+    },
+    notificationTouchEvent : function ( tLTouchEvent )
+    {
+        if (tLTouchEvent == lc.kLTouchEventSingleClick)
+        {
+            this.showEventList();
+        }
+    },
+    showEventList : function ()
+    {
+        if ( lc.fristEventListLayer == true )
+        {
+            var tEventListLayer = lc.EventListLayer.getInstance();
+            tEventListLayer.initLayer(this._nChapterId,this._stPage, this, this.EventListCallBack);
+            this.addChild(tEventListLayer,1);
+        }
+        else
+        {
+            lc.EventListLayer.getInstance().getEventDataList();
+        }
+    },
+    EventListCallBack : function ()
+    {
+        //NetManager::shareNetManager()->sendEx(kModeBattle, kDoFight1, callfuncND_selector(Page::nextPageCallback), this, "\"chapterId\": %d, \"pageId\": %d", m_nChapterId, m_pPage->id);
+        this.nextPageCallback();
+    },
+    nextPageCallback : function ()
+    {
+        //
+        lc.LevelDataManager.getInstance().changePageState(this._nChapterId, this._stPage.id);
+
+        var pPage = lc.LevelDataManager.getInstance().getNewPage(this._nChapterId);
+
+        lc.fristEventListLayer = true;
+
+        var pScene = lc.Page.scene(this._nChapterId,pPage);
+        cc.Director.getInstance().replaceScene(pScene);
     }
 });
 
@@ -96,10 +148,11 @@ lc.Page.create = function ()
     return null;
 };
 
-lc.Page.scene = function ()
+lc.Page.scene = function (tChapterId,tPage)
 {
     var tScene = cc.Scene.create();
     var tPageLayer = lc.Page.createLoader(tScene);
+    tPageLayer.setData(tChapterId,tPage);
 
     tScene.addChild(tPageLayer);
 
@@ -110,6 +163,8 @@ lc.Page.createLoader = function (pOwner) {
     var ccNodeLoaderLibrary = cc.NodeLoaderLibrary.newDefaultCCNodeLoaderLibrary();
 
     ccNodeLoaderLibrary.registerCCNodeLoader("BasicInfoLayer", lc.BasicInfoLayerLoader.loader());
+
+    ccNodeLoaderLibrary.registerCCNodeLoader("PageEx", lc.PageExLoader.loader());
 
     ccNodeLoaderLibrary.registerCCNodeLoader("Page", lc.PageLoader.loader());
 

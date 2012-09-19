@@ -56,6 +56,7 @@ lc.SpecialBattleLayer = lc.TouchLayer.extend({
          this.setIsTouchForbidden(true);
          }
          */
+        this.removeAndCleanSelf();
     },
     setData : function ( tEvent, target, pfnSelector)
     {
@@ -71,14 +72,10 @@ lc.SpecialBattleLayer = lc.TouchLayer.extend({
 //            const stMonster * pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(p_CurEvent->targetId);
 //            pSpriteMonster->setNewTexture(pMonster->imageId);
 //        }
-
-        this.showDialog();
     },
     removeAndCleanSelf : function ()
     {
-        if (this.m_target && (typeof(this.m_pfnSelector) == "function")) {
-            this.m_pfnSelector.call(this.m_target, this);
-        }
+        this.m_pfnSelector.call();
     }
 });
 

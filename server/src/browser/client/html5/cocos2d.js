@@ -61,6 +61,7 @@
             "../Classes/Page/PageMapScene.js",
             "../Classes/Page/PageCellLayer.js",
             "../Classes/Page/PageScene.js",
+            "../Classes/Page/PageEx.js",
 
             "../Classes/PlayerInfo/BasicInfoLayer.js"
 

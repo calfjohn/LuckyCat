@@ -19,6 +19,7 @@ lc.EventListLayer = cc.Layer.extend({
     mEventDataList : null,        //All Event in this page
     p_CurLayer : null,       //Current Show Layer
     p_HeroHeadLayer : null,
+    _eventList : null,
     ctor:function () {
         this._super();
     },
@@ -26,7 +27,7 @@ lc.EventListLayer = cc.Layer.extend({
 
         var size = cc.Director.getInstance().getWinSize();
         var helloLabel = cc.LabelTTF.create("EventList", "Arial", 22);
-        helloLabel.setColor(cc.red());
+        helloLabel.setColor(cc.green());
         helloLabel.setPosition(cc.p(size.width / 2, size.height /2));
         this.addChild(helloLabel, 9);
 
@@ -45,31 +46,44 @@ lc.EventListLayer = cc.Layer.extend({
 
         this.p_HeroHeadLayer = null;
 
-        if ( !p_pPage )return;
+        if ( !this.p_pPage )return;
 
         this.getEventDataList();
     },
-    callbackEventWasFinished : function (node,data)
+    callbackEventWasFinished : function ()
     {
-        this.schedule(this.showSideEvent, 0.01);
+        var that = lc.EventListLayer.getInstance();
+        that.showSideEvent();
     },
      //显示当前事件的分支事件, 战斗结果, 开宝箱
     showSideEvent : function ()
     {
-        if ( this.mLEventType == lc.kLEventTypeDialogue )
+        if ( this.isNeedShowBattleResult() )
         {
-            this.showDialogLayer();
+            this.showBattleResultLayer();
         }
-        else if ( this.mLEventType == lc.kLEventTypeSpecialBattle )
-        {
-            this.showSpecialBattleLayer();
+        else if ( this.isNeedShowOpenBoxLayer() ) {
+            this.showOpenBoxLayer();
         }
-        else if ( this.mLEventType == lc.kLEventTypeGeneralBattle ){
-            this.showGeneralBattleLayer();
+        else if ( this.isLostBattle() ){//战斗失败,事件不再执行
+            this.removeAndCleanSelf();
+        }else {
+            this.popEvent();
+
+            this.showCurEvent();
         }
-        else  if ( this.mLEventType == lc.kLEventTypeFinishedEvent ||  this.mLEventType == lc.kLEventTypeOneEventWasFinished ) {
-            this.schedule(this.removeAndCleanSelf, 0.01);
-        }
+    },
+    isNeedShowBattleResult:function ()
+    {
+        return false;
+    },
+    isNeedShowOpenBoxLayer:function ()
+    {
+        return false;
+    },
+    isLostBattle:function ()
+    {
+        return false;
     },
     getCurEvent : function ()
     {
@@ -164,17 +178,17 @@ lc.EventListLayer = cc.Layer.extend({
             this.showGeneralBattleLayer();
         }
         else  if ( this.mLEventType == lc.kLEventTypeFinishedEvent ||  this.mLEventType == lc.kLEventTypeOneEventWasFinished ) {
-            this.schedule(this.removeAndCleanSelf, 0.01);
+            this.removeAndCleanSelf();
         }
     },
     showDialogLayer : function ()
     {
-        var tDialog = lc.NPCDialogLayer.create(this);
+        var tDialog = lc.NPCDialogLayer.createLoader(this);
         if (tDialog)
         {
             this.removeAllChildLayer();
 
-            tDialog.setData(this.p_CurEvent, this, this. callbackEventWasFinished);
+            tDialog.setData(this.p_CurEvent, this, this.callbackEventWasFinished);
 
             this.p_CurLayer = tDialog;
 
@@ -183,12 +197,12 @@ lc.EventListLayer = cc.Layer.extend({
     },
     showGeneralBattleLayer : function ()
     {
-        var tGeneralBattle = this.GeneralBattleLayer.create(this);
+        var tGeneralBattle = lc.GeneralBattleLayer.createLoader(this);
         if (tGeneralBattle)
         {
             this.removeAllChildLayer();
 
-            tGeneralBattle.setData(this.p_CurEvent, this, this. callbackEventWasFinished);
+            tGeneralBattle.setData(this.p_CurEvent, this, this.callbackEventWasFinished);
 
             this.p_CurLayer = tGeneralBattle;
 
@@ -197,12 +211,12 @@ lc.EventListLayer = cc.Layer.extend({
     },
     showSpecialBattleLayer : function ()
     {
-        var tSpecialBattle = lc.SpecialBattleLayer.create(this);
+        var tSpecialBattle = lc.SpecialBattleLayer.createLoader(this);
         if (tSpecialBattle)
         {
             this.removeAllChildLayer();
 
-            tSpecialBattle.setData(this.p_CurEvent, this, this. callbackEventWasFinished);
+            tSpecialBattle.setData(this.p_CurEvent, this, this.callbackEventWasFinished);
 
             this.p_CurLayer = tSpecialBattle;
 
@@ -216,7 +230,7 @@ lc.EventListLayer = cc.Layer.extend({
         {
             this.removeAllChildLayer();
 
-            var pLayer = lc.OpenBoxLayer.create(this);
+            var pLayer = lc.OpenBoxLayer.createLoader(this);
             pLayer.setData(this.p_CurEvent,this, this.callbackEventWasFinished);
 
             this.p_CurLayer = pLayer;
@@ -227,7 +241,7 @@ lc.EventListLayer = cc.Layer.extend({
     {
         this.removeAllChildLayer();
 
-        var pLayer = lc.BattleResultLayer.create(this);
+        var pLayer = lc.BattleResultLayer.createLoader(this);
         pLayer.setData(this.p_CurEvent,this, this.callbackEventWasFinished);
         this.p_CurEvent.m_bBattleResultIsShowed = true;
         pLayer.initLayer();
@@ -244,15 +258,13 @@ lc.EventListLayer = cc.Layer.extend({
             this.p_HeroHeadLayer = null;
         }
         else {
-            this.p_HeroHeadLayer = lc.HeroHeadLayer.create(this);
+            this.p_HeroHeadLayer = lc.HeroHeadLayer.createLoader(this);
             this.addChild(this.p_HeroHeadLayer,lc.kTagLayerHeroHead);
         }
     },
     removeAndCleanSelf : function ()
     {
-        if (this.m_target && (typeof(this.m_pfnSelector) == "function")) {
-            this.m_pfnSelector.call(this.m_target, this);
-        }
+        this.m_pfnSelector.call(this.m_target);
     },
     removeAllChildLayer : function ()
     {
@@ -266,22 +278,50 @@ lc.EventListLayer = cc.Layer.extend({
     getEventDataList : function ()
     {
         //NetManager::shareNetManager()->sendEx(kModeEvent, kDoGetEventList, callfuncND_selector(EventListLayer::netCallBackEventList), this, "\"chapterId\": %d, \"pageId\": %d, \"eventId\": %d", mChapterId, p_pPage->id, p_pPage->eventId);
+        var str = "\"chapterId\":" + this.mChapterId + ",\"pageId\":"  + this.p_pPage.id  + ",\"eventId\":" + this.p_pPage.event_id;
+        lc.NetManager.sharedNetManager().sendRequest(ModeRequestType.kModeEvent,DoRequestType.kDoGetEventList,str,lc.EventListLayer.getInstance().netCallBackEventList,lc.EventListLayer.getInstance().netErrorCallBackEventList);
     },
-    netCallBackEventList : function (pNode,data)
+    netCallBackEventList : function (data)
     {
+        if ( data )
+        {
+            var that = lc.EventListLayer.getInstance();
+            var retData = JSON.parse(data);
+            that.mEventDataList = retData.meta.out.eventList;
 
+            for(var i = 0; i < that.mEventDataList.length; i++)
+            {
+                var temp = that.mEventDataList[i];
+                temp.battleResultIsShowed = false;
+                temp.boxIsOpened = false;
+                temp.battleResult = lc.kBattleResultWin;
+            }
+
+            that.p_CurEvent = that.getCurEvent();
+            that.showCurEvent();
+        }
+    },
+    netErrorCallBackEventList : function (data)
+    {
+        var that = lc.EventListLayer.getInstance();
+        that.mEventDataList = null;
     }
 });
 
-lc.fristEventListLayer = true;
 
-lc.EventListLayer.create = function () {
+lc.fristEventListLayer = true;
+lc.s_SharedEventListLayer = null;
+
+lc.EventListLayer.getInstance = function () {
     if (lc.fristEventListLayer) {
         lc.fristEventListLayer = false;
-        var ret = new lc.EventListLayer();
-        if (ret && ret.init()) {
-            return ret;
-        }
+        lc.s_SharedEventListLayer = new lc.EventListLayer();
+        lc.s_SharedEventListLayer.init();
     }
-    return null;
+    return lc.s_SharedEventListLayer;
 };
+
+lc.EventListLayer.destroyInstance = function () {
+    lc.fristEventListLayer = true;
+    lc.s_SharedEventListLayer = null;
+}

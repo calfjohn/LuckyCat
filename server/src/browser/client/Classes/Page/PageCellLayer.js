@@ -6,6 +6,8 @@ lc.TAG_BUTTON_DAGGER = 3;
 lc.TAG_BUTTON_OPTION = 4;
 
 lc.PageCellLayer = cc.Layer.extend({
+    _stPage: null,
+    _nChapterId: 0,
     ctor:function () {
         this._super();
     },
@@ -13,13 +15,16 @@ lc.PageCellLayer = cc.Layer.extend({
         this._super();
         return true;
     },
-    setData:function()
+    setData:function(tChapterId,tPage)
     {
+        this._nChapterId = tChapterId;
+        this._stPage = tPage;
+
         var num = lc.randNumber(1,5);
         var str = "../Resources/image/scene/scene_100" + num + ".png";
 
         var lab = this.getChildByTag(2);
-        lab.setString(str);
+        lab.setString(tPage.name);
 
         var sprite = this.getChildByTag(1);
         var spriteFrame = cc.TextureCache.getInstance().addImage(str);
@@ -27,6 +32,11 @@ lc.PageCellLayer = cc.Layer.extend({
 
 //    var spriteFrame = cc.SpriteFrameCache.getInstance().getSpriteFrame(str);
 //    sprite.setDisplayFrame(spriteFrame);
+    },
+    showPage:function ()
+    {
+        var tPage = lc.Page.scene(this._nChapterId,this._stPage);
+        cc.Director.getInstance().replaceScene(tPage);
     }
 //    ,
 //    draw:function (ctx) {

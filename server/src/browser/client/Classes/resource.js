@@ -21,6 +21,8 @@ var s_dictNpcDialog = "../Resources/database/dictNpcDialog.txt";
 var s_dictMonster = "../Resources/database/dictMonster.txt";
 var s_dictImage = "../Resources/database/dictImage.txt";
 var s_dictBible = "../Resources/database/dictBible.txt";
+var s_dictChapter = "../Resources/database/dictChapter.txt";
+var s_dictPage = "../Resources/database/dictPage.txt";
 var s_dictActorLevelUpgrade = "../Resources/database/dictActorLevelUpgrade.txt";
 
 var s_plistAnimationsBomb = "../Resources/image/battle/animationsBomb.plist";
@@ -50,38 +52,10 @@ var s_ccbiFuzzy =  "../Resources/ccb/fuzzy.ccbi";
 
 var g_ressources = [
     //image
-    {type:"image", src:s_HelloWorld},
-    {type:"image", src:s_CloseNormal},
-    {type:"image", src:s_CloseSelected},
-    {type:"image", src:s_pngDice},
-    {type:"image", src:s_pngGreenBomb},
-    {type:"image", src:s_pngOrangeBomb},
-    {type:"image", src:s_pngPurpleBomb},
-    {type:"image", src:s_pngYellowBomb},
-    {type:"image", src:s_pngMonster_1003},
-    {type:"image", src:s_png_main_rim_1003},
-    {type:"image", src:s_png_fuzzy},
-    {type:"image", src:s_png_hero_1001},
-    {type:"image", src:s_png_hero_1002},
 
     //plist
-    {type:"plist", src: s_dictEquipment},
-    {type:"plist", src: s_dictCareer},
-    {type:"plist", src: s_dictLevel},
-    {type:"plist", src: s_dictEvent},
-    {type:"plist", src: s_dictNpcDialog},
-    {type:"plist", src: s_dictMonster},
-    {type:"plist", src: s_dictImage},
-    {type:"plist", src: s_dictBible},
-    {type:"plist", src: s_dictActorLevelUpgrade},
 
-    {type:"plist", src:s_plistGreenBomb},
-    {type:"plist", src:s_plistOrangeBomb},
-    {type:"plist", src:s_plistPurpleBomb},
-    {type:"plist", src:s_plistYellowBomb},
-    {type:"plist", src:s_plistDice},
-    {type:"plist", src:s_plistAnimationsDice},
-    {type:"plist", src:s_plistAnimationsBomb},
+
     //fnt
 
     //tmx
@@ -91,14 +65,6 @@ var g_ressources = [
     //effect
 
     //ccbi
-    {type:"ccbi", src:s_ccbiFuzzy},
-    {type:"ccbi", src:s_ccbiBasic},
-    {type:"ccbi", src:s_ccbiDialog},
-    {type:"ccbi", src:s_ccbiHeroHead},
-    {type:"ccbi", src:s_ccbiBattle},
-    {type:"ccbi", src:s_ccbiOpenBoxResult},
-    {type:"ccbi", src:s_ccbiOpenBox},
-    {type:"ccbi", src:s_ccbiBattleResult},
 
 
 
@@ -118,6 +84,7 @@ var g_ressources = [
     {type:"plist", src:"../Resources/Info.plist"},
     {type:"ccbi", src:"../Resources/ccb/basic.ccbi"},
     {type:"ccbi", src:"../Resources/ccb/battle.ccbi"},
+    {type:"ccbi", src:"../Resources/ccb/battle_general.ccbi"},
     {type:"ccbi", src:"../Resources/ccb/battle_special.ccbi"},
     {type:"ccbi", src:"../Resources/ccb/box_tips.ccbi"},
     {type:"ccbi", src:"../Resources/ccb/chapter.ccbi"},
@@ -142,6 +109,7 @@ var g_ressources = [
     {type:"plist", src:"../Resources/database/dictActorLevelUpgrade.txt"},
     {type:"plist", src:"../Resources/database/dictBible.txt"},
     {type:"plist", src:"../Resources/database/dictCareer.txt"},
+    {type:"plist", src:"../Resources/database/dictChapter.txt"},
     {type:"plist", src:"../Resources/database/dictEquipment.txt"},
     {type:"plist", src:"../Resources/database/dictEquipmentLevelGrowth.txt"},
     {type:"plist", src:"../Resources/database/dictEquipmentRankGrowth.txt"},
@@ -150,6 +118,7 @@ var g_ressources = [
     {type:"plist", src:"../Resources/database/dictLevel.txt"},
     {type:"plist", src:"../Resources/database/dictMonster.txt"},
     {type:"plist", src:"../Resources/database/dictNpcDialog.txt"},
+    {type:"plist", src:"../Resources/database/dictPage.txt"},
     {type:"plist", src:"../Resources/database/dictSkill.txt"},
     {type:"image", src:"../Resources/fps_images-hd.png"},
     {type:"image", src:"../Resources/fps_images-ipadhd.png"},
@@ -236,7 +205,6 @@ var g_ressources = [
     {type:"image", src:"../Resources/image/icon/skill09_n.png"},
     {type:"image", src:"../Resources/image/icon/skill09_s.png"},
     {type:"image", src:"../Resources/image/icon/skill10_d.png"},
-    {type:"image", src:"../Resources/image/icon/skill10_n.png"},
     {type:"image", src:"../Resources/image/icon/skill10_s.png"},
     {type:"image", src:"../Resources/image/icon/skill11_d.png"},
     {type:"image", src:"../Resources/image/icon/skill11_n.png"},
@@ -283,6 +251,7 @@ var g_ressources = [
     {type:"image", src:"../Resources/image/mainui/main_rim_1002.png"},
     {type:"image", src:"../Resources/image/mainui/main_rim_1003.png"},
     {type:"image", src:"../Resources/image/mainui/main_rim_1003_d.png"},
+    {type:"image", src:"../Resources/image/mainui/main_rim_1003_h.png"},
     {type:"image", src:"../Resources/image/mainui/main_rim_1004.png"},
     {type:"image", src:"../Resources/image/mainui/main_rim_1005.png"},
     {type:"image", src:"../Resources/image/mainui/main_setting_d.png"},
@@ -329,7 +298,7 @@ var g_ressources = [
     {type:"plist", src:"../Resources/image/skills/skills.plist"},
     {type:"image", src:"../Resources/image/skills/skills.png"},
     {type:"image", src:"../Resources/menu1.png"},
-    {type:"image", src:"../Resources/menu2.png"}
+    {type:"image", src:"../Resources/menu2.png"},
 
 
 ];

@@ -30,7 +30,7 @@ lc.stChapter = function (){
     obj.position = cc.PointZero();      //position on chapter scene
     obj.position_x = 0;
     obj.position_y = 0;
-    obj.listPage = new Array();         //a set of pages in chapter
+    obj.list_page = new Array();         //a set of pages in chapter
 
     return obj;
 };
@@ -43,7 +43,7 @@ lc.stBible = function () {
     obj.name = "";                      //bible name
     obj.bg_id = 0;                       //bible background image
     obj.chapter_bg_id = 0;                //chapter background image
-    obj.listChapter = new Array();
+    obj.list_chapter = new Array();
 
     return obj;
 };
@@ -59,6 +59,26 @@ lc.stMonster = function () {
 
     return obj;
 };
+
+lc.sortById = function ( value1 , value2 )
+{
+    if ( !value1 || !value2 )
+    {
+        return 0;
+    }
+    if ( value1.id > value2.id )
+    {
+        return 1;
+    }
+    else if ( value1.id < value2.id )
+    {
+        return -1;
+    }
+    else
+    {
+        return 0;
+    }
+}
 
 lc.stImage = function () {
     var obj = new Object();

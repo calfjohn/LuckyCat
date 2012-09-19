@@ -31,6 +31,8 @@ DictManager = {
     _cacheNpcDialog: null,
     _cacheImage: null,
     _cacheBible: null,
+    _cacheChapter: null,
+    _cachePage: null,
     initInstance:function (dbConfig, callback) {
         DictManager._dbAgent = new DBAgent(dbConfig);
         DictManager._dbAgent.connect(true);
@@ -146,6 +148,28 @@ DictManager = {
             }
         };
 
+        var getChapter = function(err, rows){
+            if(!err){
+                DictManager._cacheChapter = {};
+                for(var i = 0; i < rows.length; ++i){
+                    var data = rows[i];
+                    var id = "" + data.id;
+                    DictManager._cacheChapter[id] = data;
+                }
+            }
+        };
+
+        var getPage = function(err, rows){
+            if(!err){
+                DictManager._cachePage = {};
+                for(var i = 0; i < rows.length; ++i){
+                    var data = rows[i];
+                    var id = "" + data.id;
+                    DictManager._cachePage[id] = data;
+                }
+            }
+        };
+
         var getNpcDialog = function(err, rows){
             if(!err){
                 DictManager._cacheNpcDialog = {};
@@ -241,9 +265,21 @@ DictManager = {
             });
 
             var dictBible = JSON.stringify(DictManager._cacheBible);
-            fs.writeFile(filePath + 'dictBible.txt', dictImage,function(err){
+            fs.writeFile(filePath + 'dictBible.txt', dictBible,function(err){
                 if(err) throw err;
                 console.log('dictBible has finished');
+            });
+
+            var dictChapter = JSON.stringify(DictManager._cacheChapter);
+            fs.writeFile(filePath + 'dictChapter.txt', dictChapter,function(err){
+                if(err) throw err;
+                console.log('dictChapter has finished');
+            });
+
+            var dictPage = JSON.stringify(DictManager._cachePage);
+            fs.writeFile(filePath + 'dictPage.txt', dictPage,function(err){
+                if(err) throw err;
+                console.log('dictPage has finished');
             });
         };
 
@@ -278,9 +314,15 @@ DictManager = {
                                                     getImage(err, rows);
                                                     DictManager._dbAgent.query("SELECT * FROM `dict_bible`", function (err, rows) {
                                                         getBible(err, rows);
-                                                        // all data cached, call callback
-                                                        dictToFiles();
-                                                        callback(err);
+                                                        DictManager._dbAgent.query("SELECT * FROM `dict_chapter`", function (err, rows) {
+                                                            getChapter(err, rows);
+                                                            DictManager._dbAgent.query("SELECT * FROM `dict_page`", function (err, rows) {
+                                                                getPage(err, rows);
+                                                                // all data cached, call callback
+                                                                dictToFiles();
+                                                                callback(err);
+                                                            });
+                                                        });
                                                     });
                                                 });
                                             });

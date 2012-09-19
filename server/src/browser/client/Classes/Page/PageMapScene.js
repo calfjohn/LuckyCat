@@ -12,14 +12,27 @@ var CustomTableViewCell = cc.TableViewCell.extend({
 });
 
 lc.PageMap = cc.Layer.extend({
+    _nChapterId: 0,
+    _aryPgaeList: [],
     _tableView: null,
     ctor:function () {
         this._super();
     },
     init:function () {
         this._super();
-        this._initTableVie();
         return true;
+    },
+    setChapterId:function (tChapterId)
+    {
+        this._nChapterId = 1;//tChapterId;
+
+        var tChapter = lc.LevelDataManager.getInstance().getChapter(this._nChapterId);
+        this._aryPgaeList = tChapter.list_page;
+
+        var labTitle = this.getChildByTag(11);
+        labTitle.setString(tChapter.name);
+
+        this._initTableVie();
     },
     _initTableVie:function () {
         var winSize = cc.Director.getInstance().getWinSize();
@@ -39,7 +52,7 @@ lc.PageMap = cc.Layer.extend({
     tableCellTouched:function (table, cell) {
         cc.log("cell touched at index: " + cell.getIdx());
         var tPageCell = cell.getChildByTag(113);
-        tPageCell.setData();
+        tPageCell.showPage();
     },
     cellSizeForTable:function (table) {
         return cc.SizeMake(600, 130);
@@ -54,17 +67,16 @@ lc.PageMap = cc.Layer.extend({
             var tPageCell = lc.PageCellLayer.createLoader(this._tableView);
             cell.addChild(tPageCell);
             tPageCell.setTag(113);
-
-            //tPageCell.getChildByTag(2).setString("asdfasdfasdf");
+            tPageCell.setData(this._nChapterId,this._aryPgaeList[parseInt(idx)]);
         } else {
             var tPageCell = cell.getChildByTag(113);
-
+            tPageCell.setData(this._nChapterId,this._aryPgaeList[parseInt(idx)]);
         }
 
         return cell;
     },
     numberOfCellsInTableView:function (table) {
-        return 25;
+        return this._aryPgaeList.length;
     },
     onResolveCCBCCMenuItemSelector:function ( pTarget, pSelectorName)
     {
@@ -150,10 +162,11 @@ lc.PageMap.create = function ()
     return null;
 };
 
-lc.PageMap.scene = function ()
+lc.PageMap.scene = function (tChapterId)
 {
     var tScene = cc.Scene.create();
     var tPageMapLayer = lc.PageMap.createLoader(tScene);
+    tPageMapLayer.setChapterId(tChapterId);
 
     tScene.addChild(tPageMapLayer);
 

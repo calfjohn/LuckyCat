@@ -9,8 +9,10 @@
 var lc = lc = lc || {};
 
 lc.LevelDataManager = cc.Class.extend({
-    m_mapBible : [],
-    m_mapActorLevelUpgrade : [],
+    _m_mapBible : null,
+    _m_mapChapter : null,
+    _m_mapPage : null,
+    m_mapActorLevelUpgrade : null,
     //在这里初始化数据,读取数据库
     init:function () {
         this._initBible();
@@ -18,13 +20,40 @@ lc.LevelDataManager = cc.Class.extend({
         return true;
     },
     _initBible: function () {
-        var _tempMapBible = JSON.parse(cc.SAXParser.shareParser().getList(s_dictBible));
+        this._m_mapPage = JSON.parse(cc.SAXParser.shareParser().getList(s_dictPage));
 
-        for ( var key in _tempMapBible )
+        this._m_mapChapter = JSON.parse(cc.SAXParser.shareParser().getList(s_dictChapter));
+
+        for ( var key in this._m_mapChapter)
         {
-            var temp = _tempMapBible[key];
-            temp.position = cc.PointMake(temp.position_x,temp.position_y);
-            this.m_mapBible.push(temp);
+            var tChapter = this._m_mapChapter[key];
+            tChapter.list_page = [];
+            for ( var key_page in this._m_mapPage )
+            {
+                var tPage = this._m_mapPage[key_page];
+                if (tChapter.id == tPage.chapter_id)
+                {
+                    tChapter.list_page.push(tPage);
+                }
+            }
+            tChapter.list_page.sort(lc.sortById);
+        }
+
+        this._m_mapBible = JSON.parse(cc.SAXParser.shareParser().getList(s_dictBible));
+
+        for ( var key in this._m_mapBible )
+        {
+            var tempBibe = this._m_mapBible[key];
+            tempBibe.list_chapter = [];
+            for (var key_chapter in this._m_mapChapter )
+            {
+                var tChapter = this._m_mapChapter[key];
+                if (tempBibe.id == tChapter.bible_id)
+                {
+                    tempBibe.list_chapter.push(tChapter);
+                }
+            }
+            tempBibe.list_chapter.sort(lc.sortById);
         }
     },
     _initActorLevelUpgrade : function () {
@@ -37,7 +66,7 @@ lc.LevelDataManager = cc.Class.extend({
         }
     },
     reload:function () {
-        this.m_mapBible.length = 0;
+        this._m_mapBible.length = 0;
 
         this.init();
     },
@@ -45,17 +74,17 @@ lc.LevelDataManager = cc.Class.extend({
     {
         var pPage = null;
         for (var iterTemp = 0;
-             iterTemp != this.m_mapBible["" + 1].listChapter.length;
+             iterTemp != this._m_mapBible["" + 1].list_chapter.length;
              iterTemp++)
         {
-            var tChapter = this.m_mapBible["" + 1].listChapter[iterTemp];
+            var tChapter = this._m_mapBible["" + 1].list_chapter[iterTemp];
             if (tChapter.id == chapterId)
             {
                 for (var iterPage = 0;
-                iterPage != tChapter.listPage.length;
+                iterPage != tChapter.list_page.length;
                 iterPage++)
                 {
-                    var tPage = tChapter.listPage[iterPage];
+                    var tPage = tChapter.list_page[iterPage];
                     if (tPage.id == pageId)
                     {
                         pPage = tPage;
@@ -73,17 +102,17 @@ lc.LevelDataManager = cc.Class.extend({
     {
         var pPage = null;
         for (var iterTemp = 0;
-             iterTemp != this.m_mapBible[1].listChapter.length;
+             iterTemp != this._m_mapBible[""+1].list_chapter.length;
              iterTemp++)
         {
-            var tChapter = this.m_mapBible[1].listChapter[iterTemp];
+            var tChapter = this._m_mapBible[""+1].list_chapter[iterTemp];
             if (tChapter.id == chapterId)
             {
                 for (var iterPage = 0;
-                iterPage != tChapter.listPage.length;
+                iterPage != tChapter.list_page.length;
                 iterPage++)
                 {
-                    pPage = tChapter.listPage[iterPage];
+                    pPage = tChapter.list_page[iterPage];
                     if (pPage.id == pageId)
                     {
                         break;
@@ -99,17 +128,17 @@ lc.LevelDataManager = cc.Class.extend({
     {
         var pPage = null;
         for (var iterTemp = 0;
-             iterTemp != this.m_mapBible[1].listChapter.length;
+             iterTemp != this._m_mapBible[""+1].list_chapter.length;
              iterTemp++)
         {
-            var tChapter = this.m_mapBible[1].listChapter[iterTemp];
+            var tChapter = this._m_mapBible[""+1].list_chapter[iterTemp];
             if (tChapter.id == chapterId)
             {
                 for (var iterPage = 0;
-                iterPage != tChapter.listPage.length;
+                iterPage != tChapter.list_page.length;
                 iterPage++)
                 {
-                    pPage = tChapter.listPage[iterPage];
+                    pPage = tChapter.list_page[iterPage];
                     if (pPage.state != 1)
                     {
                         break;
@@ -125,10 +154,10 @@ lc.LevelDataManager = cc.Class.extend({
     {
         var pRetValue = null;
         for (var iterTemp = 0;
-             iterTemp != this.m_mapBible[1].listChapter.length;
+             iterTemp != this._m_mapBible[""+1].list_chapter.length;
              iterTemp++)
         {
-            var tChapter = this.m_mapBible[1].listChapter[iterTemp];
+            var tChapter = this._m_mapBible[""+1].list_chapter[iterTemp];
             if (tChapter.id == chapterId)
             {
                 pRetValue = tChapter;
@@ -141,14 +170,14 @@ lc.LevelDataManager = cc.Class.extend({
     {
         var bRetValue = false;
         for (var iterTemp = 0;
-             iterTemp != this.m_mapBible[1].listChapter.length;
+             iterTemp != this._m_mapBible[""+1].list_chapter.length;
              iterTemp++)
         {
-            var tChapter = this.m_mapBible[1].listChapter[iterTemp];
-            if (tChapter.id == chapterId && tChapter.listPage.length > 0)
+            var tChapter = this._m_mapBible[""+1].list_chapter[iterTemp];
+            if (tChapter.id == chapterId && tChapter.list_page.length > 0)
             {
-                var lastIndex = tChapter.listPage.length == 0 ? 0 : (tChapter.listPage.length - 1);
-                if (tChapter.listPage[lastIndex].state == 1)
+                var lastIndex = tChapter.list_page.length == 0 ? 0 : (tChapter.list_page.length - 1);
+                if (tChapter.list_page[lastIndex].state == 1)
                 {
                     bRetValue = true;
                     break;
@@ -163,14 +192,14 @@ lc.LevelDataManager = cc.Class.extend({
         var bRetValue = false;
 
         for (var iterTemp = 0;
-             iterTemp != this.m_mapBible[1].listChapter.length;
+             iterTemp != this._m_mapBible[""+1].list_chapter.length;
              iterTemp++)
         {
-            var tChapter = this.m_mapBible.listChapter[iterTemp];
+            var tChapter = this._m_mapBible.list_chapter[iterTemp];
             if (tChapter.id == chapterId)
             {
-                var lastIndex = tChapter.listPage.length == 0 ? 0 : (tChapter.listPage.length - 1);
-                if (tChapter.listPage[lastIndex].id == pageId)
+                var lastIndex = tChapter.list_page.length == 0 ? 0 : (tChapter.list_page.length - 1);
+                if (tChapter.list_page[lastIndex].id == pageId)
                 {
                     bRetValue = true;
                     break;
@@ -182,7 +211,7 @@ lc.LevelDataManager = cc.Class.extend({
     },
     getBible:function ()
     {
-        return this.m_mapBible[1];
+        return this._m_mapBible[""+1];
     },
     setMapActorLevelUpgrade:function ( tmpList)
     {

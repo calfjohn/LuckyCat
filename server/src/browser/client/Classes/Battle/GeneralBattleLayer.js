@@ -49,16 +49,14 @@ lc.GeneralBattleLayer = lc.TouchLayer.extend({
     },
     onCCControlButtonClicked : function ( pSender, pCCControlEvent)
     {
-        if (tLTouchEvent == kLTouchEventSingleClick)
-        {
-            this.getChildByTag(lc.TAG_EFFECT_NODE).runAction(cc.Sequence.create(
-                cc.Show.create(),
-                this.m_action,
-                cc.Hide.create(),
-                cc.CallFunc.create(this.m_target, this.m_pfnSelector)) );
+        cc.Blink.create(0.5,6);
+        this.getChildByTag(lc.TAG_EFFECT_NODE).runAction(cc.Sequence.create(
+            cc.Show.create(),
+            this.m_action,
+            cc.Hide.create(),
+            cc.CallFunc.create(this.m_target, this.m_pfnSelector)) );
 
-            this.setIsTouchForbidden(true);
-        }
+        this.setIsTouchForbidden(true);
     },
     notificationTouchEvent : function ( tLTouchEvent )
     {
@@ -87,8 +85,6 @@ lc.GeneralBattleLayer = lc.TouchLayer.extend({
 //            const stMonster * pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(p_CurEvent->targetId);
 //            pSpriteMonster->setNewTexture(pMonster->imageId);
 //        }
-
-        this.showDialog();
     },
     removeAndCleanSelf : function ()
     {
@@ -124,7 +120,7 @@ lc.GeneralBattleLayer.createLoader = function (pOwner) {
     
     var ccbReader = new cc.CCBReader(ccNodeLoaderLibrary);
     
-    var pNode = ccbReader.readNodeGraphFromFile("../Resources/",s_ccbiBattle);
+    var pNode = ccbReader.readNodeGraphFromFile("../Resources/","../Resources/ccb/battle_general.ccbi");
     
     return pNode;
 };

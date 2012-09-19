@@ -104,10 +104,7 @@ lc.NPCDialogLayer = lc.TouchLayer.extend({
     },
     removeAndCleanSelf : function ()
     {
-        cc.log("Dialog is ending. remove this Layer.");
-        if (this.m_target && (typeof(this.m_pfnSelector) == "function")) {
-            this.m_pfnSelector.call(this.m_target, this);
-        }
+        this.m_pfnSelector.call();
     }
 });
 
@@ -144,18 +141,10 @@ lc.NPCDialogLayer.createLoader = function (pOwner) {
     return pNode;
 };
 
+//这个Layer是真实用于显示的
 lc.FuzzyBgLayer = cc.Layer.extend({});
 
-lc.FuzzyBgLayerLoader = cc.LayerLoader.extend({
-    _createCCNode:function (parent, ccbReader) {
-        return lc.FuzzyBgLayer.create();
-    }
-});
-
-lc.FuzzyBgLayerLoader.loader = function () {
-    return new lc.FuzzyBgLayerLoader();
-};
-
+//在这里创建Layer
 lc.FuzzyBgLayer.create = function ()
 {
     var ret = new lc.FuzzyBgLayer();
@@ -165,14 +154,31 @@ lc.FuzzyBgLayer.create = function ()
     return null;
 };
 
+//在这里读取ccbi,创建并返回一个Node
 lc.FuzzyBgLayer.createLoader = function (pOwner) {
     var ccNodeLoaderLibrary = cc.NodeLoaderLibrary.newDefaultCCNodeLoaderLibrary();
 
+    //在这个ccb中有,子节点是ccb的,要写对应的 registerCCNodeLoader
     ccNodeLoaderLibrary.registerCCNodeLoader("FuzzyBgLayer", lc.FuzzyBgLayerLoader.loader());
 
     var ccbReader = new cc.CCBReader(ccNodeLoaderLibrary);
 
+    //这个函数是读取当前ccbi的函数
     var pNode = ccbReader.readNodeGraphFromFile("../Resources/","/ccb/fuzzy.ccbi");
 
     return pNode;
 };
+
+//加载类给引擎使用
+lc.FuzzyBgLayerLoader = cc.LayerLoader.extend({
+    _createCCNode:function (parent, ccbReader) {
+        return lc.FuzzyBgLayer.create();
+    }
+});
+
+//加载函数给引擎使用的
+lc.FuzzyBgLayerLoader.loader = function () {
+    return new lc.FuzzyBgLayerLoader();
+};
+
+

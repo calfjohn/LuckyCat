@@ -6,6 +6,7 @@ lc.TAG_BUTTON_DAGGER = 3;
 lc.TAG_BUTTON_OPTION = 4;
 
 lc.Chapter = cc.Layer.extend({
+    _m_nbibleId : 0,
     ctor:function () {
         this._super();
     },
@@ -13,6 +14,13 @@ lc.Chapter = cc.Layer.extend({
         this._super();
 
         return true;
+    },
+    initData:function (tBibleId)
+    {
+        this._m_nbibleId = tBibleId;
+
+        var tBible = lc.LevelDataManager.getInstance().getBible();
+
     },
     onResolveCCBCCMenuItemSelector:function ( pTarget, pSelectorName)
     {
@@ -38,8 +46,10 @@ lc.Chapter = cc.Layer.extend({
     {
         cc.log("tag " + pTarget.getTag());
 
-        var tScene = lc.PageMap.scene();
-        cc.Director.getInstance().replaceScene(tScene);
+        var tChapterId = pTarget.getTag();
+        var pScene = lc.PageMap.scene(tChapterId);
+
+        cc.Director.getInstance().replaceScene(pScene);
     },
     onCCControlButtonClicked:function(pSender, pCCControlEvent)
     {
