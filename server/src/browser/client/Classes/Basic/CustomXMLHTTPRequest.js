@@ -22,7 +22,7 @@ lc.CustomXMLHTTPRequest = cc.Class.extend({
         }
         return xmlhttp;
     },
-    sendRequest:function(url,parameter,responseCallback,errorCallback){
+    sendRequest:function(url,parameter,target,responseCallback,errorCallback){
         var xhr = this.createXMLHttpRequest();
         if(parameter == null){
             //设置一个事件处理器，当XMLHttp状态发生变化，就会出发该事件处理器，由他调用
@@ -30,7 +30,7 @@ lc.CustomXMLHTTPRequest = cc.Class.extend({
             xhr.onreadystatechange = function(){
                 if(xhr.readyState == 4){
                     if(xhr.status == 200){
-                        responseCallback(xhr.responseText);
+                        responseCallback.call(target,xhr.responseText);
                     }
                 }
             };
@@ -42,7 +42,7 @@ lc.CustomXMLHTTPRequest = cc.Class.extend({
                 if(xhr.readyState == 4){
                     if(xhr.status == 200){
                         cc.log(xhr.responseText);
-                        responseCallback(xhr.responseText);
+                        responseCallback.call(target,xhr.responseText);
                     }
                 }
             };

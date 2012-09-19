@@ -295,7 +295,7 @@ lc.EventListLayer = cc.Layer.extend({
         //NetManager::shareNetManager()->sendEx(kModeEvent, kDoGetEventList, callfuncND_selector(EventListLayer::netCallBackEventList), this, "\"chapterId\": %d, \"pageId\": %d, \"eventId\": %d", mChapterId, p_pPage->id, p_pPage->eventId);
         var str = "\"chapterId\":" + this.mChapterId + ",\"pageId\":"  + this.p_pPage.id  + ",\"eventId\":" + this.p_pPage.event_id;
         //var str = "\"chapterId\":" + this.mChapterId + ",\"pageId\":"  + 13  + ",\"eventId\":" + 5;
-        lc.NetManager.sharedNetManager().sendRequest(ModeRequestType.kModeEvent,DoRequestType.kDoGetEventList,str,lc.EventListLayer.getInstance().netCallBackEventList,lc.EventListLayer.getInstance().netErrorCallBackEventList,this);
+        lc.NetManager.sharedNetManager().sendRequest(ModeRequestType.kModeEvent,DoRequestType.kDoGetEventList,str,this,lc.EventListLayer.getInstance().netCallBackEventList,lc.EventListLayer.getInstance().netErrorCallBackEventList);
     },
     netCallBackEventList : function (data)
     {

@@ -24,7 +24,8 @@ lc.NetManager = cc.Class.extend({
 
         return request;
     },
-    sendRequest:function(modEnum,doEnum,requestData,responseCallback,errorCallback){
+    //target指向回调的作用域
+    sendRequest:function(modEnum,doEnum,requestData,target,responseCallback,errorCallback){
         var request = this.createRequest();
         var url = this.generatePostURL(modEnum,doEnum);
         var parameter = this.generatePostJsonData(modEnum,doEnum,requestData);
@@ -32,7 +33,7 @@ lc.NetManager = cc.Class.extend({
             //send a get request;
         }else{
             //send a post request;
-            request.sendRequest(url,parameter,responseCallback,errorCallback);
+            request.sendRequest(url,parameter,target,responseCallback,errorCallback);
         }
     },
     generatePostJsonData:function(modEnum,doEnum,requestData){

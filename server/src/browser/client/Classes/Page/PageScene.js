@@ -83,8 +83,9 @@ lc.Page = lc.TouchLayer.extend({
     },
     EventListCallBack : function ()
     {
-        //NetManager::shareNetManager()->sendEx(kModeBattle, kDoFight1, callfuncND_selector(Page::nextPageCallback), this, "\"chapterId\": %d, \"pageId\": %d", m_nChapterId, m_pPage->id);
         this.nextPageCallback();
+        var str = "\"chapterId\":" + this.mChapterId + ",\"pageId\":"  + this.p_pPage.id;
+        lc.NetManager.sharedNetManager().sendRequest(ModeRequestType.kModeBattle,DoRequestType.kDoFight1,str,this,this.nextPageCallback,this.nextPageCallback);
     },
     nextPageCallback : function ()
     {
