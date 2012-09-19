@@ -27,6 +27,8 @@ lc.GeneralBattleLayer = lc.TouchLayer.extend({
         var animation = cc.AnimationCache.getInstance().getAnimation("purpleBomb");
         this.m_action = cc.Animate.create(animation);
 
+        this.setIsTouchForbidden(true);
+
         return true;
     },
     onMenuItemClicked : function ( pTarget )
@@ -94,6 +96,12 @@ lc.GeneralBattleLayer = lc.TouchLayer.extend({
 //            const stMonster * pMonster = DictDataManager::shareDictDataManager()->getMonsterImageId(p_CurEvent->targetId);
 //            pSpriteMonster->setNewTexture(pMonster->imageId);
 //        }
+
+        this.getChildByTag(lc.TAG_EFFECT_NODE).runAction(cc.Sequence.create(
+            cc.Show.create(),
+            this.m_action,
+            cc.Hide.create(),
+            cc.CallFunc.create(this.m_target, this.m_pfnSelector)) );
     },
     removeAndCleanSelf : function ()
     {

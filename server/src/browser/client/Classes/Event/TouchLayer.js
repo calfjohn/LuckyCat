@@ -81,7 +81,7 @@ lc.TouchLayer = cc.Layer.extend({
     onTouchEnded:function (touch, event) {
         if ( !touch ) return;
 
-        if ( this.mBeginPoint.x != 0 && this.mBeginPoint.y != 0 )
+        if ( this.getIsTouchForbidden() == false && this.mBeginPoint.x != 0 && this.mBeginPoint.y != 0 )
         {
             this.notificationTouchEvent(lc.kLTouchEventSingleClick);
 

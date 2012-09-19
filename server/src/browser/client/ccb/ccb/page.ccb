@@ -127,7 +127,7 @@
 				<key>children</key>
 				<array/>
 				<key>customClass</key>
-				<string></string>
+				<string>BasicInfoLayer</string>
 				<key>memberVarAssignmentName</key>
 				<string></string>
 				<key>memberVarAssignmentType</key>
@@ -196,7 +196,7 @@
 						<key>type</key>
 						<string>Integer</string>
 						<key>value</key>
-						<integer>-1</integer>
+						<integer>911</integer>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -562,8 +562,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>294</real>
-							<real>800</real>
+							<real>41</real>
+							<real>828</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -574,8 +574,8 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>480</real>
-							<real>156</real>
+							<real>500</real>
+							<real>160</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -586,8 +586,8 @@
 						<string>Point</string>
 						<key>value</key>
 						<array>
-							<real>0.5</real>
-							<real>0.5</real>
+							<real>0.0</real>
+							<real>1</real>
 						</array>
 					</dict>
 					<dict>
@@ -681,8 +681,8 @@
 						<string>Size</string>
 						<key>value</key>
 						<array>
-							<real>0.0</real>
-							<real>0.0</real>
+							<real>500</real>
+							<real>160</real>
 							<integer>0</integer>
 						</array>
 					</dict>

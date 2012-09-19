@@ -83,8 +83,7 @@ lc.Page = lc.TouchLayer.extend({
     },
     EventListCallBack : function ()
     {
-        this.nextPageCallback();
-        var str = "\"chapterId\":" + this.mChapterId + ",\"pageId\":"  + this.p_pPage.id;
+        var str = "\"chapterId\":" + this._nChapterId + ",\"pageId\":"  + this._stPage.id;
         lc.NetManager.sharedNetManager().sendRequest(ModeRequestType.kModeBattle,DoRequestType.kDoFight1,str,this,this.nextPageCallback,this.nextPageCallback);
     },
     nextPageCallback : function ()
@@ -178,6 +177,10 @@ lc.Page.createLoader = function (pOwner) {
     var ccbReader = new cc.CCBReader(ccNodeLoaderLibrary);
 
     var pNode = ccbReader.readNodeGraphFromFile("../Resources/","../Resources/ccb/Page.ccbi");
+
+    var tBasic = lc.BasicInfoLayer.createLoader(pNode);
+    tBasic.sendBasicInfo();
+    pNode.addChild(tBasic);
 
     return pNode;
 };

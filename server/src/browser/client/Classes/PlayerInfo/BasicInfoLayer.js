@@ -1,6 +1,39 @@
 var lc = lc = lc || {};
 
-lc.BasicInfoLayer = cc.Layer.extend({});
+lc.BasicInfoLayer = cc.Layer.extend({
+    sendBasicInfo: function ()
+    {
+        var str = "";
+        lc.NetManager.sharedNetManager().sendRequest(ModeRequestType.kModeActor,DoRequestType.kDoGetBasicInfo,str,this,this.responesBasicInfo,this.responesBasicInfoError);
+    },
+    responesBasicInfo: function (data)
+    {
+        if ( data )
+        {
+            //var that = lc.EventListLayer.getInstance();
+            var that = this;
+            var retData = JSON.parse(data);
+            var tInfo = retData.meta.out;
+
+            var t = this.getChildByTag(1);
+            this.getChildByTag(1).setString("等级:"+tInfo.level);
+            this.getChildByTag(7).setString("经验:"+tInfo.exp);
+            this.getChildByTag(6).setString("金币:"+120);
+            this.getChildByTag(3).setString("H P:"+tInfo.hp);
+            this.getChildByTag(2).setString("攻击:"+tInfo.attack);
+            this.getChildByTag(4).setString("防御:"+tInfo.defence);
+            this.getChildByTag(5).setString("速度:"+tInfo.speed);
+            this.getChildByTag(8).setString("战绩:"+"66胜1负");
+            this.getChildByTag(9).setString(tInfo.nickname);
+
+
+        }
+    },
+    responesBasicInfoError: function (data)
+    {
+        //
+    }
+});
 
 lc.BasicInfoLayerLoader = cc.LayerLoader.extend({
     _createCCNode:function (parent, ccbReader) {
